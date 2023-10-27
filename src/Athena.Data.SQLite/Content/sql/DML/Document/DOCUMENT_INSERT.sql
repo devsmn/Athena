@@ -1,0 +1,1 @@
+﻿INSERT INTO DOCUMENT (DOC_name, DOC_comment, DOC_image, DOC_creationDate, DOC_modDate) VALUES (@DOC_name, @DOC_comment,  @DOC_image, @DOC_creationDate, @DOC_modDate);

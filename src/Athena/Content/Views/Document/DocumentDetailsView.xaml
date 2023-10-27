@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ui="clr-namespace:Athena.UI"
+             x:Class="Athena.UI.DocumentDetailsView"
+             Title="DocumentDetailsView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
+            <ui:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Text="{Binding Document.Name}"
+               Grid.ColumnSpan="2"
+               FontAttributes="Bold"/>
+
+        <Label Grid.Row="1"
+               Grid.ColumnSpan="2"
+               Text="{Binding Document.Comment}"/>
+
+        <Button Grid.Row="2" 
+                Grid.Column="0"
+                Text="Edit"/>
+
+        <Button Grid.Row="2" 
+                Grid.Column="1"
+                Text="Delete"/>
+
+
+        <ImageButton Grid.Row="3" 
+                     Grid.Column="0"
+                     Grid.ColumnSpan="2"
+                     Aspect="AspectFit"
+                     Source="{Binding Document.Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"/>
+    </Grid>
+</ContentPage>

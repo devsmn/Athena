@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Athena.UI.DocumentEditorNameStep">
+
+
+    <VerticalStackLayout
+        HorizontalOptions="Center">
+
+        <Label Text="Enter the name" 
+               Margin="3" 
+               HorizontalTextAlignment="Center"
+               FontAttributes="Bold"
+               FontSize="Title"/>
+
+        <Label Text="The name should be short and precise to identify a comment"
+               HorizontalTextAlignment="Center"
+               Margin="3"/>
+
+        <Entry Placeholder="Comment" 
+               Text="{Binding Document.Name}" 
+               Margin="3"/>
+    </VerticalStackLayout>
+</ContentView>

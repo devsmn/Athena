@@ -1,0 +1,3 @@
+﻿DELETE
+  FROM PAGE 
+ WHERE PG_ref = @PG_ref;

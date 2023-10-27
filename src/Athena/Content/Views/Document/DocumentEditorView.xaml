@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Athena.UI"
+             x:Name="page"
+             x:Class="Athena.UI.DocumentEditorView"
+             Title="AddDocumentPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+
+        <ControlTemplate x:Key="NameStep">
+            <local:DocumentEditorNameStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="CommentStep">
+            <local:DocumentEditorCommentStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="PictureStep">
+            <local:DocumentEditorPictureStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.8*" />
+            <ColumnDefinition Width="0.1*" />
+        </Grid.ColumnDefinitions>
+
+        <ContentView Margin="3"
+             HorizontalOptions="Center"
+             Grid.Column="1">
+            <ContentView.Style>
+                <Style TargetType="ContentView">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="ContentView" 
+                             Binding="{Binding Path=DocumentStep}"
+                             Value="1">
+                            <Setter Property="ControlTemplate" Value="{StaticResource NameStep}" />
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="ContentView"
+                             Binding="{Binding Path=DocumentStep}"
+                             Value="2">
+                            <Setter Property="ControlTemplate" Value="{StaticResource CommentStep}" />
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="ContentView"
+                                 Binding="{Binding Path=DocumentStep}"
+                                 Value="0">
+                            <Setter Property="ControlTemplate" Value="{StaticResource PictureStep}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentView.Style>
+        </ContentView>
+
+        <Button Text="Next"
+            Grid.Column="1"
+            Grid.Row="2"
+            WidthRequest="150"
+            Command="{Binding NextStepCommand}"
+            Margin="3">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=DocumentStep}"
+                         TargetType="Button"
+                         Value="0">
+                            <Setter Property="Text" Value="Next"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=DocumentStep}"
+                         TargetType="Button"
+                         Value="1">
+                            <Setter Property="Text" Value="Next"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=DocumentStep}"
+                                 TargetType="Button"
+                                 Value="2">
+                            <Setter Property="Text" Value="Save"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </Grid>
+</ContentPage>

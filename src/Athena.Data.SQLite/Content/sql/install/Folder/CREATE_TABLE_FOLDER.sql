@@ -1,0 +1,8 @@
+﻿CREATE TABLE IF NOT EXISTS FOLDER (
+	FD_ref				INTEGER PRIMARY KEY,
+	FD_name				TEXT NOT NULL,
+	FD_comment			TEXT NOT NULL,
+	FD_thumbnail		BLOB NOT NULL,
+	FD_creationDate		DATE NOT NULL,
+	FD_modDate			DATE NOT NULL
+);

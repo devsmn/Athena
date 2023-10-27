@@ -1,0 +1,1 @@
+﻿INSERT INTO FOLDER (FD_name, FD_comment, FD_thumbnail, FD_creationDate, FD_modDate) VALUES (@FD_name, @FD_comment, @FD_thumbnail,  @FD_creationDate, @FD_modDate);

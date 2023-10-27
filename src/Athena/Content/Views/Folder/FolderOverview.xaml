@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:Athena.UI"
+             x:Class="Athena.UI.FolderOverview"
+             Title="Athena: Offline document manager">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
+            <local:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <Binding Source="{StaticResource MainContext}" />
+    </ContentPage.BindingContext>
+
+    <Grid>
+
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           Grid.ColumnSpan="3"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.9*" />
+            <RowDefinition Height="0.1*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ScrollView
+            Grid.ColumnSpan="3"
+            Grid.Column="0"
+            Grid.Row="0">
+            <FlexLayout 
+                    x:Name="collectionView"
+                    Wrap="Wrap"
+                    JustifyContent="SpaceAround"
+                    BindableLayout.ItemsSource="{Binding Folders}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+
+                            <ImageButton 
+                                Source="{Binding Thumbnail, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+                                WidthRequest="100"
+                                HeightRequest="100"
+                                Aspect="AspectFill"
+                                CornerRadius="10"
+                                Command="{Binding Path=BindingContext.FolderClickedCommand, Source={Reference collectionView}}"
+                                CommandParameter="{Binding}"/>
+
+                            <Label 
+                                Grid.Row="1"
+                                FontAttributes="Bold"
+                                Text="{Binding Name}" />
+
+                            <Label 
+                                Grid.Row="2"
+                                FontSize="10"
+                                TextColor="Gray"
+                                Text="{Binding PageCount}" />
+
+                            <!--<BoxView Grid.Row="3" HeightRequest="1" Color="LightGray" />-->
+                        </Grid>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+        </ScrollView>
+
+        <Button Grid.Row="1"
+                Grid.Column="1"
+                Text="+"
+                WidthRequest="60"
+                HeightRequest="60"
+                CornerRadius="30"
+                FontSize="30" 
+                Command="{Binding ShowPageAddActionsCommand}"/>
+
+        <!--<toolkit:Expander Grid.Row="1"
+                          Grid.Column="1"
+                          HorizontalOptions="End"
+                          VerticalOptions="End"
+                          Margin="3"
+                          Direction="Up">
+            <toolkit:Expander.Header>
+                <Button Text="+"
+                        WidthRequest="60"
+                        HeightRequest="60" 
+                        CornerRadius="30"
+                        FontSize="30" >
+                    --><!--<Button.Shadow>
+                        <Shadow Brush="Black"
+                                Offset="10, 10"
+                                Radius="40"
+                                Opacity="0.8" />
+                    </Button.Shadow>--><!--
+                </Button>
+            </toolkit:Expander.Header>
+            <toolkit:Expander.Content>
+                <VerticalStackLayout BackgroundColor="LightGray"
+                                     WidthRequest="200"
+                                     HeightRequest="500">
+                    <Button Text="Document" Margin="1"
+                            BackgroundColor="{StaticResource Secondary}" 
+                            TextColor="{StaticResource Black}"
+                            Command="{Binding CaptureImageCommand}"/>
+
+                    <Button Text="Folder" Margin="1" 
+                            BackgroundColor="{StaticResource Secondary}" 
+                            TextColor="{StaticResource Black}"
+                            Command="{Binding AddNewFolderCommand}"/>
+
+                </VerticalStackLayout>
+            </toolkit:Expander.Content>
+        </toolkit:Expander>-->
+        <!--<AbsoluteLayout>
+        <toolkit:Expander AbsoluteLayout.LayoutBounds=".95, .95, 80, 80"
+                              AbsoluteLayout.LayoutFlags="PositionProportional"
+                          Direction="Up">
+            <toolkit:Expander.Header>
+                <ImageButton 
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Source="empty_folder.png"
+                    CornerRadius="30"/>
+            </toolkit:Expander.Header>
+            <toolkit:Expander.Content>
+                <VerticalStackLayout>
+                    <Label Text="first" />
+                    <Label Text="2t" />
+                </VerticalStackLayout>
+            </toolkit:Expander.Content>
+        </toolkit:Expander>
+    </AbsoluteLayout>-->
+
+    </Grid>
+</ContentPage>

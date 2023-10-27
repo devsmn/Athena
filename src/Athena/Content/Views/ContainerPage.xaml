@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="Athena.UI.ContainerPage"
+            xmlns:local="clr-namespace:Athena.UI"
+            xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+            android:TabbedPage.ToolbarPlacement="Top" 
+            
+             Title="ContainerPage">
+    <!--<local:MainPage />-->
+    <NavigationPage Title="Folders">
+        <x:Arguments>
+            <local:FolderOverview />
+        </x:Arguments>
+    </NavigationPage>
+    
+    <!--<local:FolderPage />-->
+    <!--<NavigationPage Title="Details">
+        <x:Arguments>
+            <local:DetailFolderPage />
+        </x:Arguments>
+    </NavigationPage>-->
+</TabbedPage>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Athena.UI.FolderAddButtonActionPage"
+             Title="FolderAddButtonActionPage">
+
+    <ContentPage.BindingContext>
+        <Binding Source="{StaticResource MainContext}" />
+    </ContentPage.BindingContext>
+
+    <Grid VerticalOptions="End">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Button Text="Document" Margin="1"
+                BackgroundColor="{StaticResource Secondary}" 
+                TextColor="{StaticResource Black}"
+                Command="{Binding CaptureImageCommand}"/>
+
+        <Button Text="Folder" 
+                Grid.Row="1"
+                Margin="1" 
+                BackgroundColor="{StaticResource Secondary}" 
+                TextColor="{StaticResource Black}"
+                Command="{Binding AddNewFolderCommand}"/>
+
+        <Button Text="Close"
+                Grid.Row="2"
+                Command="{Binding CloseFolderAddButtonActionPageCommand}"/>
+
+    </Grid>
+</ContentPage>

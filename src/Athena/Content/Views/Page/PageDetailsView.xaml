@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ui="clr-namespace:Athena.UI"
+             x:Class="Athena.UI.PageDetailsView"
+             Title="{Binding Page.Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
+            <ui:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+
+        <Label Text="{Binding Page.Title}"
+               FontSize="14"
+               FontAttributes="Bold"
+               Margin="3"/>
+
+        <Label Text="{Binding Page.Comment}" 
+               Grid.Row="1"
+               Margin="3"/>
+
+        <ScrollView Grid.Row="2">
+
+            <CollectionView Margin="3"
+                            ItemSizingStrategy="MeasureFirstItem"
+                            SelectionMode="Single"
+                            x:Name="collectionView"
+                            SelectionChangedCommand="{Binding DocumentSelectedCommand}"
+                            SelectionChangedCommandParameter="{Binding Source={x:Reference collectionView}, Path=SelectedItem}"
+                            ItemsSource="{Binding Page.Documents}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="2" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeShape="RoundRectangle 8"
+                                Stroke="LightGray"
+                                Margin="3">
+                            <Border.Shadow>
+                                <Shadow Brush="LightGray"
+                                        Radius="3"
+                                        Opacity="0.8" />
+                            </Border.Shadow>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <Image Grid.Row="0"
+                                         Grid.Column="0"
+                                         Margin="3"
+                                         HorizontalOptions="Center"
+                                         Source="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+                                         WidthRequest="100"
+                                         HeightRequest="100"
+                                         Aspect="AspectFill" />
+
+                                <Label 
+                                    Grid.Row="1"
+                                    Margin="3"
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding Name}" />
+
+                                <Label 
+                                    Grid.Row="2"
+                                    Margin="3"
+                                    TextColor="Gray"
+                                    HorizontalTextAlignment="Center"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding Comment}" />
+
+                                <Label 
+                                    Grid.Row="3"
+                                    Margin="3"
+                                    TextColor="Gray"
+                                    HorizontalTextAlignment="Center"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding CreationDate}" />
+
+                                <Button Grid.Row="4"
+                                        Text="Delete" 
+                                        Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.DeleteDocumentCommand}"
+                                        CommandParameter="{Binding}"/>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </ScrollView>
+
+        <Button Text="+"
+                Grid.Row="3"
+                WidthRequest="60"
+                HeightRequest="60" 
+                CornerRadius="30"
+                FontSize="30" 
+                HorizontalOptions="Center"
+                Command="{Binding AddDocumentCommand}"/>
+
+    </Grid>
+</ContentPage>

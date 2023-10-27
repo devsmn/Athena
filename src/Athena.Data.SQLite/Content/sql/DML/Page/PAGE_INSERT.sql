@@ -1,0 +1,1 @@
+﻿INSERT INTO PAGE (PG_title, PG_comment, PG_modDate, PG_creationDate) VALUES (@PG_title, @PG_comment,  @PG_modDate, @PG_creationDate);
