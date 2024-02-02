@@ -26,10 +26,19 @@ namespace Athena.Data.SQLite.Proxy
 
                 if (typeof(TRepository) == typeof(IPageRepository))
                     return new SQLitePageRepository();
+
+                if (typeof(TRepository) == typeof(IChapterRepository))
+                    return new SQLiteChapterRepository();
+
+                if (typeof(TRepository) == typeof(ITagRepository))
+                    return new SQLiteTagRepository();
+
+                throw new ArgumentOutOfRangeException();
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
+                throw;
             }
 
             return null;

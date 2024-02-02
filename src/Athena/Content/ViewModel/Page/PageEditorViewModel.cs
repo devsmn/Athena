@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Athena.DataModel;
-using Athena.DataModel.Core;
+﻿using Athena.DataModel.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -18,12 +12,13 @@ namespace Athena.UI
         private PageViewModel _page;
 
         [ObservableProperty]
-        private int _addPageStep;
-
+        private bool _isNew;
+        
         private Folder _folder;
 
         public PageEditorViewModel(Page page, Folder folder)
         {
+            IsNew = page.Key == null || page.Key.Id == PageKey.TemporaryId;
             this.Page = page;
             this._folder = folder;
         }
@@ -31,22 +26,25 @@ namespace Athena.UI
         [RelayCommand]
         private async Task NextAddPageStep()
         {
-            AddPageStep++;
+            IContext context = this.RetrieveContext();
 
-            if (AddPageStep > 1)
+            var service = ServiceProvider.GetService<IDataBrokerService>();
+
+            if (IsNew)
             {
-                IContext context = this.RetrieveContext();
-
                 _folder.AddPage(Page);
                 _folder.Save(context);
                 
-                var service = ServiceProvider.GetService<IDataBrokerService>();
-
                 service.Publish(context, this.Page.Page, UpdateType.Add, _folder.Key);
                 service.Publish(context, _folder, UpdateType.Edit);
-
-                await App.Current.MainPage.Navigation.PopAsync();
             }
+            else
+            {
+                Page.Page.Save(context);
+                service.Publish(context, this.Page.Page, UpdateType.Edit, _folder.Key);
+            }
+            
+            await PopAsync();
         }
     }
 }

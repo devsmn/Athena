@@ -1,9 +1,4 @@
 ﻿using Athena.DataModel.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Athena.DataModel
 {
@@ -11,10 +6,18 @@ namespace Athena.DataModel
     {
         private string name;
         private string comment;
-        private byte[] thumbnail;
-        private string thumbnailString;
+        private bool isPinned;
+        private int isPinnedInt;
+
+        private bool _pagesLoaded;
 
         private IList<Page> pages;
+
+        public new DateTime CreationDate
+        {
+            get { return base.CreationDate; }
+            set { base.CreationDate = value; }
+        }
 
         public int Id
         {
@@ -38,6 +41,26 @@ namespace Athena.DataModel
         {
         }
 
+        public int IsPinnedInt
+        {
+            get { return isPinnedInt; }
+            set
+            {
+                isPinnedInt = value;
+                IsPinned = Convert.ToBoolean(value);
+            }
+        }
+
+        public bool IsPinned
+        {
+            get { return isPinned; }
+            set
+            {
+                isPinned = value;
+                isPinnedInt = Convert.ToInt32(value);
+            }
+        }
+
         public string Name
         {
             get { return name; }
@@ -50,40 +73,21 @@ namespace Athena.DataModel
             set { this.comment = value; }
         }
 
-        public string ThumbnailString
-        {
-            get { return thumbnailString; }
-            set
-            {
-                thumbnailString = value;
-
-                if (string.IsNullOrEmpty(value))
-                    thumbnail = null;
-                else
-                {
-                    // Takes long to load?
-                    thumbnail = Convert.FromBase64String(value);
-                }
-            }
-        }
-
-        public byte[] Thumbnail
-        {
-            get { return thumbnail; }
-            set { thumbnail = value; }
-        }
-
         public IList<Page> Pages
         {
-            get { return pages; }
+            get
+            {
+                if (!_pagesLoaded)
+                {
+                    pages = new List<Page>(ReadAllPages(new AthenaContext()));
+                    _pagesLoaded = true;
+                }
+
+                return pages;
+            }
             set { pages = value; }
         }
-
-        public int PageCount
-        {
-            get { return pages?.Count ?? 0; }
-        }
-
+        
         public override string ToString()
         {
             return $"Id=[{Key?.Id}];Name=[{Name}]";

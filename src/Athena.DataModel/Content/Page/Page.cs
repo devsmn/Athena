@@ -1,14 +1,11 @@
 ﻿using Athena.DataModel.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Athena.DataModel
 {
     public partial class Page : Entity<PageKey>
     {
+        private bool _documentsLoaded;
+
         private string title;
         private string comment;
         public int Id
@@ -33,7 +30,16 @@ namespace Athena.DataModel
 
         public IList<Document> Documents
         {
-            get { return documents; }
+            get
+            {
+                if (!_documentsLoaded)
+                {
+                    documents = new List<Document>(ReadAllDocuments(new AthenaContext()));
+                    _documentsLoaded = true;
+                }
+                return documents;
+
+            }
             set { documents = value; }
         }
 

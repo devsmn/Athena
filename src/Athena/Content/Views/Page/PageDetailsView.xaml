@@ -2,6 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ui="clr-namespace:Athena.UI"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             BackgroundColor="#F6F8FB"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              x:Class="Athena.UI.PageDetailsView"
              Title="{Binding Page.Title}">
     <ContentPage.Resources>
@@ -11,113 +17,269 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="menu.png" Clicked="MenuItem_OnClicked"/>
+    </ContentPage.ToolbarItems>
+
+
     <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
+        <p:SfPopup x:Name="menuPopup"
+           IsOpen="{Binding ShowMenuPopup}"
+           AutoSizeMode="Height"
+           Closed="SfPopup_OnClosed"
+           ShowHeader="False">
+            <p:SfPopup.PopupStyle>
+                <p:PopupStyle CornerRadius="5" />
+            </p:SfPopup.PopupStyle>
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout >
+                        <sfb:SfButton Text="{x:Static loc:Localization.PageInformation}"
+                              Margin="3"
+                              Command="{Binding InfoClickedCommand}"
+                              HorizontalTextAlignment="Start"
+                              Background="Transparent"
+                              ImageSource="info.png"
+                              ImageAlignment="Left"
+                              ImageSize="25"
+                              ShowIcon="True"
+                              StrokeThickness="0"/>
 
-        <Label Text="{Binding Page.Title}"
-               FontSize="14"
-               FontAttributes="Bold"
-               Margin="3"/>
+                        <sfb:SfButton Text="{x:Static loc:Localization.DeletePage}"
+                              Margin="3"
+                              Command="{Binding DeleteClickedCommand}"
+                              HorizontalTextAlignment="Start"
+                              Background="Transparent"
+                              ImageSource="delete.png"
+                              ImageAlignment="Left"
+                              ImageSize="25"
+                              ShowIcon="True"
+                              StrokeThickness="0"/>
 
-        <Label Text="{Binding Page.Comment}" 
-               Grid.Row="1"
-               Margin="3"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
 
-        <ScrollView Grid.Row="2">
+        <p:SfPopup IsOpen="{Binding ShowInfoPopup}"
+                   ShowCloseButton="True"
+                   HeaderTitle="{x:Static loc:Localization.PageInformation}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
 
-            <CollectionView Margin="3"
-                            ItemSizingStrategy="MeasureFirstItem"
-                            SelectionMode="Single"
-                            x:Name="collectionView"
-                            SelectionChangedCommand="{Binding DocumentSelectedCommand}"
-                            SelectionChangedCommandParameter="{Binding Source={x:Reference collectionView}, Path=SelectedItem}"
-                            ItemsSource="{Binding Page.Documents}">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical"
-                                     Span="2" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border StrokeShape="RoundRectangle 8"
-                                Stroke="LightGray"
-                                Margin="3">
-                            <Border.Shadow>
-                                <Shadow Brush="LightGray"
-                                        Radius="3"
-                                        Opacity="0.8" />
-                            </Border.Shadow>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
+                    <Label Margin="3,0,3,0" 
+                           LineBreakMode="WordWrap"
+                           Grid.Row="0">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Title: " FontAttributes="Bold" />
+                                <Span Text="{Binding Page.Title}"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
 
-                                <Image Grid.Row="0"
-                                         Grid.Column="0"
-                                         Margin="3"
-                                         HorizontalOptions="Center"
-                                         Source="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"
-                                         WidthRequest="100"
-                                         HeightRequest="100"
-                                         Aspect="AspectFill" />
+                    <Label Margin="3,0,3,0" 
+                           LineBreakMode="WordWrap"
+                           Grid.Row="1">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Comment: " FontAttributes="Bold" />
+                                <Span Text="{Binding Page.Comment}"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
 
-                                <Label 
-                                    Grid.Row="1"
-                                    Margin="3"
-                                    FontAttributes="Bold"
-                                    HorizontalTextAlignment="Center"
-                                    LineBreakMode="TailTruncation"
-                                    Text="{Binding Name}" />
+                    <Label Margin="3,0,3,0"
+                           Grid.Row="2">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Created at: "  FontAttributes="Bold"/>
+                                <Span Text="{Binding Page.CreationDate}"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
 
-                                <Label 
-                                    Grid.Row="2"
-                                    Margin="3"
-                                    TextColor="Gray"
-                                    HorizontalTextAlignment="Center"
-                                    LineBreakMode="TailTruncation"
-                                    Text="{Binding Comment}" />
+                    <Label Margin="3,0,3,5"
+                           Grid.Row="3">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Last modified at: " FontAttributes="Bold" />
+                                <Span Text="{Binding Page.ModDate}"></Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                        </Label>
+                    </Grid>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
 
-                                <Label 
-                                    Grid.Row="3"
-                                    Margin="3"
-                                    TextColor="Gray"
-                                    HorizontalTextAlignment="Center"
-                                    LineBreakMode="TailTruncation"
-                                    Text="{Binding CreationDate}" />
+        <p:SfPopup x:Name="documentMenuPopup"
+            Closed="DocumentMenuPopup_OnClosed"
+            IsOpen="{Binding IsDocumentMenuOpen}"
+            AutoSizeMode="Height"
+            ShowHeader="False">
+            <p:SfPopup.PopupStyle>
+                <p:PopupStyle CornerRadius="5" />
+            </p:SfPopup.PopupStyle>
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout >
+                        <sfb:SfButton Text="{x:Static loc:Localization.Edit}"
+                               Margin="3"
+                               Command="{Binding EditDocumentCommand}"
+                               CommandParameter="{Binding SelectedDocument}"
+                               HorizontalTextAlignment="Start"
+                               Background="Transparent"
+                               ImageSource="edit.png"
+                               ImageAlignment="Left"
+                               ImageSize="25"
+                               ShowIcon="True"
+                               StrokeThickness="0"/>
 
-                                <Button Grid.Row="4"
-                                        Text="Delete" 
-                                        Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.DeleteDocumentCommand}"
-                                        CommandParameter="{Binding}"/>
+                        <sfb:SfButton Text="{x:Static loc:Localization.Delete}"
+                               Margin="3"
+                               Command="{Binding DeleteDocumentCommand}"
+                               CommandParameter="{Binding SelectedDocument}"
+                               HorizontalTextAlignment="Start"
+                               Background="Transparent"
+                               ImageSource="delete.png"
+                               ImageAlignment="Left"
+                               ImageSize="25"
+                               ShowIcon="True"
+                               StrokeThickness="0"/>
 
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
 
-            </CollectionView>
+        <sf:SfListView Margin="3"
+                       Grid.Row="2"
+                       x:Name="collectionView"
+                       SelectionMode="Single"
+                       IsLazyLoading="True"
+                       ItemSize="200"
+                       ItemLongPress="CollectionView_OnItemLongPress"
+                       SelectedItem="{Binding SelectedDocument}"
+                       SelectionChangedCommand="{Binding DocumentSelectedCommand}"
+                       SelectionChangedCommandParameter="{Binding Source={x:Reference collectionView}, Path=SelectedItem}"
+                       ItemsSource="{Binding Page.Documents}">
 
-        </ScrollView>
+            <sf:SfListView.EmptyView>
+                <Label Text="{x:Static loc:Localization.DocumentEmpty}"
+                       VerticalTextAlignment="Center"
+                       LineBreakMode="CharacterWrap"
+                       HorizontalTextAlignment="Center"/>
+            </sf:SfListView.EmptyView>
+
+            <sf:SfListView.ItemsLayout>
+                <sf:GridLayout SpanCount="2" />
+            </sf:SfListView.ItemsLayout>
+            <sf:SfListView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeShape="RoundRectangle 8"
+                            Stroke="LightGray"
+                            BackgroundColor="White"
+                            Margin="3">
+                        <!--<Border.Shadow>
+                            <Shadow Brush="LightGray"
+                            Radius="3"
+                            Opacity="0.8" />
+                        </Border.Shadow>-->
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+
+                            <ffimageloading:CachedImage 
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="3"
+                                LoadingPlaceholder="image_placeholder.png"
+                                FadeAnimationEnabled="False"
+                                FadeAnimationForCachedImages="False"
+                                HorizontalOptions="Center"
+                                Source="{Binding Thumbnail, Converter={StaticResource ByteArrayToImageSourceConverter}}"
+                                WidthRequest="100"
+                                HeightRequest="100"
+                                Aspect="AspectFill" />
+
+                            <Label Grid.Row="1"
+                                   Margin="3"
+                                   FontAttributes="Bold"
+                                   HorizontalTextAlignment="Center"
+                                   LineBreakMode="TailTruncation"
+                                   Text="{Binding Name}" />
+
+                            <Label 
+                                Grid.Row="2"
+                                Margin="3"
+                                TextColor="Gray"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="TailTruncation"
+                                Text="{Binding Comment}" />
+
+                            <Label 
+                                Grid.Row="3"
+                                Margin="3"
+                                TextColor="Gray"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="TailTruncation"
+                                Text="{Binding CreationDate}" />
+
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </sf:SfListView.ItemTemplate>
+        </sf:SfListView>
+
 
         <Button Text="+"
-                Grid.Row="3"
+                Margin="5"
+                Grid.Row="2"
                 WidthRequest="60"
                 HeightRequest="60" 
                 CornerRadius="30"
                 FontSize="30" 
-                HorizontalOptions="Center"
+                HorizontalOptions="End"
+                VerticalOptions="End"
                 Command="{Binding AddDocumentCommand}"/>
+
+        <p:SfPopup x:Name="sfPopup"
+                   HeaderTitle="Loading"
+                   StaysOpen="True"
+                   AnimationMode="None"
+                   Message="Loading"
+                   IsOpen="{Binding IsBusy}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="true" />
+                        <Label Text="{x:Static loc:Localization.LoadingDocuments}" VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
 
     </Grid>
 </ContentPage>

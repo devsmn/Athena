@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:imageEditor="clr-namespace:Syncfusion.Maui.ImageEditor;assembly=Syncfusion.Maui.ImageEditor"
+             xmlns:ui="clr-namespace:Athena.UI"
+             BackgroundColor="#F6F8FB"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Athena.UI.DocumentEditorDocumentCropView">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
+            <ui:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid BackgroundColor="Green">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <imageEditor:SfImageEditor 
+            Grid.Row="0"
+            Source="{Binding Image, Converter={x:StaticResource ByteArrayToImageSourceConverter}}"
+            ToolbarItemSelected="ImageEditor_OnToolbarItemSelected"
+            x:Name="ImageEditor">
+        </imageEditor:SfImageEditor>
+    </Grid>
+</ContentPage>

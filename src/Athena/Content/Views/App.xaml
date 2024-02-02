@@ -12,7 +12,7 @@
                 <ResourceDictionary Source="../../Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <local:FolderOverviewViewModel x:Key="MainContext"/>
+            <!--<local:FolderOverviewViewModel x:Key="MainContext"/>-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

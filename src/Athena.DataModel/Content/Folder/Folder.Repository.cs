@@ -1,10 +1,4 @@
 ﻿using Athena.DataModel.Core;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Athena.DataModel
 {
@@ -17,16 +11,7 @@ namespace Athena.DataModel
         
         public IEnumerable<Page> ReadAllPages(IContext context)
         {
-            var pages = DataStore.Resolve<IFolderRepository>().ReadAllPages(context, this);
-
-            foreach (var page in pages)
-            {
-                page.ReadAllDocuments(context);
-                this.Pages.Add(page);
-            }
-
-            return this.Pages;
-
+            return DataStore.Resolve<IFolderRepository>().ReadAllPages(context, this);
         }
 
         public static IEnumerable<Folder> ReadAll(IContext context)
@@ -38,6 +23,15 @@ namespace Athena.DataModel
         {
             DataStore.Resolve<IFolderRepository>().Save(context, this);
         }
-        
+
+        public void Delete(IContext context)
+        {
+            DataStore.Resolve<IFolderRepository>().Delete(context, this);
+        }
+
+        public static Folder Read(IContext context, FolderKey folderKey)
+        {
+            return DataStore.Resolve<IFolderRepository>().Read(context, folderKey);
+        }
     }
 }

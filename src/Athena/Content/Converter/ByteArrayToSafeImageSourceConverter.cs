@@ -1,17 +1,12 @@
 ﻿using CommunityToolkit.Maui.Converters;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Athena.UI
 {
     public class ByteArrayToSafeImageSourceConverter : ByteArrayToImageSourceConverter
     {
+        // TODO: Override default values
         private readonly ImageSource emptyFolderImage = ImageSource.FromFile("empty_folder.png");
         public ByteArrayToSafeImageSourceConverter() : base()
         {

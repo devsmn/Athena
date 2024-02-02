@@ -13,6 +13,7 @@ namespace Athena.Data.SQLite
     internal class SQLiteFolderRepository : SQLiteRepository, IFolderRepository
     {
         private string readFolderSql;
+        private string deleteFolderSql;
         private string readFolderPageSql;
         private string insertFolderSql;
         private string folderPageInsert;
@@ -28,6 +29,7 @@ namespace Athena.Data.SQLite
             folderPageInsert = await ReadResouceAsync("FOLDER_PAGE_INSERT.sql");
             readFolderPageSql = await ReadResouceAsync("FOLDER_PAGE_READ.sql");
             folderUpdateSql = await ReadResouceAsync("FOLDER_UPDATE.sql");
+            deleteFolderSql = await ReadResouceAsync("FOLDER_DELETE.sql");
 
             Debug.Assert(!string.IsNullOrEmpty(insertFolderSql));
             Debug.Assert(!string.IsNullOrEmpty(readFolderSql));
@@ -78,12 +80,7 @@ namespace Athena.Data.SQLite
                 command.Bind("@FD_ref", -1);
 
                 var folders = command.ExecuteQuery<Folder>();
-
-                foreach (var folder in folders)
-                {
-                    folder.ReadAllPages(context);
-                }
-
+                
                 return folders;
             }
             catch (Exception ex)
@@ -131,6 +128,38 @@ namespace Athena.Data.SQLite
             }
         }
 
+        public void Delete(IContext context, Folder folder)
+        {
+            this.Audit(context, () => {
+                var connection = this.Database.GetConnection();
+
+                SQLiteCommand command = connection.CreateCommand(this.deleteFolderSql);
+
+                command.Bind("@FD_ref", folder.Key.Id);
+                command.ExecuteNonQuery();
+
+                // We currently can't resolve this via CASCADE because the Chapters of the documents are not referenced directly.
+                foreach (var page in folder.Pages)
+                {
+                    page.Delete(context);
+                }
+                
+            });
+        }
+
+        public Folder Read(IContext context, FolderKey key)
+        {
+            return this.Audit<Folder>(context, () => {
+                var connection = this.Database.GetConnection();
+
+                SQLiteCommand command = connection.CreateCommand(this.readFolderSql);
+
+                command.Bind("@FD_ref", key.Id);
+
+                return command.ExecuteQuery<Folder>()[0];
+            });
+        }
+
         private void Update(IContext context, Folder folder)
         {
             try
@@ -139,9 +168,10 @@ namespace Athena.Data.SQLite
 
                 SQLiteCommand command = connection.CreateCommand(this.folderUpdateSql);
 
+                command.Bind("@FD_ref", folder.Key.Id);
                 command.Bind("@FD_name", folder.Name);
-                command.Bind("@FD_comment", folder.Comment);
-                command.Bind("@FD_thumbnail", Convert.ToBase64String(folder.Thumbnail ?? new byte[0]));
+                command.Bind("@FD_comment", folder.Comment.EmptyIfNull());
+                command.Bind("@FD_isPinnedInt", folder.IsPinnedInt);
                 command.ExecuteNonQuery();
 
                 foreach (var page in folder.Pages)
@@ -155,6 +185,8 @@ namespace Athena.Data.SQLite
             }
         }
 
+
+
         private void Insert(IContext context, Folder folder)
         {
             try
@@ -165,7 +197,7 @@ namespace Athena.Data.SQLite
 
                 command.Bind("@FD_name", folder.Name.EmptyIfNull());
                 command.Bind("@FD_comment", folder.Comment.EmptyIfNull());
-                command.Bind("@FD_thumbnail", Convert.ToBase64String(folder.Thumbnail ?? Array.Empty<byte>()));
+                command.Bind("@FD_isPinnedInt", folder.IsPinnedInt);
                 command.Bind("@FD_creationDate", folder.CreationDate);
                 command.Bind("@FD_modDate", folder.ModDate);
                 command.ExecuteNonQuery();

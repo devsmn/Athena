@@ -1,16 +1,17 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using Athena.DataModel.Core;
 
 namespace Athena.Data.SQLite
 {
     internal class SQLiteRepository
     {
         private readonly Lazy<SQLiteAsyncConnection> databaseDeferrer
-            = new Lazy<SQLiteAsyncConnection>(() => new SQLiteAsyncConnection(Defines.DatabasePath, Defines.Flags));
+            = new Lazy<SQLiteAsyncConnection>(() =>
+            {
+                Debug.WriteLine("DB AT at: " + Defines.DatabasePath);
+                return new SQLiteAsyncConnection(Defines.DatabasePath, Defines.Flags);
+            });
 
         protected SQLiteAsyncConnection Database
         {
@@ -49,12 +50,30 @@ namespace Athena.Data.SQLite
             }
         }
 
-        protected static string ReadResource(string file)
+        protected TResult Audit<TResult>(IContext context, Func<TResult> action)
         {
-            return ReadResouceAsync(file)
-                        .ConfigureAwait(false)
-                        .GetAwaiter()
-                        .GetResult();
+            try
+            {
+                return action();
+            }
+            catch (Exception ex)
+            {
+                context.Log(ex);
+            }
+
+            return default;
+        }
+
+        protected void Audit(IContext context, Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                context.Log(ex);
+            }
         }
     }
 }

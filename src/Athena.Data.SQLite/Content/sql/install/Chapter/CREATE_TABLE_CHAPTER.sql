@@ -1,0 +1,7 @@
+﻿CREATE VIRTUAL TABLE IF NOT EXISTS CHAPTER USING FTS5(
+	DOC_ref,
+	DOC_pageNr,
+	FD_ref,
+	PG_ref,
+	CHP_text
+);

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ui="clr-namespace:Athena.UI"
+             BackgroundColor="Transparent"
+             xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
+             xmlns:sfcore="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             x:Class="Athena.UI.DocumentEditorSavingStep">
+
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
+            <!--<ui:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <VerticalStackLayout 
+                              Grid.Row="0">
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               WidthRequest="100" 
+                               HeightRequest="100">
+
+            </ActivityIndicator>
+
+            <Label  Text="{Binding BusyText}" HorizontalOptions="Center" VerticalOptions="Center" />
+        </VerticalStackLayout>
+
+        <admob:BannerAd Grid.Row="1" CustomAdHeight="250" CustomAdWidth="300"/>
+        <!--<ui:InterstitialAdView AdUnitId="ca-app-pub-3940256099942544/1033173712" />-->
+
+    </Grid>
+
+</ContentView>

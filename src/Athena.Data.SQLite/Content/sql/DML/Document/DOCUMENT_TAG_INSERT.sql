@@ -1,0 +1,1 @@
+﻿INSERT INTO DOC_TAG (DOC_ref, TAG_ref, DOCTAG_creationDate, DOCTAG_modDate) VALUES (@DOC_ref, @TAG_ref,  @DOCTAG_creationDate, @DOCTAG_modDate);

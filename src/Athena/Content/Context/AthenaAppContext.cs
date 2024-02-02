@@ -1,10 +1,6 @@
 ﻿using Athena.DataModel.Core;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Athena.UI
 {
@@ -65,7 +61,7 @@ namespace Athena.UI
 
         private string GetLogPrefix(bool isEx)
         {
-            return $"{(isEx ? "-E-" : "-I-")} [{DateTime.Now.ToLongDateString()} {DateTime.Now.ToLongTimeString()} - #{this.ThreadId}] {{{this.CorrelationId}}}: ";
+            return $"{(isEx ? "-E-" : "-I-")} [{DateTime.UtcNow.ToLongDateString()} {DateTime.UtcNow.ToLongTimeString()} - #{this.ThreadId}] {{{this.CorrelationId}}}: ";
         }
     }
 }

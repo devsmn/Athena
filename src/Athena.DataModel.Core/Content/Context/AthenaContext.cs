@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Text;
 
 namespace Athena.DataModel.Core
@@ -30,7 +27,7 @@ namespace Athena.DataModel.Core
         {
             StringBuilder sb = new StringBuilder();
 
-            string logMsg = $"[{DateTime.Now.ToLongDateString()} {DateTime.Now.ToLongTimeString()} - #{this.ThreadId}] {{{this.CorrelationId}}}: {message}";
+            string logMsg = $"[{DateTime.UtcNow.ToLongDateString()} {DateTime.UtcNow.ToLongTimeString()} - #{this.ThreadId}] {{{this.CorrelationId}}}: {message}";
 
             Debug.WriteLine(logMsg);
         }

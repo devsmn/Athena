@@ -2,22 +2,28 @@
 <TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="Athena.UI.ContainerPage"
+            xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
             xmlns:local="clr-namespace:Athena.UI"
+            xmlns:loc="clr-namespace:Athena.Resources.Localization"
+            xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
-            android:TabbedPage.ToolbarPlacement="Top" 
-            
-             Title="ContainerPage">
-    <!--<local:MainPage />-->
-    <NavigationPage Title="Folders">
+            android:TabbedPage.ToolbarPlacement="Bottom" >
+
+    <NavigationPage Title="{x:Static loc:Localization.Folders}" IconImageSource="folder.png" Popped="NavigationPage_OnPopped" >
+
         <x:Arguments>
-            <local:FolderOverview />
+            <local:FolderOverview NavigationPage.HasNavigationBar="False"   />
         </x:Arguments>
     </NavigationPage>
-    
-    <!--<local:FolderPage />-->
-    <!--<NavigationPage Title="Details">
+
+    <!--<local:FolderOverview Title="Folders" NavigationPage.HasNavigationBar="False" />-->
+    <NavigationPage Title="{x:Static loc:Localization.Search}" IconImageSource="search.png" >
         <x:Arguments>
-            <local:DetailFolderPage />
+            <local:SearchChapterView NavigationPage.HasNavigationBar="False"   />
         </x:Arguments>
-    </NavigationPage>-->
+    </NavigationPage>
+
+    <local:TagsOverview Title="{x:Static loc:Localization.Tags}" IconImageSource="tag.png"  />
+    <local:SettingsView Title="{x:Static loc:Localization.Settings}" IconImageSource="settings.png" />
+
 </TabbedPage>

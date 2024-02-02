@@ -1,0 +1,3 @@
+﻿DELETE
+  FROM FOLDER
+ WHERE FD_ref = @FD_ref;

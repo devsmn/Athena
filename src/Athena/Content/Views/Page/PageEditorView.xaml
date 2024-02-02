@@ -3,76 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Athena.UI.PageEditorView"
              x:Name="page"
+             BackgroundColor="#F6F8FB"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:local="clr-namespace:Athena.UI"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
              Title="Add new page">
-
-    <ContentPage.Resources>
-        <ControlTemplate x:Key="TitleStep" >
-            <local:PageEditorTitleStep BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="CommentStep">
-            <local:PageEditorCommentStep BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}" />
-        </ControlTemplate>
-    </ContentPage.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.8*" />
-            <ColumnDefinition Width="0.1*" />
-        </Grid.ColumnDefinitions>
+        <sf:SfDataForm DataObject="{Binding Page}"
+                             LayoutType="TextInputLayout"
+                             ValidationMode="PropertyChanged"
+                             CommitMode="PropertyChanged">
+            <sf:SfDataForm.DefaultLayoutSettings>
+                <sf:DataFormDefaultLayoutSettings LabelPosition="Top" />
+            </sf:SfDataForm.DefaultLayoutSettings>
+            <sf:SfDataForm.TextInputLayoutSettings>
+                <sf:TextInputLayoutSettings ShowHelperText="True" />
+            </sf:SfDataForm.TextInputLayoutSettings>
+        </sf:SfDataForm>
 
-        <ContentView Margin="3"
-                     HorizontalOptions="Center"
-                     Grid.Column="1">
-            <ContentView.Style>
-                <Style TargetType="ContentView">
-                    <Style.Triggers>
-                        <DataTrigger TargetType="ContentView" 
-                                     Binding="{Binding Path=AddPageStep}"
-                                     Value="0">
-                            <Setter Property="ControlTemplate" Value="{StaticResource TitleStep}" />
-                        </DataTrigger>
-                        <DataTrigger TargetType="ContentView"
-                                     Binding="{Binding Path=AddPageStep}"
-                                     Value="1">
-                            <Setter Property="ControlTemplate" Value="{StaticResource CommentStep}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentView.Style>
-        </ContentView>
-
-        <Button Text="Next"
-                Grid.Column="1"
-                Grid.Row="2"
+        <Button Text="{x:Static loc:Localization.Save}"
+                Grid.Row="1"
                 WidthRequest="150"
                 Command="{Binding NextAddPageStepCommand}"
                 Margin="3">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=AddPageStep}"
-                                 TargetType="Button"
-                                 Value="0">
-                            <Setter Property="Text" Value="Next"/>
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding Path=AddPageStep}"
-                                 TargetType="Button"
-                                 Value="1">
-                            <Setter Property="Text" Value="Save"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
         </Button>
     </Grid>
 

@@ -1,50 +1,204 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ui="clr-namespace:Athena.UI"
              x:Class="Athena.UI.DocumentDetailsView"
-             Title="DocumentDetailsView">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
-            <ui:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
+             BackgroundColor="#F6F8FB"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
+             xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             Title="{Binding Document.Name}">
+  
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="menu.png" Clicked="MenuItem_OnClicked"/>
+    </ContentPage.ToolbarItems>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
+            <!--<RowDefinition Height="auto" />-->
             <RowDefinition Height="*" />
+            <!--<RowDefinition Height="auto" />-->
+            <!--<RowDefinition Height="auto" />-->
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*"/>
-            <ColumnDefinition Width="0.5*"/>
-        </Grid.ColumnDefinitions>
+        <p:SfPopup x:Name="menuPopup"
+                       IsOpen="{Binding ShowMenuPopup}"
+                       AutoSizeMode="Height"
+                       ShowHeader="False">
+            <p:SfPopup.PopupStyle>
+                <p:PopupStyle CornerRadius="5" />
+            </p:SfPopup.PopupStyle>
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout >
+                        <sfb:SfButton Text="{x:Static loc:Localization.DocumentDetailsDocumentInfo}"
+                                          Margin="3"
+                                          Command="{Binding InfoClickedCommand}"
+                                          HorizontalTextAlignment="Start"
+                                          Background="Transparent"
+                                          ImageSource="info.png"
+                                          ImageAlignment="Left"
+                                          ImageSize="25"
+                                          ShowIcon="True"
+                                          StrokeThickness="0"/>
 
-        <Label Text="{Binding Document.Name}"
-               Grid.ColumnSpan="2"
-               FontAttributes="Bold"/>
+                        <sfb:SfButton Text="{x:Static loc:Localization.Tags}"
+                                          Margin="3"
+                                          Command="{Binding TagClickedCommand}"
+                                          HorizontalTextAlignment="Start"
+                                          Background="Transparent"
+                                          ImageSource="tag.png"
+                                          ImageAlignment="Left"
+                                          ImageSize="25"
+                                          ShowIcon="True"
+                                          StrokeThickness="0"/>
 
-        <Label Grid.Row="1"
-               Grid.ColumnSpan="2"
-               Text="{Binding Document.Comment}"/>
+                        <sfb:SfButton Text="{x:Static loc:Localization.EditDocument}"
+                                          Margin="3"
+                                          Command="{Binding EditDocumentCommand}"
+                                          HorizontalTextAlignment="Start"
+                                          Background="Transparent"
+                                          ImageSource="edit.png"
+                                          ImageAlignment="Left"
+                                          ImageSize="25"
+                                          ShowIcon="True"
+                                          StrokeThickness="0"/>
 
-        <Button Grid.Row="2" 
-                Grid.Column="0"
-                Text="Edit"/>
+                        <sfb:SfButton Text="{x:Static loc:Localization.DeleteDocument}"
+                                          Margin="3"
+                                          Command="{Binding DeleteClickedCommand}"
+                                          HorizontalTextAlignment="Start"
+                                          Background="Transparent"
+                                          ImageSource="delete.png"
+                                          ImageAlignment="Left"
+                                          ImageSize="25"
+                                          ShowIcon="True"
+                                          StrokeThickness="0"/>
 
-        <Button Grid.Row="2" 
-                Grid.Column="1"
-                Text="Delete"/>
+                        <sfb:SfButton Text="{x:Static loc:Localization.DocumentDetailsOpenWithExt}"
+                                          Margin="3"
+                                          Command="{Binding OpenDocumentCommand}"
+                                          HorizontalTextAlignment="Start"
+                                          Background="Transparent"
+                                          ImageSource="view_externally.png"
+                                          ImageAlignment="Left"
+                                          ImageSize="25"
+                                          ShowIcon="True"
+                                          StrokeThickness="0"/>
 
+                        <sfb:SfButton Text="{x:Static loc:Localization.Share}"
+                                          Margin="3"
+                                          Command="{Binding ShareDocumentCommand}"
+                                          HorizontalTextAlignment="Start"
+                                          Background="Transparent"
+                                          ImageSource="share.png"
+                                          ImageAlignment="Left"
+                                          ImageSize="25"
+                                          ShowIcon="True"
+                                          StrokeThickness="0"/>
 
-        <ImageButton Grid.Row="3" 
-                     Grid.Column="0"
-                     Grid.ColumnSpan="2"
-                     Aspect="AspectFit"
-                     Source="{Binding Document.Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+        <p:SfPopup IsOpen="{Binding ShowInfoPopup}"
+                       x:Name="infoPopup"
+
+                       ShowCloseButton="True"
+                       HeaderTitle="{x:Static loc:Localization.DocumentDetailsDocumentInfo}">
+
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout Margin="5">
+                        <Label Margin="3,0,3,0" LineBreakMode="WordWrap">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Name: " FontAttributes="Bold" />
+                                    <Span Text="{Binding Document.Name}"></Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Label Margin="3,0,3,0" LineBreakMode="WordWrap">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Comment: " FontAttributes="Bold" />
+                                    <Span Text="{Binding Document.Comment}"></Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Label Margin="3,0,3,0">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Created at: "  FontAttributes="Bold"/>
+                                    <Span Text="{Binding Document.CreationDate}"></Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Label Margin="3,0,3,5">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Last modified at: " FontAttributes="Bold" />
+                                    <Span Text="{Binding Document.ModDate}"></Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+        <p:SfPopup IsOpen="{Binding ShowTagPopup}" 
+                       HeaderTitle="Tags"
+                       ShowCloseButton="True"
+                       AutoSizeMode="Height"
+                       AcceptButtonText="{x:Static loc:Localization.Save}"
+                       AcceptCommand="{Binding SaveTagsCommand}"
+                       ShowFooter="True"
+                       AppearanceMode="TwoButton"
+                       DeclineButtonText="{x:Static loc:Localization.Close}"
+                       IsFullScreen="False">
+
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+
+                    <ScrollView Margin="3" >
+                        <chip:SfChipGroup 
+                                MaximumHeightRequest="500"
+                                ItemsSource="{Binding AllTags}" 
+                                SelectedItem="{Binding SelectedTags}"
+                                DisplayMemberPath="Name" 
+                                ChipPadding="3,3,0,0"
+                                ChipType="Filter" >
+                            <chip:SfChipGroup.ChipLayout>
+                                <FlexLayout 
+                                        HorizontalOptions="Start" 
+                                        Direction="Row"
+                                        Margin="3"
+                                        Wrap="Wrap" 
+                                        JustifyContent="Start" 
+                                        AlignContent="Start" 
+                                        AlignItems="Start"/>
+                            </chip:SfChipGroup.ChipLayout>
+                        </chip:SfChipGroup>
+                    </ScrollView>
+
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+        <syncfusion:SfPdfViewer DocumentSource="{Binding Document.Pdf}" 
+                        EnableTextSelection="False"
+                        ShowScrollHead="True"
+                        Margin="5"
+                        BackgroundColor="LightGray" />
+
     </Grid>
+
+
 </ContentPage>

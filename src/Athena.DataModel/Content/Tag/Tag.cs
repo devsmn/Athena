@@ -1,15 +1,24 @@
 ﻿using Athena.DataModel.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Athena.DataModel
 {
-    public class Tag : Entity<TagKey>
+    public partial class Tag : Entity<TagKey>
     {
+        public int Id
+        {
+            get { return Key.Id; }
+            set { Key.Id = value; }
+        }
+
+        public string Name { get; set; }
+        public string Comment { get; set; }
+
         public Tag(TagKey key) : base(key)
+        {
+        }
+
+        public Tag()
+            : this(new TagKey(TagKey.TemporaryId))
         {
         }
     }

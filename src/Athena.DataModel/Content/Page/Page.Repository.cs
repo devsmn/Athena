@@ -1,9 +1,4 @@
 ﻿using Athena.DataModel.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Athena.DataModel
 {
@@ -31,21 +26,18 @@ namespace Athena.DataModel
 
         public IEnumerable<Document> ReadAllDocuments(IContext context)
         {
-            var documents = DataStore.Resolve<IDocumentRepository>().ReadAll(context, this);
-
-            foreach (var document in documents)
-            {
-                this.AddDocument(document);
-            }
-
-            return this.Documents;
+            return DataStore.Resolve<IDocumentRepository>().ReadAll(context, this);
         }
 
         public void Delete(IContext context)
         {
             DataStore.Resolve<IPageRepository>().Delete(context, this);
         }
-        
-        
+
+
+        public static Page Read(IContext context, PageKey pageKey)
+        {
+            return DataStore.Resolve<IPageRepository>().Read(context, pageKey);
+        }
     }
 }

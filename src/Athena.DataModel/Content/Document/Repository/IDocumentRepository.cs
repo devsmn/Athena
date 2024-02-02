@@ -1,5 +1,4 @@
 ﻿using Athena.DataModel.Core;
-using Microsoft.VisualBasic.FileIO;
 
 namespace Athena.DataModel
 {
@@ -20,5 +19,15 @@ namespace Athena.DataModel
         IEnumerable<Document> ReadAll(IContext context, Page page);
 
         void Delete(IContext context, Document document);
+
+        Document Read(IContext context, DocumentKey key);
+
+        void AddTag(IContext context, Document document, Tag tag);
+        void DeleteTag(IContext context, Document document, Tag tag);
+        IEnumerable<Tag> ReadTags(IContext context, Document document);
+
+        IEnumerable<SearchResult> Search(IContext context, string documentName, IEnumerable<Tag> tags, bool useFTS);
+
+        string ReadPdfAsString(IContext context, Document document);
     }
 }

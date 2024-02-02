@@ -1,149 +1,231 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             BackgroundColor="#F6F8FB"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:local="clr-namespace:Athena.UI"
-             x:Class="Athena.UI.FolderOverview"
-             Title="Athena: Offline document manager">
+             xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
+             x:Class="Athena.UI.FolderOverview">
     <ContentPage.Resources>
         <ResourceDictionary>
             <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
-            <local:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <Binding Source="{StaticResource MainContext}" />
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
 
     <Grid>
 
-        <ActivityIndicator IsRunning="{Binding IsBusy}"
-                           Grid.ColumnSpan="3"
-                           VerticalOptions="Center"
-                           HorizontalOptions="Center" />
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.9*" />
-            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ScrollView
-            Grid.ColumnSpan="3"
-            Grid.Column="0"
-            Grid.Row="0">
-            <FlexLayout 
-                    x:Name="collectionView"
-                    Wrap="Wrap"
-                    JustifyContent="SpaceAround"
-                    BindableLayout.ItemsSource="{Binding Folders}">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="3">
+        <p:SfPopup x:Name="menuPopup"
+                   IsOpen="{Binding ShowMenuPopup}"
+                   Closed="MenuPopup_OnClosed"
+                   WidthRequest="150"
+                   ShowHeader="False">
+            <p:SfPopup.PopupStyle>
+                <p:PopupStyle CornerRadius="5" />
+            </p:SfPopup.PopupStyle>
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate >
+                    <VerticalStackLayout >
+                        <sfb:SfButton Text="{x:Static loc:Localization.Pin}"
+                                      Margin="3"
+                                      Command="{Binding PinFolderCommand}"
+                                      CommandParameter="{Binding SelectedFolder}"
+                                      HorizontalTextAlignment="Start"
+                                      Background="Transparent"
+                                      ImageSource="favorite.png"
+                                      ImageAlignment="Left"
+                                      ImageSize="25"
+                                      ShowIcon="True"
+                                      StrokeThickness="0"/>
+
+                        <sfb:SfButton Text="{x:Static loc:Localization.Edit}"
+                                      Margin="3"
+                                      Command="{Binding EditFolderCommand}"
+                                      CommandParameter="{Binding SelectedFolder}"
+                                      HorizontalTextAlignment="Start"
+                                      Background="Transparent"
+                                      ImageSource="edit.png"
+                                      ImageAlignment="Left"
+                                      ImageSize="25"
+                                      ShowIcon="True"
+                                      StrokeThickness="0"/>
+
+                        <sfb:SfButton Text="{x:Static loc:Localization.Delete}"
+                                      Margin="3"
+                                      Command="{Binding DeleteFolderCommand}"
+                                      CommandParameter="{Binding SelectedFolder}"
+                                      HorizontalTextAlignment="Start"
+                                      Background="Transparent"
+                                      ImageSource="delete.png"
+                                      ImageAlignment="Left"
+                                      ImageSize="25"
+                                      ShowIcon="True"
+                                      StrokeThickness="0"/>
+
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+ 
+
+        <admob:BannerAd Grid.Row="0" AdSize="Banner" />
+
+        <sf:SfListView x:Name="listView" 
+                       AllowSwiping="True"
+                       SelectionMode="Single"
+                       ItemSize="60"
+                       Grid.Row="1"
+                       SwipeOffset="100" 
+                       ItemLongPress="ListView_OnItemLongPress"
+                       ItemsSource="{Binding Folders}"
+                       SelectedItem="{Binding SelectedFolder}"
+                       ItemSpacing="3"
+                       GroupHeaderSize="0"
+                       SelectionChangedCommand="{Binding FolderClickedCommand}"
+                       Margin="3">
+            <sf:SfListView.ItemsLayout>
+                <sf:LinearLayout />
+            </sf:SfListView.ItemsLayout>
+
+            <sf:SfListView.EmptyView>
+                <Label Text="{x:Static loc:Localization.FolderEmpty}"
+                       VerticalTextAlignment="Center"
+                       LineBreakMode="CharacterWrap"
+                       HorizontalTextAlignment="Center"/>
+            </sf:SfListView.EmptyView>
+
+
+
+            <sf:SfListView.DataSource>
+                <data:DataSource LiveDataUpdateMode="AllowDataShaping">
+                    <data:DataSource.SortDescriptors>
+                        <data:SortDescriptor PropertyName="Name" Direction="Ascending" />
+                    </data:DataSource.SortDescriptors>
+                    <data:DataSource.GroupDescriptors>
+                        <data:GroupDescriptor PropertyName="IsPinned">
+                            <data:GroupDescriptor.Comparer>
+                                <local:PinnedGroupComparer/>
+                            </data:GroupDescriptor.Comparer>
+                        </data:GroupDescriptor>
+
+                    </data:DataSource.GroupDescriptors>
+                </data:DataSource>
+            </sf:SfListView.DataSource>
+
+            <sf:SfListView.ItemTemplate>
+                <DataTemplate >
+                    <Border StrokeThickness="0.5" 
+                            BackgroundColor="White"
+                                StrokeShape="RoundRectangle 5"
+                                Margin="3" >
+
+                        <!--<Border.Shadow>
+                            <Shadow Brush="Black"
+                                        Radius="10"
+                                        Opacity="0.7"/>
+                        </Border.Shadow>-->
+
+                        <Grid >
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="*" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
 
-                            <ImageButton 
-                                Source="{Binding Thumbnail, Converter={StaticResource ByteArrayToImageSourceConverter}}"
-                                WidthRequest="100"
-                                HeightRequest="100"
-                                Aspect="AspectFill"
-                                CornerRadius="10"
-                                Command="{Binding Path=BindingContext.FolderClickedCommand, Source={Reference collectionView}}"
-                                CommandParameter="{Binding}"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
 
-                            <Label 
-                                Grid.Row="1"
-                                FontAttributes="Bold"
-                                Text="{Binding Name}" />
+                            <Label Text="{Binding Name}" 
+                                   Margin="5,5,5,0"
+                                   LineBreakMode="TailTruncation"
+                                   VerticalTextAlignment="Center"/>
 
-                            <Label 
-                                Grid.Row="2"
-                                FontSize="10"
-                                TextColor="Gray"
-                                Text="{Binding PageCount}" />
+                            <Label Text="{Binding Comment}" 
+                                   FontSize="12"
+                                   Margin="5,0,5,5"
+                                   TextColor="Gray"
+                                   LineBreakMode="TailTruncation"
+                                   Grid.Row="1"
+                                   VerticalTextAlignment="Center"/>
 
-                            <!--<BoxView Grid.Row="3" HeightRequest="1" Color="LightGray" />-->
+                            <Image Source="favorite.png"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   Grid.Column="1"
+                                   Grid.RowSpan="2"
+                                   IsVisible="{Binding IsPinned}"
+                                   WidthRequest="25"
+                                   HeightRequest="25"/>
+
+                            <Image Source="next.png"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       Grid.Column="2"
+                                       Grid.RowSpan="2"
+                                       WidthRequest="25"
+                                       HeightRequest="25"/>
+
+
                         </Grid>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </FlexLayout>
-        </ScrollView>
+                    </Border>
+
+
+
+                </DataTemplate>
+            </sf:SfListView.ItemTemplate>
+        </sf:SfListView>
+
 
         <Button Grid.Row="1"
-                Grid.Column="1"
                 Text="+"
+                HorizontalOptions="End"
+                VerticalOptions="End"
                 WidthRequest="60"
+                Margin="5"
                 HeightRequest="60"
                 CornerRadius="30"
                 FontSize="30" 
                 Command="{Binding ShowPageAddActionsCommand}"/>
 
-        <!--<toolkit:Expander Grid.Row="1"
-                          Grid.Column="1"
-                          HorizontalOptions="End"
-                          VerticalOptions="End"
-                          Margin="3"
-                          Direction="Up">
-            <toolkit:Expander.Header>
-                <Button Text="+"
-                        WidthRequest="60"
-                        HeightRequest="60" 
-                        CornerRadius="30"
-                        FontSize="30" >
-                    --><!--<Button.Shadow>
-                        <Shadow Brush="Black"
-                                Offset="10, 10"
-                                Radius="40"
-                                Opacity="0.8" />
-                    </Button.Shadow>--><!--
-                </Button>
-            </toolkit:Expander.Header>
-            <toolkit:Expander.Content>
-                <VerticalStackLayout BackgroundColor="LightGray"
-                                     WidthRequest="200"
-                                     HeightRequest="500">
-                    <Button Text="Document" Margin="1"
-                            BackgroundColor="{StaticResource Secondary}" 
-                            TextColor="{StaticResource Black}"
-                            Command="{Binding CaptureImageCommand}"/>
 
-                    <Button Text="Folder" Margin="1" 
-                            BackgroundColor="{StaticResource Secondary}" 
-                            TextColor="{StaticResource Black}"
-                            Command="{Binding AddNewFolderCommand}"/>
 
-                </VerticalStackLayout>
-            </toolkit:Expander.Content>
-        </toolkit:Expander>-->
-        <!--<AbsoluteLayout>
-        <toolkit:Expander AbsoluteLayout.LayoutBounds=".95, .95, 80, 80"
-                              AbsoluteLayout.LayoutFlags="PositionProportional"
-                          Direction="Up">
-            <toolkit:Expander.Header>
-                <ImageButton 
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    Source="empty_folder.png"
-                    CornerRadius="30"/>
-            </toolkit:Expander.Header>
-            <toolkit:Expander.Content>
-                <VerticalStackLayout>
-                    <Label Text="first" />
-                    <Label Text="2t" />
-                </VerticalStackLayout>
-            </toolkit:Expander.Content>
-        </toolkit:Expander>
-    </AbsoluteLayout>-->
+        <p:SfPopup x:Name="sfPopup"
+                   HeaderTitle="Loading"
+                   StaysOpen="True"
+                   AnimationMode="None"
+                   Message="Loading"
+                   IsOpen="{Binding IsBusy}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="true" />
+                        <Label Text="{Binding BusyText}" VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
 
     </Grid>
+
+
 </ContentPage>

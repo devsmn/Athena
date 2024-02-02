@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Athena.UI.SettingsView"
+             BackgroundColor="#F6F8FB"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+
+
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Margin="5"
+               HorizontalTextAlignment="Center"
+               FontAttributes="Bold"
+               LineBreakMode="WordWrap"
+               x:Name="versionLabel"
+               Grid.ColumnSpan="2"/>
+
+        <Label Text="{x:Static loc:Localization.Language}" 
+                   Margin="5" 
+                   Grid.Row="5"
+                   VerticalTextAlignment="Center"/>
+
+            <editors:SfComboBox Margin="5,0,5,5" 
+                                x:Name="cb"
+                                BackgroundColor="Transparent"
+                                Grid.Row="5"
+                                Grid.Column="1"
+                                IsClearButtonVisible="False"
+                                ItemsSource="{Binding Languages}" 
+                                SelectedItem="{Binding SelectedLanguage}"
+                                DisplayMemberPath="Name"
+                                SelectedValuePath="Id"
+                                TextMemberPath="Name">
+                <editors:SfComboBox.Behaviors>
+                    <toolkit:EventToCommandBehavior 
+                        EventName="SelectionChanged"
+                        Command="{Binding Source={x:Reference cb}, Path=BindingContext.SelectionChangedCommand}"/>
+                </editors:SfComboBox.Behaviors>
+            </editors:SfComboBox>
+
+        <sfb:SfButton Text="{x:Static loc:Localization.ShowTutorial}"
+                      Grid.Row="1"
+                      Grid.ColumnSpan="2"
+                      Margin="3"
+                      Command="{Binding ShowTutorialCommand}"
+                      HorizontalTextAlignment="Start"
+                      Background="Transparent"
+                      ImageSource="info.png"
+                      ImageAlignment="Left"
+                      ImageSize="25"
+                      ShowIcon="True"
+                      StrokeThickness="0"/>
+
+        <sfb:SfButton Text="Privacy Policy"
+                      Grid.Row="2"
+                      Grid.ColumnSpan="2"
+                      Clicked="OnPrivacyPolicyClicked"
+                      Margin="3"
+                      HorizontalTextAlignment="Start"
+                      Background="Transparent"
+                      ImageSource="info.png"
+                      ImageAlignment="Left"
+                      ImageSize="25"
+                      ShowIcon="True"
+                      StrokeThickness="0"/>
+
+        <sfb:SfButton Text="Terms of Use"
+                      Grid.Row="3"
+                      Clicked="OnTermsOfUseClicked"
+                      Grid.ColumnSpan="2"
+                      Margin="3"
+                      HorizontalTextAlignment="Start"
+                      Background="Transparent"
+                      ImageSource="info.png"
+                      ImageAlignment="Left"
+                      ImageSize="25"
+                      ShowIcon="True"
+                      StrokeThickness="0"/>
+
+        <sfb:SfButton Text="Copyright"
+                      Grid.Row="4"
+                      Grid.ColumnSpan="2"
+                      Margin="3"
+                      Clicked="OnCopyrightClicked"
+                      HorizontalTextAlignment="Start"
+                      Background="Transparent"
+                      ImageSource="info.png"
+                      ImageAlignment="Left"
+                      ImageSize="25"
+                      ShowIcon="True"
+                      StrokeThickness="0"/>
+    </Grid>
+
+
+
+
+
+</ContentPage>

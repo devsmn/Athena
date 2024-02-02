@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Android.Net;
+﻿using System.Collections.ObjectModel;
+using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Athena.UI
 {
     using Athena.DataModel;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class PageViewModel : ObservableObject
     {
@@ -17,11 +13,25 @@ namespace Athena.UI
         private readonly Page _page;
         private ObservableCollection<DocumentViewModel> _documents;
 
-        [ObservableProperty]
-        private int _documentCount;
 
         // ---- public properties ----
 
+        [Display(AutoGenerateField = false)]
+        public DateTime CreationDate
+        {
+            get { return _page.CreationDate; }
+        }
+
+        [Display(AutoGenerateField = false)]
+        public DateTime ModDate
+        {
+            get { return _page.ModDate; }
+        }
+
+        [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.PageVMTitleRequired))]
+        [StringLength(45, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.PageVMTitleExceedCharLimit))]
+        [Display(ResourceType = typeof(Localization), Name = nameof(Localization.PageVMTitle))]
+        [DataType(DataType.Text)]
         public string Title
         {
             get { return _page.Title; }
@@ -32,6 +42,9 @@ namespace Athena.UI
             }
         }
 
+        [Display(ResourceType = typeof(Localization), Name = nameof(Localization.PageVMComment))]
+        [StringLength(80, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.PageVMCommentExceedCharLimit))]
+        [DataType(DataType.MultilineText)]
         public string Comment
         {
             get { return _page.Comment; }
@@ -42,6 +55,7 @@ namespace Athena.UI
             }
         }
 
+        [Display(AutoGenerateField = false)]
         public ObservableCollection<DocumentViewModel> Documents
         {
             get
@@ -49,7 +63,6 @@ namespace Athena.UI
                 if (_documents == null)
                 {
                     _documents = new ObservableCollection<DocumentViewModel>(_page.Documents.Select(x => new DocumentViewModel(x)));
-                    DocumentCount = _documents.Count;
                 }
 
                 return _documents;
@@ -61,7 +74,8 @@ namespace Athena.UI
                 OnPropertyChanged();
             }
         }
-        
+
+        [Display(AutoGenerateField = false)]
         public Page Page
         {
             get { return _page; }
@@ -76,7 +90,6 @@ namespace Athena.UI
         public PageViewModel(Page page)
         {
             _page = page;
-            DocumentCount = _page.Documents.Count;
         }
 
         // ---- methods ----
@@ -94,13 +107,11 @@ namespace Athena.UI
         public void AddDocument(Document document)
         {
             this.Documents.Add(document);
-            DocumentCount++;
         }
 
         internal void RemoveDocument(DocumentViewModel document)
         {
             this.Documents.Remove(document);
-            DocumentCount--;
 
             this._page.Documents.Remove(document);
         }

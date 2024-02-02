@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ui="clr-namespace:Athena.UI"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:sfc="clr-namespace:Syncfusion.Maui.Carousel;assembly=Syncfusion.Maui.Carousel"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Athena.UI.DocumentEditorDocumentStep">
+
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
+            <ui:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+
+        <ControlTemplate x:Key="EmptyDocumentsView">
+            <VerticalStackLayout>
+                <Image Source="empty.png" HeightRequest="50" />
+
+                <Label HorizontalTextAlignment="Center"
+                       Text="{x:Static loc:Localization.DocumentEditorLoadDocument}"
+                       TextColor="Gray"
+                   />
+            </VerticalStackLayout>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="DocumentsListView">
+            <sfc:SfCarousel ItemsSource="{Binding Source={x:Reference parent}, Path=BindingContext.Images}"
+                            x:Name="listView"
+                            HeightRequest="240"
+                            ViewMode="Linear">
+                <sfc:SfCarousel.ItemTemplate>
+                    <DataTemplate >
+                        <Grid > 
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Frame IsClippedToBounds="True"
+                                   HasShadow="False"
+                                   Padding="0" 
+                                   MaximumWidthRequest="200"
+                                   HeightRequest="200"
+                                   Margin="0,0,0,2" CornerRadius="{OnPlatform Android=4,Default=5,MacCatalyst=6}" 
+                                   Grid.Row="0">
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0.7*" />
+                                        <RowDefinition Height="0.1*" />
+                                        <RowDefinition Height="0.2*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image Source="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}" 
+                                           Grid.RowSpan="2"
+                                           IsVisible="{Binding IsPdf, Converter={toolkit:InvertedBoolConverter}}"
+                                           Margin="2"
+                                           Aspect="AspectFill"/>
+
+                                    <Image Source="pdf.png" 
+                                           Grid.Row="0"
+                                           HeightRequest="90"
+                                           WidthRequest="90"
+                                           Grid.Column="0"
+                                           IsVisible="{Binding IsPdf}"
+                                           Margin="2"
+                                           Aspect="AspectFill" />
+
+
+                                    <Label Text="{Binding FileName}" 
+                                           FontSize="12"
+                                           Grid.Row="1"
+                                           MaximumWidthRequest="180"
+                                           LineBreakMode="TailTruncation"
+                                           HorizontalTextAlignment="Center"
+                                           IsVisible="{Binding IsPdf}"/>
+
+
+                                    <sfb:SfButton Command="{Binding Source={x:Reference parent}, Path=BindingContext.DeleteImageCommand}"
+                                                  CommandParameter="{Binding}"
+                                                  Grid.Row="2"
+                                                  HorizontalTextAlignment="Start"
+                                                  Text="{x:Static loc:Localization.DeleteDocument}"
+                                                  Background="Transparent"
+                                                  ImageSource="delete.png"
+                                                  ImageSize="25"
+                                                  Margin="3"
+                                                  ShowIcon="True"
+                                                  StrokeThickness="0"/>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </sfc:SfCarousel.ItemTemplate>
+            </sfc:SfCarousel>
+
+
+        </ControlTemplate>
+    </ContentView.Resources>
+
+    <VerticalStackLayout x:Name="parent"
+        HorizontalOptions="Center">
+
+        <Label Text="{x:Static loc:Localization.DocumentEditorAddDocuments}" 
+               Margin="5"
+               FontSize="26"
+               FontAttributes="Bold"/>
+
+        <Label Text="{x:Static loc:Localization.Documents}" 
+               Margin="5"
+               FontSize="16"
+               FontAttributes="Bold"/>
+
+        <ContentView>
+            <ContentView.Style>
+                <Style TargetType="ContentView">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="ContentView" 
+                                     Binding="{Binding AreDocumentsEmpty}"
+                                     Value="True">
+                            <Setter Property="ControlTemplate" Value="{StaticResource EmptyDocumentsView}" />
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="ContentView" 
+                                     Binding="{Binding AreDocumentsEmpty}"
+                                     Value="False">
+                            <Setter Property="ControlTemplate" Value="{StaticResource DocumentsListView}" />
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </ContentView.Style>
+        </ContentView>
+
+        <HorizontalStackLayout HorizontalOptions="Center">
+
+            <Border StrokeShape="RoundRectangle 5" BackgroundColor="White"  Margin="3">
+
+                <sfb:SfButton Text="{x:Static loc:Localization.Scan}" 
+                              Command="{Binding TakeImageCommand}"
+                              Background="White"
+                              ImageAlignment="Top"
+                              WidthRequest="100"
+                              ImageSource="camera.png"
+                              ShowIcon="True"
+                              StrokeThickness="0"/>
+            </Border>
+
+            <Border BackgroundColor="White"
+                    Margin="3"
+                    StrokeShape="RoundRectangle 5">
+
+                <sfb:SfButton Text="{x:Static loc:Localization.Gallery}" 
+                              Command="{Binding PickImageCommand}"
+                              Background="White"
+                              WidthRequest="100"
+                              ImageAlignment="Top"
+                              ImageSource="gallery.png"
+                              ShowIcon="True"
+                              StrokeThickness="0"/>
+            </Border >
+
+            <Border  BackgroundColor="White"
+                     Margin="3"
+                     StrokeShape="RoundRectangle 5">
+
+                <sfb:SfButton Text="PDF" 
+                              Command="{Binding PickFileCommand}"
+                              Background="White"
+                              WidthRequest="100"
+                              ImageAlignment="Top"
+                              ImageSource="pdf.png"
+                              ShowIcon="True"
+                              StrokeThickness="0"/>
+            </Border >
+        </HorizontalStackLayout>
+
+        <Label Text="{x:Static loc:Localization.DocumentEditorAIHeader}"
+               Margin="5, 10, 5, 5"
+               FontSize="16"
+               FontAttributes="Bold"/>
+
+        <Label Margin="5,0,5,5"
+               LineBreakMode="WordWrap"
+               Text="{x:Static loc:Localization.DocumentEditorAIDescription}"
+               FontSize="12"
+               TextColor="Gray"
+               FontAttributes="Bold"/>
+
+        <sfb:SfCheckBox Margin="5,0,5,5" IsChecked="{Binding DetectText}" Text="{x:Static loc:Localization.DocumentEditorEnableAI}" />
+    </VerticalStackLayout>
+</ContentView>

@@ -2,28 +2,39 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Athena.UI"
+             BackgroundColor="#F6F8FB"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
+             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
              x:Name="page"
              x:Class="Athena.UI.DocumentEditorView"
-             Title="AddDocumentPage">
+             Title="New document">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+            <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
 
-        <ControlTemplate x:Key="NameStep">
-            <local:DocumentEditorNameStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        <ControlTemplate x:Key="DocumentStep">
+            <local:DocumentEditorDocumentStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
         </ControlTemplate>
 
-        <ControlTemplate x:Key="CommentStep">
-            <local:DocumentEditorCommentStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        <ControlTemplate x:Key="MetaInfoStep">
+            <local:DocumentEditorMetaInfoStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
         </ControlTemplate>
 
-        <ControlTemplate x:Key="PictureStep">
-            <local:DocumentEditorPictureStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        <ControlTemplate x:Key="SavingStep">
+            <local:DocumentEditorSavingStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
         </ControlTemplate>
+
+        <!--<ControlTemplate x:Key="FinishedStep">
+            <local:DocumentEditorFinishedStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>-->
+
     </ContentPage.Resources>
 
     <Grid>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
@@ -31,40 +42,51 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.8*" />
-            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ContentView Margin="3"
-             HorizontalOptions="Center"
-             Grid.Column="1">
+        <popup:SfPopup x:Name="sfPopup"
+                   HeaderTitle="Loading"
+                   StaysOpen="True"
+                   Message="{Binding PopupText}"
+                   IsOpen="{Binding IsPopupOpen}">
+        </popup:SfPopup>
+
+        <ContentView Margin="5"
+             HorizontalOptions="Center">
             <ContentView.Style>
                 <Style TargetType="ContentView">
                     <Style.Triggers>
                         <DataTrigger TargetType="ContentView" 
-                             Binding="{Binding Path=DocumentStep}"
-                             Value="1">
-                            <Setter Property="ControlTemplate" Value="{StaticResource NameStep}" />
+                                     Binding="{Binding Path=DocumentStep}"
+                                     Value="0">
+                            <Setter Property="ControlTemplate" Value="{StaticResource DocumentStep}" />
                         </DataTrigger>
 
                         <DataTrigger TargetType="ContentView"
-                             Binding="{Binding Path=DocumentStep}"
-                             Value="2">
-                            <Setter Property="ControlTemplate" Value="{StaticResource CommentStep}" />
+                                     Binding="{Binding Path=DocumentStep}"
+                                     Value="1">
+                            <Setter Property="ControlTemplate" Value="{StaticResource MetaInfoStep}" />
                         </DataTrigger>
 
                         <DataTrigger TargetType="ContentView"
-                                 Binding="{Binding Path=DocumentStep}"
-                                 Value="0">
-                            <Setter Property="ControlTemplate" Value="{StaticResource PictureStep}" />
+                                     Binding="{Binding Path=DocumentStep}"
+                                     Value="2">
+                            <Setter Property="ControlTemplate" Value="{StaticResource SavingStep}" />
                         </DataTrigger>
+
+                        <!--<DataTrigger TargetType="ContentView"
+                                     Binding="{Binding Path=DocumentStep}"
+                                     Value="3">
+                            <Setter Property="ControlTemplate" Value="{StaticResource FinishedStep}" />
+                        </DataTrigger>-->
                     </Style.Triggers>
                 </Style>
             </ContentView.Style>
         </ContentView>
 
-        <Button Text="Next"
+        <Button Text="{x:Static loc:Localization.Next}"
+                x:Name="nextButton"
             Grid.Column="1"
             Grid.Row="2"
             WidthRequest="150"
@@ -74,25 +96,47 @@
                 <Style TargetType="Button">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Path=DocumentStep}"
-                         TargetType="Button"
-                         Value="0">
-                            <Setter Property="Text" Value="Next"/>
+                             TargetType="Button"
+                             Value="0">
+                            <Setter Property="Text" Value="{x:Static loc:Localization.Next}"/>
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding Path=DocumentStep}"
-                         TargetType="Button"
-                         Value="1">
-                            <Setter Property="Text" Value="Next"/>
+                             TargetType="Button"
+                             Value="1">
+                            <Setter Property="Text" Value="{x:Static loc:Localization.Save}"/>
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding Path=DocumentStep}"
-                                 TargetType="Button"
-                                 Value="2">
-                            <Setter Property="Text" Value="Save"/>
+                                     TargetType="Button"
+                                     Value="2">
+                            <Setter Property="Text" Value="{x:Static loc:Localization.Close}"/>
+                            <Setter Property="IsEnabled" Value="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"/>
                         </DataTrigger>
+
+                        <!--<DataTrigger Binding="{Binding Path=DocumentStep}"
+                                     TargetType="Button"
+                                     Value="3">
+                            <Setter Property="Text" Value="Close"/>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </DataTrigger>-->
                     </Style.Triggers>
                 </Style>
             </Button.Style>
         </Button>
+
+        <!--<VerticalStackLayout
+            Grid.ColumnSpan="3">
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           WidthRequest="100"
+                           HeightRequest="100">
+
+            </ActivityIndicator>
+
+            <Label IsVisible="{Binding IsBusy}"  Text="{Binding BusyText}" HorizontalOptions="Center" VerticalOptions="Center" />
+        </VerticalStackLayout>-->
+
+
     </Grid>
 </ContentPage>

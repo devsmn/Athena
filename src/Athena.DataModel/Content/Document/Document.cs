@@ -1,20 +1,20 @@
 ﻿using Athena.DataModel.Core;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO.Compression;
 
 namespace Athena.DataModel
 {
     public partial class Document : Entity<DocumentKey>
     {
-        private byte[] image;
-        private string name;
-        private string comment;
-        private string imageString; 
-        
+        private string _name;
+        private string _comment;
+        private byte[] _pdf;
+        private string _pdfString;
+        private byte[] _thumbnail;
+        private string _thumbnailString;
+
+        private bool _tagsLoaded;
+        private bool _pdfRead;
+
         public int Id
         {
             get { return Key.Id; }
@@ -23,37 +23,86 @@ namespace Athena.DataModel
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
         public string Comment
         {
-            get { return comment; }
-            set { comment = value; }
+            get { return _comment; }
+            set { _comment = value; }
         }
 
-        public byte[] Image
+        public byte[] Pdf
         {
-            get { return image; }
+            get
+            {
+                if (!_pdfRead)
+                {
+                    ReadPdf(new AthenaContext(), this);
+                    _pdfRead = true;
+                }
+
+                return _pdf;
+                
+            }
             set
             {
-                image = value;
+                _pdf = value;
+                _pdfRead = true;
             }
         }
 
-        public string ImageString
+        public string PdfString
         {
-            get { return imageString; }
+            get { return _pdfString; }
             set
             {
-                imageString = value;
-                image = Convert.FromBase64String(value);
+                _pdfString = value;
+                _pdf = Convert.FromBase64String(value);
+            }
+        }
+
+        public byte[] Thumbnail
+        {
+            get { return _thumbnail; }
+            set { _thumbnail = value; }
+        }
+
+        public string ThumbnailString
+        {
+            get { return _thumbnailString; }
+            set
+            {
+                _thumbnailString = value;
+                _thumbnail = Convert.FromBase64String(value);
+            }
+        }
+
+        private List<Tag> _tags;
+
+
+        public List<Tag> Tags
+        {
+            get
+            {
+                if (!_tagsLoaded)
+                {
+                    _tags = new List<Tag>(this.ReadAllTags(new AthenaContext()));
+                    _tagsLoaded = true;
+                }
+                return _tags;
+            }
+            set
+            {
+                _tags = value;
+                _tagsLoaded = true;
             }
         }
 
         public Document(DocumentKey key) : base(key)
         {
+            _tags = new();
         }
 
         public Document()

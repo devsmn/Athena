@@ -2,6 +2,7 @@ namespace Athena.UI
 {
     using Athena.DataModel;
 
+
     public partial class FolderEditorView : ContentPage
     {
         public FolderEditorView(Folder folder)

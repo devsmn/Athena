@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Athena.DataModel.Core
+﻿namespace Athena.DataModel.Core
 {
     public class Entity
     {
@@ -17,6 +11,11 @@ namespace Athena.DataModel.Core
         public DateTime ModDate
         {
             get; set;
+        }
+
+        public Entity()
+        {
+            CreationDate = DateTime.UtcNow;
         }
 
     }
@@ -39,7 +38,8 @@ namespace Athena.DataModel.Core
         public Entity(TKey key)
         {
             this.Key = key;
-            //this.CreationDate = DateTime.Now;
+            CreationDate = DateTime.UtcNow;
+            ModDate = DateTime.UtcNow;
         }
 
         // ---- methods ----

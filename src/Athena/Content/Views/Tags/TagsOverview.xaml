@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
+             xmlns:local="clr-namespace:Athena.UI"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             x:Class="Athena.UI.TagsOverview"
+             BackgroundColor="#F6F8FB"
+             Title="TagsOverview">
+    <ContentPage.BindingContext>
+        <local:TagsOverviewViewModel />
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+
+        <sf:SfListView Grid.Row="0"
+                       x:Name="tagList"
+                       ItemsSource="{Binding Tags}" 
+                       ItemSize="35"
+                       SelectedItem="{Binding SelectedTag}"
+                       SelectionMode="Single"
+                       ItemSpacing="3">
+
+            <sf:SfListView.EmptyView>
+                <Label Text="{x:Static loc:Localization.TagEmpty}"
+                       VerticalTextAlignment="Center"
+                       LineBreakMode="CharacterWrap"
+                       HorizontalTextAlignment="Center"/>
+            </sf:SfListView.EmptyView>
+
+            <sf:SfListView.DataSource>
+                <data:DataSource LiveDataUpdateMode="AllowDataShaping">
+                    <data:DataSource.SortDescriptors>
+                        <data:SortDescriptor PropertyName="Name" Direction="Ascending" />
+                    </data:DataSource.SortDescriptors>
+                </data:DataSource>
+            </sf:SfListView.DataSource>
+            <sf:SfListView.Behaviors>
+                <toolkit:EventToCommandBehavior 
+                    EventName="SelectionChanged"
+                    Command="{Binding Source={x:Reference tagList}, Path=BindingContext.TagSelectedCommand}"/>
+            </sf:SfListView.Behaviors>
+            <sf:SfListView.ItemsLayout>
+                <sf:GridLayout SpanCount="2"></sf:GridLayout>
+            </sf:SfListView.ItemsLayout>
+            <sf:SfListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BackgroundColor="White" StrokeShape="RoundRectangle 5">
+                        <Label Text="{Binding Name}" 
+                               VerticalTextAlignment="Center"
+                               Margin="3"/>
+                    </Border>
+                </DataTemplate>
+            </sf:SfListView.ItemTemplate>
+        </sf:SfListView>
+
+        <Button Grid.Row="0"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Text="+"
+                WidthRequest="60"
+                Margin="5"
+                HeightRequest="60"
+                CornerRadius="30"
+                FontSize="30" 
+                Command="{Binding AddNewTagCommand}"/>
+
+    </Grid>
+</ContentPage>

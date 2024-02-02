@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddNewTag" xml:space="preserve">
+    <value>Add new tag</value>
+  </data>
+  <data name="AddNewTagName" xml:space="preserve">
+    <value>Enter the name of the new tag (max. 20 characters)</value>
+  </data>
+  <data name="ChangeLanguageConfirm" xml:space="preserve">
+    <value>Do you really want to change the language to {0}?</value>
+  </data>
+  <data name="ChangeName" xml:space="preserve">
+    <value>Change name</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteDocument" xml:space="preserve">
+    <value>Delete document</value>
+  </data>
+  <data name="DeleteDocumentConfirm" xml:space="preserve">
+    <value>Do you really want to delete the document {0}?
+The document cannot be recovered!</value>
+  </data>
+  <data name="DeleteFolder" xml:space="preserve">
+    <value>Delete folder</value>
+  </data>
+  <data name="DeleteFolderConfirm" xml:space="preserve">
+    <value>Do you really want to delete the folder {0}?
+The folder cannot be recovered!</value>
+  </data>
+  <data name="DeletePage" xml:space="preserve">
+    <value>Delete page</value>
+  </data>
+  <data name="DeletePageConfirm" xml:space="preserve">
+    <value>Do you really want to delete the page {0}?
+The page cannot be recovered!</value>
+  </data>
+  <data name="DeleteTag" xml:space="preserve">
+    <value>Delete tag</value>
+  </data>
+  <data name="DeleteTagConfirm" xml:space="preserve">
+    <value>Do you really want to delete the tag {0}?
+The tag cannot be recovered!</value>
+  </data>
+  <data name="DocumentDeleted" xml:space="preserve">
+    <value>Successfully deleted document {0}</value>
+  </data>
+  <data name="DocumentDetailsDocumentInfo" xml:space="preserve">
+    <value>About this document...</value>
+  </data>
+  <data name="DocumentDetailsOpenWithExt" xml:space="preserve">
+    <value>Open with external application</value>
+  </data>
+  <data name="DocumentEditorAddAdditionalInformation" xml:space="preserve">
+    <value>Add additional information</value>
+  </data>
+  <data name="DocumentEditorAddDocuments" xml:space="preserve">
+    <value>Add documents</value>
+  </data>
+  <data name="DocumentEditorAIDescription" xml:space="preserve">
+    <value>Athena uses advanced artifical intelligence (AI) technology to detect text within documents, allowing you to efficiently search for any words across all documents.
+Depending on the size of the documents, this process may take a moment.</value>
+  </data>
+  <data name="DocumentEditorAIHeader" xml:space="preserve">
+    <value>AI text detection</value>
+  </data>
+  <data name="DocumentEditorEnableAI" xml:space="preserve">
+    <value>Enable AI text detection</value>
+  </data>
+  <data name="DocumentEditorLoadDocument" xml:space="preserve">
+    <value>Scan a document with your camera, choose one from your gallery or pick a document from your device</value>
+  </data>
+  <data name="DocumentEditorNoTags" xml:space="preserve">
+    <value>No tags available. Use the tags tab to add new tags</value>
+  </data>
+  <data name="DocumentEditorSelectTags" xml:space="preserve">
+    <value>Select tags</value>
+  </data>
+  <data name="DocumentEmpty" xml:space="preserve">
+    <value>Use the plus button to add a new document</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Documents</value>
+  </data>
+  <data name="DocumentVMComment" xml:space="preserve">
+    <value>Optional comment</value>
+  </data>
+  <data name="DocumentVMCommentExceedsCharLimit" xml:space="preserve">
+    <value>The comment should not exceed 80 characters</value>
+  </data>
+  <data name="DocumentVMName" xml:space="preserve">
+    <value>Document name</value>
+  </data>
+  <data name="DocumentVMNameCharsExceedLimit" xml:space="preserve">
+    <value>The name should not exceed 45 characters</value>
+  </data>
+  <data name="DocumentVMNameRequired" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditDocument" xml:space="preserve">
+    <value>Edit document</value>
+  </data>
+  <data name="EditTag" xml:space="preserve">
+    <value>Edit tag</value>
+  </data>
+  <data name="FolderDeleted" xml:space="preserve">
+    <value>Successfully deleted folder {0}</value>
+  </data>
+  <data name="FolderEmpty" xml:space="preserve">
+    <value>Use the plus button to add a new folder</value>
+  </data>
+  <data name="FolderInformation" xml:space="preserve">
+    <value>About this folder...</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Folders</value>
+  </data>
+  <data name="FolderVMComment" xml:space="preserve">
+    <value>Optional comment</value>
+  </data>
+  <data name="FolderVMCommentExceedCharLimit" xml:space="preserve">
+    <value>The comment should not exceed 80 characters</value>
+  </data>
+  <data name="FolderVMName" xml:space="preserve">
+    <value>Folder name</value>
+  </data>
+  <data name="FolderVMTitleExceedCharLimit" xml:space="preserve">
+    <value>The name should not exceed 45 characters</value>
+  </data>
+  <data name="FolderVMTitleRequired" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="LoadingDocuments" xml:space="preserve">
+    <value>Loading documents...</value>
+  </data>
+  <data name="LoadingPages" xml:space="preserve">
+    <value>Loading pages...</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="PageDeleted" xml:space="preserve">
+    <value>Successfully deleted page {0}</value>
+  </data>
+  <data name="PageEmpty" xml:space="preserve">
+    <value>Use the plus button to add a new page</value>
+  </data>
+  <data name="PageInformation" xml:space="preserve">
+    <value>About this page...</value>
+  </data>
+  <data name="PageVMComment" xml:space="preserve">
+    <value>Optional comment</value>
+  </data>
+  <data name="PageVMCommentExceedCharLimit" xml:space="preserve">
+    <value>The comment should not exceed 80 characters</value>
+  </data>
+  <data name="PageVMTitle" xml:space="preserve">
+    <value>Page title</value>
+  </data>
+  <data name="PageVMTitleExceedCharLimit" xml:space="preserve">
+    <value>The title should not exceed 45 characters</value>
+  </data>
+  <data name="PageVMTitleRequired" xml:space="preserve">
+    <value>Title is required</value>
+  </data>
+  <data name="Pin" xml:space="preserve">
+    <value>Pin</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchFullTextSearch" xml:space="preserve">
+    <value>Full text search</value>
+  </data>
+  <data name="SearchFullTextSearchEnabled" xml:space="preserve">
+    <value>Full text search is enabled. It may take longer to find all results</value>
+  </data>
+  <data name="SearchNoResults" xml:space="preserve">
+    <value>No results found</value>
+  </data>
+  <data name="SearchOnlyWithSelectedTags" xml:space="preserve">
+    <value>Only show documents with selected tags</value>
+  </data>
+  <data name="SearchResultDocument" xml:space="preserve">
+    <value>Document: </value>
+  </data>
+  <data name="SearchResultFolder" xml:space="preserve">
+    <value>Folder: </value>
+  </data>
+  <data name="SearchResultPage" xml:space="preserve">
+    <value>Page: </value>
+  </data>
+  <data name="SearchRunning" xml:space="preserve">
+    <value>Searching...</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="ShowTutorial" xml:space="preserve">
+    <value>Show tutorial</value>
+  </data>
+  <data name="TagDeleted" xml:space="preserve">
+    <value>Successfully deleted tag {0}</value>
+  </data>
+  <data name="TagEmpty" xml:space="preserve">
+    <value>Use the plus button to add a new tag</value>
+  </data>
+  <data name="TagNewName" xml:space="preserve">
+    <value>Choose a new name for {0}</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="TagsSavedSuccessfully" xml:space="preserve">
+    <value>Tags saved successfully</value>
+  </data>
+  <data name="TutStep1" xml:space="preserve">
+    <value>The start page contains your folders.</value>
+  </data>
+  <data name="TutStep10" xml:space="preserve">
+    <value>Use the three dots for more options.</value>
+    <comment>More options are available when using the three dots in the upper right corner of a folder, page or document.</comment>
+  </data>
+  <data name="TutStep11" xml:space="preserve">
+    <value>In the search tab, you can look for documents by name or by specific text within them. For example, searching for a document titled 'Contract' produces one result.</value>
+  </data>
+  <data name="TutStep12" xml:space="preserve">
+    <value>By using the filter icon, you can set specific search conditions. 
+You can filter results by tags or enable full text search, but only documents created with the 'Enable AI text detection' feature are included in the full text search.</value>
+  </data>
+  <data name="TutStep13" xml:space="preserve">
+    <value>In this example, the full text search filter is activated. Searching for the word 'Amet' yields one result because the document 'Contract' contains the word 'Amet'.</value>
+  </data>
+  <data name="TutStep2" xml:space="preserve">
+    <value>Long-tapping on a folder offers you a menu to quickly manage a folder.</value>
+  </data>
+  <data name="TutStep3" xml:space="preserve">
+    <value>You can add pages using the plus button. 
+Use the three dots to access the folder menu. 
+Long-pressing a page opens a menu for managing that page.</value>
+  </data>
+  <data name="TutStep4" xml:space="preserve">
+    <value>You can add documents using the plus button. 
+Use the three dots to access the page menu.
+Long-pressing a document opens a menu for managing that document.</value>
+  </data>
+  <data name="TutStep5" xml:space="preserve">
+    <value>To add a document, simply scan images with your camera, select them from your gallery or choose PDFs on your device.
+In the end, they are all merged into a single PDF.</value>
+  </data>
+  <data name="TutStep6" xml:space="preserve">
+    <value>Use the 'Delete document' button to remove document from the selection.
+Use the 'Enable AI text detection' feature to scan the documents and make the text searchable.</value>
+  </data>
+  <data name="TutStep7" xml:space="preserve">
+    <value>For each document, you can choose a title and an optional comment.
+You can also select tags to categorize the documents. 
+Use the Tags tab to manage the tags.</value>
+  </data>
+  <data name="TutStep8" xml:space="preserve">
+    <value>After selecting an image, you can optionally crop it.</value>
+  </data>
+  <data name="TutStep9" xml:space="preserve">
+    <value>Long pressing a folder, a page or a document opens a menu to manage the resource.</value>
+  </data>
+  <data name="TutWelcome" xml:space="preserve">
+    <value>Thank you for downloading the Athena: AI Document Manager app!
+A short tutorial follows to show you the basics
+
+You can repeat this tutorial anytime via the 'Show tutorial' button in the Settings tab.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+</root>

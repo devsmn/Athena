@@ -1,115 +1,37 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:local="clr-namespace:Athena.UI"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             BackgroundColor="#F6F8FB"
+             Title="Edit folder"
              x:Name="page"
              x:Class="Athena.UI.FolderEditorView">
-    <!--<ContentPage.Style>
-        <Style TargetType="ContentPage">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsNew}"
-                             TargetType="ContentPage"
-                             Value="0">
-                    <Setter Property="Title" Value="Edit folder"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Path=IsNew}"
-                             TargetType="ContentPage"
-                             Value="1">
-                    <Setter Property="Title" Value="Add new folder"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </ContentPage.Style>-->
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <local:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
-        </ResourceDictionary>
-
-        <ControlTemplate x:Key="NameStep">
-            <local:FolderEditorNameStep BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="CommentStep">
-            <local:FolderEditorCommentStep BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
-        </ControlTemplate>
-
-        <ControlTemplate x:Key="PictureStep">
-            <local:FolderEditorPictureStep BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
-        </ControlTemplate>
-    </ContentPage.Resources>
-    
+  
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.1*" />
-            <ColumnDefinition Width="0.8*" />
-            <ColumnDefinition Width="0.1*" />
-        </Grid.ColumnDefinitions>
+        <sf:SfDataForm DataObject="{Binding Folder}"
+                       LayoutType="TextInputLayout"
+                       ValidationMode="PropertyChanged"
+                       CommitMode="PropertyChanged">
+            <sf:SfDataForm.DefaultLayoutSettings>
+                <sf:DataFormDefaultLayoutSettings LabelPosition="Top" />
+            </sf:SfDataForm.DefaultLayoutSettings>
+            <sf:SfDataForm.TextInputLayoutSettings>
+                <sf:TextInputLayoutSettings ShowHelperText="True" />
+            </sf:SfDataForm.TextInputLayoutSettings>
+        </sf:SfDataForm>
 
-        <ContentView Margin="3"
-                 HorizontalOptions="Center"
-                 Grid.Column="1">
-            <ContentView.Style>
-                <Style TargetType="ContentView">
-                    <Style.Triggers>
-                        <DataTrigger TargetType="ContentView" 
-                                 Binding="{Binding Path=NewFolderStep}"
-                                 Value="0">
-                            <Setter Property="ControlTemplate" Value="{StaticResource NameStep}"/>
-                        </DataTrigger>
-
-                        <DataTrigger TargetType="ContentView"
-                                 Binding="{Binding Path=NewFolderStep}"
-                                 Value="1">
-                            <Setter Property="ControlTemplate" Value="{StaticResource CommentStep}" />
-                        </DataTrigger>
-
-                        <DataTrigger TargetType="ContentView"
-                                     Binding="{Binding Path=NewFolderStep}"
-                                     Value="2">
-                            <Setter Property="ControlTemplate" Value="{StaticResource PictureStep}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentView.Style>
-        </ContentView>
-
-        <Button Text="Next"
-            Grid.Column="1"
-            Grid.Row="2"
-            WidthRequest="150"
-            Command="{Binding NextStepCommand}"
-            Margin="3">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=NewFolderStep}"
-                             TargetType="Button"
-                             Value="0">
-                            <Setter Property="Text" Value="Next"/>
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding Path=NewFolderStep}"
-                             TargetType="Button"
-                             Value="1">
-                            <Setter Property="Text" Value="Next"/>
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding Path=NewFolderStep}"
-                                     TargetType="Button"
-                                     Value="2">
-                            <Setter Property="Text" Value="Save"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
+        <Button Text="{x:Static loc:Localization.Save}"
+                Grid.Row="1"
+                WidthRequest="150"
+                Command="{Binding NextStepCommand}"
+                Margin="3">
         </Button>
     </Grid>
+
 </ContentPage>

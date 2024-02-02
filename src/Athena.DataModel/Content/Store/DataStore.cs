@@ -1,16 +1,11 @@
 ﻿using Athena.DataModel.Core;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Athena.DataModel
 {
     public static class DataStore
     {
-        private static Dictionary<Type, IAthenaRepository> stores = new Dictionary<Type, IAthenaRepository>();
+        private static readonly Dictionary<Type, IAthenaRepository> stores = new Dictionary<Type, IAthenaRepository>();
 
         public static void Register<TRepository>(TRepository repository)
             where TRepository : class, IAthenaRepository
@@ -48,8 +43,8 @@ namespace Athena.DataModel
         {
             foreach (var store in stores)
             {
-                if (store.Value is TRepository)
-                    return (TRepository)store.Value;
+                if (store.Value is TRepository value)
+                    return value;
             }
 
             return default;

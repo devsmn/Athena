@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Android.Media;
-using Android.Views.TextClassifiers;
-
-namespace Athena.UI
+﻿namespace Athena.UI
 {
     using Athena.DataModel;
-    using Athena.DataModel.Core;
-    
+
     public class DataPublishedEventArgs : EventArgs
     {
         private IList<RequestUpdate<Folder>> _folders;
         private IList<RequestUpdate<Document>> _documents;
         private IList<RequestUpdate<Page>> _pages;
+        private IList<RequestUpdate<Tag>> _tags;
 
         public IList<RequestUpdate<Folder>> Folders
         {
@@ -34,12 +26,19 @@ namespace Athena.UI
             get { return _pages; }
             private set { _pages = value; }
         }
-        
+
+        public IList<RequestUpdate<Tag>> Tags
+        {
+            get { return _tags; }
+            private set { _tags = value; }
+        }
+
         public DataPublishedEventArgs()
         {
             Folders = new List<RequestUpdate<Folder>>();
             Documents = new List<RequestUpdate<Document>>();
             Pages = new List<RequestUpdate<Page>>();
+            Tags = new List<RequestUpdate<Tag>>();
         }
 
     }

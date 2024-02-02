@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Athena.UI.FolderDetailsView"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             BackgroundColor="#F6F8FB"
              xmlns:local="clr-namespace:Athena.UI"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:buttons="http://schemas.syncfusion.com/maui"
              Title="{Binding Folder.Name}">
     <!--<ContentPage.BindingContext>
         <Binding Source="{StaticResource MainContext}" />
@@ -15,11 +22,14 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="menu.png" Clicked="MenuItem_OnClicked"/>
+    </ContentPage.ToolbarItems>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.3*"/>
-            <ColumnDefinition Width="0.3*"/>
-            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -28,104 +38,291 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Image Source="{Binding Folder.Thumbnail, Converter={StaticResource ByteArrayToImageSourceConverter}}" 
-               Margin="3" 
-               WidthRequest="75" 
-               HeightRequest="75"
-               Aspect="AspectFill" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
 
-        <VerticalStackLayout Grid.Column="1"
-                             Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <p:SfPopup x:Name="menuPopup"
+                       IsOpen="{Binding ShowMenuPopup}"
+                       AutoSizeMode="Height"
+                       ShowHeader="False">
+                <p:SfPopup.PopupStyle>
+                    <p:PopupStyle CornerRadius="5" />
+                </p:SfPopup.PopupStyle>
+                <p:SfPopup.ContentTemplate>
+                    <DataTemplate >
+                        <VerticalStackLayout >
+                            <sfb:SfButton Text="{x:Static loc:Localization.FolderInformation}"
+                                          Margin="3"
+                                          Command="{Binding InfoClickedCommand}"
+                                          HorizontalTextAlignment="Start"
+                                          Background="Transparent"
+                                          ImageSource="info.png"
+                                          ImageAlignment="Left"
+                                          ImageSize="25"
+                                          ShowIcon="True"
+                                          StrokeThickness="0"/>
 
-            <Label Text="{Binding Folder.Name}"
-                   FontSize="14"
-                   FontAttributes="Bold"
-                   Margin="3"/>
+                            <sfb:SfButton Text="{x:Static loc:Localization.DeleteFolder}"
+                                          Margin="3"
+                                          Command="{Binding DeleteClickedCommand}"
+                                          HorizontalTextAlignment="Start"
+                                          Background="Transparent"
+                                          ImageSource="delete.png"
+                                          ImageAlignment="Left"
+                                          ImageSize="25"
+                                          ShowIcon="True"
+                                          StrokeThickness="0"/>
 
-            <Label Text="{Binding Folder.Comment}" 
-                   Margin="3"/>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </p:SfPopup.ContentTemplate>
+            </p:SfPopup>
 
-            <Button Text="Edit folder" 
+
+            <p:SfPopup IsOpen="{Binding ShowInfoPopup}"
+                       ShowCloseButton="True"
+                       HeaderTitle="{x:Static loc:Localization.FolderInformation}">
+                <p:SfPopup.ContentTemplate>
+                    <DataTemplate >
+                        <VerticalStackLayout Margin="5">
+                            <Label Margin="3,0,3,0" LineBreakMode="WordWrap">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Name: " FontAttributes="Bold" />
+                                        <Span Text="{Binding Folder.Name}"></Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label Margin="3,0,3,0" LineBreakMode="WordWrap">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Comment: " FontAttributes="Bold" />
+                                        <Span Text="{Binding Folder.Comment}"></Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label Margin="3,0,3,0">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Created at: "  FontAttributes="Bold"/>
+                                        <Span Text="{Binding Folder.CreationDate}"></Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label Margin="3,0,3,5">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Last modified at: " FontAttributes="Bold" />
+                                        <Span Text="{Binding Folder.ModDate}"></Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </p:SfPopup.ContentTemplate>
+            </p:SfPopup>
+
+
+            <!--<Label 
+                Margin="3">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Created at: " FontAttributes="Bold" />
+                        <Span Text="{Binding CreationDate}"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>-->
+
+
+
+            <!--<ImageButton 
+                    Source="edit.png"
                     Command="{Binding EditFolderCommand}"
+                    HorizontalOptions="Start"
+                    HeightRequest="25"
+                    WidthRequest="25"
+                    Grid.Row="0"
+                    Grid.Column="1"
                     CommandParameter="{Binding Folder}"
-                   Margin="3"/>
+                   Margin="3"/>-->
 
-        </VerticalStackLayout>
+            <!--<ImageButton 
+                    Source="delete.png"
+                    HeightRequest="25"
+                    WidthRequest="25"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalOptions="Start"
+                    Command="{Binding DeleteFolderCommand}"
+                    CommandParameter="{Binding Folder}"
+                    Margin="3"/>-->
 
-        <CollectionView
-            ItemSizingStrategy="MeasureFirstItem"
+        </Grid>
+
+
+        <p:SfPopup x:Name="pageMenuPopup"
+                   IsOpen="{Binding ShowPageMenuPopup}"
+                   WidthRequest="150"
+                   Closed="PageMenuPopup_OnClosed"
+                   AutoSizeMode="Both"
+                   ShowHeader="False">
+            <p:SfPopup.PopupStyle>
+                <p:PopupStyle CornerRadius="5" />
+            </p:SfPopup.PopupStyle>
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout >
+                        <sfb:SfButton Text="{x:Static loc:Localization.Edit}"
+                                      Margin="3"
+                                      Command="{Binding EditPageCommand}"
+                                      CommandParameter="{Binding SelectedPage}"
+                                      HorizontalTextAlignment="Start"
+                                      Background="Transparent"
+                                      ImageSource="edit.png"
+                                      ImageAlignment="Left"
+                                      ImageSize="25"
+                                      ShowIcon="True"
+                                      StrokeThickness="0"/>
+
+                        <sfb:SfButton Text="{x:Static loc:Localization.Delete}"
+                                      Margin="3"
+                                      Command="{Binding DeletePageCommand}"
+                                      CommandParameter="{Binding SelectedPage}"
+                                      HorizontalTextAlignment="Start"
+                                      Background="Transparent"
+                                      ImageSource="delete.png"
+                                      ImageAlignment="Left"
+                                      ImageSize="25"
+                                      ShowIcon="True"
+                                      StrokeThickness="0"/>
+
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+
+        <sf:SfListView
             Margin="3"
             Grid.Column="0"
-            Grid.Row="1"
             Grid.ColumnSpan="3"
+            Grid.Row="1"
+            CachingStrategy="RecycleTemplate"
             SelectionMode="Single"
+            ItemSize="60"
+            ItemLongPress="PageList_OnItemLongPress"
             SelectionChangedCommand="{Binding PageSelectedCommand}"
+            SelectedItem="{Binding SelectedPage}"
             x:Name="pageList"
-            SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference pageList}}"
             ItemsSource="{Binding Folder.Pages}">
-            <CollectionView.ItemTemplate>
+            <sf:SfListView.ItemsLayout>
+                <sf:LinearLayout />
+            </sf:SfListView.ItemsLayout>
+
+            <sf:SfListView.EmptyView>
+                <Label Text="{x:Static loc:Localization.PageEmpty}"
+                       VerticalTextAlignment="Center"
+                       LineBreakMode="CharacterWrap"
+                       HorizontalTextAlignment="Center"/>
+            </sf:SfListView.EmptyView>
+
+
+            <sf:SfListView.ItemTemplate >
                 <DataTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
+                    <Border StrokeThickness="0.5" 
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 5"
+                            Margin="5" >
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
+                        <!--<-->
+                        <!--Border.Shadow>
+                            <Shadow Brush="gray"
+                                    Radius="10"
+                                    Opacity="0.7"/>-->
+                        <!--</Border.Shadow>-->
 
-                        <Label 
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label 
                                Margin="3,3,3,0"
+                               VerticalTextAlignment="Center"
                                LineBreakMode="TailTruncation"
-                               FontAttributes="Bold">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="{Binding Title}" />
-                                    <Span Text=" (" />
-                                    <Span Text="{Binding DocumentCount}"/>
-                                    <Span Text=" Documents" />
-                                    <Span Text=")" />
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
+                               Text="{Binding Title}" />
 
-                        <Label Text="{Binding Comment}"
-                               Margin="3,1,3,3"
+                            <Label Text="{Binding Comment}"
+                               Margin="3,3,3,0"
+                               VerticalTextAlignment="Center"
+                               Grid.Column="0"
                                LineBreakMode="TailTruncation"
                                FontSize="12"
                                TextColor="Gray"
                                Grid.Row="1" />
 
-                        <Button Text="Delete"
-                                Grid.RowSpan="4"
-                                WidthRequest="100"
-                                Grid.Column="1"
-                                Command="{Binding Source={x:Reference pageList}, Path=BindingContext.DeletePageCommand}"
-                                CommandParameter="{Binding}"/>
+                            <Image Source="next.png"
+                                   Margin="3,3,3,0"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"
+                                   Grid.Column="1"
+                                   Grid.RowSpan="2"
+                                   WidthRequest="25"
+                                   HeightRequest="25"/>
 
-                        <BoxView HeightRequest="1" Color="LightGray" Grid.Row="3" Grid.ColumnSpan="2"/>
 
-                    </Grid>
+                        </Grid>
+                    </Border>
 
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
+            </sf:SfListView.ItemTemplate>
 
-        </CollectionView>
+        </sf:SfListView>
 
         <Button Text="+"
-                Grid.Row="2"
+                Grid.Row="1"
                 Grid.Column="1"
+                VerticalOptions="End"
+                HorizontalOptions="End"
                 WidthRequest="60"
                 HeightRequest="60" 
                 CornerRadius="30"
+                Margin="5"
                 FontSize="30" 
-                HorizontalOptions="Center"
                 Command="{Binding AddPageCommand}"
                 CommandParameter="{Binding Folder}"/>
+
+        <p:SfPopup x:Name="sfPopup"
+                   HeaderTitle="Loading"
+                   StaysOpen="True"
+                   Message="Loading"
+                   IsOpen="{Binding IsBusy}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate >
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="true" />
+                        <Label Text="{x:Static loc:Localization.LoadingPages}" VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
     </Grid>
 
 

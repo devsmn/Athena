@@ -1,18 +1,83 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Athena.DataModel;
+﻿using System.Diagnostics;
 using Athena.DataModel.Core;
-using Athena.UI;
 
 namespace Athena.UI
 {
     using Athena.DataModel;
 
+    internal class Store<TEntity>
+    {
+        private readonly Dictionary<EntityKey, Entity> _entities;
+
+        public Store()
+        {
+            _entities = new Dictionary<EntityKey, Entity>();
+        }
+
+        public void Add(EntityKey key, Entity entity)
+        {
+            _entities.Add(key, entity);
+        }
+
+        public Entity Get(EntityKey key)
+        {
+            _entities.TryGetValue(key, out var entity);
+            return entity;
+        }
+
+        public IEnumerable<Entity> GetAll()
+        {
+            return _entities.Select(x => x.Value);
+        }
+    }
+
     public class DataRequestService : IDataBrokerService
     {
+        private readonly Dictionary<Type, Store<Entity>> _entities;
+
+        public DataRequestService()
+        {
+            _entities = new Dictionary<Type, Store<Entity>>();
+        }
+
+        public void PrepareForLoading()
+        {
+            RaisePublishStarted();
+        }
+
+        public void RaiseAppInitialized()
+        {
+            AppInitialized?.Invoke(this, EventArgs.Empty);
+        }
+
+        public TEntity Request<TEntity>(IContext context, EntityKey key)
+            where TEntity : Entity
+        {
+            if (!_entities.TryGetValue(typeof(TEntity), out var store))
+            {
+                store = new Store<Entity>();
+                _entities.Add(typeof(TEntity), store);
+            }
+
+            var result = store.Get(key);
+
+            return result as TEntity;
+        }
+
+        public IEnumerable<TEntity> Request<TEntity>(IContext context)
+        {
+            if (!_entities.TryGetValue(typeof(TEntity), out var store))
+            {
+                store = new Store<Entity>();
+                _entities.Add(typeof(TEntity), store);
+            }
+
+            var result = store.GetAll();
+
+            return result as IEnumerable<TEntity>;
+        }
+
+
         public void Publish<TEntity>(IContext context, TEntity entity, UpdateType type, EntityKey parentReference)
             where TEntity : Entity
         {
@@ -24,14 +89,16 @@ namespace Athena.UI
         {
             Publish(context, entity, type, null);
         }
-        
+
         public void Publish<TEntity>(IContext context, IEnumerable<TEntity> entities, UpdateType type) where TEntity : Entity
         {
             Publish(context, entities, type, null);
         }
-        
+
         public void Publish<TEntity>(IContext context, IEnumerable<TEntity> entities, UpdateType type, EntityKey parentReference) where TEntity : Entity
         {
+            var syncContext = TaskScheduler.Current;
+
             Task.Run(() =>
             {
                 RaisePublishStarted();
@@ -49,12 +116,12 @@ namespace Athena.UI
                 if (task.Exception != null)
                 {
                     context.Log(task.Exception);
-                    // throw task.Exception;
+                    throw task.Exception;
                 }
             },
                default,
                TaskContinuationOptions.OnlyOnFaulted,
-               TaskScheduler.FromCurrentSynchronizationContext());
+               syncContext);
         }
 
         private void RaisePublishStarted()
@@ -83,17 +150,27 @@ namespace Athena.UI
                         args.Folders.Add(update as RequestUpdate<Folder>);
                         break;
 
+                    case Tag:
+                        args.Tags.Add(update as RequestUpdate<Tag>);
+                        break;
+
                     default:
                         throw new InvalidOperationException();
                 }
 
             }
 
-            Published?.Invoke(this, args);
+            Debug.WriteLine($"Publishing to {Published?.GetInvocationList().Length} subscribers");
+
+            foreach (EventHandler<DataPublishedEventArgs> handler in Published?.GetInvocationList())
+            {
+                handler.Invoke(this, args);
+            }
+
         }
 
         public event EventHandler<DataPublishedEventArgs> Published;
-
+        public event EventHandler AppInitialized;
         public event EventHandler PublishStarted;
     }
 }
