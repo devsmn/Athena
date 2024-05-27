@@ -21,15 +21,15 @@ namespace Athena.Data.SQLite
 
         public async Task<bool> InitializeAsync()
         {
-            await this.RunScriptAsync("CREATE_TABLE_FOLDER.sql");
-            await this.RunScriptAsync("CREATE_TABLE_FOLDER_PAGE.sql");
+            await RunScriptAsync("CREATE_TABLE_FOLDER.sql");
+            await RunScriptAsync("CREATE_TABLE_FOLDER_PAGE.sql");
 
-            insertFolderSql = await ReadResouceAsync("FOLDER_INSERT.sql");
-            readFolderSql = await ReadResouceAsync("FOLDER_READ.sql");
-            folderPageInsert = await ReadResouceAsync("FOLDER_PAGE_INSERT.sql");
-            readFolderPageSql = await ReadResouceAsync("FOLDER_PAGE_READ.sql");
-            folderUpdateSql = await ReadResouceAsync("FOLDER_UPDATE.sql");
-            deleteFolderSql = await ReadResouceAsync("FOLDER_DELETE.sql");
+            insertFolderSql = await ReadResourceAsync("FOLDER_INSERT.sql");
+            readFolderSql = await ReadResourceAsync("FOLDER_READ.sql");
+            folderPageInsert = await ReadResourceAsync("FOLDER_PAGE_INSERT.sql");
+            readFolderPageSql = await ReadResourceAsync("FOLDER_PAGE_READ.sql");
+            folderUpdateSql = await ReadResourceAsync("FOLDER_UPDATE.sql");
+            deleteFolderSql = await ReadResourceAsync("FOLDER_DELETE.sql");
 
             Debug.Assert(!string.IsNullOrEmpty(insertFolderSql));
             Debug.Assert(!string.IsNullOrEmpty(readFolderSql));
@@ -73,22 +73,15 @@ namespace Athena.Data.SQLite
 
         public IEnumerable<Folder> ReadAll(IContext context)
         {
-            try
-            {
-                var connection = this.Database.GetConnection();
-                var command = connection.CreateCommand(this.readFolderSql);
-                command.Bind("@FD_ref", -1);
+            return Audit<IEnumerable<Folder>>(
+                context,
+                readFolderSql,
+                command =>
+                {
+                    command.Bind("@FD_ref", -1);
+                    return command.ExecuteQuery<Folder>();
+                });
 
-                var folders = command.ExecuteQuery<Folder>();
-                
-                return folders;
-            }
-            catch (Exception ex)
-            {
-                context.Log(ex.ToString());
-            }
-
-            return Enumerable.Empty<Folder>();
         }
 
         public IEnumerable<Page> ReadAllPages(IContext context, Folder folder)
@@ -130,59 +123,53 @@ namespace Athena.Data.SQLite
 
         public void Delete(IContext context, Folder folder)
         {
-            this.Audit(context, () => {
-                var connection = this.Database.GetConnection();
-
-                SQLiteCommand command = connection.CreateCommand(this.deleteFolderSql);
-
-                command.Bind("@FD_ref", folder.Key.Id);
-                command.ExecuteNonQuery();
-
-                // We currently can't resolve this via CASCADE because the Chapters of the documents are not referenced directly.
-                foreach (var page in folder.Pages)
+            Audit(
+                context,
+                deleteFolderSql,
+                command =>
                 {
-                    page.Delete(context);
-                }
-                
-            });
+                    command.Bind("@FD_ref", folder.Key.Id);
+                    command.ExecuteNonQuery();
+
+                    // We currently can't resolve this via CASCADE because the Chapters of the documents are not referenced directly.
+                    foreach (var page in folder.Pages)
+                    {
+                        page.Delete(context);
+                    }
+
+                });
         }
 
         public Folder Read(IContext context, FolderKey key)
         {
-            return this.Audit<Folder>(context, () => {
-                var connection = this.Database.GetConnection();
-
-                SQLiteCommand command = connection.CreateCommand(this.readFolderSql);
-
-                command.Bind("@FD_ref", key.Id);
-
-                return command.ExecuteQuery<Folder>()[0];
-            });
+            return Audit(
+                context,
+                readFolderSql,
+                command =>
+                {
+                    command.Bind("@FD_ref", key.Id);
+                    return command.ExecuteQuery<Folder>()[0];
+                });
         }
 
         private void Update(IContext context, Folder folder)
         {
-            try
-            {
-                var connection = this.Database.GetConnection();
-
-                SQLiteCommand command = connection.CreateCommand(this.folderUpdateSql);
-
-                command.Bind("@FD_ref", folder.Key.Id);
-                command.Bind("@FD_name", folder.Name);
-                command.Bind("@FD_comment", folder.Comment.EmptyIfNull());
-                command.Bind("@FD_isPinnedInt", folder.IsPinnedInt);
-                command.ExecuteNonQuery();
-
-                foreach (var page in folder.Pages)
+            Audit(
+                context,
+                folderUpdateSql,
+                command =>
                 {
-                    AddPage(context, folder, page);
-                }
-            }
-            catch (Exception ex)
-            {
-                context.Log(ex.ToString());
-            }
+                    command.Bind("@FD_ref", folder.Key.Id);
+                    command.Bind("@FD_name", folder.Name);
+                    command.Bind("@FD_comment", folder.Comment.EmptyIfNull());
+                    command.Bind("@FD_isPinnedInt", folder.IsPinnedInt);
+                    command.ExecuteNonQuery();
+
+                    foreach (var page in folder.Pages)
+                    {
+                        AddPage(context, folder, page);
+                    }
+                });
         }
 
 

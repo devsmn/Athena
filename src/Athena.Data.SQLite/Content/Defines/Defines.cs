@@ -7,9 +7,9 @@ namespace Athena.Data.SQLite
         public const string DatabaseFilename = "athena_prod_sff1.db3";
 
         public const SQLiteOpenFlags Flags =
-        SQLiteOpenFlags.ReadWrite |
-        SQLiteOpenFlags.Create |
-        SQLiteOpenFlags.SharedCache;
+            SQLiteOpenFlags.ReadWrite |
+            SQLiteOpenFlags.Create |
+            SQLiteOpenFlags.SharedCache;
 
         public static string DatabasePath
         {

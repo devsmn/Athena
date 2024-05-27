@@ -7,11 +7,7 @@ namespace Athena.Data.SQLite
     internal class SQLiteRepository
     {
         private readonly Lazy<SQLiteAsyncConnection> databaseDeferrer
-            = new Lazy<SQLiteAsyncConnection>(() =>
-            {
-                Debug.WriteLine("DB AT at: " + Defines.DatabasePath);
-                return new SQLiteAsyncConnection(Defines.DatabasePath, Defines.Flags);
-            });
+            = new(() => new SQLiteAsyncConnection(Defines.DatabasePath, Defines.Flags));
 
         protected SQLiteAsyncConnection Database
         {
@@ -29,7 +25,7 @@ namespace Athena.Data.SQLite
                 using (StreamReader reader = new StreamReader(fs))
                 {
                     string content = await reader.ReadToEndAsync();
-                    await this.Database.ExecuteAsync(content);
+                    await Database.ExecuteAsync(content);
                 }
             }
         }
@@ -39,7 +35,7 @@ namespace Athena.Data.SQLite
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        protected static async Task<string> ReadResouceAsync(string file)
+        protected static async Task<string> ReadResourceAsync(string file)
         {
             using (Stream fs = await FileSystem.Current.OpenAppPackageFileAsync(file))
             {
@@ -50,6 +46,7 @@ namespace Athena.Data.SQLite
             }
         }
 
+        [Obsolete("Should not be used because no transaction handling")]
         protected TResult Audit<TResult>(IContext context, Func<TResult> action)
         {
             try
@@ -64,6 +61,29 @@ namespace Athena.Data.SQLite
             return default;
         }
 
+        protected TResult Audit<TResult>(IContext context, string commandText, Func<SQLiteCommand, TResult> action)
+        {
+            SQLiteConnection connection = Database.GetConnection();
+
+            try
+            {
+                connection.BeginTransaction();
+                return action(connection.CreateCommand(commandText));
+            }
+            catch (Exception ex)
+            {
+                connection.Rollback();
+                context.Log(ex);
+            }
+            finally
+            {
+                connection.Commit();
+            }
+
+            return default;
+        }
+
+        [Obsolete("Should not be used because no transaction handling")]
         protected void Audit(IContext context, Action action)
         {
             try
@@ -72,6 +92,23 @@ namespace Athena.Data.SQLite
             }
             catch (Exception ex)
             {
+                context.Log(ex);
+            }
+        }
+
+        protected void Audit(IContext context, string commandText, Action<SQLiteCommand> action)
+        {
+            SQLiteConnection connection = Database.GetConnection();
+
+            try
+            {
+                connection.BeginTransaction();
+                action(connection.CreateCommand(commandText));
+                connection.Commit();
+            }
+            catch (Exception ex)
+            {
+                connection.Rollback();
                 context.Log(ex);
             }
         }

@@ -234,6 +234,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="..\Athena\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Update="Microsoft.Maui.Controls" Version="8.0.40" />
 	</ItemGroup>
 

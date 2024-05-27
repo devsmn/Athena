@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Athena.Data.SQLite", "..\At
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Athena.Data.SQLite.Proxy", "..\Athena.Data.SQLite.Provider\Athena.Data.SQLite.Proxy.csproj", "{C4A485BC-90C8-4E5C-B3FF-E10A477E5E50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Athena.Data.Core", "..\Athena.Data.Core\Athena.Data.Core.csproj", "{313AE2AB-6D26-4458-8580-566946DB0B87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Athena.Data.Core", "..\Athena.Data.Core\Athena.Data.Core.csproj", "{313AE2AB-6D26-4458-8580-566946DB0B87}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BE6F3D6E-B104-4932-9C97-024390826252}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

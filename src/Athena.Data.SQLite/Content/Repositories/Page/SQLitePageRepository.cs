@@ -24,65 +24,58 @@ namespace Athena.Data.SQLite
 
         public async Task<bool> InitializeAsync()
         {
-            await this.RunScriptAsync("CREATE_TABLE_PAGE.sql");
-            await this.RunScriptAsync("CREATE_TABLE_PAGE_DOC.sql");
-            await this.RunScriptAsync("CREATE_TABLE_PAGE_TAG.sql");
+            await RunScriptAsync("CREATE_TABLE_PAGE.sql");
+            await RunScriptAsync("CREATE_TABLE_PAGE_DOC.sql");
+            await RunScriptAsync("CREATE_TABLE_PAGE_TAG.sql");
 
-            pageInsertSql = await ReadResouceAsync("PAGE_INSERT.sql");
-            pageReadSql = await ReadResouceAsync("PAGE_READ.sql");
-            insertPageDocumentSql = await ReadResouceAsync("PAGE_DOC_INSERT.sql");
-            pageDeleteSql = await ReadResouceAsync("PAGE_DELETE.sql");
-            pageUpdateSql = await ReadResouceAsync("PAGE_UPDATE.sql");
+            pageInsertSql = await ReadResourceAsync("PAGE_INSERT.sql");
+            pageReadSql = await ReadResourceAsync("PAGE_READ.sql");
+            insertPageDocumentSql = await ReadResourceAsync("PAGE_DOC_INSERT.sql");
+            pageDeleteSql = await ReadResourceAsync("PAGE_DELETE.sql");
+            pageUpdateSql = await ReadResourceAsync("PAGE_UPDATE.sql");
 
             return await Task.FromResult(true);
         }
 
-
         public IEnumerable<Page> ReadAll(IContext context)
         {
-            return this.Audit<IEnumerable<Page>>(context, () =>
-            {
-                var connection = this.Database.GetConnection();
-
-                var command = connection.CreateCommand(this.pageReadSql);
-
-                command.Bind("@PG_ref", -1);
-
-                var pages = command.ExecuteQuery<Page>();
-                
-                return pages;
-            });
+            return Audit<IEnumerable<Page>>(
+                context,
+                pageReadSql,
+                command =>
+                {
+                    command.Bind("@PG_ref", -1);
+                    return command.ExecuteQuery<Page>();
+                });
         }
-        
+
         public Page Read(IContext context, PageKey key)
         {
-            return this.Audit<Page>(context, () => {
-                var connection = this.Database.GetConnection();
-
-                SQLiteCommand command = connection.CreateCommand(this.pageReadSql);
-
-                command.Bind("@PG_ref", key.Id);
-
-                return command.ExecuteQuery<Page>()[0];
-            });
+            return Audit(
+                context,
+                pageReadSql,
+                command =>
+                {
+                    command.Bind("@PG_ref", key.Id);
+                    return command.ExecuteQuery<Page>()[0];
+                });
         }
-        
+
         public void Delete(IContext context, Page page)
         {
-            this.Audit(context, () =>
-            {
-                var connection = this.Database.GetConnection();
-
-                SQLiteCommand command = connection.CreateCommand(this.pageDeleteSql);
-
-                command.Bind("@PG_ref", page.Key.Id);
-                command.ExecuteNonQuery();
-
-                foreach (var document in page.Documents)
+            Audit(
+                context,
+                pageDeleteSql,
+                command =>
                 {
-                    document.Delete(context);
-                }
-            });
+                    command.Bind("@PG_ref", page.Key.Id);
+                    command.ExecuteNonQuery();
+
+                    foreach (var document in page.Documents)
+                    {
+                        document.Delete(context);
+                    }
+                });
         }
 
         public void Save(IContext context, Page page)
@@ -133,24 +126,25 @@ namespace Athena.Data.SQLite
 
         private void UpdatePageCore(IContext context, Page page)
         {
-            this.Audit(context, () => {
-                page.ModDate = DateTime.Now;
-
-                var connection = this.Database.GetConnection();
-                var command = connection.CreateCommand(this.pageUpdateSql);
-
-                command.Bind("@PG_title", page.Title.EmptyIfNull());
-                command.Bind("@PG_comment", page.Comment.EmptyIfNull());
-                command.Bind("@PG_modDate", page.ModDate);
-                command.Bind("@PG_ref", page.Id);
-
-                command.ExecuteNonQuery();
-
-                foreach (var document in page.Documents)
+            Audit(
+                context,
+                pageUpdateSql,
+                command =>
                 {
-                    AddDocument(context, page, document);
-                }
-            });
+                    page.ModDate = DateTime.Now;
+
+                    command.Bind("@PG_title", page.Title.EmptyIfNull());
+                    command.Bind("@PG_comment", page.Comment.EmptyIfNull());
+                    command.Bind("@PG_modDate", page.ModDate);
+                    command.Bind("@PG_ref", page.Id);
+
+                    command.ExecuteNonQuery();
+
+                    foreach (var document in page.Documents)
+                    {
+                        AddDocument(context, page, document);
+                    }
+                });
         }
 
 
@@ -159,20 +153,20 @@ namespace Athena.Data.SQLite
             if (document.Key != null && document.Key.Id != DocumentKey.TemporaryId)
                 return;
 
-            this.Audit(context, () => {
-                document.Save(context);
+            Audit(
+                context,
+                insertPageDocumentSql,
+                command =>
+                {
+                    document.Save(context);
 
-                var connection = this.Database.GetConnection();
+                    command.Bind("@PG_ref", page.Id);
+                    command.Bind("@DOC_ref", document.Id);
+                    command.Bind("@PGDOC_creationDate", DateTime.UtcNow);
+                    command.Bind("@PGDOC_modDate", DateTime.UtcNow);
 
-                var command = connection.CreateCommand(this.insertPageDocumentSql);
-
-                command.Bind("@PG_ref", page.Id);
-                command.Bind("@DOC_ref", document.Id);
-                command.Bind("@PGDOC_creationDate", DateTime.UtcNow);
-                command.Bind("@PGDOC_modDate", DateTime.UtcNow);
-
-                command.ExecuteNonQuery();
-            });
+                    command.ExecuteNonQuery();
+                });
         }
 
     }

@@ -25,119 +25,107 @@ namespace Athena.Data.SQLite
 
         public async Task<bool> InitializeAsync()
         {
-            await this.RunScriptAsync("CREATE_TABLE_DOCUMENT.sql");
-            await this.RunScriptAsync("CREATE_TABLE_DOCUMENT_TAG.sql");
+            await RunScriptAsync("CREATE_TABLE_DOCUMENT.sql");
+            await RunScriptAsync("CREATE_TABLE_DOCUMENT_TAG.sql");
 
-            insertDocumentSql = await ReadResouceAsync("DOCUMENT_INSERT.sql");
-            insertDocumentTagSql = await ReadResouceAsync("DOCUMENT_TAG_INSERT.sql");
-            readDocumentSql = await ReadResouceAsync("DOCUMENT_READ.sql");
-            readPageDocumentSql = await ReadResouceAsync("PAGE_DOC_READ.sql");
-            deleteDocumentSql = await ReadResouceAsync("DOCUMENT_DELETE.sql");
-            readDocumentTagSql = await ReadResouceAsync("DOCUMENT_TAG_READ.sql");
-            deleteTagSql = await ReadResouceAsync("DOCUMENT_TAG_DELETE.sql");
-            searchDocWithTagSql = await ReadResouceAsync("DOCUMENT_SEARCH_TAG.sql");;
-            searchDocNoTagSql = await ReadResouceAsync("DOCUMENT_SEARCH_NOTAG.sql");
-            readDocumentPdfSql = await ReadResouceAsync("DOCUMENT_READ_PDF.sql");
-            updateDocumentSql = await ReadResouceAsync("DOCUMENT_UPDATE.sql"); // 
+            insertDocumentSql = await ReadResourceAsync("DOCUMENT_INSERT.sql");
+            insertDocumentTagSql = await ReadResourceAsync("DOCUMENT_TAG_INSERT.sql");
+            readDocumentSql = await ReadResourceAsync("DOCUMENT_READ.sql");
+            readPageDocumentSql = await ReadResourceAsync("PAGE_DOC_READ.sql");
+            deleteDocumentSql = await ReadResourceAsync("DOCUMENT_DELETE.sql");
+            readDocumentTagSql = await ReadResourceAsync("DOCUMENT_TAG_READ.sql");
+            deleteTagSql = await ReadResourceAsync("DOCUMENT_TAG_DELETE.sql");
+            searchDocWithTagSql = await ReadResourceAsync("DOCUMENT_SEARCH_TAG.sql"); ;
+            searchDocNoTagSql = await ReadResourceAsync("DOCUMENT_SEARCH_NOTAG.sql");
+            readDocumentPdfSql = await ReadResourceAsync("DOCUMENT_READ_PDF.sql");
+            updateDocumentSql = await ReadResourceAsync("DOCUMENT_UPDATE.sql"); // 
 
             return await Task.FromResult(true);
         }
 
         public IEnumerable<Document> ReadAll(IContext context, Page page)
         {
-            try
-            {
-                var connection = this.Database.GetConnection();
+            return Audit<IEnumerable<Document>>(
+                context,
+                readPageDocumentSql,
+                command =>
+                {
+                    command.Bind("@PG_ref", page.Id);
+                    var document = command.ExecuteQuery<Document>();
 
-                var command = connection.CreateCommand(this.readPageDocumentSql);
-                command.Bind("@PG_ref", page.Id);
-
-                var document =  command.ExecuteQuery<Document>();
-                
-                return document;
-            }
-            catch (Exception ex)
-            {
-                context.Log(ex.ToString());
-            }
-
-            return Enumerable.Empty<Document>();
+                    return document;
+                });
         }
 
         public Document Read(IContext context, DocumentKey key)
         {
-            try
-            {
-                var connection = this.Database.GetConnection();
-
-                var command = connection.CreateCommand(this.readDocumentSql);
-                command.Bind("@DOC_ref", key.Id);
-
-                return command.ExecuteQuery<Document>()[0];
-            }
-            catch (Exception ex)
-            {
-                context.Log(ex);
-            }
-
-            return new Document();
+            return Audit(
+                context,
+                readDocumentSql,
+                command =>
+                {
+                    command.Bind("@DOC_ref", key.Id);
+                    return command.ExecuteQuery<Document>()[0];
+                });
         }
 
         public void DeleteTag(IContext context, Document document, Tag tag)
         {
-            this.Audit(context, () => {
-                var connection = this.Database.GetConnection();
+            Audit(
+                context,
+                deleteTagSql,
+                command =>
+                {
+                    command.Bind("@DOC_ref", document.Id);
+                    command.Bind("@TAG_ref", tag.Id);
 
-                var command = connection.CreateCommand(this.deleteTagSql);
-                command.Bind("@DOC_ref", document.Id);
-                command.Bind("@TAG_ref", tag.Id);
-
-                command.ExecuteNonQuery();
-            });
+                    command.ExecuteNonQuery();
+                });
         }
 
         public void AddTag(IContext context, Document document, Tag tag)
         {
-            Audit(context, () => {
-                var connection = this.Database.GetConnection();
+            Audit(
+                context,
+                insertDocumentTagSql,
+                command =>
+                {
+                    command.Bind("@DOC_ref", document.Id);
+                    command.Bind("@TAG_ref", tag.Id);
+                    command.Bind("@DOCTAG_creationDate", DateTime.UtcNow);
+                    command.Bind("@DOCTAG_modDate", DateTime.MinValue);
 
-                var command = connection.CreateCommand(this.insertDocumentTagSql);
-                command.Bind("@DOC_ref", document.Id);
-                command.Bind("@TAG_ref", tag.Id);
-                command.Bind("@DOCTAG_creationDate", DateTime.UtcNow);
-                command.Bind("@DOCTAG_modDate", DateTime.MinValue);
-
-                command.ExecuteNonQuery();
-                
-            });
+                    command.ExecuteNonQuery();
+                });
         }
 
         public IEnumerable<Tag> ReadTags(IContext context, Document document)
         {
-            return Audit<IEnumerable<Tag>>(context, () => {
-                var connection = this.Database.GetConnection();
-
-                var command = connection.CreateCommand(this.readDocumentTagSql);
-                command.Bind("@DOC_ref", document.Id);
-
-                return command.ExecuteQuery<Tag>();
-            });
+            return Audit<IEnumerable<Tag>>(
+                context,
+                readDocumentTagSql,
+                command =>
+                {
+                    command.Bind("@DOC_ref", document.Id);
+                    return command.ExecuteQuery<Tag>();
+                });
         }
 
         public IEnumerable<SearchResult> Search(IContext context, string documentName, IEnumerable<Tag> tags, bool useFTS)
         {
             documentName = string.IsNullOrEmpty(documentName) ? string.Empty : $"%{documentName}%";
 
-            return this.Audit(context, () => {
+            return this.Audit(context, () =>
+            {
                 IEnumerable<SearchResult> results = new List<SearchResult>();
-                
+
                 if (tags.Any())
                 {
                     results = SearchWithTags(documentName, tags, useFTS);
                 }
                 else
                 {
-                    results =  SearchNoTags(documentName, useFTS);
+                    results = SearchNoTags(documentName, useFTS);
                 }
 
                 foreach (var result in results)
@@ -151,14 +139,14 @@ namespace Athena.Data.SQLite
 
         public string ReadPdfAsString(IContext context, Document document)
         {
-            return this.Audit<string>(context, () => {
-                var connection = this.Database.GetConnection();
-                SQLiteCommand command = connection.CreateCommand(this.readDocumentPdfSql);
-
-                command.Bind("@DOC_ref", document.Id);
-
-                return command.ExecuteScalar<string>();
-            });
+            return Audit(
+                context,
+                readDocumentPdfSql,
+                command =>
+                {
+                    command.Bind("@DOC_ref", document.Id);
+                    return command.ExecuteScalar<string>();
+                });
         }
 
         private IEnumerable<SearchResult> SearchNoTags(string documentName, bool useFTS)
@@ -177,11 +165,11 @@ namespace Athena.Data.SQLite
             string ids = string.Join(",", tags.Select(x => x.Id));
 
             string sql = searchDocWithTagSql.Replace("<<__replace__>>", ids);
-            
+
             var connection = this.Database.GetConnection();
             SQLiteCommand command = connection.CreateCommand(sql);
-            
-            command.Bind("@DOC_name",  documentName);
+
+            command.Bind("@DOC_name", documentName);
             command.Bind("@useFTS", useFTS ? 1 : 0);
 
             return command.ExecuteQuery<SearchResult>();
@@ -189,23 +177,18 @@ namespace Athena.Data.SQLite
 
         public void Delete(IContext context, Document document)
         {
-            try
-            {
-                var connection = this.Database.GetConnection();
+            Audit(
+                context,
+                deleteDocumentSql,
+                command =>
+                {
+                    Debug.Assert(document.Key.Id != DocumentKey.TemporaryId);
 
-                SQLiteCommand command = connection.CreateCommand(this.deleteDocumentSql);
+                    command.Bind("@DOC_ref", document.Key.Id);
+                    command.ExecuteNonQuery();
 
-                Debug.Assert(document.Key.Id != DocumentKey.TemporaryId);
-
-                command.Bind("@DOC_ref", document.Key.Id);
-                command.ExecuteNonQuery();
-
-                Chapter.Delete(context, document.Key.Id);
-            }
-            catch (Exception ex)
-            {
-                context.Log(ex);
-            }
+                    Chapter.Delete(context, document.Key.Id);
+                });
         }
 
         public void Save(IContext context, Document document)
@@ -231,7 +214,7 @@ namespace Athena.Data.SQLite
         {
             var connection = this.Database.GetConnection();
             SQLiteCommand command = connection.CreateCommand(this.insertDocumentSql);
-            
+
             command.Bind("@DOC_name", document.Name.EmptyIfNull());
             command.Bind("@DOC_comment", document.Comment.EmptyIfNull());
             command.Bind("@DOC_pdf", Convert.ToBase64String(document.Pdf ?? Array.Empty<byte>()));
@@ -251,19 +234,19 @@ namespace Athena.Data.SQLite
 
         private void UpdateDocumentCore(IContext context, Document document)
         {
-            this.Audit(context, () => {
-                var connection = this.Database.GetConnection();
-                SQLiteCommand command = connection.CreateCommand(this.updateDocumentSql);
+            Audit(
+                context,
+                updateDocumentSql,
+                command => {
+                    document.ModDate = DateTime.UtcNow;
 
-                document.ModDate = DateTime.UtcNow;
+                    command.Bind("@DOC_name", document.Name.EmptyIfNull());
+                    command.Bind("@DOC_comment", document.Comment.EmptyIfNull());
+                    command.Bind("@DOC_modDate", document.ModDate);
+                    command.Bind("@DOC_ref", document.Id);
 
-                command.Bind("@DOC_name", document.Name.EmptyIfNull());
-                command.Bind("@DOC_comment", document.Comment.EmptyIfNull());
-                command.Bind("@DOC_modDate", document.ModDate);
-                command.Bind("@DOC_ref", document.Id);
-
-                command.ExecuteNonQuery();
-            });
+                    command.ExecuteNonQuery();
+                });
         }
     }
 }

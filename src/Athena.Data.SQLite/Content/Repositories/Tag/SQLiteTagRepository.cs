@@ -13,33 +13,32 @@ namespace Athena.Data.SQLite
 
         public async Task<bool> InitializeAsync()
         {
-            await this.RunScriptAsync("CREATE_TABLE_TAG.sql");
+            await RunScriptAsync("CREATE_TABLE_TAG.sql");
 
-            readTagSql = await ReadResouceAsync("TAG_READ.sql");
-            insertTagSql = await ReadResouceAsync("TAG_INSERT.sql");
-            deleteTagSql = await ReadResouceAsync("TAG_DELETE.sql");
-            updateTagSql = await ReadResouceAsync("TAG_UPDATE.sql");
+            readTagSql = await ReadResourceAsync("TAG_READ.sql");
+            insertTagSql = await ReadResourceAsync("TAG_INSERT.sql");
+            deleteTagSql = await ReadResourceAsync("TAG_DELETE.sql");
+            updateTagSql = await ReadResourceAsync("TAG_UPDATE.sql");
 
             return true;
         }
 
         public IEnumerable<Tag> ReadAll(IContext context)
         {
-            return this.Audit<IEnumerable<Tag>>(context, () =>
-            {
-                var connection = this.Database.GetConnection();
-
-                var command = connection.CreateCommand(this.readTagSql);
-                command.Bind("@TAG_ref", -1);
-
-                var tags = command.ExecuteQuery<Tag>();
-                return tags;
-            });
+            return Audit<IEnumerable<Tag>>(
+                context,
+                readTagSql,
+                command =>
+                {
+                    command.Bind("@TAG_ref", -1);
+                    return command.ExecuteQuery<Tag>();
+                });
         }
 
         public void Save(IContext context, Tag tag)
         {
-            this.Audit(context, () => {
+            this.Audit(context, () =>
+            {
                 if (tag.Key == null || tag.Id == TagKey.TemporaryId)
                 {
                     InsertCore(context, tag);
@@ -81,14 +80,14 @@ namespace Athena.Data.SQLite
 
         public void Delete(IContext context, Tag tag)
         {
-            this.Audit(context, () => {
-                var connection = this.Database.GetConnection();
-
-                SQLiteCommand command = connection.CreateCommand(this.deleteTagSql);
-
-                command.Bind("@TAG_ref", tag.Id);
-                command.ExecuteNonQuery();
-            });
+            Audit(
+                context,
+                deleteTagSql,
+                command =>
+                {
+                    command.Bind("@TAG_ref", tag.Id);
+                    command.ExecuteNonQuery();
+                });
         }
     }
 }
