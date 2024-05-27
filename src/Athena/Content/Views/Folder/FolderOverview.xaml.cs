@@ -17,10 +17,10 @@ public partial class FolderOverview : ContentPage
 
         //ServiceProvider.GetService<IDataBrokerService>().RaiseAppInitialized();
 
-        this.Loaded += (sender, args) => {
+        this.Loaded += async (sender, args) => {
             if (!firstUsageChecked)
             {
-                vm.CheckFirstUsage();
+                await vm.CheckFirstUsage();
             }
 
             firstUsageChecked = true;

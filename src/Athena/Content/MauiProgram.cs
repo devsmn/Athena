@@ -47,6 +47,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<IDataBrokerService, DataRequestService>();
         builder.Services.AddSingleton<INavigationService, DefaultNavigationService>();
+        builder.Services.AddSingleton<IPreferencesService, DefaultPreferencesService>();
 
 
         var app = builder.Build();
