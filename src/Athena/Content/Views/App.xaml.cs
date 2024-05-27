@@ -5,6 +5,7 @@ using AndroidX.AppCompat.App;
 using Athena.Data.SQLite.Proxy;
 using Athena.DataModel;
 using Microsoft.Maui.Platform;
+using Page = Athena.DataModel.Page;
 
 namespace Athena.UI
 {
@@ -49,18 +50,39 @@ namespace Athena.UI
                 DataStore.Register(SQLiteProxy.Request<ITagRepository>(parameter));
 
                 await DataStore.InitializeAsync();
-                
+
             }).ContinueWith(
-                _ =>
-                {
+                _ => {
+                    AddDefaultData();
+
                     var context = new AthenaAppContext();
                     var folders = Folder.ReadAll(new AthenaAppContext());
                     ServiceProvider.GetService<IDataBrokerService>().Publish(context, folders, UpdateType.Initialize);
                 });
-
-            //MainPage = new NavigationPage(new FolderOverview());
+            
             MainPage = new ContainerPage();
 
+        }
+
+        private void AddDefaultData()
+        {
+            if (!ServiceProvider.GetService<IPreferencesService>().IsFirstUsage())
+                return;
+
+            Folder dummyFolder = new Folder
+            {
+                Name = "Insurance",
+                Comment = "(Example folder) John"
+            };
+
+            Page dummyPage = new Page
+            {
+                Title = "Truck",
+                Comment = "(Example page) Ford F150"
+            };
+
+            dummyFolder.AddPage(dummyPage);
+            dummyFolder.Save(new AthenaAppContext());
         }
     }
 }

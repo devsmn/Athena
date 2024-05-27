@@ -84,12 +84,14 @@ namespace Athena.UI
 
         public async Task CheckFirstUsage()
         {
-            firstUsage = Preferences.Default.Get("FirstUsage", true);
+            IPreferencesService prefService = ServiceProvider.GetService<IPreferencesService>();
+
+            firstUsage = prefService.IsFirstUsage();
 
             if (firstUsage)
             {
+                prefService.SetFirstUsage(); 
                 await PushModalAsync(new TutorialView());
-                Preferences.Set("FirstUsage", false);
             }
         }
         
