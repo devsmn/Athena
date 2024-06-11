@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Athena.Data.SQLite.Proxy
 {
-    public class SQLiteProxyParameter : IDataProxyParameter
+    public class SqLiteProxyParameter : IDataProxyParameter
     {
         public Version MinimumVersion
         {

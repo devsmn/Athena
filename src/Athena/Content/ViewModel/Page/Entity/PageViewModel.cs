@@ -9,12 +9,8 @@ namespace Athena.UI
 
     public partial class PageViewModel : ObservableObject
     {
-        // ---- private fields ----
         private readonly Page _page;
         private ObservableCollection<DocumentViewModel> _documents;
-
-
-        // ---- public properties ----
 
         [Display(AutoGenerateField = false)]
         public DateTime CreationDate
@@ -92,8 +88,6 @@ namespace Athena.UI
             _page = page;
         }
 
-        // ---- methods ----
-
         public static implicit operator Page(PageViewModel viewModel)
         {
             return viewModel.Page;
@@ -112,7 +106,6 @@ namespace Athena.UI
         internal void RemoveDocument(DocumentViewModel document)
         {
             this.Documents.Remove(document);
-
             this._page.Documents.Remove(document);
         }
     }

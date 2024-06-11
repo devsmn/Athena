@@ -9,7 +9,7 @@ namespace Athena.UI
 
         public ImageSavedEventArgs(byte[] buffer)
         {
-            this.Buffer = buffer;
+            Buffer = buffer;
         }
     }
 
@@ -22,7 +22,7 @@ namespace Athena.UI
 
         public DocumentEditCropViewModel(byte[] image)
         {
-            this.Image = image;
+            Image = image;
         }
 
         [RelayCommand]

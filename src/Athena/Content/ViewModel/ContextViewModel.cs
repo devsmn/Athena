@@ -112,6 +112,7 @@ namespace Athena.UI
             {
                 ServiceProvider.GetService<IDataBrokerService>().Published -= OnDataBrokerPublished;
                 ServiceProvider.GetService<IDataBrokerService>().PublishStarted -= OnDataBrokerPublishStarted;
+                ServiceProvider.GetService<IDataBrokerService>().AppInitialized -= OnDataBrokerAppInitialized;
             }
         }
     }

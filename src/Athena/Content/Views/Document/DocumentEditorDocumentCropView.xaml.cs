@@ -7,7 +7,7 @@ namespace Athena.UI
 
     public partial class DocumentEditorDocumentCropView : ContentPage
     {
-        private readonly string[] hideItems = new[] {
+        private readonly string[] _hideItems = new[] {
             "Text", "Add", "TextColor", "FontFamily", "Arial", "Noteworthy", "Marker Felt", "Bradley Hand",
             "SignPainter",
             "TextEffects", "Bold", "Italic", "Underline", "Opacity", "Path", "StrokeThickness", "Colors", "Shape",
@@ -32,7 +32,7 @@ namespace Athena.UI
 
         private void HideToolbarItems()
         {
-            foreach (var item in hideItems)
+            foreach (var item in _hideItems)
             {
                 this.ImageEditor.SetToolbarItemVisibility(item, false);
             }

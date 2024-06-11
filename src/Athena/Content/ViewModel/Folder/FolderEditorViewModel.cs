@@ -37,8 +37,6 @@ namespace Athena.UI
             ServiceProvider.GetService<IDataBrokerService>().Publish(context, Folder.Folder, IsNew ? UpdateType.Add : UpdateType.Edit);
             await PopAsync();
             NewFolderStep = 0;
-
         }
-        
     }
 }

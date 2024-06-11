@@ -6,39 +6,37 @@ namespace Athena.UI;
 
 public partial class FolderOverview : ContentPage
 {
-    private bool firstUsageChecked;
+    private bool _firstUsageChecked;
     public FolderOverview()
     {
         BindingContext = new FolderOverviewViewModel();
         InitializeComponent();
 
         ServiceProvider.GetService<INavigationService>().AsRoot(this);
-        vm = BindingContext as FolderOverviewViewModel;
+        _vm = BindingContext as FolderOverviewViewModel;
 
-        //ServiceProvider.GetService<IDataBrokerService>().RaiseAppInitialized();
-
-        this.Loaded += async (sender, args) => {
-            if (!firstUsageChecked)
+        this.Loaded += (sender, args) =>
+        {
+            if (!_firstUsageChecked)
             {
-                await vm.CheckFirstUsage();
+                _vm.CheckFirstUsage();
             }
 
-            firstUsageChecked = true;
-
+            _firstUsageChecked = true;
         };
     }
     
-    private FolderOverviewViewModel vm;
+    private FolderOverviewViewModel _vm;
     
     
     private void ListView_OnItemLongPress(object sender, ItemLongPressEventArgs e)
     {
-        vm.SelectedFolder = e.DataItem as FolderViewModel;
+        _vm.SelectedFolder = e.DataItem as FolderViewModel;
         menuPopup.Show();
     }
 
     private void MenuPopup_OnClosed(object sender, EventArgs e)
     {
-        vm.SelectedFolder = null;
+        _vm.SelectedFolder = null;
     }
 }

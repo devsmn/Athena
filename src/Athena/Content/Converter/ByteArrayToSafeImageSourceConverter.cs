@@ -7,7 +7,7 @@ namespace Athena.UI
     public class ByteArrayToSafeImageSourceConverter : ByteArrayToImageSourceConverter
     {
         // TODO: Override default values
-        private readonly ImageSource emptyFolderImage = ImageSource.FromFile("empty_folder.png");
+        private readonly ImageSource _emptyFolderImage = ImageSource.FromFile("empty_folder.png");
         public ByteArrayToSafeImageSourceConverter() : base()
         {
         }
@@ -16,7 +16,7 @@ namespace Athena.UI
         public override ImageSource ConvertFrom(byte[] value, CultureInfo culture = null)
         {
             if (value == null || value.Length == 0)
-                return emptyFolderImage;
+                return _emptyFolderImage;
 
             return base.ConvertFrom(value, culture);
         }

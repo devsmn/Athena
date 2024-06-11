@@ -4,7 +4,6 @@
              xmlns:local="clr-namespace:Athena.UI"
              BackgroundColor="#F6F8FB"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
-             xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
              xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
              x:Name="page"
@@ -27,9 +26,6 @@
             <local:DocumentEditorSavingStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
         </ControlTemplate>
 
-        <!--<ControlTemplate x:Key="FinishedStep">
-            <local:DocumentEditorFinishedStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
-        </ControlTemplate>-->
 
     </ContentPage.Resources>
 
@@ -75,11 +71,6 @@
                             <Setter Property="ControlTemplate" Value="{StaticResource SavingStep}" />
                         </DataTrigger>
 
-                        <!--<DataTrigger TargetType="ContentView"
-                                     Binding="{Binding Path=DocumentStep}"
-                                     Value="3">
-                            <Setter Property="ControlTemplate" Value="{StaticResource FinishedStep}" />
-                        </DataTrigger>-->
                     </Style.Triggers>
                 </Style>
             </ContentView.Style>
@@ -114,28 +105,11 @@
                             <Setter Property="IsEnabled" Value="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"/>
                         </DataTrigger>
 
-                        <!--<DataTrigger Binding="{Binding Path=DocumentStep}"
-                                     TargetType="Button"
-                                     Value="3">
-                            <Setter Property="Text" Value="Close"/>
-                            <Setter Property="IsEnabled" Value="True"/>
-                        </DataTrigger>-->
                     </Style.Triggers>
                 </Style>
             </Button.Style>
         </Button>
 
-        <!--<VerticalStackLayout
-            Grid.ColumnSpan="3">
-
-            <ActivityIndicator IsRunning="{Binding IsBusy}"
-                           WidthRequest="100"
-                           HeightRequest="100">
-
-            </ActivityIndicator>
-
-            <Label IsVisible="{Binding IsBusy}"  Text="{Binding BusyText}" HorizontalOptions="Center" VerticalOptions="Center" />
-        </VerticalStackLayout>-->
 
 
     </Grid>

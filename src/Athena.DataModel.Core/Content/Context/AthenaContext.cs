@@ -25,11 +25,7 @@ namespace Athena.DataModel.Core
 
         public void Log(string message)
         {
-            StringBuilder sb = new StringBuilder();
-
-            string logMsg = $"[{DateTime.UtcNow.ToLongDateString()} {DateTime.UtcNow.ToLongTimeString()} - #{this.ThreadId}] {{{this.CorrelationId}}}: {message}";
-
-            Debug.WriteLine(logMsg);
+            Debug.WriteLine($"[{DateTime.UtcNow.ToLongDateString()} {DateTime.UtcNow.ToLongTimeString()} - #{ThreadId}] {{{CorrelationId}}}: {message}");
         }
 
         public void Log(Exception exception)

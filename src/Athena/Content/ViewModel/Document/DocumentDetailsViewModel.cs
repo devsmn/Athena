@@ -49,7 +49,7 @@ namespace Athena.UI
             _page = page;
             Document = document;
 
-            AllTags = new ObservableCollection<TagViewModel>(Tag.ReadAll(this.RetrieveContext()).Select(x => new TagViewModel(x)));
+            AllTags = new ObservableCollection<TagViewModel>(Tag.ReadAll(RetrieveContext()).Select(x => new TagViewModel(x)));
             SelectedTags = new ObservableCollection<TagViewModel>();
 
             foreach (var tag in AllTags)
@@ -65,7 +65,7 @@ namespace Athena.UI
             Document = chapter.Document;
             _chapter = chapter;
 
-            this.IsSearchResult = true;
+            IsSearchResult = true;
         }
 
         protected override void OnDataPublished(DataPublishedEventArgs e)
@@ -109,7 +109,7 @@ namespace Athena.UI
         [RelayCommand]
         private async Task SaveTags()
         {
-            var context = this.RetrieveContext();
+            var context = RetrieveContext();
 
             var newTags = SelectedTags.Where(x => !Document.Tags.Any(z => z.Id == x.Id));
 
@@ -144,7 +144,7 @@ namespace Athena.UI
             if (!delete)
                 return;
 
-            var context = this.RetrieveContext();
+            var context = RetrieveContext();
 
             Document.Document.Delete(context);
 
@@ -171,7 +171,7 @@ namespace Athena.UI
             }
             catch (Exception ex)
             {
-                var context = this.RetrieveContext();
+                var context = RetrieveContext();
                 context.Log(ex);
             }
         }
@@ -186,8 +186,8 @@ namespace Athena.UI
         [RelayCommand]
         private async Task OpenSearchResult()
         {
-            await PushAsync(new DocumentDetailsPdfView(Document.Pdf,
-                Convert.ToInt32(_chapter.DocumentPageNumber)));
+            await PushAsync(
+                new DocumentDetailsPdfView(Document.Pdf, Convert.ToInt32(_chapter.DocumentPageNumber)));
         }
 
         [RelayCommand]
@@ -241,7 +241,7 @@ namespace Athena.UI
             }
             catch (Exception ex)
             {
-                var context = this.RetrieveContext();
+                var context = RetrieveContext();
                 context.Log(ex);
             }
 
@@ -260,16 +260,16 @@ namespace Athena.UI
 
             if (result)
             {
-                var context = this.RetrieveContext();
-                this.Document.Document.Delete(context);
+                var context = RetrieveContext();
+                Document.Document.Delete(context);
 
                 await Toast.Make(string.Format(Localization.DocumentDeleted, Document.Name), ToastDuration.Long).Show();
 
                 ServiceProvider.GetService<IDataBrokerService>().Publish(
                     context,
-                    this.Document.Document,
+                    Document.Document,
                     UpdateType.Remove,
-                    this._page.Key);
+                    _page.Key);
 
                 await PopAsync();
             }
@@ -279,7 +279,7 @@ namespace Athena.UI
         [RelayCommand]
         private async Task EditDocument()
         {
-            await PushModalAsync(new DocumentEditorView(null, this._page, this.Document));
+            await PushModalAsync(new DocumentEditorView(null, _page, Document));
             ShowMenuPopup = false;
         }
 
@@ -303,7 +303,7 @@ namespace Athena.UI
             }
             catch (Exception ex)
             {
-                var context = this.RetrieveContext();
+                var context = RetrieveContext();
                 context.Log(ex);
             }
         }

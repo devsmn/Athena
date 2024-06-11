@@ -10,32 +10,32 @@ namespace Athena.Data.SQLite
     /// <summary>
     /// Provides the SQLite implementation of <see cref="IFolderRepository"/>.
     /// </summary>
-    internal class SQLiteFolderRepository : SQLiteRepository, IFolderRepository
+    internal class SqLiteFolderRepository : SqLiteRepository, IFolderRepository
     {
-        private string readFolderSql;
-        private string deleteFolderSql;
-        private string readFolderPageSql;
-        private string insertFolderSql;
-        private string folderPageInsert;
-        private string folderUpdateSql;
+        private string _readFolderSql;
+        private string _deleteFolderSql;
+        private string _readFolderPageSql;
+        private string _insertFolderSql;
+        private string _folderPageInsert;
+        private string _folderUpdateSql;
 
         public async Task<bool> InitializeAsync()
         {
             await RunScriptAsync("CREATE_TABLE_FOLDER.sql");
             await RunScriptAsync("CREATE_TABLE_FOLDER_PAGE.sql");
 
-            insertFolderSql = await ReadResourceAsync("FOLDER_INSERT.sql");
-            readFolderSql = await ReadResourceAsync("FOLDER_READ.sql");
-            folderPageInsert = await ReadResourceAsync("FOLDER_PAGE_INSERT.sql");
-            readFolderPageSql = await ReadResourceAsync("FOLDER_PAGE_READ.sql");
-            folderUpdateSql = await ReadResourceAsync("FOLDER_UPDATE.sql");
-            deleteFolderSql = await ReadResourceAsync("FOLDER_DELETE.sql");
+            _insertFolderSql = await ReadResourceAsync("FOLDER_INSERT.sql");
+            _readFolderSql = await ReadResourceAsync("FOLDER_READ.sql");
+            _folderPageInsert = await ReadResourceAsync("FOLDER_PAGE_INSERT.sql");
+            _readFolderPageSql = await ReadResourceAsync("FOLDER_PAGE_READ.sql");
+            _folderUpdateSql = await ReadResourceAsync("FOLDER_UPDATE.sql");
+            _deleteFolderSql = await ReadResourceAsync("FOLDER_DELETE.sql");
 
-            Debug.Assert(!string.IsNullOrEmpty(insertFolderSql));
-            Debug.Assert(!string.IsNullOrEmpty(readFolderSql));
-            Debug.Assert(!string.IsNullOrEmpty(folderPageInsert));
-            Debug.Assert(!string.IsNullOrEmpty(readFolderPageSql));
-            Debug.Assert(!string.IsNullOrEmpty(folderUpdateSql));
+            Debug.Assert(!string.IsNullOrEmpty(_insertFolderSql));
+            Debug.Assert(!string.IsNullOrEmpty(_readFolderSql));
+            Debug.Assert(!string.IsNullOrEmpty(_folderPageInsert));
+            Debug.Assert(!string.IsNullOrEmpty(_readFolderPageSql));
+            Debug.Assert(!string.IsNullOrEmpty(_folderUpdateSql));
 
             return await Task.FromResult(true);
         }
@@ -57,7 +57,7 @@ namespace Athena.Data.SQLite
 
                 Debug.Assert(page.Key.Id != PageKey.TemporaryId);
 
-                SQLiteCommand command = connection.CreateCommand(this.folderPageInsert);
+                SQLiteCommand command = connection.CreateCommand(this._folderPageInsert);
 
                 command.Bind("@FD_ref", folder.Key.Id);
                 command.Bind("@PG_ref", page.Key.Id);
@@ -75,7 +75,7 @@ namespace Athena.Data.SQLite
         {
             return Audit<IEnumerable<Folder>>(
                 context,
-                readFolderSql,
+                _readFolderSql,
                 command =>
                 {
                     command.Bind("@FD_ref", -1);
@@ -95,7 +95,7 @@ namespace Athena.Data.SQLite
 
                 var connection = this.Database.GetConnection();
 
-                var command = connection.CreateCommand(this.readFolderPageSql);
+                var command = connection.CreateCommand(this._readFolderPageSql);
 
                 command.Bind("@FD_ref", folder.Key.Id);
 
@@ -125,7 +125,7 @@ namespace Athena.Data.SQLite
         {
             Audit(
                 context,
-                deleteFolderSql,
+                _deleteFolderSql,
                 command =>
                 {
                     command.Bind("@FD_ref", folder.Key.Id);
@@ -144,7 +144,7 @@ namespace Athena.Data.SQLite
         {
             return Audit(
                 context,
-                readFolderSql,
+                _readFolderSql,
                 command =>
                 {
                     command.Bind("@FD_ref", key.Id);
@@ -156,7 +156,7 @@ namespace Athena.Data.SQLite
         {
             Audit(
                 context,
-                folderUpdateSql,
+                _folderUpdateSql,
                 command =>
                 {
                     command.Bind("@FD_ref", folder.Key.Id);
@@ -180,7 +180,7 @@ namespace Athena.Data.SQLite
             {
                 var connection = this.Database.GetConnection();
 
-                SQLiteCommand command = connection.CreateCommand(this.insertFolderSql);
+                SQLiteCommand command = connection.CreateCommand(this._insertFolderSql);
 
                 command.Bind("@FD_name", folder.Name.EmptyIfNull());
                 command.Bind("@FD_comment", folder.Comment.EmptyIfNull());

@@ -14,8 +14,6 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
 
 
         </Grid.RowDefinitions>
@@ -32,15 +30,81 @@
                x:Name="versionLabel"
                Grid.ColumnSpan="2"/>
 
+        <Border BackgroundColor="White"
+                Margin="3"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                StrokeShape="RoundRectangle 5">
+
+            <sfb:SfButton Text="{x:Static loc:Localization.ShowTutorial}"
+                          Command="{Binding ShowTutorialCommand}"
+                          HorizontalTextAlignment="Start"
+                          Background="Transparent"
+                          ImageSource="info.png"
+                          ImageAlignment="Left"
+                          ImageSize="25"
+                          ShowIcon="True"
+                          StrokeThickness="0"/>
+        </Border>
+
+        <HorizontalStackLayout HorizontalOptions="Center" Grid.Row="2" Grid.ColumnSpan="2">
+
+            <Border StrokeShape="RoundRectangle 5" BackgroundColor="White"  Margin="1">
+
+                <sfb:SfButton Text="Privacy"
+                              Clicked="OnPrivacyPolicyClicked"
+                              HorizontalTextAlignment="Start"
+                              Background="Transparent"
+                              ImageSource="info.png"
+                              ImageAlignment="Left"
+                              ImageSize="25"
+                              ShowIcon="True"
+                              StrokeThickness="0"/>
+
+            </Border>
+
+            <Border BackgroundColor="White"
+                    Margin="1"
+                    StrokeShape="RoundRectangle 5">
+
+
+                <sfb:SfButton Text="Terms"
+                              Clicked="OnTermsOfUseClicked"
+                              HorizontalTextAlignment="Start"
+                              Background="Transparent"
+                              ImageSource="info.png"
+                              ImageAlignment="Left"
+                              ImageSize="25"
+                              ShowIcon="True"
+                              StrokeThickness="0"/>
+            </Border >
+
+            <Border  BackgroundColor="White"
+                     Margin="1"
+                     StrokeShape="RoundRectangle 5">
+
+                <sfb:SfButton Text="Copyright"
+                              Clicked="OnCopyrightClicked"
+                              HorizontalTextAlignment="Start"
+                              Background="Transparent"
+                              ImageSource="info.png"
+                              ImageAlignment="Left"
+                              ImageSize="25"
+                              ShowIcon="True"
+                              StrokeThickness="0"/>
+            </Border >
+        </HorizontalStackLayout>
+
+
         <Label Text="{x:Static loc:Localization.Language}" 
                    Margin="5" 
-                   Grid.Row="5"
+                   Grid.Row="3"
                    VerticalTextAlignment="Center"/>
 
             <editors:SfComboBox Margin="5,0,5,5" 
                                 x:Name="cb"
                                 BackgroundColor="Transparent"
-                                Grid.Row="5"
+                                Grid.Row="3"
                                 Grid.Column="1"
                                 IsClearButtonVisible="False"
                                 ItemsSource="{Binding Languages}" 
@@ -55,57 +119,7 @@
                 </editors:SfComboBox.Behaviors>
             </editors:SfComboBox>
 
-        <sfb:SfButton Text="{x:Static loc:Localization.ShowTutorial}"
-                      Grid.Row="1"
-                      Grid.ColumnSpan="2"
-                      Margin="3"
-                      Command="{Binding ShowTutorialCommand}"
-                      HorizontalTextAlignment="Start"
-                      Background="Transparent"
-                      ImageSource="info.png"
-                      ImageAlignment="Left"
-                      ImageSize="25"
-                      ShowIcon="True"
-                      StrokeThickness="0"/>
-
-        <sfb:SfButton Text="Privacy Policy"
-                      Grid.Row="2"
-                      Grid.ColumnSpan="2"
-                      Clicked="OnPrivacyPolicyClicked"
-                      Margin="3"
-                      HorizontalTextAlignment="Start"
-                      Background="Transparent"
-                      ImageSource="info.png"
-                      ImageAlignment="Left"
-                      ImageSize="25"
-                      ShowIcon="True"
-                      StrokeThickness="0"/>
-
-        <sfb:SfButton Text="Terms of Use"
-                      Grid.Row="3"
-                      Clicked="OnTermsOfUseClicked"
-                      Grid.ColumnSpan="2"
-                      Margin="3"
-                      HorizontalTextAlignment="Start"
-                      Background="Transparent"
-                      ImageSource="info.png"
-                      ImageAlignment="Left"
-                      ImageSize="25"
-                      ShowIcon="True"
-                      StrokeThickness="0"/>
-
-        <sfb:SfButton Text="Copyright"
-                      Grid.Row="4"
-                      Grid.ColumnSpan="2"
-                      Margin="3"
-                      Clicked="OnCopyrightClicked"
-                      HorizontalTextAlignment="Start"
-                      Background="Transparent"
-                      ImageSource="info.png"
-                      ImageAlignment="Left"
-                      ImageSize="25"
-                      ShowIcon="True"
-                      StrokeThickness="0"/>
+        
     </Grid>
 
 

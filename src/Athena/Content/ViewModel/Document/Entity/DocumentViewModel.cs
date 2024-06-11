@@ -10,7 +10,6 @@ namespace Athena.UI
     public class DocumentViewModel : ObservableObject
     {
         private readonly Document _document;
-
         private string _imageLocation;
 
         [Display(AutoGenerateField = false)]
@@ -26,9 +25,17 @@ namespace Athena.UI
             get { return _document; }
         }
 
-        [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.DocumentVMNameRequired))]
-        [StringLength(45, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.DocumentVMNameCharsExceedLimit))]
-        [Display(ResourceType = typeof(Localization), Name = nameof(Localization.DocumentVMName))]
+        [Required(
+            AllowEmptyStrings = false, 
+            ErrorMessageResourceType = typeof(Localization), 
+            ErrorMessageResourceName = nameof(Localization.DocumentVMNameRequired))]
+        [StringLength(
+            45, 
+            ErrorMessageResourceType = typeof(Localization), 
+            ErrorMessageResourceName = nameof(Localization.DocumentVMNameCharsExceedLimit))]
+        [Display(
+            ResourceType = typeof(Localization), 
+            Name = nameof(Localization.DocumentVMName))]
         [DataType(DataType.Text)]
         public string Name
         {
@@ -40,8 +47,13 @@ namespace Athena.UI
             }
         }
 
-        [Display(ResourceType = typeof(Localization), Name = nameof(Localization.DocumentVMComment))]
-        [StringLength(80, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.DocumentVMCommentExceedsCharLimit))]
+        [Display(
+            ResourceType = typeof(Localization), 
+            Name = nameof(Localization.DocumentVMComment))]
+        [StringLength(
+            80, 
+            ErrorMessageResourceType = typeof(Localization), 
+            ErrorMessageResourceName = nameof(Localization.DocumentVMCommentExceedsCharLimit))]
         [DataType(DataType.MultilineText)]
         public string Comment
         {

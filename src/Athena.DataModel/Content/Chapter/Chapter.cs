@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Athena.DataModel.Core;
-
-namespace Athena.DataModel
+﻿namespace Athena.DataModel
 {
     public partial class Chapter
     {
@@ -25,9 +18,9 @@ namespace Athena.DataModel
 
         public Chapter(int documentId, int documentPageNr, string snippet)
         {
-            this.DocumentId = documentId.ToString();
-            this.DocumentPageNumber = documentPageNr.ToString();
-            this.Snippet = snippet;
+            DocumentId = documentId.ToString();
+            DocumentPageNumber = documentPageNr.ToString();
+            Snippet = snippet;
         }
     }
 }

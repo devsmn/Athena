@@ -11,6 +11,8 @@ namespace Athena.UI
 {
     public partial class App : Application
     {
+        private bool raised;
+
         public App()
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
@@ -36,18 +38,18 @@ namespace Athena.UI
 
             Task.Run(async () =>
             {
-                SQLiteProxyParameter parameter = new SQLiteProxyParameter
+                SqLiteProxyParameter parameter = new SqLiteProxyParameter
                 {
                     MinimumVersion = new Version(0, 1)
                 };
 
                 ServiceProvider.GetService<IDataBrokerService>().PrepareForLoading();
 
-                DataStore.Register(SQLiteProxy.Request<IFolderRepository>(parameter));
-                DataStore.Register(SQLiteProxy.Request<IDocumentRepository>(parameter));
-                DataStore.Register(SQLiteProxy.Request<IPageRepository>(parameter));
-                DataStore.Register(SQLiteProxy.Request<IChapterRepository>(parameter));
-                DataStore.Register(SQLiteProxy.Request<ITagRepository>(parameter));
+                DataStore.Register(SqLiteProxy.Request<IFolderRepository>(parameter));
+                DataStore.Register(SqLiteProxy.Request<IDocumentRepository>(parameter));
+                DataStore.Register(SqLiteProxy.Request<IPageRepository>(parameter));
+                DataStore.Register(SqLiteProxy.Request<IChapterRepository>(parameter));
+                DataStore.Register(SqLiteProxy.Request<ITagRepository>(parameter));
 
                 await DataStore.InitializeAsync();
 
@@ -61,7 +63,6 @@ namespace Athena.UI
                 });
             
             MainPage = new ContainerPage();
-
         }
 
         private void AddDefaultData()

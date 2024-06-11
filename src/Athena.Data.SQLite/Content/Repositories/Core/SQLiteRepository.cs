@@ -4,14 +4,14 @@ using Athena.DataModel.Core;
 
 namespace Athena.Data.SQLite
 {
-    internal class SQLiteRepository
+    internal class SqLiteRepository
     {
-        private readonly Lazy<SQLiteAsyncConnection> databaseDeferrer
+        private readonly Lazy<SQLiteAsyncConnection> _databaseDeferrer
             = new(() => new SQLiteAsyncConnection(Defines.DatabasePath, Defines.Flags));
 
         protected SQLiteAsyncConnection Database
         {
-            get { return databaseDeferrer.Value; }
+            get { return _databaseDeferrer.Value; }
         }
 
         /// <summary>

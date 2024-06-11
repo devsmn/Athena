@@ -21,6 +21,9 @@ namespace Athena.UI
             get;
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="AthenaAppContext"/>.
+        /// </summary>
         public AthenaAppContext()
         {
             CancellationToken = new CancellationToken();

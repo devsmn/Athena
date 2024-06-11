@@ -2,7 +2,6 @@
 {
     public class Entity
     {
-        // ---- public properties ----
         public DateTime CreationDate
         {
             get; set;
@@ -29,20 +28,17 @@
             get; private set;
         }
 
-        // ---- constructor ----
-
         /// <summary>
         /// Initializes a new instance of <see cref="Entity{TEntityKey}"/>.
         /// </summary>
         /// <param name="key"></param>
         public Entity(TKey key)
         {
-            this.Key = key;
+            Key = key;
             CreationDate = DateTime.UtcNow;
             ModDate = DateTime.UtcNow;
         }
 
-        // ---- methods ----
         public virtual void SetKey(TKey key)
         {
             this.Key = key;

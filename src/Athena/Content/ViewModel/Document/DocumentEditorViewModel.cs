@@ -1,14 +1,14 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
-using CommunityToolkit.Maui.Alerts;
+﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Graphics.Platform;
 using Plugin.AdMob.Services;
 using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Parsing;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Text;
 using TesseractOcrMaui.Results;
 
 namespace Athena.UI
@@ -81,7 +81,7 @@ namespace Athena.UI
         [ObservableProperty]
         private ObservableCollection<TagViewModel> _selectedTags;
 
-        private Page _page;
+        private readonly Page _page;
         private readonly Folder _folder;
 
         public DocumentViewModel Document
@@ -100,7 +100,7 @@ namespace Athena.UI
             _interstitialAdService = ServiceProvider.GetService<IInterstitialAdService>();
             //_interstitialAdService.PrepareAd();
 
-            this.IsNew = document == null;
+            IsNew = document == null;
 
             document ??= new Document()
             {
@@ -110,13 +110,13 @@ namespace Athena.UI
             _folder = folder;
             _page = page;
             Document = document;
-            this.Document.PropertyChanged += DocumentOnPropertyChanged;
+            Document.PropertyChanged += DocumentOnPropertyChanged;
 
-            Images = new ObservableCollection<DocumentImageViewModel>();
+            Images = new();
             AreDocumentsEmpty = true;
 
             Tags = new ObservableCollection<TagViewModel>(Tag.ReadAll(RetrieveContext()).OrderBy(x => x.Name).Select(x => new TagViewModel(x)));
-            SelectedTags = new ObservableCollection<TagViewModel>();
+            SelectedTags = new();
 
             TagsAvailable = Tags.Any();
 
@@ -125,7 +125,6 @@ namespace Athena.UI
                 DocumentStep = 1;
                 AreDocumentsEmpty = false;
                 NextStepCommand.NotifyCanExecuteChanged();
-
             }
         }
 
@@ -178,7 +177,7 @@ namespace Athena.UI
                 if (!IsNew)
                 {
                     // Save
-                    var context = this.RetrieveContext();
+                    var context = RetrieveContext();
                     Document.Document.Save(context);
                     ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(context, Document, UpdateType.Edit, _page.Key);
 
@@ -200,7 +199,7 @@ namespace Athena.UI
                 if (DocumentStep > 1)
                 {
                     _interstitialAdService.ShowAd();
-                    var context = this.RetrieveContext();
+                    var context = RetrieveContext();
 
 
                     IsBusy = true;
@@ -208,7 +207,6 @@ namespace Athena.UI
 
                     await Task.Run(async () =>
                     {
-
                         //Create a new PDF document
                         PdfDocument doc = new PdfDocument();
                         doc.Compression = PdfCompressionLevel.Best;
@@ -219,13 +217,10 @@ namespace Athena.UI
                         doc.DocumentInformation.Producer = "Athena: Offline Document Manager";
                         doc.DocumentInformation.Keywords = "Athena: Offline Document Manager;PDF";
 
-
                         int docIdx = 0;
                         StringBuilder pdfDocs = new StringBuilder();
 
-
-
-                        foreach (var document in this.Images)
+                        foreach (var document in Images)
                         {
                             MainThread.BeginInvokeOnMainThread(() => BusyText = $"Converting document #{++docIdx}");
 
@@ -254,7 +249,6 @@ namespace Athena.UI
 
                                 continue;
                             }
-
 
                             FileStream imageStream = new FileStream(document.ImagePath, FileMode.Open, FileAccess.Read);
 
@@ -289,9 +283,7 @@ namespace Athena.UI
 
                         MainThread.BeginInvokeOnMainThread(() => BusyText = "Saving document");
 
-
-
-                        this.Document.Pdf = preCompressStream.ToArray();
+                        Document.Pdf = preCompressStream.ToArray();
                         preCompressStream.Close();
                         await preCompressStream.DisposeAsync();
 
@@ -313,7 +305,7 @@ namespace Athena.UI
 
                             StringBuilder sb = new StringBuilder();
 
-                            foreach (var document in this.Images)
+                            foreach (var document in Images)
                             {
                                 if (document.IsPdf)
                                     continue;
@@ -360,13 +352,10 @@ namespace Athena.UI
 
                     ServiceProvider.GetService<IDataBrokerService>()
                         .Publish(context, _page, UpdateType.Edit, _folder.Key);
-                    
-                    IsBusy = false; // TODO: HERE
+
+                    IsBusy = false; 
                     BusyText = "Finished!";
-
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -376,7 +365,6 @@ namespace Athena.UI
             }
         }
 
-
         [RelayCommand]
         private async Task TakeImage()
         {
@@ -384,7 +372,7 @@ namespace Athena.UI
             {
                 if (MediaPicker.Default.IsCaptureSupported)
                 {
-                    var context = this.RetrieveContext();
+                    var context = RetrieveContext();
 
                     context.Log("Taking picture");
 
@@ -398,18 +386,16 @@ namespace Athena.UI
                         await sourceStream.CopyToAsync(byteStream);
                         byte[] bytes = byteStream.ToArray();
 
-
                         // https://github.com/dotnet/maui/issues/11259
-                        
-                        this.IsPopupOpen = true;
+
+                        IsPopupOpen = true;
                         PopupText = "Loading cropping tool...";
 
                         await Task.Delay(100);
-                        
 
                         var view = new DocumentEditorDocumentCropView(bytes);
 
-                        this.IsPopupOpen = false;
+                        IsPopupOpen = false;
 
                         await PushModalAsync(view);
                         view.ImageSaved += OnImageSaved;
@@ -418,8 +404,9 @@ namespace Athena.UI
             }
             catch (Exception ex)
             {
-                var context = this.RetrieveContext();
+                var context = RetrieveContext();
                 context.Log(ex);
+
                 if (ex is PermissionException pex)
                 {
                     await Toast.Make("Please grant the permission to use the camera").Show();
@@ -436,7 +423,7 @@ namespace Athena.UI
         {
             try
             {
-                PickOptions options = new PickOptions
+                PickOptions options = new()
                 {
                     FileTypes = FilePickerFileType.Pdf
                 };
@@ -458,13 +445,12 @@ namespace Athena.UI
 
                         AreDocumentsEmpty = false;
                     }
-
                 }
 
             }
             catch (Exception ex)
             {
-                var context = this.RetrieveContext();
+                var context = RetrieveContext();
                 context.Log(ex);
                 await Toast.Make("An error occurred").Show();
             }
@@ -480,14 +466,14 @@ namespace Athena.UI
                 if (image != null)
                 {
                     using Stream sourceStream = await image.OpenReadAsync();
-                    
+
                     using MemoryStream byteStream = new();
                     await sourceStream.CopyToAsync(byteStream);
                     byte[] bytes = byteStream.ToArray();
 
                     // https://github.com/dotnet/maui/issues/11259
-                    
-                    this.IsPopupOpen = true;
+
+                    IsPopupOpen = true;
                     PopupText = "Loading cropping tool...";
 
                     await Task.Delay(100);
@@ -495,7 +481,7 @@ namespace Athena.UI
 
                     var view = new DocumentEditorDocumentCropView(bytes);
 
-                    this.IsPopupOpen = false;
+                    IsPopupOpen = false;
 
                     await PushModalAsync(view);
                     view.ImageSaved += OnImageSaved;
@@ -504,7 +490,7 @@ namespace Athena.UI
             }
             catch (Exception ex)
             {
-                var context = this.RetrieveContext();
+                var context = RetrieveContext();
                 context.Log(ex);
                 await Toast.Make("An error occurred").Show();
             }
@@ -527,7 +513,6 @@ namespace Athena.UI
             Images.Add(imageVm);
             AreDocumentsEmpty = false;
             await PopModalAsync();
-
         }
 
         [RelayCommand]
@@ -536,6 +521,6 @@ namespace Athena.UI
             Images.Remove(image);
             AreDocumentsEmpty = Images.Count == 0;
         }
-        
+
     }
 }

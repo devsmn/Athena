@@ -16,7 +16,6 @@ namespace Athena.UI
                 return -1;
 
             return 1;
-
         }
     }
 }

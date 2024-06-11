@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Athena.Data.SQLite.Proxy
 {
-    public class SQLiteProxy : IDataProxy
+    public class SqLiteProxy : IDataProxy
     {
         public static IAthenaRepository Request<TRepository>(IDataProxyParameter parameter)
             where TRepository : IAthenaRepository
@@ -19,19 +19,19 @@ namespace Athena.Data.SQLite.Proxy
             try
             {
                 if (typeof(TRepository) == typeof(IDocumentRepository))
-                    return new SQLiteDocumentRepository();
+                    return new SqLiteDocumentRepository();
 
                 if (typeof(TRepository) == typeof(IFolderRepository))
-                    return new SQLiteFolderRepository();
+                    return new SqLiteFolderRepository();
 
                 if (typeof(TRepository) == typeof(IPageRepository))
-                    return new SQLitePageRepository();
+                    return new SqLitePageRepository();
 
                 if (typeof(TRepository) == typeof(IChapterRepository))
-                    return new SQLiteChapterRepository();
+                    return new SqLiteChapterRepository();
 
                 if (typeof(TRepository) == typeof(ITagRepository))
-                    return new SQLiteTagRepository();
+                    return new SqLiteTagRepository();
 
                 throw new ArgumentOutOfRangeException();
             }

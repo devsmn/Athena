@@ -45,10 +45,9 @@ public static class MauiProgram
                 files.AddFile("deu.traineddata");
             });
 
-        builder.Services.AddSingleton<IDataBrokerService, DataRequestService>();
+        builder.Services.AddSingleton<IDataBrokerService, DefaultDataBrokerService>();
         builder.Services.AddSingleton<INavigationService, DefaultNavigationService>();
         builder.Services.AddSingleton<IPreferencesService, DefaultPreferencesService>();
-
 
         var app = builder.Build();
 

@@ -9,13 +9,13 @@ namespace Athena.Data.SQLite
     /// <summary>
     /// Provides the SQLite implementation of <see cref="IPageRepository"/>.
     /// </summary>
-    internal class SQLitePageRepository : SQLiteRepository, IPageRepository
+    internal class SqLitePageRepository : SqLiteRepository, IPageRepository
     {
-        private string pageInsertSql;
-        private string pageReadSql;
-        private string insertPageDocumentSql;
-        private string pageDeleteSql;
-        private string pageUpdateSql;
+        private string _pageInsertSql;
+        private string _pageReadSql;
+        private string _insertPageDocumentSql;
+        private string _pageDeleteSql;
+        private string _pageUpdateSql;
 
         public void AddTag(Tag tag)
         {
@@ -28,11 +28,11 @@ namespace Athena.Data.SQLite
             await RunScriptAsync("CREATE_TABLE_PAGE_DOC.sql");
             await RunScriptAsync("CREATE_TABLE_PAGE_TAG.sql");
 
-            pageInsertSql = await ReadResourceAsync("PAGE_INSERT.sql");
-            pageReadSql = await ReadResourceAsync("PAGE_READ.sql");
-            insertPageDocumentSql = await ReadResourceAsync("PAGE_DOC_INSERT.sql");
-            pageDeleteSql = await ReadResourceAsync("PAGE_DELETE.sql");
-            pageUpdateSql = await ReadResourceAsync("PAGE_UPDATE.sql");
+            _pageInsertSql = await ReadResourceAsync("PAGE_INSERT.sql");
+            _pageReadSql = await ReadResourceAsync("PAGE_READ.sql");
+            _insertPageDocumentSql = await ReadResourceAsync("PAGE_DOC_INSERT.sql");
+            _pageDeleteSql = await ReadResourceAsync("PAGE_DELETE.sql");
+            _pageUpdateSql = await ReadResourceAsync("PAGE_UPDATE.sql");
 
             return await Task.FromResult(true);
         }
@@ -41,7 +41,7 @@ namespace Athena.Data.SQLite
         {
             return Audit<IEnumerable<Page>>(
                 context,
-                pageReadSql,
+                _pageReadSql,
                 command =>
                 {
                     command.Bind("@PG_ref", -1);
@@ -53,7 +53,7 @@ namespace Athena.Data.SQLite
         {
             return Audit(
                 context,
-                pageReadSql,
+                _pageReadSql,
                 command =>
                 {
                     command.Bind("@PG_ref", key.Id);
@@ -65,7 +65,7 @@ namespace Athena.Data.SQLite
         {
             Audit(
                 context,
-                pageDeleteSql,
+                _pageDeleteSql,
                 command =>
                 {
                     command.Bind("@PG_ref", page.Key.Id);
@@ -103,7 +103,7 @@ namespace Athena.Data.SQLite
             {
                 var connection = this.Database.GetConnection();
 
-                SQLiteCommand command = connection.CreateCommand(this.pageInsertSql);
+                SQLiteCommand command = connection.CreateCommand(this._pageInsertSql);
 
                 command.Bind("@PG_title", page.Title.EmptyIfNull());
                 command.Bind("@PG_comment", page.Comment.EmptyIfNull());
@@ -128,7 +128,7 @@ namespace Athena.Data.SQLite
         {
             Audit(
                 context,
-                pageUpdateSql,
+                _pageUpdateSql,
                 command =>
                 {
                     page.ModDate = DateTime.Now;
@@ -155,7 +155,7 @@ namespace Athena.Data.SQLite
 
             Audit(
                 context,
-                insertPageDocumentSql,
+                _insertPageDocumentSql,
                 command =>
                 {
                     document.Save(context);

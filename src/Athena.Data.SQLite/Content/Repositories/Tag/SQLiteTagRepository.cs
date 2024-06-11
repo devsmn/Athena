@@ -4,21 +4,21 @@ using SQLite;
 
 namespace Athena.Data.SQLite
 {
-    internal class SQLiteTagRepository : SQLiteRepository, ITagRepository
+    internal class SqLiteTagRepository : SqLiteRepository, ITagRepository
     {
-        private string readTagSql;
-        private string insertTagSql;
-        private string updateTagSql;
-        private string deleteTagSql;
+        private string _readTagSql;
+        private string _insertTagSql;
+        private string _updateTagSql;
+        private string _deleteTagSql;
 
         public async Task<bool> InitializeAsync()
         {
             await RunScriptAsync("CREATE_TABLE_TAG.sql");
 
-            readTagSql = await ReadResourceAsync("TAG_READ.sql");
-            insertTagSql = await ReadResourceAsync("TAG_INSERT.sql");
-            deleteTagSql = await ReadResourceAsync("TAG_DELETE.sql");
-            updateTagSql = await ReadResourceAsync("TAG_UPDATE.sql");
+            _readTagSql = await ReadResourceAsync("TAG_READ.sql");
+            _insertTagSql = await ReadResourceAsync("TAG_INSERT.sql");
+            _deleteTagSql = await ReadResourceAsync("TAG_DELETE.sql");
+            _updateTagSql = await ReadResourceAsync("TAG_UPDATE.sql");
 
             return true;
         }
@@ -27,7 +27,7 @@ namespace Athena.Data.SQLite
         {
             return Audit<IEnumerable<Tag>>(
                 context,
-                readTagSql,
+                _readTagSql,
                 command =>
                 {
                     command.Bind("@TAG_ref", -1);
@@ -54,7 +54,7 @@ namespace Athena.Data.SQLite
         {
             var connection = this.Database.GetConnection();
 
-            SQLiteCommand command = connection.CreateCommand(this.updateTagSql);
+            SQLiteCommand command = connection.CreateCommand(this._updateTagSql);
 
             command.Bind("@TAG_name", tag.Name.EmptyIfNull());
             command.Bind("@TAG_comment", tag.Comment.EmptyIfNull());
@@ -67,7 +67,7 @@ namespace Athena.Data.SQLite
         {
             var connection = this.Database.GetConnection();
 
-            SQLiteCommand command = connection.CreateCommand(this.insertTagSql);
+            SQLiteCommand command = connection.CreateCommand(this._insertTagSql);
 
             command.Bind("@TAG_name", tag.Name.EmptyIfNull());
             command.Bind("@TAG_comment", tag.Comment.EmptyIfNull());
@@ -82,7 +82,7 @@ namespace Athena.Data.SQLite
         {
             Audit(
                 context,
-                deleteTagSql,
+                _deleteTagSql,
                 command =>
                 {
                     command.Bind("@TAG_ref", tag.Id);

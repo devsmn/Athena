@@ -9,15 +9,15 @@ namespace Athena.UI;
 public partial class FolderDetailsView : ContentPage
 {
 
-    private FolderDetailsViewModel vm;
+    private FolderDetailsViewModel _vm;
 
     public FolderDetailsView(Folder selectedFolder)
     {
-        vm = new FolderDetailsViewModel(selectedFolder);
-        this.BindingContext = vm;
+        _vm = new FolderDetailsViewModel(selectedFolder);
+        this.BindingContext = _vm;
         InitializeComponent();
 
-        vm.LoadPages();
+        _vm.LoadPages();
     }
     
     private void MenuItem_OnClicked(object sender, EventArgs e)
@@ -33,6 +33,6 @@ public partial class FolderDetailsView : ContentPage
 
     private void PageMenuPopup_OnClosed(object sender, EventArgs e)
     {
-        vm.SelectedPage = null;
+        _vm.SelectedPage = null;
     }
 }

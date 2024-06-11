@@ -5,96 +5,45 @@ namespace Athena.UI
 {
     using Athena.DataModel;
 
-    internal class Store<TEntity>
+    public class DefaultDataBrokerService : IDataBrokerService
     {
-        private readonly Dictionary<EntityKey, Entity> _entities;
+        public event EventHandler<DataPublishedEventArgs> Published;
+        public event EventHandler AppInitialized;
+        public event EventHandler PublishStarted;
 
-        public Store()
-        {
-            _entities = new Dictionary<EntityKey, Entity>();
-        }
-
-        public void Add(EntityKey key, Entity entity)
-        {
-            _entities.Add(key, entity);
-        }
-
-        public Entity Get(EntityKey key)
-        {
-            _entities.TryGetValue(key, out var entity);
-            return entity;
-        }
-
-        public IEnumerable<Entity> GetAll()
-        {
-            return _entities.Select(x => x.Value);
-        }
-    }
-
-    public class DataRequestService : IDataBrokerService
-    {
-        private readonly Dictionary<Type, Store<Entity>> _entities;
-
-        public DataRequestService()
-        {
-            _entities = new Dictionary<Type, Store<Entity>>();
-        }
-
+        /// <inheritdoc />  
         public void PrepareForLoading()
         {
             RaisePublishStarted();
         }
 
+        /// <inheritdoc />  
         public void RaiseAppInitialized()
         {
             AppInitialized?.Invoke(this, EventArgs.Empty);
         }
 
-        public TEntity Request<TEntity>(IContext context, EntityKey key)
-            where TEntity : Entity
-        {
-            if (!_entities.TryGetValue(typeof(TEntity), out var store))
-            {
-                store = new Store<Entity>();
-                _entities.Add(typeof(TEntity), store);
-            }
-
-            var result = store.Get(key);
-
-            return result as TEntity;
-        }
-
-        public IEnumerable<TEntity> Request<TEntity>(IContext context)
-        {
-            if (!_entities.TryGetValue(typeof(TEntity), out var store))
-            {
-                store = new Store<Entity>();
-                _entities.Add(typeof(TEntity), store);
-            }
-
-            var result = store.GetAll();
-
-            return result as IEnumerable<TEntity>;
-        }
-
-
+        /// <inheritdoc />  
         public void Publish<TEntity>(IContext context, TEntity entity, UpdateType type, EntityKey parentReference)
             where TEntity : Entity
         {
             Publish(context, new List<TEntity> { entity }, type, parentReference);
         }
 
+        /// <inheritdoc />  
         public void Publish<TEntity>(IContext context, TEntity entity, UpdateType type)
             where TEntity : Entity
         {
             Publish(context, entity, type, null);
         }
 
+        /// <inheritdoc />  
         public void Publish<TEntity>(IContext context, IEnumerable<TEntity> entities, UpdateType type) where TEntity : Entity
         {
             Publish(context, entities, type, null);
         }
 
+        /// <inheritdoc />  
         public void Publish<TEntity>(IContext context, IEnumerable<TEntity> entities, UpdateType type, EntityKey parentReference) where TEntity : Entity
         {
             var syncContext = TaskScheduler.Current;
@@ -103,25 +52,23 @@ namespace Athena.UI
             {
                 RaisePublishStarted();
 
-                IList<RequestUpdate<TEntity>> updates = new List<RequestUpdate<TEntity>>();
-
-                foreach (var entity in entities)
-                {
-                    updates.Add(new RequestUpdate<TEntity>(entity, type, parentReference));
-                }
+                List<RequestUpdate<TEntity>> updates = entities
+                    .Select(entity => new RequestUpdate<TEntity>(entity, type, parentReference))
+                    .ToList();
 
                 RaisePublished(updates);
-            }).ContinueWith(task =>
-            {
-                if (task.Exception != null)
+            }).ContinueWith(
+                task =>
                 {
+                    if (task.Exception == null)
+                        return;
+
                     context.Log(task.Exception);
                     throw task.Exception;
-                }
-            },
-               default,
-               TaskContinuationOptions.OnlyOnFaulted,
-               syncContext);
+                },
+                default,
+                TaskContinuationOptions.OnlyOnFaulted,
+                syncContext);
         }
 
         private void RaisePublishStarted()
@@ -166,12 +113,7 @@ namespace Athena.UI
             {
                 handler.Invoke(this, args);
             }
-
         }
-
-        public event EventHandler<DataPublishedEventArgs> Published;
-        public event EventHandler AppInitialized;
-        public event EventHandler PublishStarted;
     }
 }
 

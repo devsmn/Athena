@@ -3,19 +3,19 @@
     using Athena.DataModel;
     using Athena.DataModel.Core;
 
-    internal class SQLiteChapterRepository : SQLiteRepository, IChapterRepository
+    internal class SqLiteChapterRepository : SqLiteRepository, IChapterRepository
     {
-        private string insertChapterSql;
-        private string readChapterSql;
-        private string deleteChapterSql;
+        private string _insertChapterSql;
+        private string _readChapterSql;
+        private string _deleteChapterSql;
 
         public async Task<bool> InitializeAsync()
         {
             await RunScriptAsync("CREATE_TABLE_CHAPTER.sql");
 
-            insertChapterSql = await ReadResourceAsync("CHAPTER_INSERT.sql");
-            readChapterSql = await ReadResourceAsync("CHAPTER_READ.sql");
-            deleteChapterSql = await ReadResourceAsync("CHAPTER_DELETE.sql");
+            _insertChapterSql = await ReadResourceAsync("CHAPTER_INSERT.sql");
+            _readChapterSql = await ReadResourceAsync("CHAPTER_READ.sql");
+            _deleteChapterSql = await ReadResourceAsync("CHAPTER_DELETE.sql");
 
             return true;
         }
@@ -24,7 +24,7 @@
         {
             return Audit<IEnumerable<Chapter>>(
                 context,
-                readChapterSql,
+                _readChapterSql,
                 command => {
                     command.Bind("@CHP_text", pattern);
 
@@ -45,7 +45,7 @@
         {
             Audit(
                 context,
-                deleteChapterSql,
+                _deleteChapterSql,
                 command => {
                     command.Bind("@DOC_ref", documentRef.ToString());
                     command.ExecuteNonQuery();
@@ -56,7 +56,7 @@
         {
             Audit(
                 context,
-                insertChapterSql,
+                _insertChapterSql,
                 command => {
                     command.Bind("@DOC_ref", chapter.DocumentId);
                     command.Bind("@DOC_pageNr", chapter.DocumentPageNumber);

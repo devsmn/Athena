@@ -6,61 +6,60 @@ using Athena.Resources.Localization;
 namespace Athena.UI
 {
     using Athena.DataModel;
-    using Athena.DataModel.Core;
     using CommunityToolkit.Maui.Alerts;
     using CommunityToolkit.Maui.Core;
 
     public partial class FolderOverviewViewModel : ContextViewModel
     {
         [ObservableProperty]
-        private string searchBarText;
+        private string _searchBarText;
 
         [ObservableProperty]
-        private byte[] newDocumentImage;
+        private byte[] _newDocumentImage;
 
         [ObservableProperty]
-        private Document newDocument;
+        private Document _newDocument;
 
         [ObservableProperty]
-        private int addDocumentStep;
+        private int _addDocumentStep;
 
         [ObservableProperty]
-        private Page selectedPage;
+        private Page _selectedPage;
 
         [ObservableProperty]
-        private int newFolderStep;
+        private int _newFolderStep;
 
         [ObservableProperty]
-        private bool isBusy;
+        private bool _isBusy;
 
         [ObservableProperty]
-        private int addPageStep;
+        private int _addPageStep;
 
         [ObservableProperty]
-        private FolderViewModel newFolder;
+        private FolderViewModel _newFolder;
 
         [ObservableProperty]
         private bool _showMenuPopup;
 
         [ObservableProperty]
-        private byte[] newFolderImage;
+        private byte[] _newFolderImage;
 
         [ObservableProperty]
-        private Page newPage;
+        private Page _newPage;
 
         [ObservableProperty]
-        public FolderViewModel selectedFolder;
+        private FolderViewModel _selectedFolder;
 
         [ObservableProperty]
-        public ObservableCollection<Document> documents;
+        private ObservableCollection<Document> _documents;
 
         [ObservableProperty]
-        public ObservableCollection<FolderViewModel> folders;
+        private ObservableCollection<FolderViewModel> _folders;
         
         [ObservableProperty]
         private string _busyText;
 
-        private bool firstUsage;
+        private bool _firstUsage;
         
         public FolderOverviewViewModel()
         {
@@ -79,22 +78,26 @@ namespace Athena.UI
         private void OnDataBrokerPublishStarted(object sender, EventArgs e)
         {
             IsBusy = true;
-            //BusyText = "Loading folders...";
         }
 
         public async Task CheckFirstUsage()
         {
             IPreferencesService prefService = ServiceProvider.GetService<IPreferencesService>();
 
-            firstUsage = prefService.IsFirstUsage();
+            _firstUsage = prefService.IsFirstUsage();
 
-            if (firstUsage)
+            if (_firstUsage)
             {
-                prefService.SetFirstUsage(); 
+                prefService.SetFirstUsage();
                 await PushModalAsync(new TutorialView());
             }
         }
-        
+
+        protected override async Task OnAppInitialized()
+        {
+            await CheckFirstUsage();
+        }
+
         private void OnDataBrokerPublished(object sender, DataPublishedEventArgs e)
         {
             MainThread.BeginInvokeOnMainThread(async () =>
@@ -195,26 +198,8 @@ namespace Athena.UI
 
             folder.Folder.Delete(context);
             await Toast.Make(string.Format(Localization.FolderDeleted, folder.Name), ToastDuration.Long).Show();
-
-
         }
         
-
-        //[RelayCommand]
-        //private async Task AddPage(FolderViewModel folder)
-        //{
-        //    NewPage = new Page();
-        //    AddPageStep = 0;
-
-        //    await PushAsync(new PageEditorView(new Page(), folder));
-        //}
-
-        //[RelayCommand]
-        //private async Task CloseFolderAddButtonActionPage()
-        //{
-        //    await PopModalAsync();
-        //}
-
         [RelayCommand]
         private async Task ShowPageAddActions()
         {
@@ -222,89 +207,11 @@ namespace Athena.UI
             await PushAsync(new FolderEditorView(null));
         }
 
-        //[RelayCommand]
-        //private async Task AddPageDocument()
-        //{
-        //    Document document = new Document();
-
-        //    if (MediaPicker.Default.IsCaptureSupported)
-        //    {
-        //        FileResult image = await MediaPicker.Default.CapturePhotoAsync();
-
-        //        if (image != null)
-        //        {
-        //            using Stream sourceStream = await image.OpenReadAsync();
-
-        //            using MemoryStream byteStream = new();
-        //            await sourceStream.CopyToAsync(byteStream);
-        //            byte[] bytes = byteStream.ToArray();
-                    
-        //            document.Pdf = bytes;
-
-        //            NewPage.AddDocument(document);
-        //        }
-        //    }
-        //}
-
         [RelayCommand]
         public async Task FolderClicked()
         {
             await PushAsync(new FolderDetailsView(SelectedFolder));
             SelectedFolder = null;
         }
-
-        //[RelayCommand]
-        //private async Task AddNewFolder()
-        //{
-        //    NewFolder = new FolderViewModel(new Folder());
-        //    await PopModalAsync();
-        //    await PushAsync(new FolderEditorView(null));
-        //}
-
-        //[RelayCommand]
-        //private async Task SaveFolder()
-        //{
-        //    IContext context = this.RetrieveContext();
-            
-        //    NewFolder.Folder.Save(context);
-
-        //    await PopAsync();
-        //    ServiceProvider.GetService<IDataBrokerService>().Publish(context, NewFolder.Folder, UpdateType.Add);
-        //}
-
-        //[RelayCommand]
-        //private async Task CaptureImage()
-        //{
-        //    if (MediaPicker.Default.IsCaptureSupported)
-        //    {
-        //        IContext context = this.RetrieveContext();
-
-        //        context.Log("Taking picture");
-
-        //        FileResult image = await MediaPicker.Default.CapturePhotoAsync();
-
-        //        if (image != null)
-        //        {
-        //            using Stream sourceStream = await image.OpenReadAsync();
-
-        //            using MemoryStream byteStream = new();
-        //            await sourceStream.CopyToAsync(byteStream);
-        //            byte[] bytes = byteStream.ToArray();
-
-        //            string content = Convert.ToBase64String(bytes);
-
-        //            Document doc = new Document(new DocumentKey(DocumentKey.TemporaryId));
-
-        //            doc.Pdf = bytes;
-        //            doc.Name = "test";
-        //            doc.Comment = " comment";
-
-        //            doc.Save(context);
-
-        //            ServiceProvider.GetService<IDataBrokerService>().Publish(context, doc, UpdateType.Add);
-        //        }
-        //    }
-        //}
-        
     }
 }

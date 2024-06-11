@@ -4,30 +4,32 @@
 
     public class RequestUpdate<TEntity> where TEntity : Entity
     {
-        private readonly TEntity _entity;
-        private readonly UpdateType _updateType;
-        private readonly EntityKey _parentReference;
+        /// <summary>
+        /// Gets the related entity.
+        /// </summary>
+        public TEntity Entity { get; }
 
-        public TEntity Entity
-        {
-            get { return _entity; }
-        }
+        /// <summary>
+        /// Gets the <see cref="UpdateType"/>.
+        /// </summary>
+        public UpdateType Type { get; }
 
-        public UpdateType Type
-        {
-            get { return _updateType; }
-        }
+        /// <summary>
+        /// Gets the optional reference to the parent entity.
+        /// </summary>
+        public EntityKey ParentReference { get; }
 
-        public EntityKey ParentReference
-        {
-            get { return _parentReference; }
-        }
-
+        /// <summary>
+        /// Initializes a new instance of <see cref="RequestUpdate{TEntity}"/>.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="type"></param>
+        /// <param name="parentReference"></param>
         public RequestUpdate(TEntity entity, UpdateType type, EntityKey parentReference)
         {
-            this._entity = entity;
-            this._updateType = type;
-            this._parentReference = parentReference;
+            Entity = entity;
+            Type = type;
+            ParentReference = parentReference;
         }
 
         public static implicit operator TEntity(RequestUpdate<TEntity> update)

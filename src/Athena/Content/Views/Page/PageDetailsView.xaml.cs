@@ -10,17 +10,17 @@ namespace Athena.UI
 
     public partial class PageDetailsView : ContentPage
     {
-        private PageDetailsViewModel vm;
+        private PageDetailsViewModel _vm;
 
         public PageDetailsView(Folder folder, Page page)
         {
-            vm = new PageDetailsViewModel(folder, page);
-            this.BindingContext = vm;
+            _vm = new PageDetailsViewModel(folder, page);
+            this.BindingContext = _vm;
             InitializeComponent();
 
             this.NavigatedTo += (s, e) => {
                 //sfPopup.IsOpen = true;
-                vm.LoadDocumentOverview();
+                _vm.LoadDocumentOverview();
             };
         }
         
@@ -31,18 +31,18 @@ namespace Athena.UI
         
         private void SfPopup_OnClosed(object sender, EventArgs e)
         {
-            vm.SelectedDocument = null;
+            _vm.SelectedDocument = null;
         }
 
         private void CollectionView_OnItemLongPress(object sender, ItemLongPressEventArgs e)
         {
-            vm.SelectedDocument = e.DataItem as DocumentViewModel;
+            _vm.SelectedDocument = e.DataItem as DocumentViewModel;
             documentMenuPopup.Show();
         }
 
         private void DocumentMenuPopup_OnClosed(object sender, EventArgs e)
         {
-            vm.SelectedDocument = null;
+            _vm.SelectedDocument = null;
         }
     }
 }

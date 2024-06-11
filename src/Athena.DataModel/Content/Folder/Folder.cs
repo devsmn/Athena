@@ -4,14 +4,13 @@ namespace Athena.DataModel
 {
     public partial class Folder : Entity<FolderKey>
     {
-        private string name;
-        private string comment;
-        private bool isPinned;
-        private int isPinnedInt;
-
+        private string _name;
+        private string _comment;
+        private bool _isPinned;
+        private int _isPinnedInt;
         private bool _pagesLoaded;
 
-        private IList<Page> pages;
+        private IList<Page> _pages;
 
         public new DateTime CreationDate
         {
@@ -28,7 +27,7 @@ namespace Athena.DataModel
         public Folder(FolderKey key)
             : base(key)
         {
-            pages = new List<Page>();
+            _pages = new List<Page>();
         }
 
         public Folder(int key)
@@ -43,34 +42,34 @@ namespace Athena.DataModel
 
         public int IsPinnedInt
         {
-            get { return isPinnedInt; }
+            get { return _isPinnedInt; }
             set
             {
-                isPinnedInt = value;
+                _isPinnedInt = value;
                 IsPinned = Convert.ToBoolean(value);
             }
         }
 
         public bool IsPinned
         {
-            get { return isPinned; }
+            get { return _isPinned; }
             set
             {
-                isPinned = value;
-                isPinnedInt = Convert.ToInt32(value);
+                _isPinned = value;
+                _isPinnedInt = Convert.ToInt32(value);
             }
         }
 
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
         public string Comment
         {
-            get { return comment; }
-            set { this.comment = value; }
+            get { return _comment; }
+            set { _comment = value; }
         }
 
         public IList<Page> Pages
@@ -79,13 +78,13 @@ namespace Athena.DataModel
             {
                 if (!_pagesLoaded)
                 {
-                    pages = new List<Page>(ReadAllPages(new AthenaContext()));
+                    _pages = new List<Page>(ReadAllPages(new AthenaContext()));
                     _pagesLoaded = true;
                 }
 
-                return pages;
+                return _pages;
             }
-            set { pages = value; }
+            set { _pages = value; }
         }
         
         public override string ToString()

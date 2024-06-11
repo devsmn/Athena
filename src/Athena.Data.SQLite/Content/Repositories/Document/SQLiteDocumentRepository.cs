@@ -9,36 +9,36 @@ namespace Athena.Data.SQLite
     /// <summary>
     /// Provides the SQLite implementation of <see cref="IDocumentRepository"/>.
     /// </summary>
-    internal class SQLiteDocumentRepository : SQLiteRepository, IDocumentRepository
+    internal class SqLiteDocumentRepository : SqLiteRepository, IDocumentRepository
     {
-        private string insertDocumentSql;
-        private string insertDocumentTagSql;
-        private string readDocumentSql;
-        private string readPageDocumentSql;
-        private string readDocumentTagSql;
-        private string deleteDocumentSql;
-        private string deleteTagSql;
-        private string searchDocWithTagSql;
-        private string searchDocNoTagSql;
-        private string readDocumentPdfSql;
-        private string updateDocumentSql;
+        private string _insertDocumentSql;
+        private string _insertDocumentTagSql;
+        private string _readDocumentSql;
+        private string _readPageDocumentSql;
+        private string _readDocumentTagSql;
+        private string _deleteDocumentSql;
+        private string _deleteTagSql;
+        private string _searchDocWithTagSql;
+        private string _searchDocNoTagSql;
+        private string _readDocumentPdfSql;
+        private string _updateDocumentSql;
 
         public async Task<bool> InitializeAsync()
         {
             await RunScriptAsync("CREATE_TABLE_DOCUMENT.sql");
             await RunScriptAsync("CREATE_TABLE_DOCUMENT_TAG.sql");
 
-            insertDocumentSql = await ReadResourceAsync("DOCUMENT_INSERT.sql");
-            insertDocumentTagSql = await ReadResourceAsync("DOCUMENT_TAG_INSERT.sql");
-            readDocumentSql = await ReadResourceAsync("DOCUMENT_READ.sql");
-            readPageDocumentSql = await ReadResourceAsync("PAGE_DOC_READ.sql");
-            deleteDocumentSql = await ReadResourceAsync("DOCUMENT_DELETE.sql");
-            readDocumentTagSql = await ReadResourceAsync("DOCUMENT_TAG_READ.sql");
-            deleteTagSql = await ReadResourceAsync("DOCUMENT_TAG_DELETE.sql");
-            searchDocWithTagSql = await ReadResourceAsync("DOCUMENT_SEARCH_TAG.sql"); ;
-            searchDocNoTagSql = await ReadResourceAsync("DOCUMENT_SEARCH_NOTAG.sql");
-            readDocumentPdfSql = await ReadResourceAsync("DOCUMENT_READ_PDF.sql");
-            updateDocumentSql = await ReadResourceAsync("DOCUMENT_UPDATE.sql"); // 
+            _insertDocumentSql = await ReadResourceAsync("DOCUMENT_INSERT.sql");
+            _insertDocumentTagSql = await ReadResourceAsync("DOCUMENT_TAG_INSERT.sql");
+            _readDocumentSql = await ReadResourceAsync("DOCUMENT_READ.sql");
+            _readPageDocumentSql = await ReadResourceAsync("PAGE_DOC_READ.sql");
+            _deleteDocumentSql = await ReadResourceAsync("DOCUMENT_DELETE.sql");
+            _readDocumentTagSql = await ReadResourceAsync("DOCUMENT_TAG_READ.sql");
+            _deleteTagSql = await ReadResourceAsync("DOCUMENT_TAG_DELETE.sql");
+            _searchDocWithTagSql = await ReadResourceAsync("DOCUMENT_SEARCH_TAG.sql"); ;
+            _searchDocNoTagSql = await ReadResourceAsync("DOCUMENT_SEARCH_NOTAG.sql");
+            _readDocumentPdfSql = await ReadResourceAsync("DOCUMENT_READ_PDF.sql");
+            _updateDocumentSql = await ReadResourceAsync("DOCUMENT_UPDATE.sql"); // 
 
             return await Task.FromResult(true);
         }
@@ -47,7 +47,7 @@ namespace Athena.Data.SQLite
         {
             return Audit<IEnumerable<Document>>(
                 context,
-                readPageDocumentSql,
+                _readPageDocumentSql,
                 command =>
                 {
                     command.Bind("@PG_ref", page.Id);
@@ -61,7 +61,7 @@ namespace Athena.Data.SQLite
         {
             return Audit(
                 context,
-                readDocumentSql,
+                _readDocumentSql,
                 command =>
                 {
                     command.Bind("@DOC_ref", key.Id);
@@ -73,7 +73,7 @@ namespace Athena.Data.SQLite
         {
             Audit(
                 context,
-                deleteTagSql,
+                _deleteTagSql,
                 command =>
                 {
                     command.Bind("@DOC_ref", document.Id);
@@ -87,7 +87,7 @@ namespace Athena.Data.SQLite
         {
             Audit(
                 context,
-                insertDocumentTagSql,
+                _insertDocumentTagSql,
                 command =>
                 {
                     command.Bind("@DOC_ref", document.Id);
@@ -103,7 +103,7 @@ namespace Athena.Data.SQLite
         {
             return Audit<IEnumerable<Tag>>(
                 context,
-                readDocumentTagSql,
+                _readDocumentTagSql,
                 command =>
                 {
                     command.Bind("@DOC_ref", document.Id);
@@ -111,7 +111,7 @@ namespace Athena.Data.SQLite
                 });
         }
 
-        public IEnumerable<SearchResult> Search(IContext context, string documentName, IEnumerable<Tag> tags, bool useFTS)
+        public IEnumerable<SearchResult> Search(IContext context, string documentName, IEnumerable<Tag> tags, bool useFts)
         {
             documentName = string.IsNullOrEmpty(documentName) ? string.Empty : $"%{documentName}%";
 
@@ -121,11 +121,11 @@ namespace Athena.Data.SQLite
 
                 if (tags.Any())
                 {
-                    results = SearchWithTags(documentName, tags, useFTS);
+                    results = SearchWithTags(documentName, tags, useFts);
                 }
                 else
                 {
-                    results = SearchNoTags(documentName, useFTS);
+                    results = SearchNoTags(documentName, useFts);
                 }
 
                 foreach (var result in results)
@@ -141,7 +141,7 @@ namespace Athena.Data.SQLite
         {
             return Audit(
                 context,
-                readDocumentPdfSql,
+                _readDocumentPdfSql,
                 command =>
                 {
                     command.Bind("@DOC_ref", document.Id);
@@ -149,28 +149,28 @@ namespace Athena.Data.SQLite
                 });
         }
 
-        private IEnumerable<SearchResult> SearchNoTags(string documentName, bool useFTS)
+        private IEnumerable<SearchResult> SearchNoTags(string documentName, bool useFts)
         {
             var connection = this.Database.GetConnection();
-            SQLiteCommand command = connection.CreateCommand(this.searchDocNoTagSql);
+            SQLiteCommand command = connection.CreateCommand(this._searchDocNoTagSql);
 
             command.Bind("@DOC_name", documentName);
-            command.Bind("@useFTS", useFTS ? 1 : 0);
+            command.Bind("@useFTS", useFts ? 1 : 0);
 
             return command.ExecuteQuery<SearchResult>();
         }
 
-        private IEnumerable<SearchResult> SearchWithTags(string documentName, IEnumerable<Tag> tags, bool useFTS)
+        private IEnumerable<SearchResult> SearchWithTags(string documentName, IEnumerable<Tag> tags, bool useFts)
         {
             string ids = string.Join(",", tags.Select(x => x.Id));
 
-            string sql = searchDocWithTagSql.Replace("<<__replace__>>", ids);
+            string sql = _searchDocWithTagSql.Replace("<<__replace__>>", ids);
 
             var connection = this.Database.GetConnection();
             SQLiteCommand command = connection.CreateCommand(sql);
 
             command.Bind("@DOC_name", documentName);
-            command.Bind("@useFTS", useFTS ? 1 : 0);
+            command.Bind("@useFTS", useFts ? 1 : 0);
 
             return command.ExecuteQuery<SearchResult>();
         }
@@ -179,7 +179,7 @@ namespace Athena.Data.SQLite
         {
             Audit(
                 context,
-                deleteDocumentSql,
+                _deleteDocumentSql,
                 command =>
                 {
                     Debug.Assert(document.Key.Id != DocumentKey.TemporaryId);
@@ -213,7 +213,7 @@ namespace Athena.Data.SQLite
         private void InsertDocumentCore(IContext context, Document document)
         {
             var connection = this.Database.GetConnection();
-            SQLiteCommand command = connection.CreateCommand(this.insertDocumentSql);
+            SQLiteCommand command = connection.CreateCommand(this._insertDocumentSql);
 
             command.Bind("@DOC_name", document.Name.EmptyIfNull());
             command.Bind("@DOC_comment", document.Comment.EmptyIfNull());
@@ -236,7 +236,7 @@ namespace Athena.Data.SQLite
         {
             Audit(
                 context,
-                updateDocumentSql,
+                _updateDocumentSql,
                 command => {
                     document.ModDate = DateTime.UtcNow;
 

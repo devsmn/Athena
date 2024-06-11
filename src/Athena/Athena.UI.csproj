@@ -306,7 +306,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Content\Views\Document\Steps\Proxy\" />
 	  <Folder Include="Content\Views\Folder\Steps\" />
 	  <Folder Include="Content\Views\Page\Steps\" />
 	</ItemGroup>
