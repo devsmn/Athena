@@ -17,6 +17,12 @@ namespace Athena.UI
         [ObservableProperty]
         private LanguageViewModel _selectedLanguage;
 
+        [ObservableProperty]
+        private bool _isNewsPopupOpen;
+
+        [ObservableProperty]
+        private string _newsText;
+
         public SettingsViewModel()
         {
             Languages = new ObservableCollection<LanguageViewModel> {
@@ -75,6 +81,13 @@ namespace Athena.UI
         private async Task ShowTutorial()
         {
             await PushModalAsync(new TutorialView());
+        }
+
+        [RelayCommand]
+        private void ShowNews()
+        {
+            NewsText = Localization.NewsText;
+            IsNewsPopupOpen = true;
         }
     }
 

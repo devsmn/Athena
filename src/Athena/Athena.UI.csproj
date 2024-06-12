@@ -59,6 +59,7 @@
 	  <AndroidUseAapt2>True</AndroidUseAapt2>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
 	  <AndroidPackageFormat>aab</AndroidPackageFormat>
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
@@ -119,6 +120,7 @@
 	  <None Remove="Resources\Images\image_placeholder.png" />
 	  <None Remove="Resources\Images\info.png" />
 	  <None Remove="Resources\Images\menu.png" />
+	  <None Remove="Resources\Images\move.png" />
 	  <None Remove="Resources\Images\next.png" />
 	  <None Remove="Resources\Images\page.png" />
 	  <None Remove="Resources\Images\pdf.png" />
@@ -330,6 +332,7 @@
 
 	<ItemGroup>
 	  <MauiIcon Include="Resources\AppIcon\athena_icon.png" />
+	  <MauiImage Include="Resources\Images\move.png" />
 	</ItemGroup>
 
 	<ItemGroup>

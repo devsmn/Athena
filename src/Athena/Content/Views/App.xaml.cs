@@ -11,8 +11,6 @@ namespace Athena.UI
 {
     public partial class App : Application
     {
-        private bool raised;
-
         public App()
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
@@ -63,6 +61,16 @@ namespace Athena.UI
                 });
             
             MainPage = new ContainerPage();
+
+            Application.Current.ModalPopped += CurrentOnModalPopped;
+        }
+
+        private void CurrentOnModalPopped(object sender, ModalPoppedEventArgs e)
+        {
+            if (e.Modal?.BindingContext is not ContextViewModel vm)
+                return;
+
+            vm.Dispose();
         }
 
         private void AddDefaultData()

@@ -30,8 +30,11 @@ namespace Athena.UI
         [ObservableProperty]
         private bool _isBusy;
 
-        public FolderDetailsViewModel(Folder folder)
+        private readonly IEnumerable<FolderViewModel> _allFolders;
+
+        public FolderDetailsViewModel(Folder folder, IEnumerable<FolderViewModel> allFolders)
         {
+            _allFolders = allFolders;
             _dummyFolder = folder;
         }
         
@@ -175,7 +178,7 @@ namespace Athena.UI
         [RelayCommand]
         private async Task PageSelected()
         {
-            await PushAsync(new PageDetailsView(Folder, SelectedPage));
+            await PushAsync(new PageDetailsView(Folder, SelectedPage, _allFolders));
             SelectedPage = null;
         }
 

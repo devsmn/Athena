@@ -1,4 +1,6 @@
-﻿using Athena.Resources.Localization;
+﻿using System.Collections.ObjectModel;
+using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -28,6 +30,15 @@ namespace Athena.UI
         [ObservableProperty]
         private bool _isDocumentMenuOpen;
 
+        [ObservableProperty]
+        private bool _isMoveDocumentPopupOpen;
+
+        [ObservableProperty]
+        private MoveDocumentTargetViewModel _selectedMoveDestination;
+
+        [ObservableProperty]
+        private ObservableCollection<MoveDocumentTargetViewModel> _folders;
+
         public PageViewModel Page
         {
             get { return _page; }
@@ -39,9 +50,11 @@ namespace Athena.UI
         }
 
         private readonly Page _dummyPage;
+        private readonly IEnumerable<FolderViewModel> _allFolders;
 
-        public PageDetailsViewModel(Folder folder, Page page)
+        public PageDetailsViewModel(Folder folder, Page page, IEnumerable<FolderViewModel> allFolders)
         {
+            _allFolders = allFolders;
             this._dummyPage = page;
             this._folder = folder;
         }
@@ -79,7 +92,7 @@ namespace Athena.UI
                 string.Format(Localization.DeletePageConfirm, Page.Title),
                 Localization.Yes,
                 Localization.No);
-            
+
 
             if (!result)
                 return;
@@ -91,7 +104,7 @@ namespace Athena.UI
 
             await Toast.Make(string.Format(Localization.PageDeleted, Page.Title), ToastDuration.Long).Show();
             await PopAsync();
-            
+
         }
 
         protected override void OnDataPublished(DataPublishedEventArgs e)
@@ -139,7 +152,6 @@ namespace Athena.UI
                 string.Format(Localization.DeleteDocumentConfirm, document.Name),
                 Localization.Yes,
                 Localization.No);
-            
 
             if (!result)
                 return;
@@ -169,6 +181,82 @@ namespace Athena.UI
         {
             await PushModalAsync(new DocumentEditorView(this._folder, _page, document));
             SelectedDocument = null;
+            IsDocumentMenuOpen = false;
+        }
+
+        [RelayCommand]
+        private void MoveDocument()
+        {
+            if (_folders == null || _folders.Count == 0)
+            {
+                IsBusy = true;
+                Folders = new();
+
+                foreach (var folder in _allFolders)
+                {
+                    MoveDocumentTargetViewModel folderVm = new (folder.Name, folder.Comment, true, null);
+
+                    foreach (var page in folder.Pages)
+                    {
+                        MoveDocumentTargetViewModel pageVm = new (page.Title, page.Comment, false, page);
+                        folderVm.Children.Add(pageVm);
+                    }
+
+                    Folders.Add(folderVm);
+                }
+
+                IsBusy = false;
+            }
+
+            IsMoveDocumentPopupOpen = true;
+        }
+
+        [RelayCommand]
+        private async Task MoveDestinationSelected()
+        {
+            if (SelectedMoveDestination == null)
+                return;
+
+            if (SelectedMoveDestination.IsFolder)
+            {
+                SelectedMoveDestination = null;
+                return;
+            }
+
+            if (SelectedMoveDestination.Page.Id == this.Page.Page.Id)
+                return;
+
+            bool move = await DisplayAlert(
+                Localization.MoveDocument,
+                string.Format(Localization.MoveDocumentConfirm, SelectedDocument.Name, SelectedMoveDestination.Name),
+                Localization.Yes,
+                Localization.No);
+
+            if (!move)
+            {
+                SelectedMoveDestination = null;
+                return;
+            }
+
+            IContext context = this.RetrieveContext();
+
+            SelectedDocument.Document.MoveTo(context, _page.Page, SelectedMoveDestination.Page);
+
+            IDataBrokerService publishService = ServiceProvider.GetService<IDataBrokerService>();
+            publishService.Publish(context, SelectedDocument.Document, UpdateType.Remove, Page.Page.Key);
+            publishService.Publish(context, SelectedDocument.Document, UpdateType.Add, SelectedMoveDestination.Page.Key);
+
+            await Toast.Make(
+                    string.Format(Localization.DocumentMovedSuccessfully, SelectedDocument.Name, SelectedMoveDestination.Name), 
+                    ToastDuration.Long)
+                .Show();
+
+            Page.RemoveDocument(SelectedDocument);
+            SelectedMoveDestination.Page.AddDocument(SelectedDocument);
+
+            SelectedDocument = null;
+            SelectedMoveDestination = null;
+            IsMoveDocumentPopupOpen = false;
             IsDocumentMenuOpen = false;
         }
     }

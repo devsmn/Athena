@@ -26,7 +26,9 @@
 	  <None Remove="Content\sql\DML\Chapter\CHAPTER_INSERT.sql" />
 	  <None Remove="Content\sql\DML\Chapter\CHAPTER_READ.sql" />
 	  <None Remove="Content\sql\DML\Document\DOCUMENT_DELETE.sql" />
+	  <None Remove="Content\sql\DML\Document\DOCUMENT_FTS_MOVE.sql" />
 	  <None Remove="Content\sql\DML\Document\DOCUMENT_INSERT.sql" />
+	  <None Remove="Content\sql\DML\Document\DOCUMENT_MOVE.sql" />
 	  <None Remove="Content\sql\DML\Document\DOCUMENT_READ.sql" />
 	  <None Remove="Content\sql\DML\Document\DOCUMENT_READ_PDF.sql" />
 	  <None Remove="Content\sql\DML\Document\DOCUMENT_SEARCH_NOTAG.sql" />
@@ -91,6 +93,10 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
+	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_FTS_MOVE.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
 	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_READ_PDF.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
@@ -120,6 +126,10 @@
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
 	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_TAG_READ.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_MOVE.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>

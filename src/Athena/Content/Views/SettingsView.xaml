@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Athena.UI.SettingsView"
              BackgroundColor="#F6F8FB"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
@@ -10,6 +11,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -29,6 +31,7 @@
                LineBreakMode="WordWrap"
                x:Name="versionLabel"
                Grid.ColumnSpan="2"/>
+
 
         <Border BackgroundColor="White"
                 Margin="3"
@@ -95,16 +98,33 @@
             </Border >
         </HorizontalStackLayout>
 
+        <Border BackgroundColor="White"
+                Margin="3"
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+                StrokeShape="RoundRectangle 5">
+
+            <sfb:SfButton Text="{x:Static loc:Localization.News}"
+                          Command="{Binding ShowNewsCommand}"
+                          HorizontalTextAlignment="Start"
+                          Background="Transparent"
+                          ImageSource="info.png"
+                          ImageAlignment="Left"
+                          ImageSize="25"
+                          ShowIcon="True"
+                          StrokeThickness="0"/>
+        </Border>
+
 
         <Label Text="{x:Static loc:Localization.Language}" 
                    Margin="5" 
-                   Grid.Row="3"
+                   Grid.Row="4"
                    VerticalTextAlignment="Center"/>
 
-            <editors:SfComboBox Margin="5,0,5,5" 
+        <editors:SfComboBox Margin="5,0,5,5" 
                                 x:Name="cb"
                                 BackgroundColor="Transparent"
-                                Grid.Row="3"
+                                Grid.Row="4"
                                 Grid.Column="1"
                                 IsClearButtonVisible="False"
                                 ItemsSource="{Binding Languages}" 
@@ -112,14 +132,28 @@
                                 DisplayMemberPath="Name"
                                 SelectedValuePath="Id"
                                 TextMemberPath="Name">
-                <editors:SfComboBox.Behaviors>
-                    <toolkit:EventToCommandBehavior 
+            <editors:SfComboBox.Behaviors>
+                <toolkit:EventToCommandBehavior 
                         EventName="SelectionChanged"
                         Command="{Binding Source={x:Reference cb}, Path=BindingContext.SelectionChangedCommand}"/>
-                </editors:SfComboBox.Behaviors>
-            </editors:SfComboBox>
+            </editors:SfComboBox.Behaviors>
+        </editors:SfComboBox>
 
-        
+        <p:SfPopup IsOpen="{Binding IsNewsPopupOpen}"
+                   IsFullScreen="True"
+                   HeaderTitle="{x:Static loc:Localization.News}"
+                   ShowCloseButton="True">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <ScrollView>
+                        <Label
+                            Margin="10" Text="{Binding NewsText}" TextType="Html" LineBreakMode="CharacterWrap" />
+                    </ScrollView>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+
     </Grid>
 
 

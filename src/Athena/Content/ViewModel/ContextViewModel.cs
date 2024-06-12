@@ -12,7 +12,6 @@ namespace Athena.UI
         public ContextViewModel()
             : base()
         {
-            // TODO: bool if sub is needed?
             ServiceProvider.GetService<IDataBrokerService>().Published += OnDataBrokerPublished;
             ServiceProvider.GetService<IDataBrokerService>().PublishStarted += OnDataBrokerPublishStarted;
             ServiceProvider.GetService<IDataBrokerService>().AppInitialized += OnDataBrokerAppInitialized;

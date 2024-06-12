@@ -210,7 +210,7 @@ namespace Athena.UI
         [RelayCommand]
         public async Task FolderClicked()
         {
-            await PushAsync(new FolderDetailsView(SelectedFolder));
+            await PushAsync(new FolderDetailsView(SelectedFolder, Folders));
             SelectedFolder = null;
         }
     }
