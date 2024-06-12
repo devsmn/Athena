@@ -74,5 +74,14 @@ namespace Athena.DataModel
         /// <param name="document"></param>
         /// <returns></returns>
         string ReadPdfAsString(IContext context, Document document);
+
+        /// <summary>
+        /// Moves the provided <paramref name="document"/> to the given <paramref name="newPage"/>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="document"></param>
+        /// <param name="oldPage"></param>
+        /// <param name="newPage"></param>
+        void MoveTo(IContext context, Document document, Page oldPage, Page newPage);
     }
 }

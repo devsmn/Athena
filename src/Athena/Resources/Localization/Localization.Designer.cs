@@ -309,6 +309,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Document {0} successfully moved to {1}.
+        /// </summary>
+        public static string DocumentMovedSuccessfully {
+            get {
+                return ResourceManager.GetString("DocumentMovedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Documents.
         /// </summary>
         public static string Documents {
@@ -503,6 +512,78 @@ namespace Athena.Resources.Localization {
         public static string LoadingPages {
             get {
                 return ResourceManager.GetString("LoadingPages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move.
+        /// </summary>
+        public static string Move {
+            get {
+                return ResourceManager.GetString("Move", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move document.
+        /// </summary>
+        public static string MoveDocument {
+            get {
+                return ResourceManager.GetString("MoveDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to move the document {0} to page {1}?.
+        /// </summary>
+        public static string MoveDocumentConfirm {
+            get {
+                return ResourceManager.GetString("MoveDocumentConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move to selected page.
+        /// </summary>
+        public static string MoveToSelectedPage {
+            get {
+                return ResourceManager.GetString("MoveToSelectedPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to News.
+        /// </summary>
+        public static string News {
+            get {
+                return ResourceManager.GetString("News", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;h2&gt;
+        ///	Planned features&lt;/h2&gt;
+        ///&lt;p&gt;- Remove pages and allow nesting of folders&lt;/p&gt;
+        ///&lt;p&gt;- Allow adding documents to folders&lt;/p&gt;
+        ///&lt;p&gt;- Export and import data&lt;/p&gt;
+        ///&lt;p&gt;- Encrypt stored documents&lt;/p&gt;
+        ///&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+        ///&lt;h2&gt;
+        ///	Changelog&lt;/h2&gt;
+        ///&lt;p&gt;Information about fixes, new features and improvements.&lt;/p&gt;
+        ///&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+        ///&lt;h3&gt;
+        ///	Athena v1.0.3 (06.12.2024)&lt;/h3&gt;
+        ///&lt;p&gt;- Documents can be moved to a different page&lt;/p&gt;
+        ///&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+        ///&lt;h3&gt;
+        ///	Athena v1.0.2 (05.28.2024)&lt;/h3&gt;
+        ///&lt;p&gt;- Release version for closed alpha testing&lt;/p&gt;
+        ///&lt;p [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string NewsText {
+            get {
+                return ResourceManager.GetString("NewsText", resourceCulture);
             }
         }
         

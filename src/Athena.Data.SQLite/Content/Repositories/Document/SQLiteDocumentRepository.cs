@@ -22,6 +22,8 @@ namespace Athena.Data.SQLite
         private string _searchDocNoTagSql;
         private string _readDocumentPdfSql;
         private string _updateDocumentSql;
+        private string _moveToPageSql;
+        private string _moveToPageFtsSql;
 
         public async Task<bool> InitializeAsync()
         {
@@ -38,11 +40,14 @@ namespace Athena.Data.SQLite
             _searchDocWithTagSql = await ReadResourceAsync("DOCUMENT_SEARCH_TAG.sql"); ;
             _searchDocNoTagSql = await ReadResourceAsync("DOCUMENT_SEARCH_NOTAG.sql");
             _readDocumentPdfSql = await ReadResourceAsync("DOCUMENT_READ_PDF.sql");
-            _updateDocumentSql = await ReadResourceAsync("DOCUMENT_UPDATE.sql"); // 
+            _updateDocumentSql = await ReadResourceAsync("DOCUMENT_UPDATE.sql");
+            _moveToPageSql = await ReadResourceAsync("DOCUMENT_MOVE.sql");
+            _moveToPageFtsSql = await ReadResourceAsync("DOCUMENT_FTS_MOVE.sql"); 
 
             return await Task.FromResult(true);
         }
 
+        /// <inheritdoc />  
         public IEnumerable<Document> ReadAll(IContext context, Page page)
         {
             return Audit<IEnumerable<Document>>(
@@ -57,6 +62,7 @@ namespace Athena.Data.SQLite
                 });
         }
 
+        /// <inheritdoc />  
         public Document Read(IContext context, DocumentKey key)
         {
             return Audit(
@@ -69,6 +75,7 @@ namespace Athena.Data.SQLite
                 });
         }
 
+        /// <inheritdoc />  
         public void DeleteTag(IContext context, Document document, Tag tag)
         {
             Audit(
@@ -83,6 +90,7 @@ namespace Athena.Data.SQLite
                 });
         }
 
+        /// <inheritdoc />  
         public void AddTag(IContext context, Document document, Tag tag)
         {
             Audit(
@@ -99,6 +107,7 @@ namespace Athena.Data.SQLite
                 });
         }
 
+        /// <inheritdoc />  
         public IEnumerable<Tag> ReadTags(IContext context, Document document)
         {
             return Audit<IEnumerable<Tag>>(
@@ -111,6 +120,7 @@ namespace Athena.Data.SQLite
                 });
         }
 
+        /// <inheritdoc />  
         public IEnumerable<SearchResult> Search(IContext context, string documentName, IEnumerable<Tag> tags, bool useFts)
         {
             documentName = string.IsNullOrEmpty(documentName) ? string.Empty : $"%{documentName}%";
@@ -137,6 +147,7 @@ namespace Athena.Data.SQLite
             });
         }
 
+        /// <inheritdoc />  
         public string ReadPdfAsString(IContext context, Document document)
         {
             return Audit(
@@ -175,6 +186,7 @@ namespace Athena.Data.SQLite
             return command.ExecuteQuery<SearchResult>();
         }
 
+        /// <inheritdoc />  
         public void Delete(IContext context, Document document)
         {
             Audit(
@@ -191,6 +203,7 @@ namespace Athena.Data.SQLite
                 });
         }
 
+        /// <inheritdoc />  
         public void Save(IContext context, Document document)
         {
             try
@@ -248,5 +261,35 @@ namespace Athena.Data.SQLite
                     command.ExecuteNonQuery();
                 });
         }
+
+        /// <inheritdoc />  
+        public void MoveTo(IContext context, Document document, Page oldPage, Page newPage)
+        {
+            this.Audit(
+                context,
+                _moveToPageSql,
+                command => {
+                    document.ModDate = DateTime.UtcNow;
+
+                    command.Bind("@PG_ref_old", oldPage.Id);
+                    command.Bind("@PG_ref_new", newPage.Id);
+                    command.Bind("@DOC_ref", document.Id);
+
+                    command.ExecuteNonQuery();
+                });
+
+            this.Audit(
+                context,
+                _moveToPageFtsSql,
+                command => {
+                    command.Bind("@PG_ref_old", oldPage.Id.ToString());
+                    command.Bind("@PG_ref_new", newPage.Id.ToString());
+                    command.Bind("@DOC_ref", document.Id.ToString());
+
+                    command.ExecuteNonQuery();
+                });
+
+        }
+
     }
 }

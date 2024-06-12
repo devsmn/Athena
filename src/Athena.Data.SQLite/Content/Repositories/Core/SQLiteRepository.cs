@@ -64,20 +64,32 @@ namespace Athena.Data.SQLite
         protected TResult Audit<TResult>(IContext context, string commandText, Func<SQLiteCommand, TResult> action)
         {
             SQLiteConnection connection = Database.GetConnection();
+            bool ownTransaction = !connection.IsInTransaction;
 
             try
             {
-                connection.BeginTransaction();
+                if (ownTransaction)
+                {
+                    connection.BeginTransaction();
+                }
+
                 return action(connection.CreateCommand(commandText));
             }
             catch (Exception ex)
             {
-                connection.Rollback();
+                if (ownTransaction)
+                {
+                    connection.Rollback();
+                }
+
                 context.Log(ex);
             }
             finally
             {
-                connection.Commit();
+                if (ownTransaction)
+                {
+                    connection.Commit();
+                }
             }
 
             return default;
@@ -99,16 +111,29 @@ namespace Athena.Data.SQLite
         protected void Audit(IContext context, string commandText, Action<SQLiteCommand> action)
         {
             SQLiteConnection connection = Database.GetConnection();
+            bool ownTransaction = !connection.IsInTransaction;
 
             try
             {
-                connection.BeginTransaction();
+                if (ownTransaction)
+                {
+                    connection.BeginTransaction();
+                }
+
                 action(connection.CreateCommand(commandText));
-                connection.Commit();
+
+                if (ownTransaction)
+                {
+                    connection.Commit();
+                }
             }
             catch (Exception ex)
             {
-                connection.Rollback();
+                if (ownTransaction)
+                {
+                    connection.Rollback();
+                }
+
                 context.Log(ex);
             }
         }

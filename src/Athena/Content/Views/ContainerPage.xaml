@@ -9,10 +9,10 @@
             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
             android:TabbedPage.ToolbarPlacement="Bottom" >
 
-    <NavigationPage Title="{x:Static loc:Localization.Folders}" IconImageSource="folder.png" Popped="NavigationPage_OnPopped" >
+    <NavigationPage Title="{x:Static loc:Localization.Folders}" IconImageSource="folder.png" Popped="NavigationPage_OnPopped">
 
         <x:Arguments>
-            <local:FolderOverview NavigationPage.HasNavigationBar="False"   />
+            <local:FolderOverview NavigationPage.HasNavigationBar="False"  />
         </x:Arguments>
     </NavigationPage>
 

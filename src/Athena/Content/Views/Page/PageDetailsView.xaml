@@ -5,6 +5,8 @@
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              BackgroundColor="#F6F8FB"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:tree="clr-namespace:Syncfusion.Maui.TreeView;assembly=Syncfusion.Maui.TreeView"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
@@ -81,46 +83,46 @@
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
 
-                    <Label Margin="3,0,3,0" 
+                        <Label Margin="3,0,3,0" 
                            LineBreakMode="WordWrap"
                            Grid.Row="0">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Title: " FontAttributes="Bold" />
-                                <Span Text="{Binding Page.Title}"></Span>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Title: " FontAttributes="Bold" />
+                                    <Span Text="{Binding Page.Title}"></Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
 
-                    <Label Margin="3,0,3,0" 
+                        <Label Margin="3,0,3,0" 
                            LineBreakMode="WordWrap"
                            Grid.Row="1">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Comment: " FontAttributes="Bold" />
-                                <Span Text="{Binding Page.Comment}"></Span>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Comment: " FontAttributes="Bold" />
+                                    <Span Text="{Binding Page.Comment}"></Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
 
-                    <Label Margin="3,0,3,0"
+                        <Label Margin="3,0,3,0"
                            Grid.Row="2">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Created at: "  FontAttributes="Bold"/>
-                                <Span Text="{Binding Page.CreationDate}"></Span>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Created at: "  FontAttributes="Bold"/>
+                                    <Span Text="{Binding Page.CreationDate}"></Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
 
-                    <Label Margin="3,0,3,5"
+                        <Label Margin="3,0,3,5"
                            Grid.Row="3">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Last modified at: " FontAttributes="Bold" />
-                                <Span Text="{Binding Page.ModDate}"></Span>
-                            </FormattedString>
-                        </Label.FormattedText>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Last modified at: " FontAttributes="Bold" />
+                                    <Span Text="{Binding Page.ModDate}"></Span>
+                                </FormattedString>
+                            </Label.FormattedText>
                         </Label>
                     </Grid>
                 </DataTemplate>
@@ -162,7 +164,51 @@
                                ShowIcon="True"
                                StrokeThickness="0"/>
 
+                        <sfb:SfButton Text="{x:Static loc:Localization.Move}"
+                                      Margin="3"
+                                      Command="{Binding MoveDocumentCommand}"
+                                      HorizontalTextAlignment="Start"
+                                      Background="Transparent"
+                                      ImageSource="move.png"
+                                      ImageAlignment="Left"
+                                      ImageSize="25"
+                                      ShowIcon="True"
+                                      StrokeThickness="0"/>
+
                     </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+        <p:SfPopup IsOpen="{Binding IsMoveDocumentPopupOpen}" 
+                   Closed="MoveDocumentPopupClosed"
+                   AcceptButtonText="{Binding Source={x:Static loc:Localization.MoveToSelectedPage}}"
+                   DeclineButtonText="{Binding Source={x:Static loc:Localization.Close}}"
+                   ShowHeader="False">
+            <p:SfPopup.PopupStyle>
+                <p:PopupStyle CornerRadius="5" />
+            </p:SfPopup.PopupStyle>
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <tree:SfTreeView MaximumHeightRequest="500" 
+                                     SelectionMode="Single"
+                                     Margin="5"
+                                     SelectedItem="{Binding SelectedMoveDestination}"
+                                     ItemsSource="{Binding Folders}"
+                                     ChildPropertyName="Children">
+                        <tree:SfTreeView.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="SelectionChanged" 
+                                                            Command="{Binding MoveDestinationSelectedCommand}"/>
+                        </tree:SfTreeView.Behaviors>
+                        <tree:SfTreeView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Name}"  FontAttributes="Bold"/>
+                                    <Label Text="{Binding Comment}" FontSize="12"  />
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </tree:SfTreeView.ItemTemplate>
+                    </tree:SfTreeView>
                 </DataTemplate>
             </p:SfPopup.ContentTemplate>
         </p:SfPopup>

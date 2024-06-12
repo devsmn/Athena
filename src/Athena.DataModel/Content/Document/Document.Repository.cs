@@ -85,5 +85,17 @@ namespace Athena.DataModel
         {
             PdfString = DataStore.Resolve<IDocumentRepository>().ReadPdfAsString(context, document);
         }
+        
+        /// <summary>
+        /// Moves this <see cref="Document"/> to the given <see cref="newPage"/>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="oldPage"></param>
+        /// <param name="newPage"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        public void MoveTo(IContext context, Page oldPage, Page newPage)
+        {
+            DataStore.Resolve<IDocumentRepository>().MoveTo(context, this, oldPage, newPage);
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Athena.DataModel;
 using Syncfusion.Maui.ListView;
@@ -11,9 +12,9 @@ public partial class FolderDetailsView : ContentPage
 
     private FolderDetailsViewModel _vm;
 
-    public FolderDetailsView(Folder selectedFolder)
+    public FolderDetailsView(Folder selectedFolder, IEnumerable<FolderViewModel> allFolders)
     {
-        _vm = new FolderDetailsViewModel(selectedFolder);
+        _vm = new FolderDetailsViewModel(selectedFolder, allFolders);
         this.BindingContext = _vm;
         InitializeComponent();
 
