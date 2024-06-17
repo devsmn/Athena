@@ -41,32 +41,31 @@ namespace Athena.UI
 
         protected override void OnDataPublished(DataPublishedEventArgs e)
         {
-            if (e.Tags.Any())
+            if (!e.Tags.Any())
+                return;
+
+            foreach (var tagUpdate in e.Tags)
             {
-                foreach (var tagUpdate in e.Tags)
+                if (tagUpdate.Type == UpdateType.Add)
                 {
-                    if (tagUpdate.Type == UpdateType.Add)
-                    {
-                        Tags.Add(tagUpdate.Entity);
-                    }
-                    else if (tagUpdate.Type == UpdateType.Remove)
-                    {
-                        var toRemove = Tags.FirstOrDefault(x => x.Id == tagUpdate.Entity.Id);
+                    MainThread.InvokeOnMainThreadAsync(() => Tags.Add(tagUpdate.Entity));
+                }
+                else if (tagUpdate.Type == UpdateType.Remove)
+                {
+                    var toRemove = Tags.FirstOrDefault(x => x.Id == tagUpdate.Entity.Id);
 
-                        if (toRemove != null)
-                            Tags.Remove(toRemove);
-                    }
-                    else if (tagUpdate.Type == UpdateType.Edit)
-                    {
-                        var toEdit = Tags.FirstOrDefault(x => x.Id == tagUpdate.Entity.Id);
+                    if (toRemove != null)
+                        MainThread.InvokeOnMainThreadAsync(() => Tags.Remove(toRemove));
+                }
+                else if (tagUpdate.Type == UpdateType.Edit)
+                {
+                    var toEdit = Tags.FirstOrDefault(x => x.Id == tagUpdate.Entity.Id);
 
-                        if (toEdit != null)
-                        {
-                            toEdit.Name = tagUpdate.Entity.Name;
-                        }
+                    if (toEdit != null)
+                    {
+                        MainThread.InvokeOnMainThreadAsync(() => toEdit.Name = tagUpdate.Entity.Name);
                     }
                 }
-
             }
         }
 

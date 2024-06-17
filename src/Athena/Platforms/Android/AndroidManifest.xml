@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.spflaum.athena" android:versionCode="4" android:versionName="1.0.3">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.spflaum.athena" android:versionCode="6" android:versionName="1.0.5">
 	<application android:allowBackup="true" android:supportsRtl="true" android:label="Athena" android:icon="@mipmap/athena_icon">
 		<activity android:name="com.google.android.gms.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" android:theme="@android:style/Theme.Translucent" />
-		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-3940256099942544~3347511713" />
+		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-7134624676592827~4450593275" />
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />

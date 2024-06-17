@@ -561,25 +561,25 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;
-        ///	Planned features&lt;/h2&gt;
+        ///   Looks up a localized string similar to &lt;h2&gt;Planned features&lt;/h2&gt;
         ///&lt;p&gt;- Remove pages and allow nesting of folders&lt;/p&gt;
         ///&lt;p&gt;- Allow adding documents to folders&lt;/p&gt;
         ///&lt;p&gt;- Export and import data&lt;/p&gt;
         ///&lt;p&gt;- Encrypt stored documents&lt;/p&gt;
         ///&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-        ///&lt;h2&gt;
-        ///	Changelog&lt;/h2&gt;
+        ///
+        ///&lt;h2&gt;Changelog&lt;/h2&gt;
         ///&lt;p&gt;Information about fixes, new features and improvements.&lt;/p&gt;
         ///&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-        ///&lt;h3&gt;
-        ///	Athena v1.0.3 (06.12.2024)&lt;/h3&gt;
-        ///&lt;p&gt;- Documents can be moved to a different page&lt;/p&gt;
+        ///
+        ///&lt;h3&gt;Athena v1.0.5 (06.17.2024)&lt;/h3&gt;
+        ///&lt;p&gt;- Fix issues when adding tags &lt;/p&gt;
+        ///&lt;p&gt;- Activate ads&lt;/p&gt;
         ///&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-        ///&lt;h3&gt;
-        ///	Athena v1.0.2 (05.28.2024)&lt;/h3&gt;
-        ///&lt;p&gt;- Release version for closed alpha testing&lt;/p&gt;
-        ///&lt;p [rest of string was truncated]&quot;;.
+        ///
+        ///&lt;h3&gt;Athena v1.0.4 (06.12.2024)&lt;/h3&gt;
+        ///&lt;p&gt;- Improve performance&lt;/p&gt;
+        ///&lt;p&gt;- Update dependen [rest of string was truncated]&quot;;.
         /// </summary>
         public static string NewsText {
             get {

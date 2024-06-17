@@ -3,6 +3,7 @@ using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Controls.Internals;
 
 #if ANDROID
 using Android;
@@ -252,9 +253,11 @@ namespace Athena.UI
         {
             ShowMenuPopup = false;
 
+            string name = Document.Name;
+
             var result = await DisplayAlert(
                 Localization.DeleteDocument,
-                string.Format(Localization.DeleteDocumentConfirm, Document.Name),
+                string.Format(Localization.DeleteDocumentConfirm, name),
                 Localization.Yes,
                 Localization.No);
 
@@ -263,7 +266,7 @@ namespace Athena.UI
                 var context = RetrieveContext();
                 Document.Document.Delete(context);
 
-                await Toast.Make(string.Format(Localization.DocumentDeleted, Document.Name), ToastDuration.Long).Show();
+                await Toast.Make(string.Format(Localization.DocumentDeleted, name), ToastDuration.Long).Show();
 
                 ServiceProvider.GetService<IDataBrokerService>().Publish(
                     context,

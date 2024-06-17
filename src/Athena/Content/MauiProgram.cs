@@ -15,10 +15,9 @@ public static class MauiProgram
         AdConfig.UseTestAdUnitIds = true;
         AdConfig.AddTestDevice("BA3156A459BD267FCF0E7B5173A25A2C");
 #else
-        //AdConfig.DefaultInterstitialAdUnitId = "ca-app-pub-7134624676592827/8601607180";
-        AdConfig.DefaultInterstitialAdUnitId = "ca-app-pub-3940256099942544/1033173712";
-        AdConfig.DefaultBannerAdUnitId = "ca-app-pub-3940256099942544/6300978111";
-        AdConfig.AddTestDevice("BA3156A459BD267FCF0E7B5173A25A2C");
+        AdConfig.DefaultInterstitialAdUnitId = "ca-app-pub-7134624676592827/8601607180";
+        AdConfig.DefaultBannerAdUnitId = "ca-app-pub-7134624676592827/4690515785";
+        //AdConfig.AddTestDevice("BA3156A459BD267FCF0E7B5173A25A2C");
 #endif
 
         var builder = MauiApp.CreateBuilder();

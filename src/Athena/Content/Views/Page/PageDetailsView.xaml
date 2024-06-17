@@ -191,6 +191,7 @@
             <p:SfPopup.ContentTemplate>
                 <DataTemplate>
                     <tree:SfTreeView MaximumHeightRequest="500" 
+                                     MinimumWidthRequest="500"
                                      SelectionMode="Single"
                                      Margin="5"
                                      SelectedItem="{Binding SelectedMoveDestination}"

@@ -293,32 +293,41 @@ Depending on the size of the documents, this process may take a moment.</comment
     <value>Neuigkeiten</value>
   </data>
   <data name="NewsText" xml:space="preserve">
-    <value>&lt;h2&gt;
-	Geplante Funktionen&lt;/h2&gt;
+    <value>&lt;h2&gt;Geplante Funktionen&lt;/h2&gt;
 &lt;p&gt;- Seiten entfernen und mit der Möglichkeit ersetzen, Ordner in Ordner anzulegen&lt;/p&gt;
 &lt;p&gt;- Hinzufügen von Dokumenten zu Ordnern ermöglichen&lt;/p&gt;
 &lt;p&gt;- Daten exportieren und importieren&lt;/p&gt;
 &lt;p&gt;- Verschlüsselung gespeicherter Dokumente&lt;/p&gt;
 &lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h2&gt;
-	Changelog&lt;/h2&gt;
+
+&lt;h2&gt;Changelog&lt;/h2&gt;
 &lt;p&gt;Informationen über Fixes, neue Funktionen und Verbesserungen.&lt;/p&gt;
 &lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h3&gt;
-	Athena v1.0.3 (12.06.2024)&lt;/h3&gt;
+
+&lt;h3&gt;Athena v1.0.5 (17.06.2024)&lt;/h3&gt;
+&lt;p&gt;- Probleme beim Hinzufügen von Tags behoben &lt;/p&gt;
+&lt;p&gt;- Werbung aktiviert &lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;h3&gt;Athena v1.0.4 (12.06.2024)&lt;/h3&gt;
+&lt;p&gt;- Performance verbessert&lt;/p&gt;
+&lt;p&gt;- Dependencies aktualisiert&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+
+&lt;h3&gt;Athena v1.0.3 (12.06.2024)&lt;/h3&gt;
 &lt;p&gt;- Dokumente können auf eine andere Seite verschoben werden&lt;/p&gt;
 &lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h3&gt;
-	Athena v1.0.2 (28.05.2024)&lt;/h3&gt;
+
+&lt;h3&gt;Athena v1.0.2 (28.05.2024)&lt;/h3&gt;
 &lt;p&gt;- Freigabe der Version für closed alpha testing&lt;/p&gt;
 &lt;p&gt;- Links zu Datenschutz, Nutzungsbedingungen und Copyright hinzugefügt&lt;/p&gt;
 &lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h3&gt;
-	Athena v1.0.1 (23.05.2024)&lt;/h3&gt;
+
+&lt;h3&gt;Athena v1.0.1 (23.05.2024)&lt;/h3&gt;
 &lt;p&gt;- Verschiedene Probleme behoben&lt;/p&gt;
 &lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;h3&gt;
-	Athena v1.0.0 (01.05.2024)&lt;/h3&gt;
+
+&lt;h3&gt;Athena v1.0.0 (01.05.2024)&lt;/h3&gt;
 &lt;p&gt;- Erste Veröffentlichung von Athena: AI Document Manager&lt;/p&gt;</value>
   </data>
   <data name="Next" xml:space="preserve">

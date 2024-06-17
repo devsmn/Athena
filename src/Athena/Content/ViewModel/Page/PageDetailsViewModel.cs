@@ -87,9 +87,11 @@ namespace Athena.UI
         {
             ShowMenuPopup = false;
 
+            string title = Page.Title;
+
             bool result = await DisplayAlert(
                 Localization.DeletePage,
-                string.Format(Localization.DeletePageConfirm, Page.Title),
+                string.Format(Localization.DeletePageConfirm, title),
                 Localization.Yes,
                 Localization.No);
 
@@ -102,7 +104,7 @@ namespace Athena.UI
             Page.Page.Delete(context);
             ServiceProvider.GetService<IDataBrokerService>().Publish<Page>(context, Page, UpdateType.Remove, this._folder.Key);
 
-            await Toast.Make(string.Format(Localization.PageDeleted, Page.Title), ToastDuration.Long).Show();
+            await Toast.Make(string.Format(Localization.PageDeleted, title), ToastDuration.Long).Show();
             await PopAsync();
 
         }

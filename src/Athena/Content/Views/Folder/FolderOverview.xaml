@@ -136,11 +136,11 @@
                                 StrokeShape="RoundRectangle 5"
                                 Margin="3" >
 
-                        <!--<Border.Shadow>
+                        <Border.Shadow>
                             <Shadow Brush="Black"
                                         Radius="10"
                                         Opacity="0.7"/>
-                        </Border.Shadow>-->
+                        </Border.Shadow>
 
                         <Grid >
                             <Grid.RowDefinitions>

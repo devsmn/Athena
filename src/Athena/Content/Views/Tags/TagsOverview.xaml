@@ -29,6 +29,7 @@
                        x:Name="tagList"
                        ItemsSource="{Binding Tags}" 
                        ItemSize="35"
+                       Margin="10"
                        SelectedItem="{Binding SelectedTag}"
                        SelectionMode="Single"
                        ItemSpacing="3">
