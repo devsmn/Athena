@@ -8,7 +8,7 @@
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-             BackgroundColor="#F6F8FB"
+             Style="{StaticResource ContentPageStyle}"
              Title="Search">
     <Grid>
         <Grid.RowDefinitions>

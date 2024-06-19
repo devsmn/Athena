@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
              x:Class="Athena.UI.DocumentDetailsPdfView"
-             BackgroundColor="#F6F8FB"
+             Style="{StaticResource ContentPageStyle}"
              Title="DocumentDetailsPdfView">
     <Grid>
         <Grid.RowDefinitions>

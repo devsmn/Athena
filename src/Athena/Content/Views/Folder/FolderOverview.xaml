@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
-             BackgroundColor="#F6F8FB"
+             Style="{StaticResource ContentPageStyle}"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:local="clr-namespace:Athena.UI"
              xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
@@ -15,10 +15,6 @@
             <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
         </ResourceDictionary>
     </ContentPage.Resources>
-
-    <!--<ContentPage.BindingContext>
-        <Binding Source="{StaticResource MainContext}" />
-    </ContentPage.BindingContext>-->
 
     <Grid>
 
@@ -96,7 +92,7 @@
                        ItemLongPress="ListView_OnItemLongPress"
                        ItemsSource="{Binding Folders}"
                        SelectedItem="{Binding SelectedFolder}"
-                       ItemSpacing="3"
+                       ItemSpacing="0"
                        GroupHeaderSize="0"
                        SelectionChangedCommand="{Binding FolderClickedCommand}"
                        Margin="3">
@@ -132,19 +128,21 @@
             <sf:SfListView.ItemTemplate>
                 <DataTemplate >
                     <Border StrokeThickness="0.5" 
-                            BackgroundColor="White"
-                                StrokeShape="RoundRectangle 5"
-                                Margin="3" >
+                            BackgroundColor="Transparent"
+                            StrokeShape="RoundRectangle 5"
+                            Stroke="Transparent"
+                            Margin="3,0,3,0" >
 
-                        <Border.Shadow>
+                        <!--<Border.Shadow>
                             <Shadow Brush="Black"
                                         Radius="10"
                                         Opacity="0.7"/>
-                        </Border.Shadow>
+                        </Border.Shadow>-->
 
                         <Grid >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
+                                <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
 
@@ -183,6 +181,12 @@
                                        Grid.RowSpan="2"
                                        WidthRequest="25"
                                        HeightRequest="25"/>
+
+                            <BoxView Grid.Row="2"
+                                     Grid.ColumnSpan="3"
+                                     Color="LightGray"
+                                     HeightRequest="0.5"
+                                     HorizontalOptions="Fill"/>
 
 
                         </Grid>

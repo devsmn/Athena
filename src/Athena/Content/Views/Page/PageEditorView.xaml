@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Athena.UI.PageEditorView"
              x:Name="page"
-             BackgroundColor="#F6F8FB"
+             Style="{StaticResource ContentPageStyle}"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
-             xmlns:local="clr-namespace:Athena.UI"
              xmlns:sf="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
              Title="Add new page">
     <Grid>

@@ -120,6 +120,7 @@
 	  <None Remove="Resources\Images\image_placeholder.png" />
 	  <None Remove="Resources\Images\info.png" />
 	  <None Remove="Resources\Images\menu.png" />
+	  <None Remove="Resources\Images\menu_filled.png" />
 	  <None Remove="Resources\Images\move.png" />
 	  <None Remove="Resources\Images\next.png" />
 	  <None Remove="Resources\Images\page.png" />
@@ -168,6 +169,7 @@
 	  <MauiImage Include="Resources\Images\image_placeholder.png" />
 	  <MauiImage Include="Resources\Images\info.png" />
 	  <MauiImage Include="Resources\Images\menu.png" />
+	  <MauiImage Include="Resources\Images\menu_filled.png" />
 	  <MauiImage Include="Resources\Images\next.png" />
 	  <MauiImage Include="Resources\Images\page.png" />
 	  <MauiImage Include="Resources\Images\pdf.png" />
@@ -331,7 +333,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiIcon Include="Resources\AppIcon\athena_icon.png"  />
+	  <MauiIcon Include="Resources\AppIcon\athena_icon.png" />
 	  <MauiImage Include="Resources\Images\move.png" />
 	</ItemGroup>
 

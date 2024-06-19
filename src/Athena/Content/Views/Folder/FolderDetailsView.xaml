@@ -6,7 +6,7 @@
              x:Class="Athena.UI.FolderDetailsView"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
-             BackgroundColor="#F6F8FB"
+             Style="{StaticResource ContentPageStyle}"
              xmlns:local="clr-namespace:Athena.UI"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:buttons="http://schemas.syncfusion.com/maui"

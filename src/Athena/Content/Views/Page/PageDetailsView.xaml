@@ -4,10 +4,11 @@
              xmlns:ui="clr-namespace:Athena.UI"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
-             BackgroundColor="#F6F8FB"
+             Style="{StaticResource ContentPageStyle}"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:tree="clr-namespace:Syncfusion.Maui.TreeView;assembly=Syncfusion.Maui.TreeView"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              x:Class="Athena.UI.PageDetailsView"
@@ -15,7 +16,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
-            <ui:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+            <ui:ByteArrayToSafeDocumentImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -218,8 +219,8 @@
                        Grid.Row="2"
                        x:Name="collectionView"
                        SelectionMode="Single"
+                       AutoFitMode="Height"
                        IsLazyLoading="True"
-                       ItemSize="200"
                        ItemLongPress="CollectionView_OnItemLongPress"
                        SelectedItem="{Binding SelectedDocument}"
                        SelectionChangedCommand="{Binding DocumentSelectedCommand}"
@@ -234,63 +235,96 @@
             </sf:SfListView.EmptyView>
 
             <sf:SfListView.ItemsLayout>
-                <sf:GridLayout SpanCount="2" />
+                <sf:GridLayout SpanCount="1" />
             </sf:SfListView.ItemsLayout>
             <sf:SfListView.ItemTemplate>
                 <DataTemplate>
-                    <Border StrokeShape="RoundRectangle 8"
-                            Stroke="LightGray"
-                            BackgroundColor="White"
+                    <Border StrokeShape="RoundRectangle 10"
+                            Background="#FAF9F6"
+                            Stroke="Transparent"
                             Margin="3">
                         <!--<Border.Shadow>
-                            <Shadow Brush="LightGray"
-                            Radius="3"
+                            <Shadow Brush="Black"
+                            Radius="40"
+                            Offset="10,10"
                             Opacity="0.8" />
                         </Border.Shadow>-->
-                        <Grid>
+                        <Grid Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.3*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
 
                             <ffimageloading:CachedImage 
                                 Grid.Row="0"
+                                Grid.RowSpan="4"
                                 Grid.Column="0"
                                 Margin="3"
                                 LoadingPlaceholder="image_placeholder.png"
                                 FadeAnimationEnabled="False"
                                 FadeAnimationForCachedImages="False"
                                 HorizontalOptions="Center"
+                                VerticalOptions="Center"
                                 Source="{Binding Thumbnail, Converter={StaticResource ByteArrayToImageSourceConverter}}"
-                                WidthRequest="100"
-                                HeightRequest="100"
+                                WidthRequest="80"
+                                HeightRequest="80"
                                 Aspect="AspectFill" />
 
-                            <Label Grid.Row="1"
-                                   Margin="3"
+                            <Label Grid.Row="0"
+                                   Grid.Column="1"
                                    FontAttributes="Bold"
-                                   HorizontalTextAlignment="Center"
                                    LineBreakMode="TailTruncation"
                                    Text="{Binding Name}" />
 
                             <Label 
-                                Grid.Row="2"
-                                Margin="3"
+                                Grid.Row="1"
+                                Grid.Column="1"
                                 TextColor="Gray"
-                                HorizontalTextAlignment="Center"
                                 LineBreakMode="TailTruncation"
                                 Text="{Binding Comment}" />
 
                             <Label 
-                                Grid.Row="3"
-                                Margin="3"
+                                Grid.Row="2"
+                                Grid.Column="1"
                                 TextColor="Gray"
-                                HorizontalTextAlignment="Center"
+
                                 LineBreakMode="TailTruncation"
                                 Text="{Binding CreationDate}" />
+
+                            <chip:SfChipGroup
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                ItemsSource="{Binding Tags}" 
+                                DisplayMemberPath="Name" 
+                                ChipPadding="0,3,3,0"
+                                IsEnabled="False"
+                                ChipType="Action" >
+                                <chip:SfChipGroup.ChipLayout>
+                                    <FlexLayout 
+                                        HorizontalOptions="Start" 
+                                        Direction="Row" 
+                                        Margin="3"
+                                        Wrap="Wrap" 
+                                        JustifyContent="Start" 
+                                        AlignContent="Start" 
+                                        AlignItems="Start"/>
+                                </chip:SfChipGroup.ChipLayout>
+                            </chip:SfChipGroup>
+                            
+                            <sfb:SfButton Grid.Row="0" 
+                                          Grid.Column="2"  
+                                          Background="Transparent"
+                                          BackgroundImageSource="menu_filled.png" 
+                                          WidthRequest="24" 
+                                          HeightRequest="24"/>
 
 
                         </Grid>
