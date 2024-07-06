@@ -1,7 +1,0 @@
-﻿CREATE TABLE IF NOT EXISTS PAGE (
-	PG_ref				INTEGER PRIMARY KEY,
-	PG_title			TEXT NOT NULL,
-	PG_comment			TEXT NOT NULL,
-	PG_creationDate		DATE NOT NULL,
-	PG_modDate			DATE NOT NULL
-);

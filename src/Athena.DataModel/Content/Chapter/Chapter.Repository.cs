@@ -40,16 +40,7 @@ namespace Athena.DataModel
         /// <param name="context"></param>
         public void ReadDocument(IContext context)
         {
-            Document = Document.Read(context, new DocumentKey(Convert.ToInt32(DocumentId)));
-        }
-
-        /// <summary>
-        /// Reads the <see cref="Page"/>.
-        /// </summary>
-        /// <param name="context"></param>
-        public void ReadPage(IContext context)
-        {
-            Page = Page.Read(context, new PageKey(Convert.ToInt32(PageId)));
+            Document = Document.Read(context, new IntegerEntityKey(Convert.ToInt32(DocumentId)));
         }
 
         /// <summary>
@@ -58,7 +49,8 @@ namespace Athena.DataModel
         /// <param name="context"></param>
         public void ReadFolder(IContext context)
         {
-            Folder = Folder.Read(context, new FolderKey(Convert.ToInt32(FolderId)));
+            if (!IsRoot)
+                Folder = Folder.Read(context, new IntegerEntityKey(Convert.ToInt32(FolderId)));
         }
     }
 }

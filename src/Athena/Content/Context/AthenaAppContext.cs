@@ -4,23 +4,8 @@ using System.Text;
 
 namespace Athena.UI
 {
-    public class AthenaAppContext : IContext
+    public class AthenaAppContext : AthenaContext
     {
-        public CancellationToken CancellationToken
-        {
-            get;
-        }
-
-        public Guid CorrelationId
-        {
-            get; 
-        }
-
-        public int ThreadId
-        {
-            get;
-        }
-
         /// <summary>
         /// Initializes a new instance of <see cref="AthenaAppContext"/>.
         /// </summary>
@@ -36,19 +21,20 @@ namespace Athena.UI
             return $"CorrelationId=[{CorrelationId}], ThreadId=[{ThreadId}, CancellationToken=[{CancellationToken}]";
         }
         
-        public void Log(string message)
+        public override void Log(string message)
         {
+            // TODO log to play console
             string logMsg = $"{GetLogPrefix(false)}{message}";
             Debug.WriteLine(logMsg);
         }
 
-        public void Log(Exception exception)
+        public override void Log(Exception exception)
         {
             string logMsg = $"{GetLogPrefix(true)}{exception}";
             Debug.WriteLine(logMsg);
         }
 
-        public void Log(AggregateException aggregateException)
+        public override void Log(AggregateException aggregateException)
         {
             StringBuilder sb = new StringBuilder();
             
@@ -62,9 +48,5 @@ namespace Athena.UI
             Debug.WriteLine(sb);
         }
 
-        private string GetLogPrefix(bool isEx)
-        {
-            return $"{(isEx ? "-E-" : "-I-")} [{DateTime.UtcNow.ToLongDateString()} {DateTime.UtcNow.ToLongTimeString()} - #{this.ThreadId}] {{{this.CorrelationId}}}: ";
-        }
     }
 }

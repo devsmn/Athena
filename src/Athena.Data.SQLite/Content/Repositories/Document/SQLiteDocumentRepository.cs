@@ -2,7 +2,6 @@
 using Athena.DataModel.Core;
 using SQLite;
 using System.Diagnostics;
-using Page = Athena.DataModel.Page;
 
 namespace Athena.Data.SQLite
 {
@@ -14,7 +13,7 @@ namespace Athena.Data.SQLite
         private string _insertDocumentSql;
         private string _insertDocumentTagSql;
         private string _readDocumentSql;
-        private string _readPageDocumentSql;
+        private string _readFolderDocSql;
         private string _readDocumentTagSql;
         private string _deleteDocumentSql;
         private string _deleteTagSql;
@@ -33,7 +32,7 @@ namespace Athena.Data.SQLite
             _insertDocumentSql = await ReadResourceAsync("DOCUMENT_INSERT.sql");
             _insertDocumentTagSql = await ReadResourceAsync("DOCUMENT_TAG_INSERT.sql");
             _readDocumentSql = await ReadResourceAsync("DOCUMENT_READ.sql");
-            _readPageDocumentSql = await ReadResourceAsync("PAGE_DOC_READ.sql");
+            _readFolderDocSql = await ReadResourceAsync("FOLDER_DOC_READ.sql");
             _deleteDocumentSql = await ReadResourceAsync("DOCUMENT_DELETE.sql");
             _readDocumentTagSql = await ReadResourceAsync("DOCUMENT_TAG_READ.sql");
             _deleteTagSql = await ReadResourceAsync("DOCUMENT_TAG_DELETE.sql");
@@ -42,7 +41,7 @@ namespace Athena.Data.SQLite
             _readDocumentPdfSql = await ReadResourceAsync("DOCUMENT_READ_PDF.sql");
             _updateDocumentSql = await ReadResourceAsync("DOCUMENT_UPDATE.sql");
             _moveToPageSql = await ReadResourceAsync("DOCUMENT_MOVE.sql");
-            _moveToPageFtsSql = await ReadResourceAsync("DOCUMENT_FTS_MOVE.sql"); 
+            _moveToPageFtsSql = await ReadResourceAsync("DOCUMENT_FTS_MOVE.sql");
 
             return await Task.FromResult(true);
         }
@@ -52,7 +51,7 @@ namespace Athena.Data.SQLite
         {
             return Audit<IEnumerable<Document>>(
                 context,
-                _readPageDocumentSql,
+                _readFolderDocSql,
                 command =>
                 {
                     command.Bind("@PG_ref", page.Id);
@@ -63,7 +62,7 @@ namespace Athena.Data.SQLite
         }
 
         /// <inheritdoc />  
-        public Document Read(IContext context, DocumentKey key)
+        public Document Read(IContext context, IntegerEntityKey key)
         {
             return Audit(
                 context,
@@ -194,7 +193,7 @@ namespace Athena.Data.SQLite
                 _deleteDocumentSql,
                 command =>
                 {
-                    Debug.Assert(document.Key.Id != DocumentKey.TemporaryId);
+                    Debug.Assert(document.Key.Id != IntegerEntityKey.TemporaryId);
 
                     command.Bind("@DOC_ref", document.Key.Id);
                     command.ExecuteNonQuery();
@@ -208,7 +207,7 @@ namespace Athena.Data.SQLite
         {
             try
             {
-                if (document.Key == null || document.Id == DocumentKey.TemporaryId)
+                if (document.Key == null || document.Id == IntegerEntityKey.TemporaryId)
                 {
                     InsertDocumentCore(context, document);
                 }
@@ -234,10 +233,11 @@ namespace Athena.Data.SQLite
             command.Bind("@DOC_thumbnail", Convert.ToBase64String(document.Thumbnail ?? Array.Empty<byte>()));
             command.Bind("@DOC_creationDate", DateTime.UtcNow);
             command.Bind("@DOC_modDate", DateTime.UtcNow);
+            command.Bind("@DOC_isPinned", document.IsPinnedInteger);
 
             command.ExecuteNonQuery();
 
-            document.SetKey(new DocumentKey((int)SQLite3.LastInsertRowid(connection.Handle)));
+            document.Key = new IntegerEntityKey((int)SQLite3.LastInsertRowid(connection.Handle));
 
             foreach (var tag in document.Tags)
             {
@@ -250,12 +250,14 @@ namespace Athena.Data.SQLite
             Audit(
                 context,
                 _updateDocumentSql,
-                command => {
+                command =>
+                {
                     document.ModDate = DateTime.UtcNow;
 
                     command.Bind("@DOC_name", document.Name.EmptyIfNull());
                     command.Bind("@DOC_comment", document.Comment.EmptyIfNull());
                     command.Bind("@DOC_modDate", document.ModDate);
+                    command.Bind("@DOC_isPinned", document.IsPinnedInteger);
                     command.Bind("@DOC_ref", document.Id);
 
                     command.ExecuteNonQuery();
@@ -263,16 +265,17 @@ namespace Athena.Data.SQLite
         }
 
         /// <inheritdoc />  
-        public void MoveTo(IContext context, Document document, Page oldPage, Page newPage)
+        public void MoveTo(IContext context, Document document, Folder oldFolder, Folder newFolder)
         {
             this.Audit(
                 context,
                 _moveToPageSql,
-                command => {
+                command =>
+                {
                     document.ModDate = DateTime.UtcNow;
 
-                    command.Bind("@PG_ref_old", oldPage.Id);
-                    command.Bind("@PG_ref_new", newPage.Id);
+                    command.Bind("@FD_ref_old", oldFolder.Id);
+                    command.Bind("@FD_ref_new", newFolder.Id);
                     command.Bind("@DOC_ref", document.Id);
 
                     command.ExecuteNonQuery();
@@ -281,9 +284,10 @@ namespace Athena.Data.SQLite
             this.Audit(
                 context,
                 _moveToPageFtsSql,
-                command => {
-                    command.Bind("@PG_ref_old", oldPage.Id.ToString());
-                    command.Bind("@PG_ref_new", newPage.Id.ToString());
+                command =>
+                {
+                    command.Bind("@FD_ref_old", oldFolder.Id.ToString());
+                    command.Bind("@FD_ref_new", newFolder.Id.ToString());
                     command.Bind("@DOC_ref", document.Id.ToString());
 
                     command.ExecuteNonQuery();

@@ -5,7 +5,7 @@
         None,
         Initialize,
         Add,
-        Remove,
+        Delete,
         Edit
     }
 }

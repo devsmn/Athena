@@ -4,9 +4,8 @@ using AndroidX.AppCompat.App;
 #endif
 using Athena.Data.SQLite.Proxy;
 using Athena.DataModel;
+using Athena.DataModel.Core;
 using Microsoft.Maui.Platform;
-using Page = Athena.DataModel.Page;
-
 namespace Athena.UI
 {
     public partial class App : Application
@@ -45,24 +44,42 @@ namespace Athena.UI
 
                 DataStore.Register(SqLiteProxy.Request<IFolderRepository>(parameter));
                 DataStore.Register(SqLiteProxy.Request<IDocumentRepository>(parameter));
-                DataStore.Register(SqLiteProxy.Request<IPageRepository>(parameter));
                 DataStore.Register(SqLiteProxy.Request<IChapterRepository>(parameter));
                 DataStore.Register(SqLiteProxy.Request<ITagRepository>(parameter));
-
                 await DataStore.InitializeAsync();
-
             }).ContinueWith(
                 _ => {
-                    AddDefaultData();
-
-                    var context = new AthenaAppContext();
-                    var folders = Folder.ReadAll(new AthenaAppContext());
-                    ServiceProvider.GetService<IDataBrokerService>().Publish(context, folders, UpdateType.Initialize);
+                    InitializeData();
                 });
             
             MainPage = new ContainerPage();
 
             Application.Current.ModalPopped += CurrentOnModalPopped;
+        }
+
+        public static void InitializeData()
+        {
+            IDataBrokerService service = ServiceProvider.GetService<IDataBrokerService>();
+            var context = new AthenaAppContext();
+
+            Folder rootFolder = GetRootFolder(context);
+            AddDefaultData();
+
+            service.SetRootFolder(rootFolder);
+            service.Publish(context, rootFolder.Folders, UpdateType.Initialize);
+            service.Publish(context, rootFolder.Documents, UpdateType.Initialize);
+            service.RaiseAppInitialized();
+        }
+
+        private static Folder GetRootFolder(IContext context)
+        {
+            var rootFolder = Folder.Read(context, IntegerEntityKey.Root);
+
+            if (rootFolder != null)
+                return rootFolder;
+
+            Folder.CreateRoot(context);
+            return Folder.Read(context, IntegerEntityKey.Root);
         }
 
         private void CurrentOnModalPopped(object sender, ModalPoppedEventArgs e)
@@ -73,7 +90,7 @@ namespace Athena.UI
             vm.Dispose();
         }
 
-        private void AddDefaultData()
+        private static void AddDefaultData()
         {
             if (!ServiceProvider.GetService<IPreferencesService>().IsFirstUsage())
                 return;
@@ -84,13 +101,7 @@ namespace Athena.UI
                 Comment = "(Example folder) John"
             };
 
-            Page dummyPage = new Page
-            {
-                Title = "Truck",
-                Comment = "(Example page) Ford F150"
-            };
 
-            dummyFolder.AddPage(dummyPage);
             dummyFolder.Save(new AthenaAppContext());
         }
     }

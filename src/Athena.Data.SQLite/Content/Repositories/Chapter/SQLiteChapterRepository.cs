@@ -33,7 +33,6 @@
                     foreach (var chapter in chapters)
                     {
                         chapter.ReadDocument(context);
-                        chapter.ReadPage(context);
                         chapter.ReadFolder(context);
                     }
 
@@ -62,7 +61,6 @@
                     command.Bind("@DOC_pageNr", chapter.DocumentPageNumber);
                     command.Bind("@CHP_text", chapter.Snippet);
                     command.Bind("@FD_ref", chapter.FolderId);
-                    command.Bind("@PG_ref", chapter.PageId);
 
                     command.ExecuteNonQuery();
                 });

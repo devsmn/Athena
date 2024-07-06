@@ -2,6 +2,14 @@
 {
     public class Entity
     {
+        public IntegerEntityKey Key { get; set; }
+
+        public int Id
+        {
+            get { return Key.Id; }
+            set { Key = new IntegerEntityKey(value); }
+        }
+
         public DateTime CreationDate
         {
             get; set;
@@ -12,37 +20,13 @@
             get; set;
         }
 
-        public Entity()
+        public Entity(IntegerEntityKey key)
         {
-            CreationDate = DateTime.UtcNow;
-        }
-
-    }
-
-    public class Entity<TKey> : Entity
-        where TKey : class
-    {
-       
-        public TKey Key
-        {
-            get; private set;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="Entity{TEntityKey}"/>.
-        /// </summary>
-        /// <param name="key"></param>
-        public Entity(TKey key)
-        {
-            Key = key;
             CreationDate = DateTime.UtcNow;
             ModDate = DateTime.UtcNow;
-        }
-
-        public virtual void SetKey(TKey key)
-        {
-            this.Key = key;
+            Key = key;
         }
 
     }
+
 }

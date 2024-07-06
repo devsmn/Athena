@@ -1,4 +1,6 @@
-﻿namespace Athena.DataModel
+﻿using Athena.DataModel.Core;
+
+namespace Athena.DataModel
 {
     public partial class Chapter
     {
@@ -7,7 +9,12 @@
         public string FolderId { get; set; }
         public string PageId { get; set; }
         public string Snippet { get; set; }
-        
+
+        public bool IsRoot
+        {
+            get { return FolderId == IntegerEntityKey.Root.ToString(); }
+        }
+
         public Document Document { get; set; }
         public Page Page { get; set; }
         public Folder Folder { get; set; }

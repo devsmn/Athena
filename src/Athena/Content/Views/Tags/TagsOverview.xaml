@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
              xmlns:local="clr-namespace:Athena.UI"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:input="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="Athena.UI.TagsOverview"
              Style="{StaticResource ContentPageStyle}"
              Title="TagsOverview">
+    <ContentPage.Resources>
+        <local:EditTagNameTitleConverter x:Key="EditTagNameTitleConverter" />
+    </ContentPage.Resources>
     <ContentPage.BindingContext>
         <local:TagsOverviewViewModel />
     </ContentPage.BindingContext>
@@ -22,48 +26,136 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-
-        <sf:SfListView Grid.Row="0"
-                       x:Name="tagList"
-                       ItemsSource="{Binding Tags}" 
-                       ItemSize="35"
-                       Margin="10"
-                       SelectedItem="{Binding SelectedTag}"
-                       SelectionMode="Single"
-                       ItemSpacing="3">
-
-            <sf:SfListView.EmptyView>
-                <Label Text="{x:Static loc:Localization.TagEmpty}"
-                       VerticalTextAlignment="Center"
-                       LineBreakMode="CharacterWrap"
-                       HorizontalTextAlignment="Center"/>
-            </sf:SfListView.EmptyView>
-
-            <sf:SfListView.DataSource>
-                <data:DataSource LiveDataUpdateMode="AllowDataShaping">
-                    <data:DataSource.SortDescriptors>
-                        <data:SortDescriptor PropertyName="Name" Direction="Ascending" />
-                    </data:DataSource.SortDescriptors>
-                </data:DataSource>
-            </sf:SfListView.DataSource>
-            <sf:SfListView.Behaviors>
-                <toolkit:EventToCommandBehavior 
-                    EventName="SelectionChanged"
-                    Command="{Binding Source={x:Reference tagList}, Path=BindingContext.TagSelectedCommand}"/>
-            </sf:SfListView.Behaviors>
-            <sf:SfListView.ItemsLayout>
-                <sf:GridLayout SpanCount="2"></sf:GridLayout>
-            </sf:SfListView.ItemsLayout>
-            <sf:SfListView.ItemTemplate>
+        <chip:SfChipGroup ItemsSource="{Binding Tags}"
+                          Margin="10"
+                          ChoiceMode="Single"
+                          Command="{Binding TagSelectedCommand}"
+                          ChipType="Action">
+            <chip:SfChipGroup.ChipLayout>
+                <FlexLayout HorizontalOptions="Start" 
+                            Direction="Row"
+                            Margin="3"
+                            Wrap="Wrap" 
+                            JustifyContent="Start" 
+                            AlignContent="Start" 
+                            AlignItems="Start"/>
+            </chip:SfChipGroup.ChipLayout>
+            <chip:SfChipGroup.ItemTemplate>
                 <DataTemplate>
-                    <Border BackgroundColor="White" StrokeShape="RoundRectangle 5">
-                        <Label Text="{Binding Name}" 
-                               VerticalTextAlignment="Center"
-                               Margin="3"/>
-                    </Border>
+                    <StackLayout BackgroundColor="{Binding BackgroundColor}">
+                        <Label   Text="{Binding Name}" 
+                                 TextColor="{Binding TextColor}"
+                                 HorizontalOptions="Center"
+                                 VerticalTextAlignment="Center"
+                                 HorizontalTextAlignment="Center"
+                                 Margin="14,5,14,5"
+                                 VerticalOptions="Center" />
+                    </StackLayout>
                 </DataTemplate>
-            </sf:SfListView.ItemTemplate>
-        </sf:SfListView>
+            </chip:SfChipGroup.ItemTemplate>
+
+        </chip:SfChipGroup>
+
+        <p:SfPopup IsOpen="{Binding IsEditPopupOpen}"
+                   AutoSizeMode="Height"
+                   ShowFooter="True"
+                   AcceptCommand="{Binding SaveSelectedTagCommand}"
+                   DeclineCommand="{Binding DeleteSelectedTagCommand}"
+                   ShowCloseButton="True"
+                   AppearanceMode="TwoButton"
+                   AcceptButtonText="{x:Static loc:Localization.Save}"
+                   DeclineButtonText="{x:Static loc:Localization.Delete}"
+                   ShowHeader="True"
+                   
+                   HeaderTitle="{Binding SelectedTag, Converter={x:StaticResource EditTagNameTitleConverter}}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text="Name:" 
+                               Margin="3"
+                               VerticalTextAlignment="Center"/>
+
+                        <Entry Placeholder="Tag name" 
+                               Text="{Binding SelectedTagName}"
+                               Grid.Column="1"
+                               Margin="3" />
+
+                        <Label Text="Background color:" 
+                               Grid.Row="1"
+                               Margin="3"
+                               VerticalTextAlignment="Center"/>
+
+                        <input:SfComboBox Grid.Row="1"
+                                          Grid.Column="1"
+                                          IsEditable="False"
+                                          IsClearButtonVisible="False"
+                                          Placeholder="Select a color"
+                                          Background="Transparent"
+                                          Margin="3"
+                                          DisplayMemberPath="Name"
+                                          SelectedItem="{Binding SelectedBackgroundColor}"
+                                          ItemsSource="{Binding PredefinedColors}">
+                            <input:SfComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout>
+                                        <BoxView WidthRequest="25"
+                                                 HeightRequest="25"
+                                                 Color="{Binding Hex}"
+                                                 Margin="3"/>
+
+                                        <Label Text="{Binding Name}" VerticalTextAlignment="Center"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </input:SfComboBox.ItemTemplate>
+
+                        </input:SfComboBox>
+
+                        <Label Text="Text color:" 
+                               Grid.Row="2"
+                               Margin="3"
+                               VerticalTextAlignment="Center"/>
+
+                        <input:SfComboBox Grid.Row="2"
+                                          Grid.Column="1"
+                                          IsEditable="False"
+                                          IsClearButtonVisible="False"
+                                          Placeholder="Select a color"
+                                          Background="Transparent"
+                                          Margin="3"
+                                          DisplayMemberPath="Name"
+                                          SelectedItem="{Binding SelectedTextColor}"
+                                          ItemsSource="{Binding PredefinedColors}">
+                            <input:SfComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout>
+                                        <BoxView WidthRequest="25"
+                                                 HeightRequest="25"
+                                                 Color="{Binding Hex}"
+                                                 Margin="3"/>
+
+                                        <Label Text="{Binding Name}" VerticalTextAlignment="Center"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </input:SfComboBox.ItemTemplate>
+
+                        </input:SfComboBox>
+
+                    </Grid>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
 
         <Button Grid.Row="0"
                 HorizontalOptions="End"

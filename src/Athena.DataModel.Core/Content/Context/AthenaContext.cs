@@ -3,39 +3,37 @@ using System.Text;
 
 namespace Athena.DataModel.Core
 {
-    public class AthenaContext : IContext
+    public abstract class AthenaContext : IContext
     {
         public CancellationToken CancellationToken
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get;
+            set;
         }
 
         public Guid CorrelationId
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get;
+            set;
         }
 
         public int ThreadId
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get;
+            set;
         }
 
-        public void Log(string message)
-        {
-            Debug.WriteLine($"[{DateTime.UtcNow.ToLongDateString()} {DateTime.UtcNow.ToLongTimeString()} - #{ThreadId}] {{{CorrelationId}}}: {message}");
-        }
 
-        public void Log(Exception exception)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Log(string message);
 
-        public void Log(AggregateException aggregateException)
+        public abstract void Log(Exception exception);
+
+        public abstract void Log(AggregateException aggregateException);
+
+
+        protected string GetLogPrefix(bool isEx)
         {
-            throw new NotImplementedException();
+            return $"{(isEx ? "-E-" : "-I-")} [{DateTime.UtcNow.ToLongDateString()} {DateTime.UtcNow.ToLongTimeString()} - #{this.ThreadId}] {{{this.CorrelationId}}}: ";
         }
     }
 }

@@ -11,6 +11,20 @@ namespace Athena.UI
         public event EventHandler AppInitialized;
         public event EventHandler PublishStarted;
 
+        private FolderViewModel _rootFolder;
+
+        /// <inheritdoc />  
+        public FolderViewModel GetRootFolder()
+        {
+            return _rootFolder;
+        }
+
+        /// <inheritdoc />  
+        public void SetRootFolder(Folder folder)
+        {
+            _rootFolder = new FolderViewModel(folder);
+        }
+
         /// <inheritdoc />  
         public void PrepareForLoading()
         {
@@ -24,7 +38,7 @@ namespace Athena.UI
         }
 
         /// <inheritdoc />  
-        public void Publish<TEntity>(IContext context, TEntity entity, UpdateType type, EntityKey parentReference)
+        public void Publish<TEntity>(IContext context, TEntity entity, UpdateType type, IntegerEntityKey parentReference)
             where TEntity : Entity
         {
             Publish(context, new List<TEntity> { entity }, type, parentReference);
@@ -44,7 +58,7 @@ namespace Athena.UI
         }
 
         /// <inheritdoc />  
-        public void Publish<TEntity>(IContext context, IEnumerable<TEntity> entities, UpdateType type, EntityKey parentReference) where TEntity : Entity
+        public void Publish<TEntity>(IContext context, IEnumerable<TEntity> entities, UpdateType type, IntegerEntityKey parentReference) where TEntity : Entity
         {
             var syncContext = TaskScheduler.Current;
 
@@ -89,9 +103,9 @@ namespace Athena.UI
                         args.Documents.Add(update as RequestUpdate<Document>);
                         break;
 
-                    case Page:
-                        args.Pages.Add(update as RequestUpdate<Page>);
-                        break;
+                    //case Page:
+                    //    args.Pages.Add(update as RequestUpdate<Page>);
+                    //    break;
 
                     case Folder:
                         args.Folders.Add(update as RequestUpdate<Folder>);

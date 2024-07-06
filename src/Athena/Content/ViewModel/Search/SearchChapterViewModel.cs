@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Athena.DataModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using IUtf8SpanFormattable = System.IUtf8SpanFormattable;
 
 namespace Athena.UI
 {
@@ -21,11 +23,13 @@ namespace Athena.UI
         [ObservableProperty]
         private bool _showFilterPopup;
 
-        [ObservableProperty]
-        private ObservableCollection<TagViewModel> _tags;
+        //private ObservableCollection<TagViewModel> _tags;
 
         [ObservableProperty]
-        private ObservableCollection<TagViewModel> _selectedTags;
+        private VisualCollection<TagViewModel, Tag> _tags;
+
+        [ObservableProperty]
+        private VisualCollection<TagViewModel, Tag> _selectedTags;
 
         private ObservableCollection<SearchResult> _searchResult;
 
@@ -39,41 +43,26 @@ namespace Athena.UI
             }
         }
 
+        public ContentPage View { get; set; }
+
         protected override void OnDataPublished(DataPublishedEventArgs e)
         {
             if (!e.Tags.Any())
                 return;
 
-            foreach (var tagUpdate in e.Tags)
-            {
-                if (tagUpdate.Type == UpdateType.Add)
+            Application.Current.Dispatcher.Dispatch(() => {
+                foreach (var tagUpdate in e.Tags)
                 {
-                    MainThread.InvokeOnMainThreadAsync(() => Tags.Add(tagUpdate.Entity));
+                    Tags.Process(tagUpdate);
                 }
-                else if (tagUpdate.Type == UpdateType.Remove)
-                {
-                    var toRemove = Tags.FirstOrDefault(x => x.Id == tagUpdate.Entity.Id);
-
-                    if (toRemove != null)
-                        MainThread.InvokeOnMainThreadAsync(() => Tags.Remove(toRemove));
-                }
-                else if (tagUpdate.Type == UpdateType.Edit)
-                {
-                    var toEdit = Tags.FirstOrDefault(x => x.Id == tagUpdate.Entity.Id);
-
-                    if (toEdit != null)
-                    {
-                        MainThread.InvokeOnMainThreadAsync(() => toEdit.Name = tagUpdate.Entity.Name);
-                    }
-                }
-            }
+            });
         }
 
         public SearchChapterViewModel()
         {
             //Tags = new ObservableCollection<Tag>(Tag.ReadAll(this.RetrieveContext()));
-            SelectedTags = new ObservableCollection<TagViewModel>();
-            Tags = new ObservableCollection<TagViewModel>(Tag.ReadAll(this.RetrieveContext()).Select(x => new TagViewModel(x)));
+            SelectedTags = new();
+            Tags = new (Tag.ReadAll(this.RetrieveContext()).Select(x => new TagViewModel(x)));
         }
         
 
@@ -98,15 +87,17 @@ namespace Athena.UI
 
             await Task.Run(() =>
             {
-                var context = this.RetrieveContext();
+                var context = RetrieveContext();
 
                 var results = Document.Search(context, text, SelectedTags.Select(x => x.Tag),  IsFullTextSearch);
 
-                MainThread.InvokeOnMainThreadAsync(() => SearchResult = new ObservableCollection<SearchResult>(results));
+                MainThread.InvokeOnMainThreadAsync(() => {
+                    SearchResult = new ObservableCollection<SearchResult>(results);
+                });
             });
-            
 
             IsBusy = false;
+            await this.View.Navigation.PushAsync(new SearchResultView(this));
             Interlocked.Exchange(ref _isSearchActive, 0);
         }
 

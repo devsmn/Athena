@@ -588,6 +588,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New tag.
+        /// </summary>
+        public static string NewTag {
+            get {
+                return ResourceManager.GetString("NewTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string Next {
@@ -714,6 +723,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search filter.
+        /// </summary>
+        public static string SearchFilter {
+            get {
+                return ResourceManager.GetString("SearchFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Full text search.
         /// </summary>
         public static string SearchFullTextSearch {
@@ -750,6 +768,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search for document name or text....
+        /// </summary>
+        public static string SearchPlaceholder {
+            get {
+                return ResourceManager.GetString("SearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Document: .
         /// </summary>
         public static string SearchResultDocument {
@@ -773,6 +800,15 @@ namespace Athena.Resources.Localization {
         public static string SearchResultPage {
             get {
                 return ResourceManager.GetString("SearchResultPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Results.
+        /// </summary>
+        public static string SearchResults {
+            get {
+                return ResourceManager.GetString("SearchResults", resourceCulture);
             }
         }
         
@@ -809,6 +845,15 @@ namespace Athena.Resources.Localization {
         public static string ShowTutorial {
             get {
                 return ResourceManager.GetString("ShowTutorial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start searching.
+        /// </summary>
+        public static string StartSearch {
+            get {
+                return ResourceManager.GetString("StartSearch", resourceCulture);
             }
         }
         

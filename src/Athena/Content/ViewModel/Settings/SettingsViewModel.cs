@@ -68,8 +68,10 @@ namespace Athena.UI
                     return;
                 Application.Current.MainPage = new ContainerPage();
 
-                var folders = Folder.ReadAll(context);
-                ServiceProvider.GetService<IDataBrokerService>().Publish(context, folders, UpdateType.Initialize);
+                App.InitializeData();
+
+                //var folders = Folder.ReadAllRoot(context);
+                //ServiceProvider.GetService<IDataBrokerService>().Publish(context, folders, UpdateType.Initialize);
             }
             catch (Exception ex)
             {

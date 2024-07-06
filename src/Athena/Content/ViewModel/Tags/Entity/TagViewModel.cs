@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Athena.UI
 {
-    public class TagViewModel : ObservableObject
+    public class TagViewModel : ObservableObject, IVisualModel<Tag>
     {
         private readonly Tag _tag;
 
@@ -19,6 +19,27 @@ namespace Athena.UI
         {
             get { return _tag.Id; }
         }
+
+        public string BackgroundColor
+        {
+            get { return _tag.BackgroundColor; }
+            set
+            {
+                _tag.BackgroundColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string TextColor
+        {
+            get { return _tag.TextColor; }
+            set
+            {
+                _tag.TextColor = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public string Name
         {
@@ -33,6 +54,13 @@ namespace Athena.UI
         public TagViewModel(Tag tag)
         {
             _tag = tag;
+        }
+
+        public void Edit(Tag entity)
+        {
+            Name = entity.Name;
+            BackgroundColor = entity.BackgroundColor;
+            TextColor = entity.TextColor;
         }
 
         public void Delete(IContext context)
@@ -54,8 +82,6 @@ namespace Athena.UI
         {
             return tagVm._tag;
         }
-        
-        
 
     }
 }

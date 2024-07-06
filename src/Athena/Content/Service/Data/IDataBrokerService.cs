@@ -1,4 +1,6 @@
-﻿namespace Athena.UI
+﻿using Athena.DataModel;
+
+namespace Athena.UI
 {
     using Athena.DataModel.Core;
 
@@ -22,7 +24,12 @@
         /// <param name="entity"></param>
         /// <param name="type"></param>
         /// <param name="parentReference"></param>
-        void Publish<TEntity>(IContext context, TEntity entity, UpdateType type, EntityKey parentReference) where TEntity : Entity;
+        void Publish<TEntity>(
+                IContext context,
+                TEntity entity,
+                UpdateType type,
+                IntegerEntityKey parentReference)
+            where TEntity : Entity;
 
         /// <summary>
         /// Publishes an update for the given <paramref name="entities"/> with the given <paramref name="type"/>.
@@ -31,7 +38,11 @@
         /// <param name="context"></param>
         /// <param name="entities"></param>
         /// <param name="type"></param>
-        void Publish<TEntity>(IContext context, IEnumerable<TEntity> entities, UpdateType type) where TEntity : Entity;
+        void Publish<TEntity>(
+                IContext context,
+                IEnumerable<TEntity> entities,
+                UpdateType type)
+            where TEntity : Entity;
 
         /// <summary>
         /// Publishes an update for the given <paramref name="entities"/> with the given <paramref name="type"/>
@@ -42,7 +53,12 @@
         /// <param name="entities"></param>
         /// <param name="type"></param>
         /// <param name="parentReference"></param>
-        void Publish<TEntity>(IContext context, IEnumerable<TEntity> entities, UpdateType type, EntityKey parentReference) where TEntity : Entity;
+        void Publish<TEntity>(
+                IContext context,
+                IEnumerable<TEntity> entities,
+                UpdateType type,
+                IntegerEntityKey parentReference)
+            where TEntity : Entity;
 
         /// <summary>
         /// Prepares the system for loading.
@@ -53,6 +69,18 @@
         /// Broadcasts that the app is initialized.
         /// </summary>
         void RaiseAppInitialized();
+
+        /// <summary>
+        /// Gets the root folder.
+        /// </summary>
+        /// <returns></returns>
+        FolderViewModel GetRootFolder();
+
+        /// <summary>
+        /// Sets the root folder.
+        /// </summary>
+        /// <param name="folder"></param>
+        void SetRootFolder(Folder folder);
 
         event EventHandler PublishStarted;
         event EventHandler<DataPublishedEventArgs> Published;

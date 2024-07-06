@@ -4,6 +4,7 @@
 	DOC_comment			TEXT NOT NULL,
 	DOC_pdf  			BLOB NOT NULL,
 	DOC_thumbnail		BLOB NOT NULL,
+	DOC_isPinned		INTEGER NOT NULL,
 	DOC_creationDate	DATE NOT NULL,
 	DOC_modDate			DATE NOT NULL
 );

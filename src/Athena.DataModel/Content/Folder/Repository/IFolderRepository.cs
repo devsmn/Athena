@@ -5,27 +5,34 @@ namespace Athena.DataModel
     public interface IFolderRepository : IAthenaRepository
     {
         /// <summary>
-        /// Adds the given <paramref name="page"/> to the <paramref name="folder"/>.
+        /// Adds the given <paramref name="subFolder"/> to this <paramref name="folder"/>.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="folder"></param>
-        /// <param name="page"></param>
-        void AddPage(IContext context, Folder folder, Page page);
+        /// <param name="subFolder"></param>
+        void AddFolder(IContext context, Folder folder, Folder subFolder);
 
         /// <summary>
-        /// Reads all folders.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        IEnumerable<Folder> ReadAll(IContext context);
-
-        /// <summary>
-        /// Reads all pages of the given <paramref name="folder"/>.
+        /// Reads all documents of the given <paramref name="folder"/>.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="folder"></param>
         /// <returns></returns>
-        IEnumerable<Page> ReadAllPages(IContext context, Folder folder);
+        IEnumerable<Document> ReadAllDocuments(IContext context, Folder folder);
+
+        /// <summary>
+        /// Creates the root folder.
+        /// </summary>
+        /// <param name="context"></param>
+        void CreateRoot(IContext context);
+
+        /// <summary>
+        /// Reads all subfolders.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        IEnumerable<Folder> ReadAllFolders(IContext context, Folder folder);
 
         /// <summary>
         /// Saves the given <paramref name="folder"/>.
@@ -47,6 +54,6 @@ namespace Athena.DataModel
         /// <param name="context"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        Folder Read(IContext context, FolderKey key);
+        Folder Read(IContext context, IntegerEntityKey key);
     }
 }

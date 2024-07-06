@@ -2,23 +2,19 @@
 
 namespace Athena.DataModel
 {
-    public partial class Tag : Entity<TagKey>
+    public partial class Tag : Entity
     {
-        public int Id
-        {
-            get { return Key.Id; }
-            set { Key.Id = value; }
-        }
-
         public string Name { get; set; }
         public string Comment { get; set; }
+        public string BackgroundColor { get; set; }
+        public string TextColor { get; set; }
 
-        public Tag(TagKey key) : base(key)
+        public Tag(IntegerEntityKey key) : base(key)
         {
         }
 
         public Tag()
-            : this(new TagKey(TagKey.TemporaryId))
+            : this(new IntegerEntityKey(IntegerEntityKey.TemporaryId))
         {
         }
     }

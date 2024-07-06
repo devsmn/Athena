@@ -7,17 +7,17 @@ namespace Athena.UI
 
     public partial class DocumentDetailsView : ContentPage
     {
-        public DocumentDetailsView(Page page, Document document)
+        public DocumentDetailsView(Document document)
         {
-            var vm = new DocumentDetailsViewModel(page, document);
+            var vm = new DocumentDetailsViewModel(document);
             this.BindingContext = vm;
 
             InitializeComponent();
         }
 
-        public DocumentDetailsView(Page page, Chapter chapter)
+        public DocumentDetailsView(Chapter chapter)
         {
-            this.BindingContext = new DocumentDetailsViewModel(page, chapter);
+            this.BindingContext = new DocumentDetailsViewModel(chapter);
             InitializeComponent();
         }
 

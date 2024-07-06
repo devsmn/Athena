@@ -1,1 +1,0 @@
-﻿INSERT INTO FOLDER_PAGE (FD_ref, PG_ref, FDPG_creationDate, FDPG_modDate) VALUES (@FD_ref, @PG_ref,  @FDPG_creationDate, @FDPG_modDate);

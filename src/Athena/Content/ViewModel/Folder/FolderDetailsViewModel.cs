@@ -22,8 +22,8 @@ namespace Athena.UI
         [ObservableProperty]
         private bool _showPageMenuPopup;
 
-        [ObservableProperty]
-        private PageViewModel _selectedPage;
+        //[ObservableProperty]
+        //private PageViewModel _selectedPage;
 
         private readonly Folder _dummyFolder;
 
@@ -38,13 +38,13 @@ namespace Athena.UI
             _dummyFolder = folder;
         }
         
-        internal void LoadPages()
+        internal void LoadFolders()
         {
             IsBusy = true;
 
             Task.Run(() =>
             {
-                _ = _dummyFolder.Pages.Count;
+                _ = _dummyFolder.Folders.Count;
 
                 MainThread.InvokeOnMainThreadAsync(() =>
                 {
@@ -64,33 +64,6 @@ namespace Athena.UI
                 {
                     this.Folder.Comment = folderUpdate.Entity.Comment;
                     this.Folder.Name = folderUpdate.Entity.Name;
-                }
-            }
-
-            foreach (var pageUpdate in e.Pages.Where(x => x.ParentReference == this.Folder.Folder.Key))
-            {
-                if (pageUpdate.Type == UpdateType.Add)
-                {
-                    this.Folder.AddPage(pageUpdate.Entity);
-                }
-                else if (pageUpdate.Type == UpdateType.Edit)
-                {
-                    var page = this.Folder.Pages.FirstOrDefault(x => x.Page == pageUpdate.Entity);
-
-                    if (page != null)
-                    {
-                        page.Comment = pageUpdate.Entity.Comment;
-                        page.Title = pageUpdate.Entity.Title;
-                    }
-                }
-                else if (pageUpdate.Type == UpdateType.Remove)
-                {
-                    var removedPage = this.Folder.Pages.FirstOrDefault(x => x.Page == pageUpdate.Entity);
-
-                    if (removedPage != null)
-                    {
-                        this.Folder.RemovePage(removedPage);
-                    }
                 }
             }
             
@@ -119,70 +92,70 @@ namespace Athena.UI
 
             var context = this.RetrieveContext();
             Folder.Folder.Delete(context);
-            ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(context, this.Folder, UpdateType.Remove);
+            ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(context, this.Folder, UpdateType.Delete);
             await Toast.Make(string.Format(Localization.FolderDeleted, Folder.Name), ToastDuration.Long).Show();
             await PopAsync();
         }
 
-        [RelayCommand]
-        private async Task AddPage(FolderViewModel selectedFolder)
-        {
-            await PushAsync(new PageEditorView(new Page(), selectedFolder));
-        }
+        //[RelayCommand]
+        //private async Task AddPage(FolderViewModel selectedFolder)
+        //{
+        //    await PushAsync(new PageEditorView(new Page(), selectedFolder));
+        //}
 
-        [RelayCommand]
-        private async Task EditFolder()
-        {
-            await PushAsync(new FolderEditorView(Folder));
-        }
+        //[RelayCommand]
+        //private async Task EditFolder()
+        //{
+        //    await PushAsync(new FolderEditorView(Folder));
+        //}
         
-        [RelayCommand]
-        public async Task EditPage(PageViewModel selectedPage)
-        {
-            ShowPageMenuPopup = false;
-            await PushAsync(new PageEditorView(selectedPage, Folder));
-        }
+        //[RelayCommand]
+        //public async Task EditPage(PageViewModel selectedPage)
+        //{
+        //    ShowPageMenuPopup = false;
+        //    await PushAsync(new PageEditorView(selectedPage, Folder));
+        //}
 
-        [RelayCommand]
-        public async Task DeletePage(PageViewModel selectedPage)
-        {
-            ShowPageMenuPopup = false;
+        //[RelayCommand]
+        //public async Task DeletePage(PageViewModel selectedPage)
+        //{
+        //    ShowPageMenuPopup = false;
 
-            string title = SelectedPage.Title;
+        //    string title = SelectedPage.Title;
 
-            bool result = await DisplayAlert(
-                Localization.DeletePage,
-                string.Format(Localization.DeletePageConfirm, title),
-                Localization.Yes,
-                Localization.No);
+        //    bool result = await DisplayAlert(
+        //        Localization.DeletePage,
+        //        string.Format(Localization.DeletePageConfirm, title),
+        //        Localization.Yes,
+        //        Localization.No);
 
-            if (!result)
-                return;
+        //    if (!result)
+        //        return;
 
-            var context = this.RetrieveContext();
+        //    var context = this.RetrieveContext();
 
-            selectedPage.Page.Delete(context);
+        //    selectedPage.Page.Delete(context);
 
-            ServiceProvider.GetService<IDataBrokerService>().Publish(context, selectedPage.Page, UpdateType.Remove, Folder.Folder.Key);
+        //    ServiceProvider.GetService<IDataBrokerService>().Publish(context, selectedPage.Page, UpdateType.Remove, Folder.Folder.Key);
 
-            var page = Folder.Pages.FirstOrDefault(x => x == selectedPage);
+        //    var page = Folder.Pages.FirstOrDefault(x => x == selectedPage);
 
-            if (page != null)
-            {
-                Folder.RemovePage(page);
-            }
+        //    if (page != null)
+        //    {
+        //        Folder.RemovePage(page);
+        //    }
 
-            await Toast.Make(string.Format(Localization.PageDeleted, title), ToastDuration.Long).Show();
+        //    await Toast.Make(string.Format(Localization.PageDeleted, title), ToastDuration.Long).Show();
 
-            ServiceProvider.GetService<IDataBrokerService>().Publish(context, Folder.Folder, UpdateType.Edit);
-        }
+        //    ServiceProvider.GetService<IDataBrokerService>().Publish(context, Folder.Folder, UpdateType.Edit);
+        //}
 
-        [RelayCommand]
-        private async Task PageSelected()
-        {
-            await PushAsync(new PageDetailsView(Folder, SelectedPage, _allFolders));
-            SelectedPage = null;
-        }
+        //[RelayCommand]
+        //private async Task PageSelected()
+        //{
+        //    await PushAsync(new PageDetailsView(Folder, SelectedPage, _allFolders));
+        //    SelectedPage = null;
+        //}
 
     }
 }

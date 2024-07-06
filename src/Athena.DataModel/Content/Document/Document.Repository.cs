@@ -29,7 +29,7 @@ namespace Athena.DataModel
         /// <param name="context"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Document Read(IContext context, DocumentKey id)
+        public static Document Read(IContext context, IntegerEntityKey id)
         {
             return DataStore.Resolve<IDocumentRepository>().Read(context, id);
         }
@@ -87,15 +87,15 @@ namespace Athena.DataModel
         }
         
         /// <summary>
-        /// Moves this <see cref="Document"/> to the given <see cref="newPage"/>.
+        /// Moves this <see cref="Document"/> to the given <see cref="newFolder"/>.
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="oldPage"></param>
-        /// <param name="newPage"></param>
+        /// <param name="oldFolder"></param>
+        /// <param name="newFolder"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public void MoveTo(IContext context, Page oldPage, Page newPage)
+        public void MoveTo(IContext context, Folder oldFolder, Folder newFolder)
         {
-            DataStore.Resolve<IDocumentRepository>().MoveTo(context, this, oldPage, newPage);
+            DataStore.Resolve<IDocumentRepository>().MoveTo(context, this, oldFolder, newFolder);
         }
     }
 }

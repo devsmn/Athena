@@ -12,13 +12,6 @@ namespace Athena.DataModel
         void Save(IContext context, Document document);
 
         /// <summary>
-        /// Reads all available documents.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        IEnumerable<Document> ReadAll(IContext context, Page page);
-
-        /// <summary>
         /// Deletes the given <paramref name="document"/>.
         /// </summary>
         /// <param name="context"></param>
@@ -31,7 +24,7 @@ namespace Athena.DataModel
         /// <param name="context"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        Document Read(IContext context, DocumentKey key);
+        Document Read(IContext context, IntegerEntityKey key);
 
         /// <summary>
         /// Adds the <paramref name="tag"/> to the given <paramref name="document"/>.
@@ -76,12 +69,12 @@ namespace Athena.DataModel
         string ReadPdfAsString(IContext context, Document document);
 
         /// <summary>
-        /// Moves the provided <paramref name="document"/> to the given <paramref name="newPage"/>.
+        /// Moves the provided <paramref name="document"/> to the given <paramref name="newFolder"/>.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="document"></param>
-        /// <param name="oldPage"></param>
-        /// <param name="newPage"></param>
-        void MoveTo(IContext context, Document document, Page oldPage, Page newPage);
+        /// <param name="oldFolder"></param>
+        /// <param name="newFolder"></param>
+        void MoveTo(IContext context, Document document, Folder oldFolder, Folder newFolder);
     }
 }

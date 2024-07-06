@@ -8,13 +8,12 @@ namespace Athena.UI
 
     public partial class DocumentEditorView : ContentPage
     {
-        public  DocumentEditorView(Folder folder, Page page, Document document)
+        public  DocumentEditorView(Folder folder, Document document)
         {
-            this.BindingContext = new DocumentEditorViewModel(folder, page, document);
+            BindingContext = new DocumentEditorViewModel(folder, document);
             InitializeComponent();
 
-            this.Loaded += OnLoaded;
-
+            Loaded += OnLoaded;
         }
 
         private async void OnLoaded(object sender, EventArgs e)

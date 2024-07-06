@@ -4,7 +4,7 @@ namespace Athena.Data.SQLite
 {
     internal static class Defines
     {
-        public const string DatabaseFilename = "athena_prod_sff1.db3";
+        public const string DatabaseFilename = "athena_rc8.db3";
 
         public const SQLiteOpenFlags Flags =
             SQLiteOpenFlags.ReadWrite |

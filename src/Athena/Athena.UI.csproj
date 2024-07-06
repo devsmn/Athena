@@ -103,19 +103,25 @@
 	<ItemGroup>
 	  <None Remove="Resources\AppIcon\athena_icon.png" />
 	  <None Remove="Resources\AppIcon\athena_splash_circle.png" />
+	  <None Remove="Resources\Images\add_document.png" />
+	  <None Remove="Resources\Images\add_document_negative.png" />
+	  <None Remove="Resources\Images\add_folder.png" />
 	  <None Remove="Resources\Images\camera.png" />
 	  <None Remove="Resources\Images\delete.png" />
 	  <None Remove="Resources\Images\delete_inverse.png" />
 	  <None Remove="Resources\Images\delete_negative.png" />
 	  <None Remove="Resources\Images\document.png" />
+	  <None Remove="Resources\Images\document_color.png" />
 	  <None Remove="Resources\Images\dotnet_bot.svg" />
 	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\empty.png" />
 	  <None Remove="Resources\Images\empty_folder.png" />
+	  <None Remove="Resources\Images\error_color.png" />
 	  <None Remove="Resources\Images\favorite.png" />
 	  <None Remove="Resources\Images\favorite_negative.png" />
 	  <None Remove="Resources\Images\filter.png" />
 	  <None Remove="Resources\Images\folder.png" />
+	  <None Remove="Resources\Images\folder_color.png" />
 	  <None Remove="Resources\Images\gallery.png" />
 	  <None Remove="Resources\Images\image_placeholder.png" />
 	  <None Remove="Resources\Images\info.png" />
@@ -130,6 +136,7 @@
 	  <None Remove="Resources\Images\search.png" />
 	  <None Remove="Resources\Images\settings.png" />
 	  <None Remove="Resources\Images\share.png" />
+	  <None Remove="Resources\Images\success_color.png" />
 	  <None Remove="Resources\Images\tag.png" />
 	  <None Remove="Resources\Images\text_search.png" />
 	  <None Remove="Resources\Images\text_search_disabled.png" />
@@ -148,23 +155,30 @@
 	  <None Remove="Resources\Images\tut_step8.png" />
 	  <None Remove="Resources\Images\tut_step9.png" />
 	  <None Remove="Resources\Images\view_externally.png" />
+	  <None Remove="Resources\Images\warning_color.png" />
 	  <None Remove="Resources\Splash\athena_splash.png" />
 	  <None Remove="Resources\Splash\athena_splash_circle.png" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Include="Resources\Images\add_document.png" />
+	  <MauiImage Include="Resources\Images\add_document_negative.png" />
+	  <MauiImage Include="Resources\Images\add_folder.png" />
 	  <MauiImage Include="Resources\Images\camera.png" />
 	  <MauiImage Include="Resources\Images\delete.png" />
 	  <MauiImage Include="Resources\Images\delete_negative.png" />
 	  <MauiImage Include="Resources\Images\document.png" />
+	  <MauiImage Include="Resources\Images\document_color.png" />
 	  <MauiImage Include="Resources\Images\dotnet_bot.svg" />
 	  <MauiImage Include="Resources\Images\edit.png" />
 	  <MauiImage Include="Resources\Images\empty.png" />
 	  <MauiImage Include="Resources\Images\empty_folder.png" />
+	  <MauiImage Include="Resources\Images\error_color.png" />
 	  <MauiImage Include="Resources\Images\favorite.png" />
 	  <MauiImage Include="Resources\Images\favorite_negative.png" />
 	  <MauiImage Include="Resources\Images\filter.png" />
 	  <MauiImage Include="Resources\Images\folder.png" />
+	  <MauiImage Include="Resources\Images\folder_color.png" />
 	  <MauiImage Include="Resources\Images\gallery.png" />
 	  <MauiImage Include="Resources\Images\image_placeholder.png" />
 	  <MauiImage Include="Resources\Images\info.png" />
@@ -178,6 +192,7 @@
 	  <MauiImage Include="Resources\Images\search.png" />
 	  <MauiImage Include="Resources\Images\settings.png" />
 	  <MauiImage Include="Resources\Images\share.png" />
+	  <MauiImage Include="Resources\Images\success_color.png" />
 	  <MauiImage Include="Resources\Images\tag.png" />
 	  <MauiImage Include="Resources\Images\text_search.png" />
 	  <MauiImage Include="Resources\Images\text_search_disabled.png" />
@@ -195,6 +210,7 @@
 	  <MauiImage Include="Resources\Images\tut_step8.png" />
 	  <MauiImage Include="Resources\Images\tut_step9.png" />
 	  <MauiImage Include="Resources\Images\view_externally.png" />
+	  <MauiImage Include="Resources\Images\warning_color.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -207,6 +223,7 @@
 		<PackageReference Include="Syncfusion.Maui.Buttons" Version="25.2.5" />
 		<PackageReference Include="Syncfusion.Maui.Carousel" Version="25.2.5" />
 		<PackageReference Include="Syncfusion.Maui.DataForm" Version="25.2.5" />
+		<PackageReference Include="Syncfusion.Maui.Expander" Version="25.2.3" />
 		<PackageReference Include="Syncfusion.Maui.ImageEditor" Version="25.2.5" />
 		<PackageReference Include="Syncfusion.Maui.PdfViewer" Version="25.2.5" />
 		<PackageReference Include="Syncfusion.Maui.Popup" Version="25.2.5" />
@@ -247,9 +264,6 @@
 	  <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorMetaInfoStep.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Page\PageEditorView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Content\Views\ContainerPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -262,10 +276,10 @@
 	  <MauiXaml Update="Content\Views\Folder\FolderEditorView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Page\PageDetailsView.xaml">
+	  <MauiXaml Update="Content\Views\Search\SearchOverviewView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Search\SearchChapterView.xaml">
+	  <MauiXaml Update="Content\Views\Search\SearchResultView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Content\Views\SettingsView.xaml">
@@ -295,12 +309,6 @@
     <MauiXaml Update="Content\Views\Folder\FolderOverview.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    <MauiXaml Update="Content\Views\Page\PageDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="Content\Views\Page\PageEditorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
     <MauiXaml Update="Content\Views\Folder\FolderEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -311,7 +319,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Content\Views\Folder\Steps\" />
-	  <Folder Include="Content\Views\Page\Steps\" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">

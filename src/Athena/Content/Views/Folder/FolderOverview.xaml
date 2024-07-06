@@ -5,14 +5,211 @@
              xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              Style="{StaticResource ContentPageStyle}"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:Athena.UI"
              xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
+             xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:tree="clr-namespace:Syncfusion.Maui.TreeView;assembly=Syncfusion.Maui.TreeView"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:shimmer="clr-namespace:Syncfusion.Maui.Shimmer;assembly=Syncfusion.Maui.Core"
              xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             Title="{Binding ParentFolder.Name}"
              x:Class="Athena.UI.FolderOverview">
     <ContentPage.Resources>
+        <DataTemplate x:Key="FolderTemplate">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ffimageloading:CachedImage 
+                    Grid.RowSpan="3"
+                    FadeAnimationEnabled="False"
+                    LoadingPlaceholder="image_placeholder.png"
+                    FadeAnimationForCachedImages="False"
+                    WidthRequest="50" 
+                    HeightRequest="50"
+                    Aspect="Fill"
+                    Source="folder_color.png"/>
+
+                <Label 
+                    Text="{Binding Name}" 
+                    Margin="5,5,5,0"
+                    Grid.Column="1"
+                    LineBreakMode="TailTruncation"
+                    VerticalTextAlignment="Center"/>
+
+                <Label 
+                    Text="{Binding Comment}" 
+                    IsVisible="{Binding Comment, Converter={x:StaticResource StringLengthToVisibilityConverter}}"
+                    FontSize="12"
+                    Margin="5,0,5,5"
+                    TextColor="Gray"
+                    LineBreakMode="TailTruncation"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalTextAlignment="Center"/>
+
+                <ffimageloading:CachedImage 
+                    Grid.Column="2"
+                    Grid.RowSpan="2"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding IsPinned}"
+                    WidthRequest="25" 
+                    HeightRequest="25"
+                    Source="favorite.png"
+                    FadeAnimationEnabled="False"
+                    LoadingPlaceholder="image_placeholder.png"
+                    FadeAnimationForCachedImages="False"/>
+
+                <ffimageloading:CachedImage 
+                    Grid.Column="3"
+                    Grid.RowSpan="2"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    WidthRequest="25" 
+                    HeightRequest="25"
+                    Source="next.png"
+                    FadeAnimationEnabled="False"
+                    LoadingPlaceholder="image_placeholder.png"
+                    FadeAnimationForCachedImages="False"/>
+
+                <BoxView 
+                    Grid.Row="2"
+                    Grid.ColumnSpan="4"
+                    Color="LightGray"
+                    HeightRequest="0.5"
+                    HorizontalOptions="Fill"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DocumentTemplate">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ffimageloading:CachedImage 
+                    Grid.RowSpan="3"
+                    FadeAnimationEnabled="False"
+                    LoadingPlaceholder="image_placeholder.png"
+                    FadeAnimationForCachedImages="False"
+                    WidthRequest="50" 
+                    HeightRequest="50"
+                    Aspect="Fill"
+                    Source="document_color.png"/>
+
+                <Label 
+                    Text="{Binding Name}" 
+                    Margin="5,5,5,0"
+                    Grid.Column="1"
+                    LineBreakMode="TailTruncation"
+                    VerticalTextAlignment="Center"/>
+
+                <Label 
+                    Text="{Binding Comment}" 
+                    IsVisible="{Binding Comment, Converter={x:StaticResource StringLengthToVisibilityConverter}}"
+                    FontSize="12"
+                    Margin="5,0,5,5"
+                    TextColor="Gray"
+                    LineBreakMode="TailTruncation"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalTextAlignment="Center"/>
+
+                <ffimageloading:CachedImage 
+                    Grid.Column="2"
+                    Grid.RowSpan="3"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding IsPinned}"
+                    WidthRequest="25" 
+                    HeightRequest="25"
+                    Source="favorite.png"
+                    FadeAnimationEnabled="False"
+                    LoadingPlaceholder="image_placeholder.png"
+                    FadeAnimationForCachedImages="False"/>
+
+                <ffimageloading:CachedImage 
+                    Grid.Column="3"
+                    Grid.RowSpan="3"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    WidthRequest="25" 
+                    HeightRequest="25"
+                    Source="next.png"
+                    FadeAnimationEnabled="False"
+                    LoadingPlaceholder="image_placeholder.png"
+                    FadeAnimationForCachedImages="False"/>
+
+                <chip:SfChipGroup
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    ItemsSource="{Binding Document.Tags}" 
+                    ChipPadding="0,3,3,0"
+                    ChipType="Action" >
+                    <chip:SfChipGroup.ChipLayout>
+                        <FlexLayout 
+                            HorizontalOptions="Start" 
+                            Direction="Row" 
+                            Margin="3"
+                            Wrap="Wrap" 
+                            JustifyContent="Start" 
+                            AlignContent="Start" 
+                            AlignItems="Start"/>
+                    </chip:SfChipGroup.ChipLayout>
+                    <chip:SfChipGroup.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout BackgroundColor="{Binding BackgroundColor}" >
+                                <Label   Text="{Binding Name}" 
+                                         TextColor="{Binding TextColor}"
+                                         VerticalTextAlignment="Center"
+                                         HorizontalTextAlignment="Center"
+                                         Margin="14,5,14,5"
+                                         VerticalOptions="Center" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </chip:SfChipGroup.ItemTemplate>
+                </chip:SfChipGroup>
+
+                <BoxView 
+                    Grid.Row="3"
+                    Grid.ColumnSpan="4"
+                    Color="LightGray"
+                    HeightRequest="0.5"
+                    HorizontalOptions="Fill"/>
+            </Grid>
+
+        </DataTemplate>
+
+        <local:FolderOverviewTemplateSelector x:Key="FolderOverviewTemplateSelector"
+                                              FolderTemplate="{StaticResource FolderTemplate}"
+                                              DocumentTemplate="{StaticResource DocumentTemplate}"/>
+
         <ResourceDictionary>
-            <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
+            <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
+            <local:StringLengthToVisibilityConverter x:Key="StringLengthToVisibilityConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -31,7 +228,7 @@
         <p:SfPopup x:Name="menuPopup"
                    IsOpen="{Binding ShowMenuPopup}"
                    Closed="MenuPopup_OnClosed"
-                   WidthRequest="150"
+                   AutoSizeMode="Height"
                    ShowHeader="False">
             <p:SfPopup.PopupStyle>
                 <p:PopupStyle CornerRadius="5" />
@@ -42,7 +239,7 @@
                         <sfb:SfButton Text="{x:Static loc:Localization.Pin}"
                                       Margin="3"
                                       Command="{Binding PinFolderCommand}"
-                                      CommandParameter="{Binding SelectedFolder}"
+                                      CommandParameter="{Binding SelectedItem}"
                                       HorizontalTextAlignment="Start"
                                       Background="Transparent"
                                       ImageSource="favorite.png"
@@ -53,8 +250,8 @@
 
                         <sfb:SfButton Text="{x:Static loc:Localization.Edit}"
                                       Margin="3"
-                                      Command="{Binding EditFolderCommand}"
-                                      CommandParameter="{Binding SelectedFolder}"
+                                      Command="{Binding EditItemCommand}"
+                                      CommandParameter="{Binding SelectedItem}"
                                       HorizontalTextAlignment="Start"
                                       Background="Transparent"
                                       ImageSource="edit.png"
@@ -65,11 +262,23 @@
 
                         <sfb:SfButton Text="{x:Static loc:Localization.Delete}"
                                       Margin="3"
-                                      Command="{Binding DeleteFolderCommand}"
-                                      CommandParameter="{Binding SelectedFolder}"
+                                      Command="{Binding DeleteItemCommand}"
+                                      CommandParameter="{Binding SelectedItem}"
                                       HorizontalTextAlignment="Start"
                                       Background="Transparent"
                                       ImageSource="delete.png"
+                                      ImageAlignment="Left"
+                                      ImageSize="25"
+                                      ShowIcon="True"
+                                      StrokeThickness="0"/>
+
+                        <sfb:SfButton Text="{x:Static loc:Localization.Move}"
+                                      Margin="3"
+                                      Command="{Binding MoveDocumentCommand}"
+                                      IsVisible="{Binding SelectedItem.IsFolder, Converter={x:StaticResource InverseBooleanConverter}}"
+                                      HorizontalTextAlignment="Start"
+                                      Background="Transparent"
+                                      ImageSource="move.png"
                                       ImageAlignment="Left"
                                       ImageSize="25"
                                       ShowIcon="True"
@@ -79,125 +288,111 @@
                 </DataTemplate>
             </p:SfPopup.ContentTemplate>
         </p:SfPopup>
- 
+
+        <p:SfPopup IsOpen="{Binding IsMoveDocumentPopupOpen}" 
+                   AcceptButtonText="{Binding Source={x:Static loc:Localization.MoveToSelectedPage}}"
+                   DeclineButtonText="{Binding Source={x:Static loc:Localization.Close}}"
+                   AutoSizeMode="Height"
+                   Closed="MoveDocumentPopupClosed"
+                   HeaderTitle="{Binding Source={x:Static loc:Localization.MoveDocument}}"
+                   ShowCloseButton="True">
+            <p:SfPopup.PopupStyle>
+                <p:PopupStyle CornerRadius="5" />
+            </p:SfPopup.PopupStyle>
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <tree:SfTreeView 
+                                     SelectionMode="Single"
+                                     Margin="5"
+                                     MaximumHeightRequest="500"
+                                     SelectedItem="{Binding SelectedMoveDestination}"
+                                     LoadOnDemandCommand="{Binding LoadMoveToFoldersCommand}"
+                                     ItemsSource="{Binding MoveToFolders}"
+                                     ChildPropertyName="Folders">
+                        <tree:SfTreeView.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="SelectionChanged" 
+                                                            Command="{Binding MoveDestinationSelectedCommand}"/>
+                        </tree:SfTreeView.Behaviors>
+                        <tree:SfTreeView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+
+                                <Label Text="{Binding Name}"
+                                       VerticalTextAlignment="Center"
+                                       Grid.Row="0"
+                                       FontAttributes="Bold"/>
+
+                                <Label Text="{Binding Comment}"
+                                       FontSize="12" 
+                                       Grid.Row="1"
+                                       IsVisible="{Binding Comment, Converter={x:StaticResource StringLengthToVisibilityConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </tree:SfTreeView.ItemTemplate>
+                    </tree:SfTreeView>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
 
         <admob:BannerAd Grid.Row="0" AdSize="Banner" />
 
-        <sf:SfListView x:Name="listView" 
-                       AllowSwiping="True"
-                       SelectionMode="Single"
-                       ItemSize="60"
-                       Grid.Row="1"
-                       SwipeOffset="100" 
-                       ItemLongPress="ListView_OnItemLongPress"
-                       ItemsSource="{Binding Folders}"
-                       SelectedItem="{Binding SelectedFolder}"
-                       ItemSpacing="0"
-                       GroupHeaderSize="0"
-                       SelectionChangedCommand="{Binding FolderClickedCommand}"
-                       Margin="3">
-            <sf:SfListView.ItemsLayout>
-                <sf:LinearLayout />
-            </sf:SfListView.ItemsLayout>
+        <shimmer:SfShimmer IsActive="{Binding IsBusy}" 
+                               VerticalOptions="FillAndExpand"
+                               RepeatCount="3"
+                               Grid.Row="1"
+                               Type="Article">
 
-            <sf:SfListView.EmptyView>
-                <Label Text="{x:Static loc:Localization.FolderEmpty}"
+            <sf:SfListView x:Name="listView" 
+                           AllowSwiping="True"
+                           SelectionMode="Single"
+                           AutoFitMode="DynamicHeight"
+                           ItemTemplate="{StaticResource FolderOverviewTemplateSelector}"
+                           SwipeOffset="100" 
+                           ItemLongPress="ListView_OnItemLongPress"
+                           ItemsSource="{Binding RootSource}"
+                           SelectedItem="{Binding SelectedItem}"
+                           GroupHeaderSize="0"
+                           SelectionChangedCommand="{Binding ItemClickedCommand}"
+                           Margin="3">
+                <sf:SfListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="0"/>
+                    </DataTemplate>
+                </sf:SfListView.GroupHeaderTemplate>
+                <sf:SfListView.ItemsLayout>
+                    <sf:LinearLayout />
+                </sf:SfListView.ItemsLayout>
+
+                <sf:SfListView.EmptyView>
+                    <Label Text="{x:Static loc:Localization.FolderEmpty}"
                        VerticalTextAlignment="Center"
                        LineBreakMode="CharacterWrap"
                        HorizontalTextAlignment="Center"/>
-            </sf:SfListView.EmptyView>
+                </sf:SfListView.EmptyView>
 
+                <sf:SfListView.DataSource>
+                    <data:DataSource LiveDataUpdateMode="AllowDataShaping">
+                        <data:DataSource.SortDescriptors>
+                            <data:SortDescriptor PropertyName="IsFolder" Direction="Descending" />
+                            <data:SortDescriptor PropertyName="Name" Direction="Ascending" />
+                        </data:DataSource.SortDescriptors>
+                        <data:DataSource.GroupDescriptors>
+                            <data:GroupDescriptor PropertyName="IsPinned">
+                                <data:GroupDescriptor.Comparer>
+                                    <local:PinnedGroupComparer/>
+                                </data:GroupDescriptor.Comparer>
+                            </data:GroupDescriptor>
 
-
-            <sf:SfListView.DataSource>
-                <data:DataSource LiveDataUpdateMode="AllowDataShaping">
-                    <data:DataSource.SortDescriptors>
-                        <data:SortDescriptor PropertyName="Name" Direction="Ascending" />
-                    </data:DataSource.SortDescriptors>
-                    <data:DataSource.GroupDescriptors>
-                        <data:GroupDescriptor PropertyName="IsPinned">
-                            <data:GroupDescriptor.Comparer>
-                                <local:PinnedGroupComparer/>
-                            </data:GroupDescriptor.Comparer>
-                        </data:GroupDescriptor>
-
-                    </data:DataSource.GroupDescriptors>
-                </data:DataSource>
-            </sf:SfListView.DataSource>
-
-            <sf:SfListView.ItemTemplate>
-                <DataTemplate >
-                    <Border StrokeThickness="0.5" 
-                            BackgroundColor="Transparent"
-                            StrokeShape="RoundRectangle 5"
-                            Stroke="Transparent"
-                            Margin="3,0,3,0" >
-
-                        <!--<Border.Shadow>
-                            <Shadow Brush="Black"
-                                        Radius="10"
-                                        Opacity="0.7"/>
-                        </Border.Shadow>-->
-
-                        <Grid >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
-                            </Grid.RowDefinitions>
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Label Text="{Binding Name}" 
-                                   Margin="5,5,5,0"
-                                   LineBreakMode="TailTruncation"
-                                   VerticalTextAlignment="Center"/>
-
-                            <Label Text="{Binding Comment}" 
-                                   FontSize="12"
-                                   Margin="5,0,5,5"
-                                   TextColor="Gray"
-                                   LineBreakMode="TailTruncation"
-                                   Grid.Row="1"
-                                   VerticalTextAlignment="Center"/>
-
-                            <Image Source="favorite.png"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Center"
-                                   Grid.Column="1"
-                                   Grid.RowSpan="2"
-                                   IsVisible="{Binding IsPinned}"
-                                   WidthRequest="25"
-                                   HeightRequest="25"/>
-
-                            <Image Source="next.png"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Center"
-                                       Grid.Column="2"
-                                       Grid.RowSpan="2"
-                                       WidthRequest="25"
-                                       HeightRequest="25"/>
-
-                            <BoxView Grid.Row="2"
-                                     Grid.ColumnSpan="3"
-                                     Color="LightGray"
-                                     HeightRequest="0.5"
-                                     HorizontalOptions="Fill"/>
-
-
-                        </Grid>
-                    </Border>
-
-
-
-                </DataTemplate>
-            </sf:SfListView.ItemTemplate>
-        </sf:SfListView>
-
+                        </data:DataSource.GroupDescriptors>
+                    </data:DataSource>
+                </sf:SfListView.DataSource>
+            </sf:SfListView>
+        </shimmer:SfShimmer>
 
         <Button Grid.Row="1"
                 Text="+"
@@ -208,28 +403,52 @@
                 HeightRequest="60"
                 CornerRadius="30"
                 FontSize="30" 
-                Command="{Binding ShowPageAddActionsCommand}"/>
+                Clicked="Button_OnClicked"/>
 
+        <p:SfPopup x:Name="addPopup"
+                   ShowCloseButton="False"
+                   ShowFooter="False"
+                   IsOpen="{Binding IsAddPopupOpen}"
+                   ShowOverlayAlways="False"
+                   ShowHeader="False">
 
-
-        <p:SfPopup x:Name="sfPopup"
-                   HeaderTitle="Loading"
-                   StaysOpen="True"
-                   AnimationMode="None"
-                   Message="Loading"
-                   IsOpen="{Binding IsBusy}">
+            <p:SfPopup.PopupStyle>
+                <p:PopupStyle PopupBackground="Transparent" />
+            </p:SfPopup.PopupStyle>
             <p:SfPopup.ContentTemplate>
                 <DataTemplate>
-                    <VerticalStackLayout HorizontalOptions="Center">
-                        <ActivityIndicator IsRunning="true" />
-                        <Label Text="{Binding BusyText}" VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center"/>
+                    <VerticalStackLayout HorizontalOptions="End"
+                                         VerticalOptions="End">
+
+                        <sfb:SfButton ImageSize="25" 
+                                      Background="{x:StaticResource Primary}"
+                                      TextColor="White"
+                                      ShowIcon="True"
+                                      Margin="3,3,3,0"
+                                      Text="Add document"
+                                      HorizontalTextAlignment="Start"
+                                      CornerRadius="30"
+                                      Command="{Binding AddDocumentCommand}"
+                                      WidthRequest="155"
+                                      ImageSource="add_document.png"/>
+
+                        <sfb:SfButton ImageSize="25" 
+                                      Background="{x:StaticResource Primary}"
+                                      ShowIcon="True"
+                                      Margin="3"
+                                      HorizontalTextAlignment="Start"
+                                      TextColor="White"
+                                      CornerRadius="30"
+                                      WidthRequest="155"
+                                      Command="{Binding AddFolderCommand}"
+                                      Text="Add folder"
+                                      ImageSource="add_folder.png"/>
+
                     </VerticalStackLayout>
+
                 </DataTemplate>
             </p:SfPopup.ContentTemplate>
         </p:SfPopup>
-
     </Grid>
-
 
 </ContentPage>

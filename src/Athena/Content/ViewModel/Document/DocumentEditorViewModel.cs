@@ -10,13 +10,95 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 using TesseractOcrMaui.Results;
+using Exception = System.Exception;
 
 namespace Athena.UI
 {
     using Athena.DataModel;
     using CommunityToolkit.Mvvm.Input;
-    using System.IO.Compression;
     using TesseractOcrMaui;
+
+    public enum ReportIssueLevel
+    {
+        None,
+        Info,
+        Warning,
+        Error,
+        Success
+    }
+
+    public partial class DocumentReportItem : ObservableObject
+    {
+        public int LevelInt
+        {
+            get { return (int)Level; }
+        }
+
+        [ObservableProperty]
+        private string _message;
+
+        [ObservableProperty]
+        private ObservableCollection<DocumentReportItem> _items;
+
+        public ReportIssueLevel Level { get; set; }
+
+        
+
+        public DocumentReportItem(string fileName, ReportIssueLevel level)
+        {
+            this.Message = fileName;
+            Level = level;
+            Items = new ObservableCollection<DocumentReportItem>();
+        }
+
+        public void Report(string message, ReportIssueLevel level)
+        {
+            Items.Add(new DocumentReportItem(message, level));
+        }
+    }
+
+    public class DocumentCreationSummary
+    {
+        private readonly Dictionary<Guid, DocumentReportItem> _reports;
+
+        public IEnumerable<DocumentReportItem> Reports
+        {
+            get { return _reports.Select(report => report.Value); }
+        }
+
+        public DocumentCreationSummary()
+        {
+            _reports = new();
+        }
+
+        public void Add(DocumentImageViewModel document)
+        {
+            string fileName = document.FileName;
+
+            if (string.IsNullOrEmpty(fileName))
+                fileName = $"Document #{_reports.Count + 1}";
+
+            _reports.Add(document.Id, new DocumentReportItem(fileName, ReportIssueLevel.None));
+        }
+
+        public void Report(Guid id, string message, ReportIssueLevel level)
+        {
+            if (!_reports.TryGetValue(id, out var report))
+                return;
+
+            report.Report(message, level);
+        }
+
+        public void Finish()
+        {
+            foreach (var report in _reports.Values)
+            {
+                report.Level = report.Items.Any(x => x.Level == ReportIssueLevel.Error || x.Level == ReportIssueLevel.Warning) 
+                    ? ReportIssueLevel.Warning 
+                    : ReportIssueLevel.Success;
+            }
+        }
+    }
 
     public partial class DocumentImageViewModel : ObservableObject
     {
@@ -32,16 +114,22 @@ namespace Athena.UI
         [ObservableProperty]
         private string _fileName;
 
+        public Guid Id { get; private set; }
+
         public DocumentImageViewModel()
         {
+            Id = Guid.NewGuid();
         }
-
     }
 
     public partial class DocumentEditorViewModel : ContextViewModel
     {
         private readonly IInterstitialAdService _interstitialAdService;
 
+        public static string AppPrefix = "Athena: AI Document Manager";
+
+        [ObservableProperty]
+        private ObservableCollection<DocumentReportItem> _documentReports;
 
         [ObservableProperty]
         private bool _areDocumentsEmpty;
@@ -81,8 +169,7 @@ namespace Athena.UI
         [ObservableProperty]
         private ObservableCollection<TagViewModel> _selectedTags;
 
-        private readonly Page _page;
-        private readonly Folder _folder;
+        private readonly Folder _parentFolder;
 
         public DocumentViewModel Document
         {
@@ -95,10 +182,10 @@ namespace Athena.UI
             }
         }
 
-        public DocumentEditorViewModel(Folder folder, Page page, Document document)
+        public DocumentEditorViewModel(Folder parentFolder, Document document)
         {
+            DocumentReports = new();
             _interstitialAdService = ServiceProvider.GetService<IInterstitialAdService>();
-            //_interstitialAdService.PrepareAd();
 
             IsNew = document == null;
 
@@ -107,8 +194,8 @@ namespace Athena.UI
                 Name = string.Empty
             };
 
-            _folder = folder;
-            _page = page;
+            _parentFolder = parentFolder;
+
             Document = document;
             Document.PropertyChanged += DocumentOnPropertyChanged;
 
@@ -176,10 +263,13 @@ namespace Athena.UI
             {
                 if (!IsNew)
                 {
-                    // Save
                     var context = RetrieveContext();
                     Document.Document.Save(context);
-                    ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(context, Document, UpdateType.Edit, _page.Key);
+
+                    ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(
+                        context, Document,
+                        UpdateType.Edit,
+                        _parentFolder.Key);
 
                     await Toast.Make("Successfully updated document " + Document.Name).Show();
 
@@ -198,6 +288,8 @@ namespace Athena.UI
 
                 if (DocumentStep > 1)
                 {
+                    DocumentCreationSummary summary = new DocumentCreationSummary();
+
                     _interstitialAdService.ShowAd();
                     var context = RetrieveContext();
 
@@ -210,63 +302,82 @@ namespace Athena.UI
                         //Create a new PDF document
                         PdfDocument doc = new PdfDocument();
                         doc.Compression = PdfCompressionLevel.Best;
-                        doc.DocumentInformation.Author = "Athena: Offline Document Manager";
+                        doc.DocumentInformation.Author = AppPrefix;
                         doc.DocumentInformation.CreationDate = DateTime.UtcNow;
-                        doc.DocumentInformation.Title = "Athena: Offline Document Manager - " + Document.Name;
-                        doc.DocumentInformation.Subject = "Athena: Offline Document Manager - " + Document.Name;
-                        doc.DocumentInformation.Producer = "Athena: Offline Document Manager";
-                        doc.DocumentInformation.Keywords = "Athena: Offline Document Manager;PDF";
+                        doc.DocumentInformation.Title = $"{AppPrefix} - {Document.Name}";
+                        doc.DocumentInformation.Subject = $"{AppPrefix} - {Document.Name}";
+                        doc.DocumentInformation.Producer = AppPrefix;
+                        doc.DocumentInformation.Keywords = $"{AppPrefix};PDF;AI";
 
                         int docIdx = 0;
                         StringBuilder pdfDocs = new StringBuilder();
 
                         foreach (var document in Images)
                         {
-                            MainThread.BeginInvokeOnMainThread(() => BusyText = $"Converting document #{++docIdx}");
+                            summary.Add(document);
 
-                            if (string.IsNullOrWhiteSpace(document.ImagePath))
+                            try
                             {
-                                continue;
-                            }
 
-                            if (document.IsPdf)
-                            {
-                                MainThread.BeginInvokeOnMainThread(() => BusyText = $"Loading pdf {document.FileName}");
-                                FileStream pdfStream = new FileStream(document.ImagePath, FileMode.Open, FileAccess.Read);
-                                PdfLoadedDocument loadedDoc = new PdfLoadedDocument(pdfStream);
+                                MainThread.BeginInvokeOnMainThread(() => BusyText = $"Converting document #{++docIdx}");
 
-                                MainThread.BeginInvokeOnMainThread(() => BusyText = $"Merging pdf {document.FileName}");
-                                PdfDocumentBase.Merge(doc, loadedDoc);
-
-                                if (DetectText)
+                                if (string.IsNullOrWhiteSpace(document.ImagePath))
                                 {
-                                    MainThread.BeginInvokeOnMainThread(() => BusyText = $"Extracting text from pdf {document.FileName}");
-                                    foreach (PdfLoadedPage loadedPage in loadedDoc.Pages)
-                                    {
-                                        pdfDocs.AppendLine(loadedPage.ExtractText(true));
-                                    }
+                                    continue;
                                 }
 
-                                continue;
+                                if (document.IsPdf)
+                                {
+                                    MainThread.BeginInvokeOnMainThread(() => BusyText = $"Loading pdf {document.FileName}");
+                                    FileStream pdfStream = new FileStream(document.ImagePath, FileMode.Open, FileAccess.Read);
+                                    PdfLoadedDocument loadedDoc = new PdfLoadedDocument(pdfStream);
+
+                                    MainThread.BeginInvokeOnMainThread(() => BusyText = $"Merging pdf {document.FileName}");
+                                    PdfDocumentBase.Merge(doc, loadedDoc);
+
+                                    summary.Report(document.Id, "PDF loaded", ReportIssueLevel.Success);
+
+                                    if (DetectText)
+                                    {
+                                        MainThread.BeginInvokeOnMainThread(() => BusyText = $"Extracting text from pdf {document.FileName}");
+                                        foreach (PdfLoadedPage loadedPage in loadedDoc.Pages)
+                                        {
+                                            pdfDocs.AppendLine(loadedPage.ExtractText(true));
+                                        }
+
+                                        summary.Report(document.Id, "Text extracted", ReportIssueLevel.Success);
+                                    }
+                                    else
+                                    {
+                                        summary.Report(document.Id, "Text detection disabled", ReportIssueLevel.Info);
+                                    }
+
+                                    continue;
+                                }
+
+                                FileStream imageStream = new FileStream(document.ImagePath, FileMode.Open, FileAccess.Read);
+
+                                Microsoft.Maui.Graphics.IImage img = PlatformImage.FromStream(imageStream).Downsize(1080, true);
+                                MemoryStream ms = new MemoryStream();
+
+                                await img.SaveAsync(ms);
+
+                                PdfBitmap image = new PdfBitmap(ms);
+                                PdfUnitConverter converter = new PdfUnitConverter();
+                                var size = converter.ConvertFromPixels(image.PhysicalDimension, PdfGraphicsUnit.Pixel);
+                                PdfSection section = doc.Sections.Add();
+
+                                section.PageSettings.Size = size;
+                                section.PageSettings.Margins.All = 0;
+                                var page = section.Pages.Add();
+
+                                page.Graphics.DrawImage(image, 0, 0, size.Width, size.Height);
+                                summary.Report(document.Id, "Image compressed", ReportIssueLevel.Success);
                             }
-
-                            FileStream imageStream = new FileStream(document.ImagePath, FileMode.Open, FileAccess.Read);
-
-                            Microsoft.Maui.Graphics.IImage img = PlatformImage.FromStream(imageStream).Downsize(1080, true);
-                            MemoryStream ms = new MemoryStream();
-
-                            await img.SaveAsync(ms);
-
-                            PdfBitmap image = new PdfBitmap(ms);
-                            PdfUnitConverter converter = new PdfUnitConverter();
-                            var size = converter.ConvertFromPixels(image.PhysicalDimension, PdfGraphicsUnit.Pixel);
-                            PdfSection section = doc.Sections.Add();
-
-                            section.PageSettings.Size = size;
-                            section.PageSettings.Margins.All = 0;
-                            var page = section.Pages.Add();
-
-                            page.Graphics.DrawImage(image, 0, 0, size.Width, size.Height);
+                            catch (Exception ex)
+                            {
+                                summary.Report(document.Id, ex.Message, ReportIssueLevel.Error);
+                            }
                         }
 
                         //Creating the stream object
@@ -294,8 +405,8 @@ namespace Athena.UI
                             Document.Document.Tags.Add(tag);
                         }
 
-                        _page.AddDocument(Document);
-                        _page.Save(context);
+                        _parentFolder.AddDocument(Document);
+                        _parentFolder.Save(context);
 
                         if (DetectText)
                         {
@@ -312,19 +423,42 @@ namespace Athena.UI
 
                                 MainThread.BeginInvokeOnMainThread(() => BusyText = $"Detecting text in document #{++docIdx}. This may take a while");
 
-
                                 var result = await ocr.RecognizeTextAsync(document.ImagePath);
+
                                 if (!result.FinishedWithSuccess())
                                 {
-                                    //await App.Current.MainPage.DisplayAlert(
-                                    //    "Recognize",
-                                    //    $"Unable to recognize any text{Environment.NewLine}Message={result.Message}{Environment.NewLine}Status={result.Status}",
-                                    //    "Ok");
+                                    summary.Report(
+                                        document.Id,
+                                        $"Unable to detect text: {result.Message}",
+                                        ReportIssueLevel.Error);
                                 }
                                 else
                                 {
-                                    sb.Append(result.RecognisedText);
-                                    sb.AppendLine();
+                                    if (string.IsNullOrEmpty(result.RecognisedText))
+                                    {
+                                        summary.Report(
+                                            document.Id,
+                                            $"Document contains no text",
+                                            ReportIssueLevel.Warning);
+                                    }
+                                    else
+                                    {
+                                        sb.Append(result.RecognisedText);
+                                        sb.AppendLine();
+
+                                        summary.Report(
+                                            document.Id,
+                                            $"Detected text",
+                                            ReportIssueLevel.Success);
+
+                                        if (result.Confidence < 0.7)
+                                        {
+                                            summary.Report(
+                                                document.Id,
+                                                "Bad image quality, detected text might not be accurate",
+                                                ReportIssueLevel.Warning);
+                                        }
+                                    }
                                 }
                             }
 
@@ -332,11 +466,9 @@ namespace Athena.UI
 
                             if (sb.Length > 0)
                             {
-
                                 Chapter chapter = new Chapter(Document.Document.Key.Id, docIdx, sb.ToString())
                                 {
-                                    FolderId = _folder.Id.ToString(),
-                                    PageId = _page.Id.ToString()
+                                    FolderId = _parentFolder.Id.ToString()
                                 };
 
                                 chapter.Save(context);
@@ -347,14 +479,19 @@ namespace Athena.UI
 
                     BusyText = "Publishing changes...";
 
-                    ServiceProvider.GetService<IDataBrokerService>()
-                        .Publish(context, Document.Document, UpdateType.Add, _page.Key);
+                    IDataBrokerService dataService = ServiceProvider.GetService<IDataBrokerService>();
 
-                    ServiceProvider.GetService<IDataBrokerService>()
-                        .Publish(context, _page, UpdateType.Edit, _folder.Key);
+                    dataService.Publish(context, Document.Document, UpdateType.Add, _parentFolder.Key);
+                    dataService.Publish(context, Document.Document, UpdateType.Edit, _parentFolder.Key);
 
-                    IsBusy = false; 
+
+                    IsBusy = false;
                     BusyText = "Finished!";
+
+                    summary.Finish();
+
+                    DocumentReports = new ObservableCollection<DocumentReportItem>(summary.Reports);
+
                 }
             }
             catch (Exception ex)
@@ -521,6 +658,5 @@ namespace Athena.UI
             Images.Remove(image);
             AreDocumentsEmpty = Images.Count == 0;
         }
-
     }
 }

@@ -37,19 +37,15 @@
 	  <None Remove="Content\sql\DML\Document\DOCUMENT_TAG_INSERT.sql" />
 	  <None Remove="Content\sql\DML\Document\DOCUMENT_TAG_READ.sql" />
 	  <None Remove="Content\sql\DML\Document\DOCUMENT_UPDATE.sql" />
+	  <None Remove="Content\sql\DML\Folder\FOLDER_CREATE_ROOT.sql" />
 	  <None Remove="Content\sql\DML\Folder\FOLDER_DELETE.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_INSERT - Copy.sql" />
+	  <None Remove="Content\sql\DML\Folder\FOLDER_DOC_INSERT.sql" />
+	  <None Remove="Content\sql\DML\Folder\FOLDER_DOC_READ.sql" />
+	  <None Remove="Content\sql\DML\Folder\FOLDER_FOLDER_INSERT.sql" />
+	  <None Remove="Content\sql\DML\Folder\FOLDER_FOLDER_READ.sql" />
 	  <None Remove="Content\sql\DML\Folder\FOLDER_INSERT.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_PAGE_INSERT.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_PAGE_READ.sql" />
 	  <None Remove="Content\sql\DML\Folder\FOLDER_READ.sql" />
 	  <None Remove="Content\sql\DML\Folder\FOLDER_UPDATE.sql" />
-	  <None Remove="Content\sql\DML\Page\PAGE_DELETE.sql" />
-	  <None Remove="Content\sql\DML\Page\PAGE_DOC_INSERT.sql" />
-	  <None Remove="Content\sql\DML\Page\PAGE_DOC_READ.sql" />
-	  <None Remove="Content\sql\DML\Page\PAGE_INSERT.sql" />
-	  <None Remove="Content\sql\DML\Page\PAGE_READ.sql" />
-	  <None Remove="Content\sql\DML\Page\PAGE_UPDATE.sql" />
 	  <None Remove="Content\sql\DML\Tag\TAG_DELETE.sql" />
 	  <None Remove="Content\sql\DML\Tag\TAG_READ.sql" />
 	  <None Remove="Content\sql\DML\Tag\TAG_UPDATE.sql" />
@@ -57,10 +53,8 @@
 	  <None Remove="Content\sql\install\Document\CREATE_TABLE_DOCUMENT.sql" />
 	  <None Remove="Content\sql\install\Document\CREATE_TABLE_DOCUMENT_TAG.sql" />
 	  <None Remove="Content\sql\install\Folder\CREATE_TABLE_FOLDER.sql" />
-	  <None Remove="Content\sql\install\Folder\CREATE_TABLE_FOLDER_PAGE.sql" />
-	  <None Remove="Content\sql\install\Page\CREATE_TABLE_PAGE.sql" />
-	  <None Remove="Content\sql\install\Page\CREATE_TABLE_PAGE_DOC.sql" />
-	  <None Remove="Content\sql\install\Page\CREATE_TABLE_PAGE_TAG.sql" />
+	  <None Remove="Content\sql\install\Folder\CREATE_TABLE_FOLDER_DOC.sql" />
+	  <None Remove="Content\sql\install\Folder\CREATE_TABLE_FOLDER_FOLDER.sql" />
 	  <None Remove="Content\sql\install\Tag\CREATE_TABLE_TAG.sql" />
 	</ItemGroup>
 
@@ -141,7 +135,15 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Page\PAGE_UPDATE.sql">
+	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_DOC_INSERT.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_DOC_READ.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_CREATE_ROOT.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
@@ -161,11 +163,11 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_PAGE_READ.sql">
+	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_FOLDER_READ.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_PAGE_INSERT.sql">
+	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_FOLDER_INSERT.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
@@ -174,26 +176,6 @@
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
 	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_READ.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Page\PAGE_DOC_READ.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Page\PAGE_DOC_INSERT.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Page\PAGE_DELETE.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Page\PAGE_READ.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Page\PAGE_INSERT.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
@@ -217,19 +199,11 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\install\Folder\CREATE_TABLE_FOLDER_PAGE.sql">
+	  <MauiAsset Include="Content\sql\install\Folder\CREATE_TABLE_FOLDER_FOLDER.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\install\Page\CREATE_TABLE_PAGE.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\install\Page\CREATE_TABLE_PAGE_DOC.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\install\Page\CREATE_TABLE_PAGE_TAG.sql">
+	  <MauiAsset Include="Content\sql\install\Folder\CREATE_TABLE_FOLDER_DOC.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>

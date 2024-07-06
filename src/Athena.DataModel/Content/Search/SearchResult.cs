@@ -28,14 +28,14 @@
 
         public void Fill()
         {
-            Document = new Document(new DocumentKey(Convert.ToInt32(DocumentId)))
+            Document = new Document(Convert.ToInt32(DocumentId))
             {
                 Name = DocumentName,
             };
 
-            Page = new Page(Convert.ToInt32(PageId)) {
-                Title = PageTitle
-            };
+            //Page = new Page(Convert.ToInt32(PageId)) {
+            //    Title = PageTitle
+            //};
 
             Folder = new Folder(Convert.ToInt32(FolderId)) {
                 Name = FolderName

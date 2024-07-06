@@ -1,9 +1,8 @@
 ﻿using Athena.DataModel.Core;
-using System.IO.Compression;
 
 namespace Athena.DataModel
 {
-    public partial class Document : Entity<DocumentKey>
+    public partial class Document : Entity
     {
         private string _name;
         private string _comment;
@@ -11,15 +10,28 @@ namespace Athena.DataModel
         private string _pdfString;
         private byte[] _thumbnail;
         private string _thumbnailString;
+        private bool _isPinned;
 
         private bool _tagsLoaded;
         private bool _pdfRead;
 
-        public int Id
+        public bool IsPinned
         {
-            get { return Key.Id; }
-            set { Key.Id = value; }
+            get { return _isPinned; }
+            set { _isPinned = value; }
         }
+
+        public int IsPinnedInteger
+        {
+            get { return Convert.ToInt32(IsPinned); }
+            set { IsPinned = Convert.ToBoolean(value); }
+        }
+
+        //public override int Id
+        //{
+        //    get { return Key.Id; }
+        //    set { Key.Id = value; }
+        //}
 
         public string Name
         {
@@ -39,12 +51,11 @@ namespace Athena.DataModel
             {
                 if (!_pdfRead)
                 {
-                    ReadPdf(new AthenaContext(), this);
+                    ReadPdf(new AthenaDataContext(), this);
                     _pdfRead = true;
                 }
 
                 return _pdf;
-                
             }
             set
             {
@@ -88,7 +99,7 @@ namespace Athena.DataModel
             {
                 if (!_tagsLoaded)
                 {
-                    _tags = new List<Tag>(this.ReadAllTags(new AthenaContext()));
+                    _tags = new List<Tag>(this.ReadAllTags(new AthenaDataContext()));
                     _tagsLoaded = true;
                 }
                 return _tags;
@@ -100,13 +111,18 @@ namespace Athena.DataModel
             }
         }
 
-        public Document(DocumentKey key) : base(key)
+        public Document(int id)
+            : base(new IntegerEntityKey(id))
+        {
+            _tags = new();
+        }
+        public Document(IntegerEntityKey key) : base(key)
         {
             _tags = new();
         }
 
         public Document()
-            : this(new DocumentKey(DocumentKey.TemporaryId))
+            : this(new IntegerEntityKey(IntegerEntityKey.TemporaryId))
         {
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Graphics.Platform;
@@ -6,11 +7,29 @@ using Microsoft.Maui.Graphics.Platform;
 namespace Athena.UI
 {
     using Athena.DataModel;
+    using CommunityToolkit.Maui.Core.Primitives;
 
-    public class DocumentViewModel : ObservableObject
+    public class DocumentViewModel : ObservableObject, IVisualModel<Document>
     {
         private readonly Document _document;
         private string _imageLocation;
+
+        [Display(AutoGenerateField = false)]
+        public IntegerEntityKey Key
+        {
+            get { return _document.Key; }
+        }
+
+        [Display(AutoGenerateField = false)]
+        public bool IsPinned
+        {
+            get { return _document.IsPinned; }
+            set
+            {
+                _document.IsPinned = value;
+                OnPropertyChanged();
+            }
+        }
 
         [Display(AutoGenerateField = false)]
         public string ImageLocation
@@ -25,16 +44,29 @@ namespace Athena.UI
             get { return _document; }
         }
 
+        [Display(AutoGenerateField = false)]
+        public int Id
+        {
+            get { return _document.Key.Id; }
+        }
+
+        public void Edit(Document entity)
+        {
+            Name = entity.Name;
+            Comment = entity.Comment;
+            IsPinned = entity.IsPinned;
+        }
+
         [Required(
-            AllowEmptyStrings = false, 
-            ErrorMessageResourceType = typeof(Localization), 
+            AllowEmptyStrings = false,
+            ErrorMessageResourceType = typeof(Localization),
             ErrorMessageResourceName = nameof(Localization.DocumentVMNameRequired))]
         [StringLength(
-            45, 
-            ErrorMessageResourceType = typeof(Localization), 
+            45,
+            ErrorMessageResourceType = typeof(Localization),
             ErrorMessageResourceName = nameof(Localization.DocumentVMNameCharsExceedLimit))]
         [Display(
-            ResourceType = typeof(Localization), 
+            ResourceType = typeof(Localization),
             Name = nameof(Localization.DocumentVMName))]
         [DataType(DataType.Text)]
         public string Name
@@ -48,11 +80,11 @@ namespace Athena.UI
         }
 
         [Display(
-            ResourceType = typeof(Localization), 
+            ResourceType = typeof(Localization),
             Name = nameof(Localization.DocumentVMComment))]
         [StringLength(
-            80, 
-            ErrorMessageResourceType = typeof(Localization), 
+            80,
+            ErrorMessageResourceType = typeof(Localization),
             ErrorMessageResourceName = nameof(Localization.DocumentVMCommentExceedsCharLimit))]
         [DataType(DataType.MultilineText)]
         public string Comment

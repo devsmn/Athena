@@ -1,1 +1,0 @@
-﻿INSERT INTO PAGE_DOC (PG_ref, DOC_ref, PGDOC_creationDate, PGDOC_modDate) VALUES (@PG_ref, @DOC_ref, @PGDOC_creationDate, @PGDOC_modDate);

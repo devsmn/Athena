@@ -19,7 +19,6 @@ namespace Athena.UI
 
     public partial class DocumentDetailsViewModel : ContextViewModel
     {
-        private readonly Page _page;
         private readonly Chapter _chapter;
 
         private const string DocumentPrefix = "Athena_AI_Document_Manager_";
@@ -40,17 +39,16 @@ namespace Athena.UI
         private bool _showTagPopup;
 
         [ObservableProperty]
-        private ObservableCollection<TagViewModel> _allTags;
+        private VisualCollection<TagViewModel, Tag> _allTags;
 
         [ObservableProperty]
         private ObservableCollection<TagViewModel> _selectedTags;
 
-        public DocumentDetailsViewModel(Page page, Document document)
+        public DocumentDetailsViewModel(Document document)
         {
-            _page = page;
             Document = document;
 
-            AllTags = new ObservableCollection<TagViewModel>(Tag.ReadAll(RetrieveContext()).Select(x => new TagViewModel(x)));
+            AllTags = new (Tag.ReadAll(RetrieveContext()).Select(x => new TagViewModel(x)));
             SelectedTags = new ObservableCollection<TagViewModel>();
 
             foreach (var tag in AllTags)
@@ -60,9 +58,8 @@ namespace Athena.UI
             }
         }
 
-        public DocumentDetailsViewModel(Page page, Chapter chapter)
+        public DocumentDetailsViewModel(Chapter chapter)
         {
-            _page = page;
             Document = chapter.Document;
             _chapter = chapter;
 
@@ -88,21 +85,7 @@ namespace Athena.UI
             {
                 foreach (var update in e.Tags)
                 {
-                    if (update.Type == UpdateType.Add)
-                    {
-                        AllTags.Add(update.Entity);
-                    }
-                    else if (update.Type == UpdateType.Remove)
-                    {
-                        AllTags.Remove(update.Entity);
-                    }
-                    else if (update.Type == UpdateType.Edit)
-                    {
-                        var tagToEdit = AllTags.FirstOrDefault(x => x.Id == update.Entity.Id);
-
-                        if (tagToEdit != null)
-                            tagToEdit.Name = update.Entity.Name;
-                    }
+                    AllTags.Process(update);
                 }
             }
         }
@@ -151,7 +134,7 @@ namespace Athena.UI
 
             await Toast.Make(string.Format(Localization.DocumentDeleted, Document.Name), ToastDuration.Long).Show();
 
-            ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(context, Document, UpdateType.Remove, _page.Key);
+            //ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(context, Document, UpdateType.Remove, _page.Key);
             await PopAsync();
         }
 
@@ -268,11 +251,11 @@ namespace Athena.UI
 
                 await Toast.Make(string.Format(Localization.DocumentDeleted, name), ToastDuration.Long).Show();
 
-                ServiceProvider.GetService<IDataBrokerService>().Publish(
-                    context,
-                    Document.Document,
-                    UpdateType.Remove,
-                    _page.Key);
+                //ServiceProvider.GetService<IDataBrokerService>().Publish(
+                //    context,
+                //    Document.Document,
+                //    UpdateType.Remove,
+                //    _page.Key);
 
                 await PopAsync();
             }
@@ -282,7 +265,7 @@ namespace Athena.UI
         [RelayCommand]
         private async Task EditDocument()
         {
-            await PushModalAsync(new DocumentEditorView(null, _page, Document));
+            await PushModalAsync(new DocumentEditorView(null, Document));
             ShowMenuPopup = false;
         }
 

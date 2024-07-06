@@ -19,7 +19,8 @@
     <!--<local:FolderOverview Title="Folders" NavigationPage.HasNavigationBar="False" />-->
     <NavigationPage Title="{x:Static loc:Localization.Search}" IconImageSource="search.png" >
         <x:Arguments>
-            <local:SearchChapterView NavigationPage.HasNavigationBar="False"   />
+            <!--<local:SearchChapterView NavigationPage.HasNavigationBar="False"   />-->
+            <local:SearchOverviewView NavigationPage.HasNavigationBar="False"   />
         </x:Arguments>
     </NavigationPage>
 

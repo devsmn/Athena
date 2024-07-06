@@ -24,9 +24,6 @@ namespace Athena.Data.SQLite.Proxy
                 if (typeof(TRepository) == typeof(IFolderRepository))
                     return new SqLiteFolderRepository();
 
-                if (typeof(TRepository) == typeof(IPageRepository))
-                    return new SqLitePageRepository();
-
                 if (typeof(TRepository) == typeof(IChapterRepository))
                     return new SqLiteChapterRepository();
 

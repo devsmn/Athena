@@ -12,21 +12,27 @@ public partial class SettingsView : ContentPage
         versionLabel.Text = $"{AppInfo.Current.Name} v{AppInfo.Current.VersionString}-{AppInfo.Current.BuildString}";
     }
 
+    private async void OnChangelogClicked(object sender, EventArgs e)
+    {
+        await Launcher.TryOpenAsync(
+            "https://devsmn.github.io/Athena-Public/app_changelog/");
+    }
+
     private async void OnPrivacyPolicyClicked(object sender, EventArgs e)
     {
         await Launcher.TryOpenAsync(
-            "https://doc-hosting.flycricket.io/athena-ai-document-manager-privacy-policy/735ec806-6f6f-46aa-b4f3-223e208a9a81/privacy");
+            "https://devsmn.github.io/Athena-Public/privacy/");
     }
 
     private async void OnTermsOfUseClicked(object sender, EventArgs e)
     {
         await Launcher.TryOpenAsync(
-            "https://doc-hosting.flycricket.io/athena-ai-document-manager-terms-of-use/d052c3bc-5584-4215-a719-fd6ac0dff5e2/terms");
+            "https://devsmn.github.io/Athena-Public/tos/");
     }
 
     private async void OnCopyrightClicked(object sender, EventArgs e)
     {
         await Launcher.TryOpenAsync(
-            "https://doc-hosting.flycricket.io/copyright/189371f8-6a46-4600-9e78-21a72a7e767e/other");
+            "https://devsmn.github.io/Athena-Public/copyright/");
     }
 }

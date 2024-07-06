@@ -18,7 +18,7 @@ public partial class FolderDetailsView : ContentPage
         this.BindingContext = _vm;
         InitializeComponent();
 
-        _vm.LoadPages();
+        _vm.LoadFolders();
     }
     
     private void MenuItem_OnClicked(object sender, EventArgs e)
@@ -28,12 +28,12 @@ public partial class FolderDetailsView : ContentPage
 
     private void PageList_OnItemLongPress(object sender, ItemLongPressEventArgs e)
     {
-        (this.BindingContext as FolderDetailsViewModel).SelectedPage = e.DataItem as PageViewModel;
-        pageMenuPopup.Show();
+        //(this.BindingContext as FolderDetailsViewModel).SelectedPage = e.DataItem as PageViewModel;
+        //pageMenuPopup.Show();
     }
 
     private void PageMenuPopup_OnClosed(object sender, EventArgs e)
     {
-        _vm.SelectedPage = null;
+        //_vm.SelectedPage = null;
     }
 }

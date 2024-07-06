@@ -105,7 +105,7 @@
                 StrokeShape="RoundRectangle 5">
 
             <sfb:SfButton Text="{x:Static loc:Localization.News}"
-                          Command="{Binding ShowNewsCommand}"
+                          Clicked="OnChangelogClicked"
                           HorizontalTextAlignment="Start"
                           Background="Transparent"
                           ImageSource="info.png"

@@ -325,6 +325,9 @@ Depending on the size of the documents, this process may take a moment.</value>
 &lt;h3&gt;Athena v1.0.0 (05.01.2024)&lt;/h3&gt;
 &lt;p&gt;- Initial release of Athena: AI Document Manager&lt;/p&gt;</value>
   </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>New tag</value>
+  </data>
   <data name="Next" xml:space="preserve">
     <value>Next</value>
   </data>
@@ -367,6 +370,9 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SearchFilter" xml:space="preserve">
+    <value>Search filter</value>
+  </data>
   <data name="SearchFullTextSearch" xml:space="preserve">
     <value>Full text search</value>
   </data>
@@ -379,6 +385,9 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="SearchOnlyWithSelectedTags" xml:space="preserve">
     <value>Only show documents with selected tags</value>
   </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>Search for document name or text...</value>
+  </data>
   <data name="SearchResultDocument" xml:space="preserve">
     <value>Document: </value>
   </data>
@@ -387,6 +396,9 @@ Depending on the size of the documents, this process may take a moment.</value>
   </data>
   <data name="SearchResultPage" xml:space="preserve">
     <value>Page: </value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Results</value>
   </data>
   <data name="SearchRunning" xml:space="preserve">
     <value>Searching...</value>
@@ -399,6 +411,9 @@ Depending on the size of the documents, this process may take a moment.</value>
   </data>
   <data name="ShowTutorial" xml:space="preserve">
     <value>Show tutorial</value>
+  </data>
+  <data name="StartSearch" xml:space="preserve">
+    <value>Start searching</value>
   </data>
   <data name="TagDeleted" xml:space="preserve">
     <value>Successfully deleted tag {0}</value>

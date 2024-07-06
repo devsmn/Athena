@@ -2,41 +2,45 @@
 
 namespace Athena.DataModel
 {
-    public partial class Folder : Entity<FolderKey>
+    public partial class Folder : Entity
     {
         private string _name;
         private string _comment;
         private bool _isPinned;
         private int _isPinnedInt;
-        private bool _pagesLoaded;
 
-        private IList<Page> _pages;
+        private bool _foldersLoaded;
+        private bool _documentsLoaded;
 
-        public new DateTime CreationDate
-        {
-            get { return base.CreationDate; }
-            set { base.CreationDate = value; }
-        }
+        private List<Document> _documents;
+        private List<Folder> _folders;
 
-        public int Id
-        {
-            get { return Key.Id; }
-            set { Key.Id = value; }
-        }
+        //public override DateTime CreationDate
+        //{
+        //    get { return base.CreationDate; }
+        //    set { base.CreationDate = value; }
+        //}
 
-        public Folder(FolderKey key)
+        //public override int Id
+        //{
+        //    get { return Key.Id; }
+        //    set { Key.Id = value; }
+        //}
+
+        public Folder(IntegerEntityKey key)
             : base(key)
         {
-            _pages = new List<Page>();
+            _folders = new List<Folder>();
+            _documents = new List<Document>();
         }
 
         public Folder(int key)
-            : this(new FolderKey(key))
+            : this(new IntegerEntityKey(key))
         {
         }
 
         public Folder()
-            : this(FolderKey.TemporaryId)
+            : this(IntegerEntityKey.TemporaryId)
         {
         }
 
@@ -72,21 +76,39 @@ namespace Athena.DataModel
             set { _comment = value; }
         }
 
-        public IList<Page> Pages
+        public List<Folder> Folders
         {
             get
             {
-                if (!_pagesLoaded)
+                if (!_foldersLoaded)
                 {
-                    _pages = new List<Page>(ReadAllPages(new AthenaContext()));
-                    _pagesLoaded = true;
+                    _folders = new List<Folder>(ReadAllFolders(new AthenaDataContext()));
+                    _foldersLoaded = true;
                 }
 
-                return _pages;
+                return _folders;
             }
-            set { _pages = value; }
+
+            set { _folders = value; }
         }
-        
+
+
+        public List<Document> Documents
+        {
+            get
+            {
+                if (!_documentsLoaded)
+                {
+                    _documents = new List<Document>(ReadAllDocuments(new AthenaDataContext()));
+                    _documentsLoaded = true;
+                }
+
+                return _documents;
+            }
+
+            set { _documents = value; }
+        }
+
         public override string ToString()
         {
             return $"Id=[{Key?.Id}];Name=[{Name}]";

@@ -1,7 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Athena.DataModel.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
 using Athena.Resources.Localization;
+using Syncfusion.TreeView.Engine;
 
 namespace Athena.UI
 {
@@ -11,8 +12,25 @@ namespace Athena.UI
 
     public partial class FolderOverviewViewModel : ContextViewModel
     {
+        public FolderOverview View { get; set; }
+
+        [ObservableProperty]
+        private FolderViewModel _selectedMoveDestination;
+
+        [ObservableProperty]
+        private VisualCollection<FolderViewModel, Folder> _moveToFolders;
+
+        [ObservableProperty]
+        private bool _isMoveDocumentPopupOpen;
+
+        [ObservableProperty]
+        private FolderViewModel _parentFolder;
+
         [ObservableProperty]
         private string _searchBarText;
+
+        [ObservableProperty]
+        private bool _isAddPopupOpen;
 
         [ObservableProperty]
         private byte[] _newDocumentImage;
@@ -48,34 +66,35 @@ namespace Athena.UI
         private Page _newPage;
 
         [ObservableProperty]
-        private FolderViewModel _selectedFolder;
+        private RootItemViewModel _selectedItem;
 
         [ObservableProperty]
-        private ObservableCollection<Document> _documents;
+        private RootItemCollection _rootSource;
 
-        [ObservableProperty]
-        private ObservableCollection<FolderViewModel> _folders;
-        
         [ObservableProperty]
         private string _busyText;
 
         private bool _firstUsage;
-        
+
         public FolderOverviewViewModel()
         {
-            var dataService = ServiceProvider.GetService<IDataBrokerService>();
-
-            if (dataService != null)
-            {
-                dataService.PublishStarted += OnDataBrokerPublishStarted;
-                dataService.Published += OnDataBrokerPublished;
-            }
-
-            Folders = new ObservableCollection<FolderViewModel>();
-
+            // Root viewmodel ???? needed i dont thnk
+            _parentFolder = new FolderViewModel(new Folder(IntegerEntityKey.Root));
+            RootSource = new();
+            MoveToFolders = new();
         }
-       
-        private void OnDataBrokerPublishStarted(object sender, EventArgs e)
+
+        public FolderOverviewViewModel(FolderViewModel parentFolder)
+        {
+            MoveToFolders = new();
+            _parentFolder = parentFolder;
+
+            RootSource = new();
+            RootSource.AddRange(parentFolder.Folders.Select(x => new RootItemViewModel(x)));
+            RootSource.AddRange(parentFolder.Documents.Select(x => new RootItemViewModel(x)));
+        }
+
+        protected override void OnPublishDataStarted()
         {
             IsBusy = true;
         }
@@ -93,58 +112,42 @@ namespace Athena.UI
             }
         }
 
-        protected override async Task OnAppInitialized()
+        protected override void OnDataPublished(DataPublishedEventArgs e)
         {
-            await CheckFirstUsage();
-        }
-
-        private void OnDataBrokerPublished(object sender, DataPublishedEventArgs e)
-        {
-            MainThread.BeginInvokeOnMainThread(async () =>
+            MainThread.BeginInvokeOnMainThread(() =>
             {
+                IsBusy = true;
+
                 if (e.Folders.Count > 0)
                 {
                     if (e.Folders[0].Type == UpdateType.Initialize)
                     {
-                        Folders = new ObservableCollection<FolderViewModel>(
-                            e.Folders.Select(x => new FolderViewModel(x)));
+                        RootSource.AddRange(e.Folders.Select(x => new RootItemViewModel(x)));
                     }
                     else
                     {
                         foreach (var folder in e.Folders)
                         {
-                            switch (folder.Type)
+                            if (folder.ParentReference.Id == ParentFolder.Id)
                             {
-                                case UpdateType.Add:
-                                    Folders.Add(new FolderViewModel(folder));
-                                    break;
-                                case UpdateType.Remove:
-                                {
-                                    var toDelete = Folders.FirstOrDefault(x => x.Id == folder.Entity.Id);
-
-                                    if (toDelete != null)
-                                    {
-                                        Folders.Remove(toDelete);
-                                    }
-
-                                    break;
-                                }
-
-                                case UpdateType.Edit:
-                                {
-                                    var relatedFolder = Folders.FirstOrDefault(x => x.Id == folder.Entity.Id);
-
-                                    if (relatedFolder != null)
-                                    {
-                                        relatedFolder.Comment = folder.Entity.Comment;
-                                        relatedFolder.Name = folder.Entity.Name;
-                                        relatedFolder.IsPinned = folder.Entity.IsPinned;
-                                    }
-
-                                    break;
-                                }
-                                default:
-                                    throw new InvalidOperationException();
+                                RootSource.Process(folder);
+                            }
+                        }
+                    }
+                }
+                else if (e.Documents.Count > 0)
+                {
+                    if (e.Documents[0].Type == UpdateType.Initialize)
+                    {
+                        RootSource.AddRange(e.Documents.Select(x => new RootItemViewModel(x)));
+                    }
+                    else
+                    {
+                        foreach (var document in e.Documents)
+                        {
+                            if (document.ParentReference.Id == ParentFolder.Id)
+                            {
+                                RootSource.Process(document);
                             }
                         }
                     }
@@ -155,63 +158,217 @@ namespace Athena.UI
         }
 
         [RelayCommand]
-        public async Task EditFolder(FolderViewModel folder)
+        public async Task AddDocument()
         {
-            ShowMenuPopup = false;
-            await PushAsync(new FolderEditorView(folder));
+            IsAddPopupOpen = false;
+            await PushModalAsync(new DocumentEditorView(ParentFolder, null));
         }
 
         [RelayCommand]
-        public void PinFolder(FolderViewModel folder)
+        public async Task AddFolder()
         {
-            ShowMenuPopup = false;
-            folder.IsPinned = !folder.IsPinned;
-            folder.Folder.Save(this.RetrieveContext());
-
-            ServiceProvider.GetService<IDataBrokerService>().Publish(
-                this.RetrieveContext(),
-                folder.Folder,
-                UpdateType.Edit);
+            IsAddPopupOpen = false;
+            NewFolder = new FolderViewModel(new Folder());
+            await PushAsync(new FolderEditorView(null, ParentFolder));
         }
 
         [RelayCommand]
-        public async Task DeleteFolder(FolderViewModel folder)
+        public async Task EditItem(RootItemViewModel item)
         {
             ShowMenuPopup = false;
+
+            if (item.IsFolder)
+            {
+                await PushAsync(new FolderEditorView(item.Folder, ParentFolder));
+            }
+            else
+            {
+                await PushModalAsync(new DocumentEditorView(ParentFolder, item.Document));
+            }
+        }
+
+        [RelayCommand]
+        public void PinFolder(RootItemViewModel item)
+        {
+            ShowMenuPopup = false;
+            item.IsPinned = !item.IsPinned;
+
+            if (item.IsFolder)
+            {
+                item.Folder.Folder.Save(this.RetrieveContext());
+
+                ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(
+                    RetrieveContext(),
+                    item.Folder,
+                    UpdateType.Edit);
+            }
+            else
+            {
+                item.Document.Document.Save(this.RetrieveContext());
+
+                ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(
+                    RetrieveContext(),
+                    item.Document,
+                    UpdateType.Edit,
+                    ParentFolder.Key);
+            }
+
+            this.View.RefreshListViewGrouping();
+        }
+
+        [RelayCommand]
+        public async Task DeleteItem(RootItemViewModel item)
+        {
+            ShowMenuPopup = false;
+
+            string caption = Localization.DeleteDocument;
+            string message = string.Format(Localization.DeleteDocumentConfirm, item.Name);
+            string deletedMessage = string.Format(Localization.DocumentDeleted, item.Name);
+
+            if (item.IsFolder)
+            {
+                caption = Localization.DeleteFolder;
+                message = string.Format(Localization.DeleteFolderConfirm, item.Name);
+                deletedMessage = string.Format(Localization.DocumentDeleted, item.Name);
+            }
 
             bool result = await DisplayAlert(
-                Localization.DeleteFolder,
-                string.Format(Localization.DeleteFolderConfirm, folder.Name),
+                caption,
+                message,
                 Localization.Yes,
                 Localization.No);
-            
 
             if (!result)
                 return;
 
-            var context = this.RetrieveContext();
+            var context = RetrieveContext();
 
-            ServiceProvider.GetService<IDataBrokerService>().Publish(
-                context,
-                folder.Folder,
-                UpdateType.Remove);
+            if (item.IsFolder)
+            {
+                item.Folder.Folder.Delete(context);
 
-            folder.Folder.Delete(context);
-            await Toast.Make(string.Format(Localization.FolderDeleted, folder.Name), ToastDuration.Long).Show();
+                ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(
+                    context,
+                    item.Folder,
+                    UpdateType.Delete);
+            }
+            else
+            {
+                item.Document.Document.Delete(context);
+
+                ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(
+                    context,
+                    item.Document,
+                    UpdateType.Delete,
+                    ParentFolder.Key);
+            }
+
+            await Toast.Make(deletedMessage, ToastDuration.Long).Show();
         }
-        
+
         [RelayCommand]
-        private async Task ShowPageAddActions()
+        public async Task ItemClicked()
         {
-            NewFolder = new FolderViewModel(new Folder());
-            await PushAsync(new FolderEditorView(null));
+            if (SelectedItem.IsFolder)
+            {
+                await PushAsync(new FolderOverview(SelectedItem.Folder));
+            }
+            else
+            {
+                await PushAsync(new DocumentDetailsView(SelectedItem.Document));
+            }
+
+            SelectedItem = null;
         }
 
         [RelayCommand]
-        public async Task FolderClicked()
+        private void MoveDocument()
         {
-            await PushAsync(new FolderDetailsView(SelectedFolder, Folders));
-            SelectedFolder = null;
+            MoveToFolders.Clear();
+
+            FolderViewModel rootFolder = ServiceProvider.GetService<IDataBrokerService>().GetRootFolder();
+            MoveToFolders.Add(rootFolder);
+
+            IsMoveDocumentPopupOpen = true;
+        }
+
+        [RelayCommand]
+        private void LoadMoveToFolders(object obj)
+        {
+            if (obj is not TreeViewNode node)
+                return;
+
+            if (node.ChildNodes?.Count > 0)
+            {
+                node.IsExpanded = true;
+                return;
+            }
+
+            if (node.Content is not FolderViewModel folder)
+                return;
+
+            node.ShowExpanderAnimation = true;
+
+            Application.Current.Dispatcher.Dispatch(() =>
+            {
+                node.PopulateChildNodes(folder.Folders.Select(x => new FolderViewModel(x)));
+
+                if (node.HasChildNodes)
+                    node.IsExpanded = true;
+
+                node.ShowExpanderAnimation = false;
+            });
+        }
+
+        [RelayCommand]
+        private async Task MoveDestinationSelected()
+        {
+            if (SelectedMoveDestination == null)
+                return;
+
+            if (SelectedMoveDestination.Folder.Id == ParentFolder.Id)
+                return;
+
+            bool move = await DisplayAlert(
+                Localization.MoveDocument,
+                string.Format(Localization.MoveDocumentConfirm, SelectedItem.Document.Name, SelectedMoveDestination.Name),
+                Localization.Yes,
+                Localization.No);
+
+            if (!move)
+            {
+                SelectedMoveDestination = null;
+                return;
+            }
+
+            var documentViewModel = SelectedItem.Document;
+            var context = RetrieveContext();
+
+            documentViewModel.Document.MoveTo(context, ParentFolder.Folder, SelectedMoveDestination.Folder);
+
+            IDataBrokerService publishService = ServiceProvider.GetService<IDataBrokerService>();
+
+            publishService.Publish<Document>(
+                context, 
+                documentViewModel, 
+                UpdateType.Delete, 
+                ParentFolder.Key);
+
+            publishService.Publish<Document>(
+                context, 
+                documentViewModel, 
+                UpdateType.Add, 
+                SelectedMoveDestination.Folder.Key);
+
+            await Toast.Make(
+                    string.Format(Localization.DocumentMovedSuccessfully, documentViewModel.Name, SelectedMoveDestination.Name),
+                    ToastDuration.Long)
+                .Show();
+
+            SelectedMoveDestination = null;
+            SelectedItem = null;
+            IsMoveDocumentPopupOpen = false;
+            ShowMenuPopup = false;
         }
     }
 }

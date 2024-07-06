@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -7,16 +8,33 @@ namespace Athena.UI
     using Athena.DataModel;
     using System.ComponentModel.DataAnnotations;
 
-    public partial class FolderViewModel : ObservableObject
+    public partial class FolderViewModel : ObservableObject, IVisualModel<Folder>
     {
         private readonly Folder _folder;
-        private ObservableCollection<PageViewModel> _pages;
-        
+        //private ObservableCollection<PageViewModel> _pages;
+
+        [Display(AutoGenerateField = false)]
+        public IEnumerable<Folder> Folders
+        {
+            get { return _folder.Folders; }
+        }
+
+        [Display(AutoGenerateField = false)]
+        public IEnumerable<Document> Documents
+        {
+            get { return _folder.Documents; }
+        }
 
         [Display(AutoGenerateField = false)]
         public DateTime CreationDate
         {
             get { return _folder.CreationDate; }
+        }
+
+        [Display(AutoGenerateField = false)]
+        public IntegerEntityKey Key
+        {
+            get { return _folder.Key; }
         }
 
         [Display(AutoGenerateField = false)]
@@ -35,6 +53,13 @@ namespace Athena.UI
         public int Id
         {
             get { return _folder.Key.Id; }
+        }
+
+        public void Edit(Folder entity)
+        {
+            Name = entity.Name;
+            Comment = entity.Comment;
+            IsPinned = entity.IsPinned;
         }
 
         [Display(AutoGenerateField = false)]
@@ -75,25 +100,25 @@ namespace Athena.UI
             }
         }
 
-        [Display(AutoGenerateField = false)]
-        public ObservableCollection<PageViewModel> Pages
-        {
-            get
-            {
-                if (_pages == null)
-                {
-                    _pages = new ObservableCollection<PageViewModel>(_folder.Pages.Select(x => new PageViewModel(x)));
-                }
+        //[Display(AutoGenerateField = false)]
+        //public ObservableCollection<PageViewModel> Pages
+        //{
+        //    get
+        //    {
+        //        if (_pages == null)
+        //        {
+        //            _pages = new ObservableCollection<PageViewModel>(_folder.Pages.Select(x => new PageViewModel(x)));
+        //        }
 
-                return _pages;
-            }
+        //        return _pages;
+        //    }
 
-            set
-            {
-                _pages = value;
-                OnPropertyChanged();
-            }
-        }
+        //    set
+        //    {
+        //        _pages = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         public FolderViewModel(Folder folder)
         {
@@ -110,16 +135,16 @@ namespace Athena.UI
             return new FolderViewModel(folder);
         }
 
-        public void AddPage(PageViewModel page)
-        {
-            Pages.Add(page);
-        }
+        //public void AddPage(PageViewModel page)
+        //{
+        //    Pages.Add(page);
+        //}
 
-        public void RemovePage(PageViewModel page)
-        {
-            Pages.Remove(page);
+        //public void RemovePage(PageViewModel page)
+        //{
+        //    Pages.Remove(page);
 
-            _folder.Pages.Remove(page.Page);
-        }
+        //    _folder.Pages.Remove(page.Page);
+        //}
     }
 }

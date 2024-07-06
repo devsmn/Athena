@@ -18,6 +18,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Folder Include="Content\Entities\Keys\Core\" />
 	  <Folder Include="Platforms\Android\" />
 	</ItemGroup>
 

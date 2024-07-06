@@ -1,0 +1,1 @@
+﻿INSERT INTO FOLDER_FOLDER (FD_ref, FD_refParent, FDFD_creationDate, FDFD_modDate) VALUES (@FD_ref, @FD_refParent,  @FDFD_creationDate, @FDFD_modDate);

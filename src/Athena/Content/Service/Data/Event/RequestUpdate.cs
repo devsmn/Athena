@@ -17,7 +17,7 @@
         /// <summary>
         /// Gets the optional reference to the parent entity.
         /// </summary>
-        public EntityKey ParentReference { get; }
+        public IntegerEntityKey ParentReference { get; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="RequestUpdate{TEntity}"/>.
@@ -25,7 +25,7 @@
         /// <param name="entity"></param>
         /// <param name="type"></param>
         /// <param name="parentReference"></param>
-        public RequestUpdate(TEntity entity, UpdateType type, EntityKey parentReference)
+        public RequestUpdate(TEntity entity, UpdateType type, IntegerEntityKey parentReference)
         {
             Entity = entity;
             Type = type;

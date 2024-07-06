@@ -8,6 +8,8 @@ namespace Athena.UI
 
     internal partial class FolderEditorViewModel : ContextViewModel
     {
+        private readonly Folder _parentFolder;
+
         [ObservableProperty]
         private bool _isNew;
 
@@ -17,15 +19,16 @@ namespace Athena.UI
         [ObservableProperty]
         private int _newFolderStep;
 
-        public FolderEditorViewModel(Folder folder)
+        public FolderEditorViewModel(Folder folderToEdit, Folder parentFolder)
         {
-            if (folder == null)
+            if (folderToEdit == null)
             {
-                folder = new Folder();
+                folderToEdit = new Folder();
                 IsNew = true;
             }
 
-            Folder = folder;
+            _parentFolder = parentFolder;
+            Folder = folderToEdit;
         }
 
         [RelayCommand]
@@ -33,8 +36,10 @@ namespace Athena.UI
         {
             IContext context = this.RetrieveContext();
 
-            Folder.Folder.Save(context);
-            ServiceProvider.GetService<IDataBrokerService>().Publish(context, Folder.Folder, IsNew ? UpdateType.Add : UpdateType.Edit);
+            _parentFolder.AddFolder(Folder);
+            _parentFolder.Save(context);
+
+            ServiceProvider.GetService<IDataBrokerService>().Publish(context, Folder.Folder, IsNew ? UpdateType.Add : UpdateType.Edit, _parentFolder?.Key);
             await PopAsync();
             NewFolderStep = 0;
         }

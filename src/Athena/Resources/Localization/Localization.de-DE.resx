@@ -160,10 +160,10 @@ Der Ordner kann nicht wiederhergestellt werden!</value>
 Die Seite kann nicht wiederhergestellt werden!</value>
   </data>
   <data name="DeleteTag" xml:space="preserve">
-    <value>Tag löschen</value>
+    <value>Kategorie löschen</value>
   </data>
   <data name="DeleteTagConfirm" xml:space="preserve">
-    <value>Möchtest du den Tag {0} wirklich löschen? 
+    <value>Möchtest du die Kategorie {0} wirklich löschen? 
 Der Tag kann nicht wiederhergestellt werden!</value>
   </data>
   <data name="DocumentDeleted" xml:space="preserve">
@@ -198,11 +198,11 @@ Depending on the size of the documents, this process may take a moment.</comment
     <comment>Scan a document with your camera, choose one from your gallery or pick a document from your device</comment>
   </data>
   <data name="DocumentEditorNoTags" xml:space="preserve">
-    <value>Keine Tags verfügbar. Benutze den Tags Tab, um neue Tags anzulegen</value>
+    <value>Keine Kategorien verfügbar. Benutze den Kategorien Tab, um neue Kategorien anzulegen</value>
     <comment>No tags available. Use the tags tab to add new tags</comment>
   </data>
   <data name="DocumentEditorSelectTags" xml:space="preserve">
-    <value>Tags auswählen</value>
+    <value>Kategorien auswählen</value>
   </data>
   <data name="DocumentEmpty" xml:space="preserve">
     <value>Benutze den Plus Button, um ein neues Dokument anzulegen</value>
@@ -235,7 +235,7 @@ Depending on the size of the documents, this process may take a moment.</comment
     <value>Dokument ändern</value>
   </data>
   <data name="EditTag" xml:space="preserve">
-    <value>Tag ändern</value>
+    <value>Kategorie ändern</value>
   </data>
   <data name="FolderDeleted" xml:space="preserve">
     <value>Ordner {0} erfolgreich gelöscht!</value>
@@ -330,6 +330,9 @@ Depending on the size of the documents, this process may take a moment.</comment
 &lt;h3&gt;Athena v1.0.0 (01.05.2024)&lt;/h3&gt;
 &lt;p&gt;- Erste Veröffentlichung von Athena: AI Document Manager&lt;/p&gt;</value>
   </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>Neue Kategorie</value>
+  </data>
   <data name="Next" xml:space="preserve">
     <value>Weiter</value>
   </data>
@@ -372,6 +375,9 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="Search" xml:space="preserve">
     <value>Suche</value>
   </data>
+  <data name="SearchFilter" xml:space="preserve">
+    <value>Suchfilter</value>
+  </data>
   <data name="SearchFullTextSearch" xml:space="preserve">
     <value>Volltextsuche</value>
   </data>
@@ -383,8 +389,11 @@ Depending on the size of the documents, this process may take a moment.</comment
     <value>Keine Ergebnisse gefunden</value>
   </data>
   <data name="SearchOnlyWithSelectedTags" xml:space="preserve">
-    <value>Nur nach Dokumenten mit den ausgewählten Tags suchen</value>
+    <value>Nur nach Dokumenten mit den ausgewählten Kategorien suchen</value>
     <comment>Only show documents with selected tags</comment>
+  </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>Nach Dokumentnamen oder Text suchen...</value>
   </data>
   <data name="SearchResultDocument" xml:space="preserve">
     <value>Dokument: </value>
@@ -394,6 +403,9 @@ Depending on the size of the documents, this process may take a moment.</comment
   </data>
   <data name="SearchResultPage" xml:space="preserve">
     <value>Seite: </value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Ergebnisse</value>
   </data>
   <data name="SearchRunning" xml:space="preserve">
     <value>Suche läuft...</value>
@@ -407,20 +419,23 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="ShowTutorial" xml:space="preserve">
     <value>Tutorial anzeigen</value>
   </data>
+  <data name="StartSearch" xml:space="preserve">
+    <value>Suche starten</value>
+  </data>
   <data name="TagDeleted" xml:space="preserve">
-    <value>Tag {0} erfolgreich gelöscht!</value>
+    <value>Kategorie {0} erfolgreich gelöscht!</value>
   </data>
   <data name="TagEmpty" xml:space="preserve">
-    <value>Benutze den Plus button, um einen neuen Tag anzulegen</value>
+    <value>Benutze den Plus button, um eine neue Kategorie anzulegen</value>
   </data>
   <data name="TagNewName" xml:space="preserve">
     <value>Wähle einen neuen Namen für {0}</value>
   </data>
   <data name="Tags" xml:space="preserve">
-    <value>Tags</value>
+    <value>Kategorien</value>
   </data>
   <data name="TagsSavedSuccessfully" xml:space="preserve">
-    <value>Tags erfolgreich gespeichert</value>
+    <value>Kategorien erfolgreich gespeichert</value>
   </data>
   <data name="TutStep1" xml:space="preserve">
     <value>Das ist die Startseite. Hier kannst du alle deine Ordner sehen.</value>

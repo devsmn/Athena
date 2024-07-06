@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Athena.UI.SearchOverviewView"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
+             xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             Style="{StaticResource ContentPageStyle}"
+             Title="{x:Static loc:Localization.Search}">
+    <Grid HorizontalOptions="Center" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Text="{x:Static loc:Localization.Search}"
+                Grid.Row="0"
+                Margin="5,40,5,10"
+                FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               Grid.ColumnSpan="2"
+               FontSize="32"/>
+
+        <Entry Text="{Binding SearchText}"
+               Margin="10,5,10,5"
+               Grid.Row="1"
+               Grid.Column="1"
+               ReturnType="Search"
+               Placeholder="{x:Static loc:Localization.SearchPlaceholder}"
+               ReturnCommand="{Binding StartSearchCommand}"/>
+
+        <Label Text="{x:Static loc:Localization.SearchFullTextSearchEnabled}" 
+               TextColor="Gray"
+               IsVisible="{Binding IsFullTextSearch}"
+               HorizontalTextAlignment="Center"
+               Grid.Row="2"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               FontSize="12"/>
+
+
+        <Border Grid.Column="0" 
+                 Grid.Row="3" 
+                 Margin="3"
+                 StrokeShape="RoundRectangle 8,8,8,8"
+                 Grid.ColumnSpan="2">
+            <syncfusion:SfExpander  >
+                <syncfusion:SfExpander.Header>
+                    <Grid HeightRequest="48">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <ffimage:CachedImage Grid.Row="1" LoadingPlaceholder="image_placeholder.png"
+                                  FadeAnimationForCachedImages="False"
+                                  FadeAnimationEnabled="False"
+                                  HeightRequest="18"
+                                  Margin="3"
+                                  Source="filter.png"/>
+
+                        <Label Text="{x:Static loc:Localization.SearchFilter}" 
+                        Grid.Row="1"
+                        VerticalTextAlignment="Center"
+                        Grid.Column="1"/>
+
+                    </Grid>
+                </syncfusion:SfExpander.Header>
+                <syncfusion:SfExpander.Content>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Text" 
+                        FontAttributes="Bold"
+                        Margin="3"/>
+
+                        <chip:SfChipGroup Grid.Row="1" 
+                                   ChipType="Filter" 
+                                   Margin="3" 
+                                   SelectionChanged="SfChipGroup_OnSelectionChanged">
+                            <chip:SfChipGroup.Items>
+                                <chip:SfChip Text="{x:Static loc:Localization.SearchFullTextSearch}"
+                                      HeightRequest="30"
+                                      Margin="3"/>
+                            </chip:SfChipGroup.Items>
+                        </chip:SfChipGroup>
+
+                        <Label Text="{x:Static loc:Localization.Tags}" 
+                        FontAttributes="Bold"
+                        Grid.Row="2"
+                        Margin="3"/>
+
+                        <chip:SfChipGroup 
+                       ChipType="Filter" 
+                       Grid.Row="3"
+                       Margin="3" 
+                       DisplayMemberPath="Name"
+                       ItemsSource="{Binding Tags}"
+                       SelectedItem="{Binding SelectedTags}">
+                            <chip:SfChipGroup.ChipLayout>
+                                <FlexLayout HorizontalOptions="Start"  Wrap="Wrap" />
+                            </chip:SfChipGroup.ChipLayout>
+                            <!--<chip:SfChipGroup.ItemTemplate>
+                         <DataTemplate>
+                             <Label Text="{Binding Name}" 
+                                    Margin="12,5,12,5" 
+                                    VerticalTextAlignment="Center" 
+                                    HorizontalTextAlignment="Center" />
+                         </DataTemplate>
+                     </chip:SfChipGroup.ItemTemplate>-->
+                        </chip:SfChipGroup>
+
+                    </Grid>
+                </syncfusion:SfExpander.Content>
+            </syncfusion:SfExpander>
+        </Border>
+
+        <Button Margin="5,5,5,20"
+              Grid.Row="5"
+              Grid.ColumnSpan="2"
+              Text="{x:Static loc:Localization.StartSearch}" 
+              WidthRequest="150"
+              VerticalOptions="End"
+              TextColor="White"
+              Command="{Binding StartSearchCommand}"
+              Background="{x:StaticResource Primary}"/>
+
+
+        <p:SfPopup x:Name="sfPopup"
+                   HeaderTitle="Loading"
+                   StaysOpen="True"
+                   AutoSizeMode="Height"
+                   Message="Loading search result"
+                   IsOpen="{Binding IsBusy}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate >
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="true" />
+                        <Label Text="{x:Static loc:Localization.SearchRunning}" VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+    </Grid>
+</ContentPage>

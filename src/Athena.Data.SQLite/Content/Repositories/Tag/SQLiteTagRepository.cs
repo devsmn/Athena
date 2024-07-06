@@ -39,7 +39,7 @@ namespace Athena.Data.SQLite
         {
             this.Audit(context, () =>
             {
-                if (tag.Key == null || tag.Id == TagKey.TemporaryId)
+                if (tag.Key == null || tag.Id == IntegerEntityKey.TemporaryId)
                 {
                     InsertCore(context, tag);
                 }
@@ -59,6 +59,8 @@ namespace Athena.Data.SQLite
             command.Bind("@TAG_name", tag.Name.EmptyIfNull());
             command.Bind("@TAG_comment", tag.Comment.EmptyIfNull());
             command.Bind("@TAG_modDate", DateTime.UtcNow);
+            command.Bind("@TAG_backgroundColor", tag.BackgroundColor.EmptyIfNull());
+            command.Bind("@TAG_textColor", tag.TextColor.EmptyIfNull());
             command.Bind("@TAG_ref", tag.Id);
             command.ExecuteNonQuery();
         }
@@ -71,11 +73,13 @@ namespace Athena.Data.SQLite
 
             command.Bind("@TAG_name", tag.Name.EmptyIfNull());
             command.Bind("@TAG_comment", tag.Comment.EmptyIfNull());
+            command.Bind("@TAG_backgroundColor", tag.BackgroundColor.EmptyIfNull());
+            command.Bind("@TAG_textColor", tag.TextColor.EmptyIfNull());
             command.Bind("@TAG_creationDate", tag.CreationDate);
             command.Bind("@TAG_modDate", tag.ModDate);
             command.ExecuteNonQuery();
 
-            tag.SetKey(new TagKey((int)SQLite3.LastInsertRowid(connection.Handle)));
+            tag.Key = new IntegerEntityKey((int)SQLite3.LastInsertRowid(connection.Handle));
         }
 
         public void Delete(IContext context, Tag tag)

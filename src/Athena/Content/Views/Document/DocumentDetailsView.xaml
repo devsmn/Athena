@@ -154,7 +154,7 @@
         </p:SfPopup>
 
         <p:SfPopup IsOpen="{Binding ShowTagPopup}" 
-                       HeaderTitle="Tags"
+                       HeaderTitle="{x:Static loc:Localization.Tags}"
                        ShowCloseButton="True"
                        AutoSizeMode="Height"
                        AcceptButtonText="{x:Static loc:Localization.Save}"

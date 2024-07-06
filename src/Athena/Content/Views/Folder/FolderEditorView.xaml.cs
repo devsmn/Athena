@@ -5,9 +5,9 @@ namespace Athena.UI
 
     public partial class FolderEditorView : ContentPage
     {
-        public FolderEditorView(Folder folder)
+        public FolderEditorView(Folder folderToEdit, Folder parentFolder)
         {
-            this.BindingContext = new FolderEditorViewModel(folder);
+            this.BindingContext = new FolderEditorViewModel(folderToEdit, parentFolder);
             InitializeComponent();
         }
     }

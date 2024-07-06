@@ -1,2 +1,2 @@
-﻿INSERT INTO TAG (TAG_name, TAG_comment, TAG_creationDate, TAG_modDate) 
-VALUES (@TAG_name, @TAG_comment, @TAG_creationDate, @TAG_modDate);
+﻿INSERT INTO TAG (TAG_name, TAG_comment, TAG_backgroundColor, TAG_textColor, TAG_creationDate, TAG_modDate) 
+VALUES (@TAG_name, @TAG_comment, @TAG_backgroundColor, @TAG_textColor, @TAG_creationDate, @TAG_modDate);
