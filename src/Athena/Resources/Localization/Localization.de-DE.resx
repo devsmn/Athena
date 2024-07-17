@@ -340,6 +340,9 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="NoRecentDocuments" xml:space="preserve">
     <value>Keine zuletzt genutzten Dokumente</value>
   </data>
+  <data name="OpenInBrowser" xml:space="preserve">
+    <value>Im Browser öffnen</value>
+  </data>
   <data name="PageDeleted" xml:space="preserve">
     <value>Seite {0} erfolgreich gelöscht!</value>
   </data>
@@ -500,7 +503,7 @@ Depending on the size of the documents, this process may take a moment.</comment
     <value>Bitte wähle deine Sprache</value>
   </data>
   <data name="WelcomeTitle" xml:space="preserve">
-    <value>Danke für das Herunterladen der Athena: AI Document Manager app</value>
+    <value>Danke für das Herunterladen der Athena: AI Document Manager App!</value>
     <comment>Thank you for downloading the Athena: AI Document Manager app</comment>
   </data>
   <data name="WelcomeYourNamePlaceholder" xml:space="preserve">

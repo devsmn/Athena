@@ -705,6 +705,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Open in browser.
+        /// </summary>
+        public static string OpenInBrowser {
+            get {
+                return ResourceManager.GetString("OpenInBrowser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Successfully deleted page {0}.
         /// </summary>
         public static string PageDeleted {
@@ -1137,7 +1146,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your name will only be used for the personal greeting.
+        ///   Looks up a localized string similar to Your name will only be used for a personal greeting.
         /// </summary>
         public static string WelcomeEnterNameDesc {
             get {
@@ -1173,7 +1182,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thank you for downloading the Athena: AI Document Manager app.
+        ///   Looks up a localized string similar to Thank you for downloading the Athena: AI Document Manager app!.
         /// </summary>
         public static string WelcomeTitle {
             get {

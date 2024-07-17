@@ -7,7 +7,6 @@ public partial class SettingsView : ContentPage
 {
 	public SettingsView()
 	{
-
         this.BindingContext = new SettingsViewModel();
         InitializeComponent();
         versionLabel.Text = $"{AppInfo.Current.Name} v{AppInfo.Current.VersionString}-{AppInfo.Current.BuildString}";
@@ -15,35 +14,31 @@ public partial class SettingsView : ContentPage
 
     private async void OnChangelogClicked(object sender, EventArgs e)
     {
-        await Launcher.TryOpenAsync(
-            "https://devsmn.github.io/Athena-Public/app_changelog/");
+        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/app_changelog/"));
     }
 
     private async void OnPrivacyPolicyClicked(object sender, EventArgs e)
     {
-        await Launcher.TryOpenAsync(
-            "https://devsmn.github.io/Athena-Public/privacy/");
+        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/privacy/"));
     }
 
     private async void OnTermsOfUseClicked(object sender, EventArgs e)
     {
-        await Launcher.TryOpenAsync(
-            "https://devsmn.github.io/Athena-Public/tos/");
+        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/tos/"));
     }
 
     private async void OnCopyrightClicked(object sender, EventArgs e)
     {
-        await Launcher.TryOpenAsync(
-            "https://devsmn.github.io/Athena-Public/copyright/");
+        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/copyright/"));
     }
 
-    private void OnHelpClicked(object sender, EventArgs e)
+    private async void OnHelpClicked(object sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/"));
     }
 
-    private void OnFeedbackClicked(object sender, EventArgs e)
+    private async void OnFeedbackClicked(object sender, EventArgs e)
     {
-        Navigation.PushModalAsync(new WebViewPage("https://forms.gle/SDAERdx1JGny77EZ7"));
+        await Navigation.PushModalAsync(new WebViewPage("https://forms.gle/SDAERdx1JGny77EZ7"));
     }
 }

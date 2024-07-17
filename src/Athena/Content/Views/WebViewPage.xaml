@@ -18,16 +18,31 @@
 
         <WebView x:Name="webView" />
 
-        <sfb:SfButton 
-            Grid.Row="1"
-            Margin="10"
-            VerticalOptions="Center"
-            Background="{x:StaticResource Primary}" 
-            Clicked="ButtonBase_OnClicked"
-            TextColor="White"
-            WidthRequest="150"
-            Text="{x:Static loc:Localization.Close}"
-            StrokeThickness="0" />
+        <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center">
+
+            <sfb:SfButton 
+                Margin="10"
+                VerticalOptions="Center"
+                Clicked="OpenInBrowserClicked"
+                TextColor="Black"
+                Background="{x:StaticResource Secondary}"
+                WidthRequest="150"
+                Stroke="Gray"
+                Text="{x:Static loc:Localization.OpenInBrowser}"
+                StrokeThickness="1" />
+
+            <sfb:SfButton 
+                Margin="10"
+                VerticalOptions="Center"
+                Background="{x:StaticResource Primary}" 
+                Clicked="CloseClicked"
+                TextColor="White"
+                WidthRequest="150"
+                Text="{x:Static loc:Localization.Close}"
+                StrokeThickness="0" />
+
+        </HorizontalStackLayout>
+
 
     </Grid>
 </ContentPage>

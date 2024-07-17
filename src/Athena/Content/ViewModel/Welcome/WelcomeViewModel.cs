@@ -68,6 +68,11 @@ namespace Athena.UI
         {
             Step++;
 
+            if (Step < 2)
+            {
+                NextButtonText = Localization.Next;
+            }
+
             if (Step > 2)
             {
                 _prefService.SetFirstUsage();

@@ -166,6 +166,5 @@ namespace Athena.UI
                 await PushModalAsync(new WelcomeView());
             }
         }
-
     }
 }

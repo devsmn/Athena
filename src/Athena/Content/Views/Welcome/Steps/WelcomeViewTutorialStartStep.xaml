@@ -10,7 +10,8 @@
         </Grid.RowDefinitions>
 
         <Label Text="{Binding WelcomeReadyText}" 
-               Margin="5,40,5,3"
+               Margin="5,50,5,3"
+               FontAttributes="Bold"
                HorizontalTextAlignment="Center"
                FontSize="20"/>
 
