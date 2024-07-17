@@ -47,6 +47,5 @@ namespace Athena.UI
 
             Debug.WriteLine(sb);
         }
-
     }
 }

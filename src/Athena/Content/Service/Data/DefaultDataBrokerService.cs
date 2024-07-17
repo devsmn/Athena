@@ -103,10 +103,6 @@ namespace Athena.UI
                         args.Documents.Add(update as RequestUpdate<Document>);
                         break;
 
-                    //case Page:
-                    //    args.Pages.Add(update as RequestUpdate<Page>);
-                    //    break;
-
                     case Folder:
                         args.Folders.Add(update as RequestUpdate<Folder>);
                         break;
@@ -123,7 +119,17 @@ namespace Athena.UI
 
             Debug.WriteLine($"Publishing to {Published?.GetInvocationList().Length} subscribers");
 
-            foreach (EventHandler<DataPublishedEventArgs> handler in Published?.GetInvocationList())
+            if (Published == null)
+                return;
+
+            // Reverse to start with the most recent sub.
+            // That way, when e.g moving a document, we can let the related view model handle the action, if available.
+            // Otherwise, the chance is high that we traverse the documents of the root item and all subfolders
+            // of the loaded folders until we find the correct document.
+            var subs = Published.GetInvocationList().ToList();
+            subs.Reverse();
+
+            foreach (EventHandler<DataPublishedEventArgs> handler in subs)
             {
                 handler.Invoke(this, args);
             }

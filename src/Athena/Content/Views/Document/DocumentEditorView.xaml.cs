@@ -12,8 +12,13 @@ namespace Athena.UI
         {
             BindingContext = new DocumentEditorViewModel(folder, document);
             InitializeComponent();
-
             Loaded += OnLoaded;
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            (this.BindingContext as DocumentEditorViewModel).BackButton();
+            return true;
         }
 
         private async void OnLoaded(object sender, EventArgs e)

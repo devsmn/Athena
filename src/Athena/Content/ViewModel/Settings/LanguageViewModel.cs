@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
+using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Athena.UI
 {
-    internal partial class LanguageViewModel : ObservableObject
+    public partial class LanguageViewModel : ObservableObject
     {
         [ObservableProperty]
         private string _name;

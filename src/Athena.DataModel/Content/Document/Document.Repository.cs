@@ -97,5 +97,26 @@ namespace Athena.DataModel
         {
             DataStore.Resolve<IDocumentRepository>().MoveTo(context, this, oldFolder, newFolder);
         }
+
+        /// <summary>
+        /// Reads recent documents.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public static IEnumerable<Document> ReadRecent(IContext context, int limit)
+        {
+            return DataStore.Resolve<IDocumentRepository>().ReadRecent(context, limit);
+        }
+
+        /// <summary>
+        /// Counts all documents.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static int CountAll(IContext context)
+        {
+            return DataStore.Resolve<IDocumentRepository>().CountAll(context);
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using System.Diagnostics;
 using Athena.DataModel.Core;
 
 namespace Athena.Data.SQLite
@@ -63,6 +62,13 @@ namespace Athena.Data.SQLite
 
         protected TResult Audit<TResult>(IContext context, string commandText, Func<SQLiteCommand, TResult> action)
         {
+            if (string.IsNullOrEmpty(commandText))
+            {
+                context.Log(new Exception("Command text is empty"));
+                return default;
+            }
+
+
             SQLiteConnection connection = Database.GetConnection();
             bool ownTransaction = !connection.IsInTransaction;
 
@@ -108,6 +114,13 @@ namespace Athena.Data.SQLite
             }
         }
 
+        /// <summary>
+        /// Creates an <see cref="SQLiteCommand"/> based on the provided <paramref name="commandText"/>
+        /// and executes the given <paramref name="action"/>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="commandText"></param>
+        /// <param name="action"></param>
         protected void Audit(IContext context, string commandText, Action<SQLiteCommand> action)
         {
             SQLiteConnection connection = Database.GetConnection();

@@ -1,8 +1,9 @@
 
 using Syncfusion.Maui.DataSource.Extensions;
-using Syncfusion.Maui.ListView;
 using Syncfusion.Maui.Popup;
 using System;
+using Syncfusion.Maui.TreeView;
+using ItemLongPressEventArgs = Syncfusion.Maui.ListView.ItemLongPressEventArgs;
 
 namespace Athena.UI;
 
@@ -15,23 +16,7 @@ public partial class FolderOverview : ContentPage
 
     public FolderOverview()
     {
-        BindingContext = new FolderOverviewViewModel(); // ROOT view
         InitializeComponent();
-
-        ServiceProvider.GetService<INavigationService>().AsRoot(this);
-        _viewModel = BindingContext as FolderOverviewViewModel;
-
-        Loaded += (_, _) =>
-        {
-            if (!_firstUsageChecked)
-            {
-                _viewModel.CheckFirstUsage();
-            }
-
-            _firstUsageChecked = true;
-        };
-
-        _viewModel.View = this; 
     }
 
     public FolderOverview(FolderViewModel parentFolder)
@@ -40,6 +25,7 @@ public partial class FolderOverview : ContentPage
         InitializeComponent();
 
         _viewModel = BindingContext as FolderOverviewViewModel;
+        _viewModel.LoadData();
         _viewModel.View = this;
     }
 
@@ -71,4 +57,5 @@ public partial class FolderOverview : ContentPage
     {
         //listView.RefreshView();
     }
+
 }

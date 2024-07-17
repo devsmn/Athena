@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -7,12 +8,23 @@ using Microsoft.Maui.Graphics.Platform;
 namespace Athena.UI
 {
     using Athena.DataModel;
-    using CommunityToolkit.Maui.Core.Primitives;
 
     public class DocumentViewModel : ObservableObject, IVisualModel<Document>
     {
         private readonly Document _document;
         private string _imageLocation;
+
+        public DocumentViewModel()
+        {
+            Tags = new();
+        }
+
+        public DocumentViewModel(Document document)
+        {
+            _document = document;
+            Tags = new ObservableCollection<Tag>(document.Tags);
+        }
+
 
         [Display(AutoGenerateField = false)]
         public IntegerEntityKey Key
@@ -55,6 +67,12 @@ namespace Athena.UI
             Name = entity.Name;
             Comment = entity.Comment;
             IsPinned = entity.IsPinned;
+
+            Tags.Clear();
+            foreach (var tag in entity.Tags)
+            {
+                Tags.Add(tag);
+            }
         }
 
         [Required(
@@ -98,10 +116,24 @@ namespace Athena.UI
         }
 
         [Display(AutoGenerateField = false)]
-        public List<Tag> Tags
+        public ObservableCollection<Tag> Tags
         {
-            get { return _document.Tags; }
-            set { _document.Tags = value; }
+            get;
+            set;
+        }
+
+        public void AddTag(IContext context, TagViewModel tag)
+        {
+            Document.AddTag(context, tag);
+            _document.Tags.Add(tag);
+            Tags.Add(tag);
+        }
+
+        public void DeleteTag(IContext context, TagViewModel tag)
+        {
+            Document.DeleteTag(context, tag);
+            _document.Tags.Remove(tag);
+            Tags.Remove(tag);
         }
 
         [Display(AutoGenerateField = false)]
@@ -144,11 +176,6 @@ namespace Athena.UI
             }
         }
 
-        public DocumentViewModel(Document document)
-        {
-            _document = document;
-        }
-
         public static implicit operator DocumentViewModel(Document document)
         {
             return new DocumentViewModel(document);
@@ -158,5 +185,6 @@ namespace Athena.UI
         {
             return document._document;
         }
+
     }
 }

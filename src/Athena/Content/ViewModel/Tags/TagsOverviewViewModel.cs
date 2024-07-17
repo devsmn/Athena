@@ -59,18 +59,32 @@ namespace Athena.UI
             {
                 foreach (var tag in e.Tags)
                 {
-                    Tags.Process(tag);
+                    if (tag.Type == UpdateType.Edit)
+                    {
+                        Tag toEdit = Tags.FirstOrDefault(x => x.Id == tag.Entity.Id);
+
+                        if (toEdit == null)
+                            continue;
+
+                        Tags.Delete(toEdit);
+                        Tags.Add(new TagViewModel(tag));
+                    }
+                    else
+                    {
+
+                        Tags.Process(tag);
+                    }
                 }
             });
         }
 
         [RelayCommand]
-        private async Task TagSelected(TagViewModel selectedTag)
+        public void TagSelected(TagViewModel tag)
         {
-            if (selectedTag == null)
+            if (tag == null)
                 return;
 
-            SelectedTag = selectedTag;
+            SelectedTag = tag;
 
             var bgColor = PredefinedColors.FirstOrDefault(
                 x => x.Hex.Equals(SelectedTag.BackgroundColor, StringComparison.OrdinalIgnoreCase));
@@ -87,56 +101,7 @@ namespace Athena.UI
             SelectedTagName = SelectedTag.Name;
 
             IsEditPopupOpen = true;
-
-            //string choice = await DisplayActionSheet(SelectedTag.Name, Localization.Close, string.Empty, Localization.ChangeName, Localization.Delete);
-
-            //if (string.IsNullOrEmpty(choice) || choice.Equals(Localization.Close, StringComparison.OrdinalIgnoreCase))
-            //{
-            //    SelectedTag = null;
-            //    return;
-            //}
-
-            //var context = this.RetrieveContext();
-
-            //if (choice.Equals(Localization.Delete, StringComparison.OrdinalIgnoreCase))
-            //{
-            //    bool delete = await DisplayAlert(
-            //        Localization.DeleteTag,
-            //        string.Format(Localization.DeleteTagConfirm, SelectedTag.Name),
-            //        Localization.Yes,
-            //        Localization.No);
-
-
-            //    if (delete)
-            //    {
-            //        SelectedTag.Delete(context);
-            //        ServiceProvider.GetService<IDataBrokerService>().Publish<Tag>(context, SelectedTag, UpdateType.Delete);
-
-            //        await Toast.Make(string.Format(Localization.TagDeleted, SelectedTag.Name), ToastDuration.Long).Show();
-            //    }
-            //}
-            //else
-            //{
-            //    string name = await DisplayPrompt(
-            //        Localization.EditTag,
-            //        string.Format(Localization.TagNewName, SelectedTag.Name),
-            //        Localization.Save,
-            //        Localization.Close);
-
-            //    if (string.IsNullOrEmpty(name))
-            //    {
-            //        SelectedTag = null;
-            //        return;
-            //    }
-
-            //    SelectedTag.Name = name;
-            //    SelectedTag.Save(context);
-
-            //    ServiceProvider.GetService<IDataBrokerService>().Publish<Tag>(context, SelectedTag, UpdateType.Edit);
-            //}
         }
-
-
 
         [RelayCommand]
         internal void AddNewTag()

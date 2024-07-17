@@ -8,53 +8,68 @@
              xmlns:input="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="Athena.UI.TagsOverview"
+             x:Name="parent"
              Style="{StaticResource ContentPageStyle}"
              Title="TagsOverview">
     <ContentPage.Resources>
         <local:EditTagNameTitleConverter x:Key="EditTagNameTitleConverter" />
+        <local:HexToBrushConverter x:Key="HexToBrushConverter" />
     </ContentPage.Resources>
     <ContentPage.BindingContext>
         <local:TagsOverviewViewModel />
     </ContentPage.BindingContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <chip:SfChipGroup ItemsSource="{Binding Tags}"
-                          Margin="10"
-                          ChoiceMode="Single"
-                          Command="{Binding TagSelectedCommand}"
-                          ChipType="Action">
-            <chip:SfChipGroup.ChipLayout>
-                <FlexLayout HorizontalOptions="Start" 
-                            Direction="Row"
-                            Margin="3"
-                            Wrap="Wrap" 
-                            JustifyContent="Start" 
-                            AlignContent="Start" 
-                            AlignItems="Start"/>
-            </chip:SfChipGroup.ChipLayout>
-            <chip:SfChipGroup.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout BackgroundColor="{Binding BackgroundColor}">
-                        <Label   Text="{Binding Name}" 
-                                 TextColor="{Binding TextColor}"
-                                 HorizontalOptions="Center"
-                                 VerticalTextAlignment="Center"
-                                 HorizontalTextAlignment="Center"
-                                 Margin="14,5,14,5"
-                                 VerticalOptions="Center" />
-                    </StackLayout>
-                </DataTemplate>
-            </chip:SfChipGroup.ItemTemplate>
+        <Label Text="{x:Static loc:Localization.Tags}"
+               Grid.Row="0"
+               Margin="5,20,5,10"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               Grid.ColumnSpan="2"
+               FontSize="32"/>
 
-        </chip:SfChipGroup>
+        <VerticalStackLayout Spacing="10" Grid.Row="1"  >
+            <chip:SfChipGroup ItemsSource="{Binding Tags}"
+                          Margin="10"
+                          Command="{Binding TagSelectedCommand}"
+                          SelectionChanged="Group_OnSelectionChanged"
+                          ChoiceMode="Single"
+                          ChipStrokeThickness="0"
+                          ChipType="Action">
+                <chip:SfChipGroup.ChipLayout>
+
+                    <FlexLayout
+                    Direction="Row"
+                    Wrap="Wrap" />
+
+                </chip:SfChipGroup.ChipLayout>
+                <chip:SfChipGroup.ItemTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout>
+                            <chip:SfChip HeightRequest="30"  
+                                         Clicked="ButtonBase_OnClicked"
+                                         Command="{Binding Source={x:Reference parent}, Path=BindingContext.TagSelectedCommand}"
+                                         CommandParameter="{Binding .}"
+                                         Text="{Binding Name}"
+                                         StrokeThickness="1"
+                                         Background="{Binding BackgroundColor, Converter={x:StaticResource HexToBrushConverter}}" 
+                                         TextColor="{Binding TextColor}"/>
+
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </chip:SfChipGroup.ItemTemplate>
+
+            </chip:SfChipGroup>
+        </VerticalStackLayout>
 
         <p:SfPopup IsOpen="{Binding IsEditPopupOpen}"
                    AutoSizeMode="Height"
@@ -82,16 +97,16 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Text="Name:" 
+                        <Label Text="Name" 
                                Margin="3"
                                VerticalTextAlignment="Center"/>
 
-                        <Entry Placeholder="Tag name" 
+                        <Entry Placeholder="{x:Static loc:Localization.TagName}" 
                                Text="{Binding SelectedTagName}"
                                Grid.Column="1"
                                Margin="3" />
 
-                        <Label Text="Background color:" 
+                        <Label Text="{x:Static loc:Localization.BackgroundColor}" 
                                Grid.Row="1"
                                Margin="3"
                                VerticalTextAlignment="Center"/>
@@ -121,7 +136,7 @@
 
                         </input:SfComboBox>
 
-                        <Label Text="Text color:" 
+                        <Label Text="{x:Static loc:Localization.TextColor}" 
                                Grid.Row="2"
                                Margin="3"
                                VerticalTextAlignment="Center"/>
@@ -157,7 +172,7 @@
         </p:SfPopup>
 
 
-        <Button Grid.Row="0"
+        <Button Grid.Row="2"
                 HorizontalOptions="End"
                 VerticalOptions="End"
                 Text="+"

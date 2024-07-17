@@ -27,12 +27,6 @@ namespace Athena.DataModel
             set { IsPinned = Convert.ToBoolean(value); }
         }
 
-        //public override int Id
-        //{
-        //    get { return Key.Id; }
-        //    set { Key.Id = value; }
-        //}
-
         public string Name
         {
             get { return _name; }

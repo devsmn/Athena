@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ui="clr-namespace:Athena.UI"
+             xmlns:inputs="http://schemas.syncfusion.com/maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             x:Class="Athena.UI.WelcomeViewLanguageStep">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Text="{Binding Greeting}" 
+               Margin="5,40,5,10"
+               HorizontalTextAlignment="Center"
+               FontAttributes="Bold"
+               FontSize="32"/>
+
+        <Label Text="{Binding WelcomeTitle}" 
+               Margin="5"
+               Grid.Row="1"
+               HorizontalTextAlignment="Center"/>
+
+        <Label Text="{Binding ChooseLanguageText}" 
+               Margin="10,30,10,5" 
+               Grid.Row="2"
+               LineBreakMode="WordWrap"
+               HorizontalTextAlignment="Center"/>
+
+        <inputs:SfComboBox 
+            Margin="10" 
+            Grid.Row="3"
+            x:Name="cb"
+            HorizontalTextAlignment="Center"
+            BackgroundColor="Transparent"
+            IsClearButtonVisible="False"
+            ItemsSource="{Binding Languages}" 
+            SelectedItem="{Binding SelectedLanguage}"
+            DisplayMemberPath="Name"
+            SelectedValuePath="Id"
+            TextMemberPath="Name">
+            <inputs:SfComboBox.Behaviors>
+                <toolkit:EventToCommandBehavior 
+                    EventName="SelectionChanged"
+                    Command="{Binding Source={x:Reference cb}, Path=BindingContext.SelectionChangedCommand}"/>
+            </inputs:SfComboBox.Behaviors>
+        </inputs:SfComboBox>
+
+    </Grid>
+</ContentView>

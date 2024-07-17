@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             x:Class="Athena.Content.Views.WebViewPage"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+
+             Title="WebViewPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <WebView x:Name="webView" />
+
+        <sfb:SfButton 
+            Grid.Row="1"
+            Margin="10"
+            VerticalOptions="Center"
+            Background="{x:StaticResource Primary}" 
+            Clicked="ButtonBase_OnClicked"
+            TextColor="White"
+            WidthRequest="150"
+            Text="{x:Static loc:Localization.Close}"
+            StrokeThickness="0" />
+
+    </Grid>
+</ContentPage>

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Athena.UI
+﻿namespace Athena.UI
 {
     public interface IPreferencesService
     {
@@ -36,5 +29,29 @@ namespace Athena.UI
         /// Sets that the app was used for the first time.
         /// </summary>
         void SetFirstUsage();
+
+        /// <summary>
+        /// Gets the name of the user. 
+        /// </summary>
+        /// <returns></returns>
+        string GetName();
+
+        /// <summary>
+        /// Sets the name of the user.
+        /// </summary>
+        /// <param name="name"></param>
+        void SetName(string name);
+
+        /// <summary>
+        /// Gets the language.
+        /// </summary>
+        /// <returns></returns>
+        string GetLanguage();
+
+        /// <summary>
+        /// Sets the language.
+        /// </summary>
+        /// <param name="language"></param>
+        void SetLanguage(string language);
     }
 }

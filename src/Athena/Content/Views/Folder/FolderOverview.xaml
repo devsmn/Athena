@@ -180,7 +180,7 @@
                             AlignItems="Start"/>
                     </chip:SfChipGroup.ChipLayout>
                     <chip:SfChipGroup.ItemTemplate>
-                        <DataTemplate>
+                        <!--<DataTemplate>
                             <StackLayout BackgroundColor="{Binding BackgroundColor}" >
                                 <Label   Text="{Binding Name}" 
                                          TextColor="{Binding TextColor}"
@@ -189,6 +189,16 @@
                                          Margin="14,5,14,5"
                                          VerticalOptions="Center" />
                             </StackLayout>
+                        </DataTemplate>-->
+                        <DataTemplate>
+                            <HorizontalStackLayout>
+                                <chip:SfChip HeightRequest="30"  
+                                             Text="{Binding Name}"
+                                             StrokeThickness="1"
+                                             Background="{Binding BackgroundColor, Converter={x:StaticResource HexToBrushConverter}}" 
+                                             TextColor="{Binding TextColor}"/>
+
+                            </HorizontalStackLayout>
                         </DataTemplate>
                     </chip:SfChipGroup.ItemTemplate>
                 </chip:SfChipGroup>
@@ -210,10 +220,11 @@
         <ResourceDictionary>
             <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
             <local:StringLengthToVisibilityConverter x:Key="StringLengthToVisibilityConverter" />
+            <local:HexToBrushConverter x:Key="HexToBrushConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid>
+    <Grid >
 
 
         <Grid.RowDefinitions>
@@ -302,13 +313,13 @@
             <p:SfPopup.ContentTemplate>
                 <DataTemplate>
                     <tree:SfTreeView 
-                                     SelectionMode="Single"
-                                     Margin="5"
-                                     MaximumHeightRequest="500"
-                                     SelectedItem="{Binding SelectedMoveDestination}"
-                                     LoadOnDemandCommand="{Binding LoadMoveToFoldersCommand}"
-                                     ItemsSource="{Binding MoveToFolders}"
-                                     ChildPropertyName="Folders">
+                             SelectionMode="Single"
+                             Margin="5"
+                             MaximumHeightRequest="500"
+                             SelectedItem="{Binding SelectedMoveDestination}"
+                             LoadOnDemandCommand="{Binding LoadMoveToFoldersCommand}"
+                             ItemsSource="{Binding MoveToFolders}"
+                             ChildPropertyName="Folders">
                         <tree:SfTreeView.Behaviors>
                             <toolkit:EventToCommandBehavior EventName="SelectionChanged" 
                                                             Command="{Binding MoveDestinationSelectedCommand}"/>
@@ -339,26 +350,27 @@
         </p:SfPopup>
 
 
-        <admob:BannerAd Grid.Row="0" AdSize="Banner" />
+        <admob:BannerAd Grid.Row="0" AdSize="Banner"  BackgroundColor="White"/>
 
         <shimmer:SfShimmer IsActive="{Binding IsBusy}" 
-                               VerticalOptions="FillAndExpand"
-                               RepeatCount="3"
+                               RepeatCount="6"
+                               VerticalOptions="Start"
                                Grid.Row="1"
+                               Fill="#d6d6d6"
                                Type="Article">
 
-            <sf:SfListView x:Name="listView" 
-                           AllowSwiping="True"
+            <sf:SfListView x:Name="listView"  
+                           Background="#f5f5f5"
+                           AllowSwiping="False"
                            SelectionMode="Single"
                            AutoFitMode="DynamicHeight"
                            ItemTemplate="{StaticResource FolderOverviewTemplateSelector}"
-                           SwipeOffset="100" 
                            ItemLongPress="ListView_OnItemLongPress"
                            ItemsSource="{Binding RootSource}"
                            SelectedItem="{Binding SelectedItem}"
                            GroupHeaderSize="0"
                            SelectionChangedCommand="{Binding ItemClickedCommand}"
-                           Margin="3">
+                           Margin="5">
                 <sf:SfListView.GroupHeaderTemplate>
                     <DataTemplate>
                         <ViewCell Height="0"/>
@@ -369,10 +381,24 @@
                 </sf:SfListView.ItemsLayout>
 
                 <sf:SfListView.EmptyView>
-                    <Label Text="{x:Static loc:Localization.FolderEmpty}"
-                       VerticalTextAlignment="Center"
-                       LineBreakMode="CharacterWrap"
-                       HorizontalTextAlignment="Center"/>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center">
+                        <ffimageloading:CachedImage 
+                            FadeAnimationEnabled="False"
+                            LoadingPlaceholder="image_placeholder.png"
+                            FadeAnimationForCachedImages="False"
+                            WidthRequest="50" 
+                            HeightRequest="50"
+                            Aspect="Fill"
+                            Source="empty.png"/>
+
+                        <Label Text="{x:Static loc:Localization.FolderEmpty}"
+                               VerticalTextAlignment="Center"
+                               LineBreakMode="CharacterWrap"
+                               Margin="5"
+                               HorizontalTextAlignment="Center"/>
+
+                    </VerticalStackLayout>
                 </sf:SfListView.EmptyView>
 
                 <sf:SfListView.DataSource>
@@ -425,11 +451,11 @@
                                       TextColor="White"
                                       ShowIcon="True"
                                       Margin="3,3,3,0"
-                                      Text="Add document"
+                                      Text="{x:Static loc:Localization.AddDocument}"
                                       HorizontalTextAlignment="Start"
                                       CornerRadius="30"
                                       Command="{Binding AddDocumentCommand}"
-                                      WidthRequest="155"
+                                      WidthRequest="165"
                                       ImageSource="add_document.png"/>
 
                         <sfb:SfButton ImageSize="25" 
@@ -439,9 +465,9 @@
                                       HorizontalTextAlignment="Start"
                                       TextColor="White"
                                       CornerRadius="30"
-                                      WidthRequest="155"
+                                      WidthRequest="165"
                                       Command="{Binding AddFolderCommand}"
-                                      Text="Add folder"
+                                      Text="{x:Static loc:Localization.AddFolder}"
                                       ImageSource="add_folder.png"/>
 
                     </VerticalStackLayout>

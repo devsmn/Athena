@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Athena.DataModel.Core;
+﻿using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -11,7 +10,18 @@ namespace Athena.UI
     public partial class FolderViewModel : ObservableObject, IVisualModel<Folder>
     {
         private readonly Folder _folder;
-        //private ObservableCollection<PageViewModel> _pages;
+
+        [Display(AutoGenerateField = false)]
+        public IEnumerable<Document> LoadedDocuments
+        {
+            get { return _folder.LoadedDocuments; }
+        }
+
+        [Display(AutoGenerateField = false)]
+        public IEnumerable<Folder> LoadedFolders
+        {
+            get { return _folder.LoadedFolders; }
+        }
 
         [Display(AutoGenerateField = false)]
         public IEnumerable<Folder> Folders
@@ -100,26 +110,6 @@ namespace Athena.UI
             }
         }
 
-        //[Display(AutoGenerateField = false)]
-        //public ObservableCollection<PageViewModel> Pages
-        //{
-        //    get
-        //    {
-        //        if (_pages == null)
-        //        {
-        //            _pages = new ObservableCollection<PageViewModel>(_folder.Pages.Select(x => new PageViewModel(x)));
-        //        }
-
-        //        return _pages;
-        //    }
-
-        //    set
-        //    {
-        //        _pages = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
         public FolderViewModel(Folder folder)
         {
             _folder = folder;
@@ -134,17 +124,5 @@ namespace Athena.UI
         {
             return new FolderViewModel(folder);
         }
-
-        //public void AddPage(PageViewModel page)
-        //{
-        //    Pages.Add(page);
-        //}
-
-        //public void RemovePage(PageViewModel page)
-        //{
-        //    Pages.Remove(page);
-
-        //    _folder.Pages.Remove(page.Page);
-        //}
     }
 }

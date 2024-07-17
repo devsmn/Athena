@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text;
-
-namespace Athena.DataModel.Core
+﻿namespace Athena.DataModel.Core
 {
     public abstract class AthenaContext : IContext
     {

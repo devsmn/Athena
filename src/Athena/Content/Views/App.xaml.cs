@@ -26,10 +26,10 @@ namespace Athena.UI
             if (string.IsNullOrEmpty(lan))
             {
                 lan = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                Preferences.Default.Set("Language", lan);
             }
 
-            SettingsViewModel.SetLanguage(lan, new AthenaAppContext(), false);
+            ILanguageService languageService = ServiceProvider.GetService<ILanguageService>();
+            languageService.SetLanguage(new AthenaAppContext(), lan, false);
 
             InitializeComponent();
 
@@ -48,10 +48,11 @@ namespace Athena.UI
                 DataStore.Register(SqLiteProxy.Request<ITagRepository>(parameter));
                 await DataStore.InitializeAsync();
             }).ContinueWith(
-                _ => {
+                _ =>
+                {
                     InitializeData();
                 });
-            
+
             MainPage = new ContainerPage();
 
             Application.Current.ModalPopped += CurrentOnModalPopped;
@@ -59,11 +60,14 @@ namespace Athena.UI
 
         public static void InitializeData()
         {
+            // Data will be initialized via the welcome view.
+            if (ServiceProvider.GetService<IPreferencesService>().IsFirstUsage())
+                return;
+
             IDataBrokerService service = ServiceProvider.GetService<IDataBrokerService>();
             var context = new AthenaAppContext();
 
             Folder rootFolder = GetRootFolder(context);
-            AddDefaultData();
 
             service.SetRootFolder(rootFolder);
             service.Publish(context, rootFolder.Folders, UpdateType.Initialize);
@@ -88,21 +92,6 @@ namespace Athena.UI
                 return;
 
             vm.Dispose();
-        }
-
-        private static void AddDefaultData()
-        {
-            if (!ServiceProvider.GetService<IPreferencesService>().IsFirstUsage())
-                return;
-
-            Folder dummyFolder = new Folder
-            {
-                Name = "Insurance",
-                Comment = "(Example folder) John"
-            };
-
-
-            dummyFolder.Save(new AthenaAppContext());
         }
     }
 }

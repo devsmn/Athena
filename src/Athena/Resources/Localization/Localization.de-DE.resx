@@ -120,11 +120,20 @@
   <data name="Add" xml:space="preserve">
     <value>Hinzufügen</value>
   </data>
+  <data name="AddDocument" xml:space="preserve">
+    <value>Neues Dokument</value>
+  </data>
+  <data name="AddFolder" xml:space="preserve">
+    <value>Neuer Ordner</value>
+  </data>
   <data name="AddNewTag" xml:space="preserve">
     <value>Neuen Tag hinzufügen</value>
   </data>
   <data name="AddNewTagName" xml:space="preserve">
     <value>Wähle einen Namen für den neuen Tag (max. 20 Zeichen)</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Hintergrundfarbe</value>
   </data>
   <data name="ChangeLanguageConfirm" xml:space="preserve">
     <value>Möchtest du die Sprache wirklich zu {0} ändern?</value>
@@ -166,6 +175,15 @@ Die Seite kann nicht wiederhergestellt werden!</value>
     <value>Möchtest du die Kategorie {0} wirklich löschen? 
 Der Tag kann nicht wiederhergestellt werden!</value>
   </data>
+  <data name="DocFolderOverviewText" xml:space="preserve">
+    <value>Du hast &lt;strong&gt;{0}&lt;/strong&gt; {1} und &lt;strong&gt;{2}&lt;/strong&gt; {3} erstellt</value>
+  </data>
+  <data name="DocFolderOverviewTextLastUpdate" xml:space="preserve">
+    <value>Zuletzt aktualisiert um {0}</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Dokument</value>
+  </data>
   <data name="DocumentDeleted" xml:space="preserve">
     <value>Dokument {0} erfolgreich gelöscht</value>
   </data>
@@ -191,7 +209,7 @@ Depending on the size of the documents, this process may take a moment.</comment
     <value>KI Texterkennung</value>
   </data>
   <data name="DocumentEditorEnableAI" xml:space="preserve">
-    <value>Aktiviere KI Texterkennung</value>
+    <value>Text in Dokumenten erkennen</value>
   </data>
   <data name="DocumentEditorLoadDocument" xml:space="preserve">
     <value>Scanne ein Dokument mit deiner Kamera, wähle eines aus deiner Gallerie oder verwende ein Dokument von deinem Handy</value>
@@ -229,19 +247,25 @@ Depending on the size of the documents, this process may take a moment.</comment
     <value>Der Name darf nicht leer sein</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Ändern</value>
+    <value>Bearbeiten</value>
   </data>
   <data name="EditDocument" xml:space="preserve">
-    <value>Dokument ändern</value>
+    <value>Dokument bearbeiten</value>
   </data>
   <data name="EditTag" xml:space="preserve">
-    <value>Kategorie ändern</value>
+    <value>Kategorie bearbeiten</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Ordner</value>
+  </data>
+  <data name="FolderAndDocuments" xml:space="preserve">
+    <value>Ordner und Dokumente</value>
   </data>
   <data name="FolderDeleted" xml:space="preserve">
     <value>Ordner {0} erfolgreich gelöscht!</value>
   </data>
   <data name="FolderEmpty" xml:space="preserve">
-    <value>Benutze den Plus Button, um einen neuen Ordner anzulegen</value>
+    <value>Benutze den Plus Button, um einen neuen Ordner oder ein neues Dokument anzulegen</value>
     <comment>Use the plus button to add a new folder</comment>
   </data>
   <data name="FolderInformation" xml:space="preserve">
@@ -268,6 +292,18 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="Gallery" xml:space="preserve">
     <value>Gallerie</value>
   </data>
+  <data name="GoodAfternoon" xml:space="preserve">
+    <value>Guten Tag</value>
+  </data>
+  <data name="GoodEvening" xml:space="preserve">
+    <value>Guten Abend</value>
+  </data>
+  <data name="GoodMorning" xml:space="preserve">
+    <value>Guten Morgen</value>
+  </data>
+  <data name="GoodNight" xml:space="preserve">
+    <value>Hallo</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Sprache</value>
   </data>
@@ -292,44 +328,6 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="News" xml:space="preserve">
     <value>Neuigkeiten</value>
   </data>
-  <data name="NewsText" xml:space="preserve">
-    <value>&lt;h2&gt;Geplante Funktionen&lt;/h2&gt;
-&lt;p&gt;- Seiten entfernen und mit der Möglichkeit ersetzen, Ordner in Ordner anzulegen&lt;/p&gt;
-&lt;p&gt;- Hinzufügen von Dokumenten zu Ordnern ermöglichen&lt;/p&gt;
-&lt;p&gt;- Daten exportieren und importieren&lt;/p&gt;
-&lt;p&gt;- Verschlüsselung gespeicherter Dokumente&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-
-&lt;h2&gt;Changelog&lt;/h2&gt;
-&lt;p&gt;Informationen über Fixes, neue Funktionen und Verbesserungen.&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-
-&lt;h3&gt;Athena v1.0.5 (17.06.2024)&lt;/h3&gt;
-&lt;p&gt;- Probleme beim Hinzufügen von Tags behoben &lt;/p&gt;
-&lt;p&gt;- Werbung aktiviert &lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-
-&lt;h3&gt;Athena v1.0.4 (12.06.2024)&lt;/h3&gt;
-&lt;p&gt;- Performance verbessert&lt;/p&gt;
-&lt;p&gt;- Dependencies aktualisiert&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-
-&lt;h3&gt;Athena v1.0.3 (12.06.2024)&lt;/h3&gt;
-&lt;p&gt;- Dokumente können auf eine andere Seite verschoben werden&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-
-&lt;h3&gt;Athena v1.0.2 (28.05.2024)&lt;/h3&gt;
-&lt;p&gt;- Freigabe der Version für closed alpha testing&lt;/p&gt;
-&lt;p&gt;- Links zu Datenschutz, Nutzungsbedingungen und Copyright hinzugefügt&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-
-&lt;h3&gt;Athena v1.0.1 (23.05.2024)&lt;/h3&gt;
-&lt;p&gt;- Verschiedene Probleme behoben&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-
-&lt;h3&gt;Athena v1.0.0 (01.05.2024)&lt;/h3&gt;
-&lt;p&gt;- Erste Veröffentlichung von Athena: AI Document Manager&lt;/p&gt;</value>
-  </data>
   <data name="NewTag" xml:space="preserve">
     <value>Neue Kategorie</value>
   </data>
@@ -338,6 +336,9 @@ Depending on the size of the documents, this process may take a moment.</comment
   </data>
   <data name="No" xml:space="preserve">
     <value>Nein</value>
+  </data>
+  <data name="NoRecentDocuments" xml:space="preserve">
+    <value>Keine zuletzt genutzten Dokumente</value>
   </data>
   <data name="PageDeleted" xml:space="preserve">
     <value>Seite {0} erfolgreich gelöscht!</value>
@@ -365,6 +366,9 @@ Depending on the size of the documents, this process may take a moment.</comment
   </data>
   <data name="Pin" xml:space="preserve">
     <value>Anpinnen</value>
+  </data>
+  <data name="RecentDocuments" xml:space="preserve">
+    <value>Aktuelle Dokumente</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Speichern</value>
@@ -413,6 +417,42 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="Settings" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
+  <data name="SettingsCopyrightDesc" xml:space="preserve">
+    <value>Copyright Informationen über Ressourcen Dritter</value>
+  </data>
+  <data name="SettingsCopyrightTitle" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="SettingsFeedbackDesc" xml:space="preserve">
+    <value>Fehler melden, neue Features anfragen oder allgemeines Feedback</value>
+  </data>
+  <data name="SettingsFeedbackTitle" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="SettingsHelpDesc" xml:space="preserve">
+    <value>Informationen, Erklärungen und weitere Hilfe</value>
+  </data>
+  <data name="SettingsHelpTitle" xml:space="preserve">
+    <value>Hilfe</value>
+  </data>
+  <data name="SettingsNewsDesc" xml:space="preserve">
+    <value>Neuigkeiten und Updates über die App</value>
+  </data>
+  <data name="SettingsNewsTitle" xml:space="preserve">
+    <value>Neuigkeiten</value>
+  </data>
+  <data name="SettingsPrivacyPolicyDesc" xml:space="preserve">
+    <value>Rechtliche Informationen zum Datenschutz</value>
+  </data>
+  <data name="SettingsPrivacyPolicyTitle" xml:space="preserve">
+    <value>Datenschutzrichtlinie</value>
+  </data>
+  <data name="SettingsTermsOfUseDesc" xml:space="preserve">
+    <value>Rechtliche Informationen zu den Nutzungsbedingungen</value>
+  </data>
+  <data name="SettingsTermsOfUseTitle" xml:space="preserve">
+    <value>Nutzungsbedingungen</value>
+  </data>
   <data name="Share" xml:space="preserve">
     <value>Teilen</value>
   </data>
@@ -428,6 +468,9 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="TagEmpty" xml:space="preserve">
     <value>Benutze den Plus button, um eine neue Kategorie anzulegen</value>
   </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Name der Kategorie</value>
+  </data>
   <data name="TagNewName" xml:space="preserve">
     <value>Wähle einen neuen Namen für {0}</value>
   </data>
@@ -437,84 +480,31 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="TagsSavedSuccessfully" xml:space="preserve">
     <value>Kategorien erfolgreich gespeichert</value>
   </data>
-  <data name="TutStep1" xml:space="preserve">
-    <value>Das ist die Startseite. Hier kannst du alle deine Ordner sehen.</value>
-    <comment>This is your start page which contains all your folders</comment>
+  <data name="TextColor" xml:space="preserve">
+    <value>Textfarbe</value>
   </data>
-  <data name="TutStep10" xml:space="preserve">
-    <value>Mehr Optionen sind verfügbar, wenn die drei Punkte in der rechten oberen Ecke angetippt werden.</value>
-    <comment>More options are available when using the three dots in the upper right corner of a folder, page or document.</comment>
+  <data name="WelcomeEnterName" xml:space="preserve">
+    <value>Bitte gib deinen Namen ein</value>
   </data>
-  <data name="TutStep11" xml:space="preserve">
-    <value>Im 'Search'-Tab kann nach Dokumenten mit einem bestimmten Namen oder Text gesucht werden. Im Beispiel ergibt die Suche nach 'Contract' ein Ergebnis.</value>
-    <comment>In the search tab, you can search for documents with a specific name or even for documents containing a specific text.
-In this example, searching for the document with the title Contract yields one result.</comment>
+  <data name="WelcomeEnterNameDesc" xml:space="preserve">
+    <value>Dein Name wird lediglich für eine persönliche Begrüßung verwendet</value>
   </data>
-  <data name="TutStep12" xml:space="preserve">
-    <value>Suchkriterien können über den Filterbutton festgelegt werden.
-Ergebnisse können auf Dokumente mit bestimmten Tags beschränkt oder die Volltextsuche aktiviert werden. 
-Nur Dokumente mit aktivierter 'Enable AI text detection'-Option können in der Volltextsuche verwendet werden.</value>
-    <comment>By using the filter icon next to the search icon, you can specify search conditions. 
-You can limit the results to documents containing the selected tabs, or you can activate the full text search.
-Remark: Only documents created with the 'Enable AI text detection' feature are used in the full text search.</comment>
+  <data name="WelcomeReady" xml:space="preserve">
+    <value>Einrichtung erfolgreich, du kannst nun Athena benutzen!</value>
   </data>
-  <data name="TutStep13" xml:space="preserve">
-    <value>In diesem Beispiel ist die Volltextsuche aktiviert. Die Suche nach dem Wort 'Amet' liefert das Dokument 'Contract', da es das Wort 'Amet' enthält.</value>
-    <comment>In this example, the full text search filter is activated.
-Searching for the word 'Amet' yields one result, because the document 'Contract' contains the word 'Amet'.</comment>
+  <data name="WelcomeReadyDesc" xml:space="preserve">
+    <value>Solltest du Fragen oder Feedback haben, kannst du uns jederzeit über das Feedback Formular in den Einstellungen erreichen</value>
+    <comment>If you have any questions, use the help icon to get information or use the feedback form in the settings</comment>
   </data>
-  <data name="TutStep2" xml:space="preserve">
-    <value>Durch langes Tippen auf einen Ordner kannst du diesen verwalten.</value>
-    <comment>Long-tapping on the folder offers you a menu to quickly manage a folder</comment>
+  <data name="WelcomeSelectLanguage" xml:space="preserve">
+    <value>Bitte wähle deine Sprache</value>
   </data>
-  <data name="TutStep3" xml:space="preserve">
-    <value>Über den Plus-Button können Seiten hinzugefügt werden. 
-Das Ordnermenü kann über die drei Punkte geöffnet werden.
-Durch langes Tippen auf eine Seite öffnet sich das dazugehörige Schnellmenü.</value>
-    <comment>After selecting a folder, you can add pages to it.
-Use the three dots in the top right corner to open the menu.
-Long-pressing a page also opens a small menu.</comment>
+  <data name="WelcomeTitle" xml:space="preserve">
+    <value>Danke für das Herunterladen der Athena: AI Document Manager app</value>
+    <comment>Thank you for downloading the Athena: AI Document Manager app</comment>
   </data>
-  <data name="TutStep4" xml:space="preserve">
-    <value>Über den Plus-Button können Dokumente angelegt werden. 
-Das Seitenmenü kann über die drei Punkte geöffnet werden.
-Durch langes Tippen auf ein Dokument öffnet sich das dazugehörige Schnellmenü.</value>
-    <comment>Nach Auswahl einer Seite können über den Plus-Button Dokumente erstellt werden. Ein Menü zur Verwaltung der Seite lässt sich über die drei Punkte in der rechten oberen Ecke öffnen. Durch langes Drücken eines Dokuments öffnet sich dessen Schnellmenü.</comment>
-  </data>
-  <data name="TutStep5" xml:space="preserve">
-    <value>Um ein Dokument hinzuzufügen, scannen Bilder mit deiner Kamera, wähle ein Fotos aus deiner Galerie oder ein PDF-Dokumente auf dem Gerät.
-Alle Unterlagen werden am Ende zu einem PDF Dokument zusammengefasst.</value>
-    <comment>To add a document, simply scan images with your camera, select them from your gallery or choose PDFs on your device.
-You can select one or more images/documents. In the end, they are all merged into a single PDF.</comment>
-  </data>
-  <data name="TutStep6" xml:space="preserve">
-    <value>Benutze das 'Enable AI text detection' Feature, um die Dokumente nach Text zu durchsuchen und über die Suche auffindbar zu machen.</value>
-    <comment>Use the delete document button to remove document from the selection.
-Use the Enable AI text detection feature to scan the documents and make the text searchable.</comment>
-  </data>
-  <data name="TutStep7" xml:space="preserve">
-    <value>Dokumente können mit Namen und optionalem Kommentar angelegt werden.
-Mit Tags kann das Dokument zusätzlich kategorisiert werden. Diese werden in dem Tab 'Tags' verwaltet.</value>
-    <comment>Für jedes Dokument kann ein Name und ein optionaler Kommentar vergeben werden.
-Zusätzlich können Tags ausgewählt werden, um die Dokumente zu kategorisieren. 
-Tags können in dem Tab 'Tags' verwaltet werden.</comment>
-  </data>
-  <data name="TutStep8" xml:space="preserve">
-    <value>Nach dem Auswählen eines Bildes kann dieses optional zugeschnitten werden.</value>
-    <comment>After selecting an image, you can optionally crop it.</comment>
-  </data>
-  <data name="TutStep9" xml:space="preserve">
-    <value>Langes Tippen auf einen Ordner, eine Seite oder ein Dokument öffnet ein Schnellmenü.</value>
-    <comment>Long pressing a folder, page or a document opens a menu to manage the resource.</comment>
-  </data>
-  <data name="TutWelcome" xml:space="preserve">
-    <value>Vielen Dank für das Herunterladen der Athena: AI Document Manager App! 
-
-Es folgt ein kurzes Tutorial, um dir die Grundlagen zu zeigen.
-
-Du kannst das Tutorial jederzeit über den 'Tutorial anzeigen' Button in dem 'Einstellungen'-Tab wiederholen.</value>
-    <comment>Thank you for downloading the Athena: AI Document Manager app!
-A short tutorial follows to show you the basics</comment>
+  <data name="WelcomeYourNamePlaceholder" xml:space="preserve">
+    <value>Dein Name</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>

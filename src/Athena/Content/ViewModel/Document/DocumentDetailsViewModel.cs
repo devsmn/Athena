@@ -3,7 +3,6 @@ using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Controls.Internals;
 
 #if ANDROID
 using Android;
@@ -44,9 +43,12 @@ namespace Athena.UI
         [ObservableProperty]
         private ObservableCollection<TagViewModel> _selectedTags;
 
-        public DocumentDetailsViewModel(Document document)
+        private readonly Folder _parentFolder;
+
+        public DocumentDetailsViewModel(Folder parentFolder, Document document)
         {
             Document = document;
+            _parentFolder = parentFolder;
 
             AllTags = new (Tag.ReadAll(RetrieveContext()).Select(x => new TagViewModel(x)));
             SelectedTags = new ObservableCollection<TagViewModel>();
@@ -133,8 +135,8 @@ namespace Athena.UI
             Document.Document.Delete(context);
 
             await Toast.Make(string.Format(Localization.DocumentDeleted, Document.Name), ToastDuration.Long).Show();
+            ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(context, Document, UpdateType.Delete, _parentFolder?.Key);
 
-            //ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(context, Document, UpdateType.Remove, _page.Key);
             await PopAsync();
         }
 
@@ -251,11 +253,11 @@ namespace Athena.UI
 
                 await Toast.Make(string.Format(Localization.DocumentDeleted, name), ToastDuration.Long).Show();
 
-                //ServiceProvider.GetService<IDataBrokerService>().Publish(
-                //    context,
-                //    Document.Document,
-                //    UpdateType.Remove,
-                //    _page.Key);
+                ServiceProvider.GetService<IDataBrokerService>().Publish(
+                    context,
+                    Document.Document,
+                    UpdateType.Delete,
+                    _parentFolder?.Key);
 
                 await PopAsync();
             }
@@ -265,7 +267,7 @@ namespace Athena.UI
         [RelayCommand]
         private async Task EditDocument()
         {
-            await PushModalAsync(new DocumentEditorView(null, Document));
+            await PushModalAsync(new DocumentEditorView(_parentFolder, Document));
             ShowMenuPopup = false;
         }
 

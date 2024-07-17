@@ -32,6 +32,17 @@ namespace Athena.DataModel
             return DataStore.Resolve<IFolderRepository>().ReadAllFolders(context, this);
         }
 
+
+        /// <summary>
+        /// Counts all folders.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static int CountAll(IContext context)
+        {
+            return DataStore.Resolve<IFolderRepository>().CountAll(context);
+        }
+
         /// <summary>
         /// Reads all documents.
         /// </summary>
@@ -41,14 +52,15 @@ namespace Athena.DataModel
         {
             return DataStore.Resolve<IFolderRepository>().ReadAllDocuments(context, this);
         }
-        
+
         /// <summary>
         /// Saves this <see cref="Folder"/>.
         /// </summary>
         /// <param name="context"></param>
-        public void Save(IContext context)
+        /// <param name="saveOptions"></param>
+        public void Save(IContext context, FolderSaveOptions saveOptions = FolderSaveOptions.All)
         {
-            DataStore.Resolve<IFolderRepository>().Save(context, this);
+            DataStore.Resolve<IFolderRepository>().Save(context, this, saveOptions);
         }
 
         /// <summary>
@@ -80,5 +92,14 @@ namespace Athena.DataModel
         {
             return DataStore.Resolve<IFolderRepository>().Read(context, key);
         }
+
+        /// <summary>
+        /// Flags this <see cref="Folder"/> to reload the documents on demand.
+        /// </summary>
+        public void ResetDocumentsLoaded()
+        {
+            _documentsLoaded = false;
+        }
+
     }
 }

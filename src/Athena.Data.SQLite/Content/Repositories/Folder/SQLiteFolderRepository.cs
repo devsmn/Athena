@@ -1,6 +1,5 @@
 ﻿using Athena.DataModel.Core;
 using SQLite;
-using System.Diagnostics;
 
 namespace Athena.Data.SQLite
 {
@@ -20,6 +19,7 @@ namespace Athena.Data.SQLite
         private string _folderUpdateSql;
         private string _readFolderDocsSql;
         private string _createRootFolderSql;
+        private string _countAllSql;
 
         public async Task<bool> InitializeAsync()
         {
@@ -36,6 +36,7 @@ namespace Athena.Data.SQLite
             _readFolderDocsSql = await ReadResourceAsync("FOLDER_DOC_READ.sql");
             _createRootFolderSql = await ReadResourceAsync("FOLDER_CREATE_ROOT.sql");
             _insertFolderDocumentSql = await ReadResourceAsync("FOLDER_DOC_INSERT.sql");
+            _countAllSql = await ReadResourceAsync("FOLDER_COUNT.sql");
 
             return await Task.FromResult(true);
         }
@@ -112,6 +113,15 @@ namespace Athena.Data.SQLite
                 });
         }
 
+        /// <inheritdoc />  
+        public int CountAll(IContext context)
+        {
+            return Audit(
+                context,
+                _countAllSql,
+                command => command.ExecuteScalar<int>());
+        }
+
         public IEnumerable<Folder> ReadAllFolders(IContext context, Folder folder)
         {
             try
@@ -136,7 +146,7 @@ namespace Athena.Data.SQLite
             return Enumerable.Empty<Folder>();
         }
 
-        public void Save(IContext context, Folder folder)
+        public void Save(IContext context, Folder folder, FolderSaveOptions folderOptions = FolderSaveOptions.All)
         {
             if (folder.Key == null || folder.Key.Id == IntegerEntityKey.TemporaryId)
             {
@@ -144,7 +154,7 @@ namespace Athena.Data.SQLite
             }
             else
             {
-                Update(context, folder);
+                Update(context, folder, folderOptions);
             }
         }
 
@@ -202,7 +212,7 @@ namespace Athena.Data.SQLite
                 });
         }
 
-        private void Update(IContext context, Folder folder)
+        private void Update(IContext context, Folder folder, FolderSaveOptions saveOptions)
         {
             Audit(
                 context,
@@ -218,14 +228,20 @@ namespace Athena.Data.SQLite
                         command.ExecuteNonQuery();
                     }
 
-                    foreach (var subFolder in folder.Folders)
+                    if (saveOptions.HasFlag(FolderSaveOptions.All) || saveOptions.HasFlag(FolderSaveOptions.SubFolders))
                     {
-                        AddFolder(context, folder, subFolder);
+                        foreach (var subFolder in folder.Folders)
+                        {
+                            AddFolder(context, folder, subFolder);
+                        }
                     }
 
-                    foreach (var document in folder.Documents)
+                    if (saveOptions.HasFlag(FolderSaveOptions.All) || saveOptions.HasFlag(FolderSaveOptions.Documents))
                     {
-                        AddDocument(context, folder, document);
+                        foreach (var document in folder.Documents)
+                        {
+                            AddDocument(context, folder, document);
+                        }
                     }
                 });
         }

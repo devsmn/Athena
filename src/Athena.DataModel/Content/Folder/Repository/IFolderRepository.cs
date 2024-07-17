@@ -21,6 +21,13 @@ namespace Athena.DataModel
         IEnumerable<Document> ReadAllDocuments(IContext context, Folder folder);
 
         /// <summary>
+        /// Counts all folders.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        int CountAll(IContext context);
+
+        /// <summary>
         /// Creates the root folder.
         /// </summary>
         /// <param name="context"></param>
@@ -39,7 +46,8 @@ namespace Athena.DataModel
         /// </summary>
         /// <param name="context"></param>
         /// <param name="folder"></param>
-        void Save(IContext context, Folder folder);
+        /// <param name="saveOptions"></param>
+        void Save(IContext context, Folder folder, FolderSaveOptions saveOptions = FolderSaveOptions.All);
 
         /// <summary>
         /// Deletes the given <paramref name="folder"/>.

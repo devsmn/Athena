@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Athena.UI
+﻿namespace Athena.UI
 {
     internal class DefaultPreferencesService : IPreferencesService
     {
         private const string FirstUsageKey = "FirstUsage";
+        private const string NameKey = "Name";
+        private const string LanguageKey = "Language";
+        private const string DefaultLanguage = "en-US";
 
         /// <inheritdoc />  
         public bool IsFirstUsage()
@@ -32,6 +29,30 @@ namespace Athena.UI
         public void SetFirstUsage()
         {
             Set(FirstUsageKey, false);
+        }
+
+        /// <inheritdoc />  
+        public string GetName()
+        {
+            return Get(NameKey, string.Empty);
+        }
+
+        /// <inheritdoc />  
+        public void SetName(string name)
+        {
+            Set(NameKey, name);
+        }
+
+        /// <inheritdoc />  
+        public string GetLanguage()
+        {
+            return Get(LanguageKey, DefaultLanguage);
+        }
+
+        /// <inheritdoc />  
+        public void SetLanguage(string language)
+        {
+            Set(LanguageKey, language);
         }
     }
 }

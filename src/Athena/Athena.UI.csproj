@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-ios;net8.0-maccatalyst;net8.0-android</TargetFrameworks>
+		<TargetFrameworks>net8.0-ios;net8.0-maccatalyst;net8.0-android34.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
@@ -101,12 +101,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Content\Views\Page\**" />
+	  <EmbeddedResource Remove="Content\Views\Page\**" />
+	  <MauiCss Remove="Content\Views\Page\**" />
+	  <MauiXaml Remove="Content\Views\Page\**" />
+	  <None Remove="Content\Views\Page\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\AppIcon\athena_icon.png" />
 	  <None Remove="Resources\AppIcon\athena_splash_circle.png" />
 	  <None Remove="Resources\Images\add_document.png" />
 	  <None Remove="Resources\Images\add_document_negative.png" />
 	  <None Remove="Resources\Images\add_folder.png" />
 	  <None Remove="Resources\Images\camera.png" />
+	  <None Remove="Resources\Images\copyright.png" />
 	  <None Remove="Resources\Images\delete.png" />
 	  <None Remove="Resources\Images\delete_inverse.png" />
 	  <None Remove="Resources\Images\delete_negative.png" />
@@ -119,41 +128,35 @@
 	  <None Remove="Resources\Images\error_color.png" />
 	  <None Remove="Resources\Images\favorite.png" />
 	  <None Remove="Resources\Images\favorite_negative.png" />
+	  <None Remove="Resources\Images\feedback.png" />
 	  <None Remove="Resources\Images\filter.png" />
 	  <None Remove="Resources\Images\folder.png" />
 	  <None Remove="Resources\Images\folder_color.png" />
 	  <None Remove="Resources\Images\gallery.png" />
+	  <None Remove="Resources\Images\help.png" />
+	  <None Remove="Resources\Images\home.png" />
 	  <None Remove="Resources\Images\image_placeholder.png" />
 	  <None Remove="Resources\Images\info.png" />
 	  <None Remove="Resources\Images\menu.png" />
 	  <None Remove="Resources\Images\menu_filled.png" />
 	  <None Remove="Resources\Images\move.png" />
+	  <None Remove="Resources\Images\news.png" />
 	  <None Remove="Resources\Images\next.png" />
+	  <None Remove="Resources\Images\next_inverted.png" />
 	  <None Remove="Resources\Images\page.png" />
 	  <None Remove="Resources\Images\pdf.png" />
 	  <None Remove="Resources\Images\plus.png" />
+	  <None Remove="Resources\Images\privacy.png" />
 	  <None Remove="Resources\Images\save.png" />
 	  <None Remove="Resources\Images\search.png" />
 	  <None Remove="Resources\Images\settings.png" />
 	  <None Remove="Resources\Images\share.png" />
 	  <None Remove="Resources\Images\success_color.png" />
 	  <None Remove="Resources\Images\tag.png" />
+	  <None Remove="Resources\Images\terms_and_conditions.png" />
 	  <None Remove="Resources\Images\text_search.png" />
 	  <None Remove="Resources\Images\text_search_disabled.png" />
 	  <None Remove="Resources\Images\tut_step1.jpg" />
-	  <None Remove="Resources\Images\tut_step1.png" />
-	  <None Remove="Resources\Images\tut_step10.png" />
-	  <None Remove="Resources\Images\tut_step11.png" />
-	  <None Remove="Resources\Images\tut_step12.png" />
-	  <None Remove="Resources\Images\tut_step13.png" />
-	  <None Remove="Resources\Images\tut_step2.png" />
-	  <None Remove="Resources\Images\tut_step3.png" />
-	  <None Remove="Resources\Images\tut_step4.png" />
-	  <None Remove="Resources\Images\tut_step5.png" />
-	  <None Remove="Resources\Images\tut_step6.png" />
-	  <None Remove="Resources\Images\tut_step7.png" />
-	  <None Remove="Resources\Images\tut_step8.png" />
-	  <None Remove="Resources\Images\tut_step9.png" />
 	  <None Remove="Resources\Images\view_externally.png" />
 	  <None Remove="Resources\Images\warning_color.png" />
 	  <None Remove="Resources\Splash\athena_splash.png" />
@@ -165,6 +168,7 @@
 	  <MauiImage Include="Resources\Images\add_document_negative.png" />
 	  <MauiImage Include="Resources\Images\add_folder.png" />
 	  <MauiImage Include="Resources\Images\camera.png" />
+	  <MauiImage Include="Resources\Images\copyright.png" />
 	  <MauiImage Include="Resources\Images\delete.png" />
 	  <MauiImage Include="Resources\Images\delete_negative.png" />
 	  <MauiImage Include="Resources\Images\document.png" />
@@ -176,39 +180,33 @@
 	  <MauiImage Include="Resources\Images\error_color.png" />
 	  <MauiImage Include="Resources\Images\favorite.png" />
 	  <MauiImage Include="Resources\Images\favorite_negative.png" />
+	  <MauiImage Include="Resources\Images\feedback.png" />
 	  <MauiImage Include="Resources\Images\filter.png" />
 	  <MauiImage Include="Resources\Images\folder.png" />
 	  <MauiImage Include="Resources\Images\folder_color.png" />
 	  <MauiImage Include="Resources\Images\gallery.png" />
+	  <MauiImage Include="Resources\Images\help.png" />
+	  <MauiImage Include="Resources\Images\home.png" />
 	  <MauiImage Include="Resources\Images\image_placeholder.png" />
 	  <MauiImage Include="Resources\Images\info.png" />
 	  <MauiImage Include="Resources\Images\menu.png" />
 	  <MauiImage Include="Resources\Images\menu_filled.png" />
+	  <MauiImage Include="Resources\Images\news.png" />
 	  <MauiImage Include="Resources\Images\next.png" />
+	  <MauiImage Include="Resources\Images\next_inverted.png" />
 	  <MauiImage Include="Resources\Images\page.png" />
 	  <MauiImage Include="Resources\Images\pdf.png" />
 	  <MauiImage Include="Resources\Images\plus.png" />
+	  <MauiImage Include="Resources\Images\privacy.png" />
 	  <MauiImage Include="Resources\Images\save.png" />
 	  <MauiImage Include="Resources\Images\search.png" />
 	  <MauiImage Include="Resources\Images\settings.png" />
 	  <MauiImage Include="Resources\Images\share.png" />
 	  <MauiImage Include="Resources\Images\success_color.png" />
 	  <MauiImage Include="Resources\Images\tag.png" />
+	  <MauiImage Include="Resources\Images\terms_and_conditions.png" />
 	  <MauiImage Include="Resources\Images\text_search.png" />
 	  <MauiImage Include="Resources\Images\text_search_disabled.png" />
-	  <MauiImage Include="Resources\Images\tut_step1.png" />
-	  <MauiImage Include="Resources\Images\tut_step10.png" />
-	  <MauiImage Include="Resources\Images\tut_step11.png" />
-	  <MauiImage Include="Resources\Images\tut_step12.png" />
-	  <MauiImage Include="Resources\Images\tut_step13.png" />
-	  <MauiImage Include="Resources\Images\tut_step2.png" />
-	  <MauiImage Include="Resources\Images\tut_step3.png" />
-	  <MauiImage Include="Resources\Images\tut_step4.png" />
-	  <MauiImage Include="Resources\Images\tut_step5.png" />
-	  <MauiImage Include="Resources\Images\tut_step6.png" />
-	  <MauiImage Include="Resources\Images\tut_step7.png" />
-	  <MauiImage Include="Resources\Images\tut_step8.png" />
-	  <MauiImage Include="Resources\Images\tut_step9.png" />
 	  <MauiImage Include="Resources\Images\view_externally.png" />
 	  <MauiImage Include="Resources\Images\warning_color.png" />
 	</ItemGroup>
@@ -267,16 +265,16 @@
 	  <MauiXaml Update="Content\Views\ContainerPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Folder\FolderDetailsView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Content\Views\Folder\FolderOverview.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Content\Views\Folder\FolderEditorView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Search\SearchOverviewView.xaml">
+	  <MauiXaml Update="Content\Views\Home\HomeView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Content\Views\Search\SearchChapterView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Content\Views\Search\SearchResultView.xaml">
@@ -303,16 +301,25 @@
     <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorDocumentStep.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    <MauiXaml Update="Content\Views\Folder\FolderDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
     <MauiXaml Update="Content\Views\Folder\FolderOverview.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Content\Views\Folder\FolderEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-    <MauiXaml Update="Content\Views\Tutorial\TutorialView.xaml">
+    <MauiXaml Update="Content\Views\WebViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Welcome\Steps\WelcomeViewNameStep.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Welcome\Steps\WelcomeViewTutorialStartStep.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Welcome\WelcomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Welcome\Steps\WelcomeViewLanguageStep.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
 	</ItemGroup>

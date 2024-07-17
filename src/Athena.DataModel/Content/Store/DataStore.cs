@@ -5,7 +5,7 @@ namespace Athena.DataModel
 {
     public static class DataStore
     {
-        private static readonly Dictionary<Type, IAthenaRepository> stores = new Dictionary<Type, IAthenaRepository>();
+        private static readonly Dictionary<Type, IAthenaRepository> stores = new ();
 
         public static void Register<TRepository>(TRepository repository)
             where TRepository : class, IAthenaRepository

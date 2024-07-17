@@ -1,3 +1,4 @@
+using Athena.Content.Views;
 using SelectionChangedEventArgs = Syncfusion.Maui.Inputs.SelectionChangedEventArgs;
 
 namespace Athena.UI;
@@ -34,5 +35,15 @@ public partial class SettingsView : ContentPage
     {
         await Launcher.TryOpenAsync(
             "https://devsmn.github.io/Athena-Public/copyright/");
+    }
+
+    private void OnHelpClicked(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnFeedbackClicked(object sender, EventArgs e)
+    {
+        Navigation.PushModalAsync(new WebViewPage("https://forms.gle/SDAERdx1JGny77EZ7"));
     }
 }

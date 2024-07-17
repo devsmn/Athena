@@ -20,7 +20,7 @@ public partial class SearchResultView : ContentPage
             return;
 
         Document doc = Document.Read(new AthenaAppContext(), result.Document.Key);
-        this.Navigation.PushAsync(new DocumentDetailsView(doc));
+        this.Navigation.PushAsync(new DocumentDetailsView(null, doc));
         this.searchResultView.SelectedItem = null;
     }
 }

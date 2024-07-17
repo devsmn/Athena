@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using Athena.DataModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using IUtf8SpanFormattable = System.IUtf8SpanFormattable;
 
 namespace Athena.UI
 {
@@ -22,8 +20,6 @@ namespace Athena.UI
 
         [ObservableProperty]
         private bool _showFilterPopup;
-
-        //private ObservableCollection<TagViewModel> _tags;
 
         [ObservableProperty]
         private VisualCollection<TagViewModel, Tag> _tags;
@@ -60,7 +56,6 @@ namespace Athena.UI
 
         public SearchChapterViewModel()
         {
-            //Tags = new ObservableCollection<Tag>(Tag.ReadAll(this.RetrieveContext()));
             SelectedTags = new();
             Tags = new (Tag.ReadAll(this.RetrieveContext()).Select(x => new TagViewModel(x)));
         }

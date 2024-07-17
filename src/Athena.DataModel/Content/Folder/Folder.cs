@@ -15,18 +15,6 @@ namespace Athena.DataModel
         private List<Document> _documents;
         private List<Folder> _folders;
 
-        //public override DateTime CreationDate
-        //{
-        //    get { return base.CreationDate; }
-        //    set { base.CreationDate = value; }
-        //}
-
-        //public override int Id
-        //{
-        //    get { return Key.Id; }
-        //    set { Key.Id = value; }
-        //}
-
         public Folder(IntegerEntityKey key)
             : base(key)
         {
@@ -74,6 +62,16 @@ namespace Athena.DataModel
         {
             get { return _comment; }
             set { _comment = value; }
+        }
+
+        public IEnumerable<Folder> LoadedFolders
+        {
+            get { return _foldersLoaded ? Folders : Enumerable.Empty<Folder>(); }
+        }
+
+        public IEnumerable<Document> LoadedDocuments
+        {
+            get { return _documentsLoaded ? Documents : Enumerable.Empty<Document>(); }
         }
 
         public List<Folder> Folders

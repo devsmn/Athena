@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Athena.DataModel;
-using Athena.DataModel.Core;
+﻿using Athena.DataModel;
 
 namespace Athena.UI
 {
@@ -26,6 +20,8 @@ namespace Athena.UI
                     Edit(update.Entity);
                     break;
             }
+
+            update.Handled = true;
         }
 
         public void Process(RequestUpdate<Folder> update)
@@ -80,25 +76,29 @@ namespace Athena.UI
         {
             var toEdit = Items.FirstOrDefault(x => x.IsFolder && x.Id == folder.Id);
 
-            if (toEdit != null)
-            {
-                toEdit.Name = folder.Name;
-                toEdit.Comment = folder.Comment;
-                toEdit.IsPinned = folder.IsPinned;
-            }
+            if (toEdit == null)
+                return;
+
+            toEdit.Name = folder.Name;
+            toEdit.Comment = folder.Comment;
+            toEdit.IsPinned = folder.IsPinned;
         }
 
         public void Edit(Document document)
         {
             var toEdit = Items.FirstOrDefault(x => !x.IsFolder && x.Id == document.Id);
 
-            if (toEdit != null)
+            if (toEdit == null)
+                return;
+
+            toEdit.Name = document.Name;
+            toEdit.Comment = document.Comment;
+            toEdit.Document.Tags.Clear();
+
+            foreach (var tag in document.Tags)
             {
-                toEdit.Name = document.Name;
-                toEdit.Comment = document.Comment;
+                toEdit.Document.Tags.Add(tag);
             }
         }
     }
-
-
 }

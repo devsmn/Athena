@@ -12,6 +12,13 @@ namespace Athena.DataModel
         void Save(IContext context, Document document);
 
         /// <summary>
+        /// Counts all documents.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        int CountAll(IContext context);
+
+        /// <summary>
         /// Deletes the given <paramref name="document"/>.
         /// </summary>
         /// <param name="context"></param>
@@ -25,6 +32,14 @@ namespace Athena.DataModel
         /// <param name="key"></param>
         /// <returns></returns>
         Document Read(IContext context, IntegerEntityKey key);
+
+        /// <summary>
+        /// Reads the most recent documents.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        IEnumerable<Document> ReadRecent(IContext context, int limit);
 
         /// <summary>
         /// Adds the <paramref name="tag"/> to the given <paramref name="document"/>.

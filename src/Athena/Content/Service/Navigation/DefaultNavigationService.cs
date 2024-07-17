@@ -20,12 +20,10 @@
         {
             var currentPage = _pages.Peek();
             await currentPage.Navigation.PushAsync(page);
-            //_pages.Push(page);
         }
 
         public async Task PopAsync()
         {
-            //var currentPage = _pages.Pop();
             var currentPage = _pages.Peek();
             await currentPage.Navigation.PopAsync();
         }
@@ -34,12 +32,10 @@
         {
             var currentPage = _pages.Peek();
             await currentPage.Navigation.PushModalAsync(page);
-            //_pages.Push(page);
         }
 
         public async Task PopModalAsync()
         {
-            //var currentPage = _pages.Pop();
             var currentPage = _pages.Peek();
             await currentPage.Navigation.PopModalAsync();
         }

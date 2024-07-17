@@ -7,6 +7,5 @@ namespace Athena.UI
     {
         int Id { get; }
         void Edit(TEntity entity);
-        
     }
 }

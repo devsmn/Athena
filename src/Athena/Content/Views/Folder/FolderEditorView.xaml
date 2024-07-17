@@ -30,7 +30,7 @@
                 Grid.Row="1"
                 WidthRequest="150"
                 Command="{Binding NextStepCommand}"
-                Margin="3">
+                Margin="5,5,5,10">
         </Button>
     </Grid>
 

@@ -23,6 +23,8 @@ namespace Athena.Data.SQLite
         private string _updateDocumentSql;
         private string _moveToPageSql;
         private string _moveToPageFtsSql;
+        private string _readRecentSql;
+        private string _countAllSql;
 
         public async Task<bool> InitializeAsync()
         {
@@ -42,6 +44,8 @@ namespace Athena.Data.SQLite
             _updateDocumentSql = await ReadResourceAsync("DOCUMENT_UPDATE.sql");
             _moveToPageSql = await ReadResourceAsync("DOCUMENT_MOVE.sql");
             _moveToPageFtsSql = await ReadResourceAsync("DOCUMENT_FTS_MOVE.sql");
+            _readRecentSql = await ReadResourceAsync("DOCUMENT_READ_RECENT.sql");
+            _countAllSql = await ReadResourceAsync("DOCUMENT_COUNT.sql");
 
             return await Task.FromResult(true);
         }
@@ -186,6 +190,15 @@ namespace Athena.Data.SQLite
         }
 
         /// <inheritdoc />  
+        public int CountAll(IContext context)
+        {
+            return Audit(
+                context,
+                _countAllSql,
+                command => command.ExecuteScalar<int>());
+        }
+
+        /// <inheritdoc />  
         public void Delete(IContext context, Document document)
         {
             Audit(
@@ -295,5 +308,16 @@ namespace Athena.Data.SQLite
 
         }
 
+        /// <inheritdoc />  
+        public IEnumerable<Document> ReadRecent(IContext context, int limit)
+        {
+            return Audit<IEnumerable<Document>>(
+                context,
+                _readRecentSql,
+                command => {
+                    command.Bind("@limit", limit);
+                    return command.ExecuteQuery<Document>();
+                });
+        }
     }
 }

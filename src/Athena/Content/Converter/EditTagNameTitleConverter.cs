@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
-using Athena.UI;
 
 namespace Athena.UI
 {

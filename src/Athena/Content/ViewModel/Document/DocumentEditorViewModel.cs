@@ -42,7 +42,7 @@ namespace Athena.UI
 
         public ReportIssueLevel Level { get; set; }
 
-        
+
 
         public DocumentReportItem(string fileName, ReportIssueLevel level)
         {
@@ -93,8 +93,8 @@ namespace Athena.UI
         {
             foreach (var report in _reports.Values)
             {
-                report.Level = report.Items.Any(x => x.Level == ReportIssueLevel.Error || x.Level == ReportIssueLevel.Warning) 
-                    ? ReportIssueLevel.Warning 
+                report.Level = report.Items.Any(x => x.Level == ReportIssueLevel.Error || x.Level == ReportIssueLevel.Warning)
+                    ? ReportIssueLevel.Warning
                     : ReportIssueLevel.Success;
             }
         }
@@ -212,6 +212,14 @@ namespace Athena.UI
                 DocumentStep = 1;
                 AreDocumentsEmpty = false;
                 NextStepCommand.NotifyCanExecuteChanged();
+
+                HashSet<int> ids = new HashSet<int>(document.Tags.Select(x => x.Id));
+
+                foreach (TagViewModel tag in Tags)
+                {
+                    if (ids.Contains(tag.Id))
+                        SelectedTags.Add(tag);
+                }
             }
         }
 
@@ -264,12 +272,38 @@ namespace Athena.UI
                 if (!IsNew)
                 {
                     var context = RetrieveContext();
+
+
+                    List<TagViewModel> newTags 
+                        = SelectedTags
+                            .Where(tag => !Document.Tags.Any(x => x.Id == tag.Id))
+                            .ToList();
+
+                    List<TagViewModel> deletedTags 
+                        = Document.Tags
+                            .Where(tag => !SelectedTags.Any(x => x.Id == tag.Id))
+                            .Select(tag => (TagViewModel)tag)
+                            .ToList();
+
+                    foreach (var newTag in newTags)
+                    {
+                        Document.AddTag(context, newTag);
+                        //Document.Document.AddTag(context, newTag);
+                    }
+
+                    foreach (var deletedTag in deletedTags)
+                    {
+                        Document.DeleteTag(context, deletedTag);
+                        //Document.Document.DeleteTag(context, deletedTag);
+                    }
+
                     Document.Document.Save(context);
 
                     ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(
-                        context, Document,
+                        context, 
+                        Document,
                         UpdateType.Edit,
-                        _parentFolder.Key);
+                        _parentFolder?.Key);
 
                     await Toast.Make("Successfully updated document " + Document.Name).Show();
 
@@ -657,6 +691,20 @@ namespace Athena.UI
         {
             Images.Remove(image);
             AreDocumentsEmpty = Images.Count == 0;
+
+        }
+
+
+        public async Task BackButton()
+        {
+            if (DocumentStep > 0)
+            {
+                DocumentStep--;
+            }
+            else
+            {
+                await PopModalAsync();
+            }
         }
     }
 }

@@ -20,6 +20,11 @@
         public IntegerEntityKey ParentReference { get; }
 
         /// <summary>
+        /// Gets or sets whether the update was handled.
+        /// </summary>
+        public bool Handled { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of <see cref="RequestUpdate{TEntity}"/>.
         /// </summary>
         /// <param name="entity"></param>
@@ -30,6 +35,7 @@
             Entity = entity;
             Type = type;
             ParentReference = parentReference;
+            Handled = false;
         }
 
         public static implicit operator TEntity(RequestUpdate<TEntity> update)

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Athena.UI.WelcomeViewNameStep">
+    <Grid HorizontalOptions="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Text="{Binding EnterNameText}" 
+               Margin="5,40,5,3"
+               HorizontalTextAlignment="Center"
+               FontSize="20"/>
+
+        <Label Text="{Binding EnterNameTextDesc}" 
+               Grid.Row="1"
+               LineBreakMode="WordWrap"
+               HorizontalTextAlignment="Center"
+               Margin="10,0 ,10,5"/>
+
+        <Entry Placeholder="{Binding NamePlaceholder}" 
+               Grid.Row="2"
+               Text="{Binding Name}"
+               Margin="10,0,10,0"
+               HorizontalTextAlignment="Center"/>
+    </Grid>
+</ContentView>

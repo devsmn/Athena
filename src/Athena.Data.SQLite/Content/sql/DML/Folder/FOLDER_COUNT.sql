@@ -1,0 +1,3 @@
+﻿SELECT  COUNT(*)
+ FROM FOLDER FD
+  WHERE FD_REF <> 0;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Athena.UI.WelcomeViewTutorialStartStep">
+    <Grid HorizontalOptions="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Text="{Binding WelcomeReadyText}" 
+               Margin="5,40,5,3"
+               HorizontalTextAlignment="Center"
+               FontSize="20"/>
+
+        <Label Text="{Binding WelcomeReadyTextDesc}" 
+               Grid.Row="1"
+               LineBreakMode="WordWrap"
+               HorizontalTextAlignment="Center"
+               Margin="10,0 ,10,5"/>
+    </Grid>
+</ContentView>

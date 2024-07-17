@@ -1,4 +1,5 @@
-﻿using Athena.DataModel.Core;
+﻿using System.ComponentModel;
+using Athena.DataModel.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -29,18 +30,44 @@ namespace Athena.UI
 
             _parentFolder = parentFolder;
             Folder = folderToEdit;
+            Folder.PropertyChanged += FolderOnPropertyChanged;
+            NextStepCommand.NotifyCanExecuteChanged();
         }
 
-        [RelayCommand]
+        private void FolderOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            base.OnPropertyChanged(e);
+
+            if (e.PropertyName == nameof(Folder.Name))
+            {
+                NextStepCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+
+        private bool CanExecuteNextStep()
+        {
+            return !string.IsNullOrWhiteSpace(Folder.Name);
+        }
+
+        [RelayCommand(CanExecute = nameof(CanExecuteNextStep))]
         private async Task NextStep()
         {
             IContext context = this.RetrieveContext();
 
-            _parentFolder.AddFolder(Folder);
-            _parentFolder.Save(context);
+            if (IsNew)
+            {
+                _parentFolder.AddFolder(Folder);
+                _parentFolder.Save(context);
+            }
+            else
+            {
+                Folder.Folder.Save(context, FolderSaveOptions.Folder);
+            }
 
             ServiceProvider.GetService<IDataBrokerService>().Publish(context, Folder.Folder, IsNew ? UpdateType.Add : UpdateType.Edit, _parentFolder?.Key);
             await PopAsync();
+            Folder.PropertyChanged -= FolderOnPropertyChanged;
             NewFolderStep = 0;
         }
     }

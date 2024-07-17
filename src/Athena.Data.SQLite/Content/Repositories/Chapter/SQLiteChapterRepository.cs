@@ -20,6 +20,7 @@
             return true;
         }
 
+        /// <inheritdoc />  
         public IEnumerable<Chapter> Search(IContext context, string pattern)
         {
             return Audit<IEnumerable<Chapter>>(
@@ -40,6 +41,8 @@
                 });
         }
 
+
+        /// <inheritdoc />  
         public void Delete(IContext context, int documentRef)
         {
             Audit(
@@ -51,6 +54,7 @@
                 });
         }
 
+        /// <inheritdoc />  
         public void Save(IContext context, Chapter chapter)
         {
             Audit(

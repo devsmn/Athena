@@ -26,7 +26,5 @@
             ModDate = DateTime.UtcNow;
             Key = key;
         }
-
     }
-
 }

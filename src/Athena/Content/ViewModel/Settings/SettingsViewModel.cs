@@ -1,7 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Globalization;
-using Athena.DataModel;
-using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -23,14 +20,14 @@ namespace Athena.UI
         [ObservableProperty]
         private string _newsText;
 
+        private readonly ILanguageService _languageService;
+
         public SettingsViewModel()
         {
-            Languages = new ObservableCollection<LanguageViewModel> {
-                new LanguageViewModel("English (US)", "en-US"),
-                new LanguageViewModel("German", "de-DE")
-            };
-            
-            string lan = Preferences.Default.Get("Language", "en-US");
+            _languageService = ServiceProvider.GetService<ILanguageService>();
+            Languages = new ObservableCollection<LanguageViewModel>(_languageService.GetSupportedLanguages());
+
+            string lan = _languageService.GetLanguage();
             var vm = Languages.FirstOrDefault(x => x.Id == lan);
             SelectedLanguage = vm ?? Languages[0];
         }
@@ -50,46 +47,9 @@ namespace Athena.UI
                 return;
             }
 
-            Preferences.Default.Set("Language", SelectedLanguage.Id);
-
-            SetLanguage(SelectedLanguage.Id, this.RetrieveContext(), true);
+            _languageService.SetLanguage(RetrieveContext(), SelectedLanguage.Id, true);
 
             await Toast.Make("Successfully changed the language").Show();
-        }
-
-        internal static void SetLanguage(string code, IContext context, bool reload)
-        {
-            try
-            {
-                CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfoByIetfLanguageTag(code);
-                Localization.Culture = CultureInfo.CurrentUICulture;
-
-                if (!reload)
-                    return;
-                Application.Current.MainPage = new ContainerPage();
-
-                App.InitializeData();
-
-                //var folders = Folder.ReadAllRoot(context);
-                //ServiceProvider.GetService<IDataBrokerService>().Publish(context, folders, UpdateType.Initialize);
-            }
-            catch (Exception ex)
-            {
-                context.Log(ex);
-            }
-        }
-
-        [RelayCommand]
-        private async Task ShowTutorial()
-        {
-            await PushModalAsync(new TutorialView());
-        }
-
-        [RelayCommand]
-        private void ShowNews()
-        {
-            NewsText = Localization.NewsText;
-            IsNewsPopupOpen = true;
         }
     }
 

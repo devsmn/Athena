@@ -7,8 +7,6 @@
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Athena.UI.DocumentEditorDocumentStep">
-
-
     <ContentView.Resources>
         <ResourceDictionary>
             <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
@@ -192,10 +190,11 @@
         <Label Margin="5,0,5,5"
                LineBreakMode="WordWrap"
                Text="{x:Static loc:Localization.DocumentEditorAIDescription}"
-               FontSize="12"
-               TextColor="Gray"
-               FontAttributes="Bold"/>
+               FontSize="12"/>
 
-        <sfb:SfCheckBox Margin="5,0,5,5" IsChecked="{Binding DetectText}" Text="{x:Static loc:Localization.DocumentEditorEnableAI}" />
+        <sfb:SfCheckBox 
+            Margin="5,0,5,5" 
+            IsChecked="{Binding DetectText}" 
+            Text="{x:Static loc:Localization.DocumentEditorEnableAI}"/>
     </VerticalStackLayout>
 </ContentView>

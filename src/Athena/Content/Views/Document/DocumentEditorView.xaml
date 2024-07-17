@@ -9,6 +9,9 @@
              x:Name="page"
              x:Class="Athena.UI.DocumentEditorView"
              Title="New document">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackButtonCommand}"/>
+    </Shell.BackButtonBehavior>
     <ContentPage.Resources>
         <ResourceDictionary>
             <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
@@ -82,7 +85,7 @@
             Grid.Row="2"
             WidthRequest="150"
             Command="{Binding NextStepCommand}"
-            Margin="3">
+            Margin="5,5,5,10">
             <Button.Style>
                 <Style TargetType="Button">
                     <Style.Triggers>

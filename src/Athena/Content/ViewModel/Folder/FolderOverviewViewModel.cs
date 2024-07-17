@@ -9,6 +9,7 @@ namespace Athena.UI
     using Athena.DataModel;
     using CommunityToolkit.Maui.Alerts;
     using CommunityToolkit.Maui.Core;
+    using System;
 
     public partial class FolderOverviewViewModel : ContextViewModel
     {
@@ -74,42 +75,33 @@ namespace Athena.UI
         [ObservableProperty]
         private string _busyText;
 
-        private bool _firstUsage;
-
-        public FolderOverviewViewModel()
-        {
-            // Root viewmodel ???? needed i dont thnk
-            _parentFolder = new FolderViewModel(new Folder(IntegerEntityKey.Root));
-            RootSource = new();
-            MoveToFolders = new();
-        }
-
         public FolderOverviewViewModel(FolderViewModel parentFolder)
         {
             MoveToFolders = new();
             _parentFolder = parentFolder;
-
             RootSource = new();
-            RootSource.AddRange(parentFolder.Folders.Select(x => new RootItemViewModel(x)));
-            RootSource.AddRange(parentFolder.Documents.Select(x => new RootItemViewModel(x)));
+        }
+
+        internal void LoadData()
+        {
+            IsBusy = true;
+
+            Task.Run(() => {
+                var folders = ParentFolder.Folders.Select(x => new RootItemViewModel(x));
+                var documents = ParentFolder.Documents.Select(x => new RootItemViewModel(x));
+
+                Application.Current.Dispatcher.Dispatch(() => {
+                    RootSource.AddRange(folders);
+                    RootSource.AddRange(documents);
+                    IsBusy = false;
+                });
+            });
+
         }
 
         protected override void OnPublishDataStarted()
         {
             IsBusy = true;
-        }
-
-        public async Task CheckFirstUsage()
-        {
-            IPreferencesService prefService = ServiceProvider.GetService<IPreferencesService>();
-
-            _firstUsage = prefService.IsFirstUsage();
-
-            if (_firstUsage)
-            {
-                prefService.SetFirstUsage();
-                await PushModalAsync(new TutorialView());
-            }
         }
 
         protected override void OnDataPublished(DataPublishedEventArgs e)
@@ -145,10 +137,64 @@ namespace Athena.UI
                     {
                         foreach (var document in e.Documents)
                         {
+                            if (document.Handled)
+                            {
+                                continue;
+                            }
+
                             if (document.ParentReference.Id == ParentFolder.Id)
                             {
                                 RootSource.Process(document);
                             }
+                            else
+                            {
+                                if (document.Type == UpdateType.Add || document.Type == UpdateType.Delete)
+                                {
+                                    Stack<Folder> folders = new Stack<Folder>();
+
+                                    foreach (var folder in ParentFolder.Folders)
+                                    {
+                                        folders.Push(folder);
+                                    }
+
+                                    while (folders.Count > 0)
+                                    {
+                                        Folder currentFolder = folders.Pop();
+
+                                        if (currentFolder.Id == document.ParentReference.Id)
+                                        {
+                                            currentFolder.ResetDocumentsLoaded();
+                                            document.Handled = true;
+                                            break;
+                                        }
+
+                                        foreach (Folder folder in currentFolder.LoadedFolders)
+                                        {
+                                            folders.Push(folder);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (e.Tags.Count > 0)
+                {
+                    var deletedTagIds = e.Tags
+                        .Where(x => x.Type == UpdateType.Delete)
+                        .Select(x => x.Entity.Id)
+                        .ToHashSet();
+
+                    foreach (var document in RootSource.Where(x => !x.IsFolder))
+                    {
+                        var validTags = document.Document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
+
+                        document.Document.Tags.Clear();
+
+                        foreach (var tag in validTags)
+                        {
+                            document.Document.Tags.Add(tag);
                         }
                     }
                 }
@@ -200,7 +246,8 @@ namespace Athena.UI
                 ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(
                     RetrieveContext(),
                     item.Folder,
-                    UpdateType.Edit);
+                    UpdateType.Edit,
+                    ParentFolder.Key);
             }
             else
             {
@@ -275,7 +322,7 @@ namespace Athena.UI
             }
             else
             {
-                await PushAsync(new DocumentDetailsView(SelectedItem.Document));
+                await PushAsync(new DocumentDetailsView(ParentFolder, SelectedItem.Document));
             }
 
             SelectedItem = null;
@@ -346,18 +393,19 @@ namespace Athena.UI
 
             documentViewModel.Document.MoveTo(context, ParentFolder.Folder, SelectedMoveDestination.Folder);
 
+            // TODO: fix adding and removing
             IDataBrokerService publishService = ServiceProvider.GetService<IDataBrokerService>();
 
             publishService.Publish<Document>(
-                context, 
-                documentViewModel, 
-                UpdateType.Delete, 
+                context,
+                documentViewModel,
+                UpdateType.Delete,
                 ParentFolder.Key);
 
             publishService.Publish<Document>(
-                context, 
-                documentViewModel, 
-                UpdateType.Add, 
+                context,
+                documentViewModel,
+                UpdateType.Add,
                 SelectedMoveDestination.Folder.Key);
 
             await Toast.Make(

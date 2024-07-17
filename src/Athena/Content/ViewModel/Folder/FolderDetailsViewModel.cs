@@ -22,9 +22,6 @@ namespace Athena.UI
         [ObservableProperty]
         private bool _showPageMenuPopup;
 
-        //[ObservableProperty]
-        //private PageViewModel _selectedPage;
-
         private readonly Folder _dummyFolder;
 
         [ObservableProperty]
@@ -38,35 +35,18 @@ namespace Athena.UI
             _dummyFolder = folder;
         }
         
-        internal void LoadFolders()
-        {
-            IsBusy = true;
-
-            Task.Run(() =>
-            {
-                _ = _dummyFolder.Folders.Count;
-
-                MainThread.InvokeOnMainThreadAsync(() =>
-                {
-                    this.Folder = new FolderViewModel(_dummyFolder);
-                    IsBusy = false;
-                });
-            });
-        }
-
         protected override void OnDataPublished(DataPublishedEventArgs e)
         {
             var folderUpdate = e.Folders.FirstOrDefault(x => x.Entity == this.Folder.Folder);
 
-            if (folderUpdate != null)
+            if (folderUpdate == null)
+                return;
+
+            if (folderUpdate.Type == UpdateType.Edit)
             {
-                if (folderUpdate.Type == UpdateType.Edit)
-                {
-                    this.Folder.Comment = folderUpdate.Entity.Comment;
-                    this.Folder.Name = folderUpdate.Entity.Name;
-                }
+                this.Folder.Comment = folderUpdate.Entity.Comment;
+                this.Folder.Name = folderUpdate.Entity.Name;
             }
-            
         }
 
         [RelayCommand]
@@ -96,66 +76,5 @@ namespace Athena.UI
             await Toast.Make(string.Format(Localization.FolderDeleted, Folder.Name), ToastDuration.Long).Show();
             await PopAsync();
         }
-
-        //[RelayCommand]
-        //private async Task AddPage(FolderViewModel selectedFolder)
-        //{
-        //    await PushAsync(new PageEditorView(new Page(), selectedFolder));
-        //}
-
-        //[RelayCommand]
-        //private async Task EditFolder()
-        //{
-        //    await PushAsync(new FolderEditorView(Folder));
-        //}
-        
-        //[RelayCommand]
-        //public async Task EditPage(PageViewModel selectedPage)
-        //{
-        //    ShowPageMenuPopup = false;
-        //    await PushAsync(new PageEditorView(selectedPage, Folder));
-        //}
-
-        //[RelayCommand]
-        //public async Task DeletePage(PageViewModel selectedPage)
-        //{
-        //    ShowPageMenuPopup = false;
-
-        //    string title = SelectedPage.Title;
-
-        //    bool result = await DisplayAlert(
-        //        Localization.DeletePage,
-        //        string.Format(Localization.DeletePageConfirm, title),
-        //        Localization.Yes,
-        //        Localization.No);
-
-        //    if (!result)
-        //        return;
-
-        //    var context = this.RetrieveContext();
-
-        //    selectedPage.Page.Delete(context);
-
-        //    ServiceProvider.GetService<IDataBrokerService>().Publish(context, selectedPage.Page, UpdateType.Remove, Folder.Folder.Key);
-
-        //    var page = Folder.Pages.FirstOrDefault(x => x == selectedPage);
-
-        //    if (page != null)
-        //    {
-        //        Folder.RemovePage(page);
-        //    }
-
-        //    await Toast.Make(string.Format(Localization.PageDeleted, title), ToastDuration.Long).Show();
-
-        //    ServiceProvider.GetService<IDataBrokerService>().Publish(context, Folder.Folder, UpdateType.Edit);
-        //}
-
-        //[RelayCommand]
-        //private async Task PageSelected()
-        //{
-        //    await PushAsync(new PageDetailsView(Folder, SelectedPage, _allFolders));
-        //    SelectedPage = null;
-        //}
-
     }
 }

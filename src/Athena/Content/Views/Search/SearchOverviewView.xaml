@@ -25,7 +25,7 @@
 
         <Label Text="{x:Static loc:Localization.Search}"
                 Grid.Row="0"
-                Margin="5,40,5,10"
+                Margin="5,20,5,10"
                 FontAttributes="Bold"
                HorizontalTextAlignment="Center"
                Grid.ColumnSpan="2"
@@ -54,7 +54,7 @@
                  Margin="3"
                  StrokeShape="RoundRectangle 8,8,8,8"
                  Grid.ColumnSpan="2">
-            <syncfusion:SfExpander  >
+            <syncfusion:SfExpander HeaderBackground="White" Background="White"  >
                 <syncfusion:SfExpander.Header>
                     <Grid HeightRequest="48">
                         <Grid.RowDefinitions>

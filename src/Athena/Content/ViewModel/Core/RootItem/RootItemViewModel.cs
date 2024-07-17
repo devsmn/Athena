@@ -1,10 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Athena.DataModel;
 using Athena.DataModel.Core;
 
@@ -65,12 +60,6 @@ namespace Athena.UI
                 }
             }
         }
-
-        //public int Id
-        //{
-        //    get { return IsFolder ? Folder.Id : Document.Id; }
-        //}
-
 
         public RootItem(FolderViewModel folder)
              : base(folder.Key)
@@ -189,5 +178,4 @@ namespace Athena.UI
             }
         }
     }
-
 }

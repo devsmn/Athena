@@ -3,9 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ui="clr-namespace:Athena.UI"
              BackgroundColor="Transparent"
-             xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
-             xmlns:sfcore="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-             
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              xmlns:tree="clr-namespace:Syncfusion.Maui.TreeView;assembly=Syncfusion.Maui.TreeView"
              x:Class="Athena.UI.DocumentEditorSavingStep">
@@ -13,8 +10,6 @@
 
     <ContentView.Resources>
         <ResourceDictionary>
-            <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
-            <!--<ui:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
             <ui:IssueLevelToImageConverter x:Key="IssueLevelToImageConverter"/>
             <ui:StringLengthToVisibilityConverter x:Key="StringLengthToVisConv"/>
         </ResourceDictionary>
@@ -25,8 +20,6 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <admob:BannerAd Grid.Row="0" CustomAdHeight="250" CustomAdWidth="300"/>
 
         <VerticalStackLayout 
                               Grid.Row="1">
@@ -71,7 +64,6 @@
 
         </VerticalStackLayout>
 
-        <!--<ui:InterstitialAdView AdUnitId="ca-app-pub-3940256099942544/1033173712" />-->
 
     </Grid>
 

@@ -70,6 +70,24 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New document.
+        /// </summary>
+        public static string AddDocument {
+            get {
+                return ResourceManager.GetString("AddDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New folder.
+        /// </summary>
+        public static string AddFolder {
+            get {
+                return ResourceManager.GetString("AddFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add new tag.
         /// </summary>
         public static string AddNewTag {
@@ -84,6 +102,15 @@ namespace Athena.Resources.Localization {
         public static string AddNewTagName {
             get {
                 return ResourceManager.GetString("AddNewTagName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Background color.
+        /// </summary>
+        public static string BackgroundColor {
+            get {
+                return ResourceManager.GetString("BackgroundColor", resourceCulture);
             }
         }
         
@@ -200,6 +227,33 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You created &lt;strong&gt;{0}&lt;/strong&gt; {1} and &lt;strong&gt;{2}&lt;/strong&gt; {3}.
+        /// </summary>
+        public static string DocFolderOverviewText {
+            get {
+                return ResourceManager.GetString("DocFolderOverviewText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last updated at {0}.
+        /// </summary>
+        public static string DocFolderOverviewTextLastUpdate {
+            get {
+                return ResourceManager.GetString("DocFolderOverviewTextLastUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document.
+        /// </summary>
+        public static string Document {
+            get {
+                return ResourceManager.GetString("Document", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Successfully deleted document {0}.
         /// </summary>
         public static string DocumentDeleted {
@@ -264,7 +318,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enable AI text detection.
+        ///   Looks up a localized string similar to Detect text in documents.
         /// </summary>
         public static string DocumentEditorEnableAI {
             get {
@@ -399,6 +453,24 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Folder.
+        /// </summary>
+        public static string Folder {
+            get {
+                return ResourceManager.GetString("Folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Folders and documents.
+        /// </summary>
+        public static string FolderAndDocuments {
+            get {
+                return ResourceManager.GetString("FolderAndDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Successfully deleted folder {0}.
         /// </summary>
         public static string FolderDeleted {
@@ -408,7 +480,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use the plus button to add a new folder.
+        ///   Looks up a localized string similar to Use the plus button to add a new folder or a new document.
         /// </summary>
         public static string FolderEmpty {
             get {
@@ -489,6 +561,42 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Good afternoon.
+        /// </summary>
+        public static string GoodAfternoon {
+            get {
+                return ResourceManager.GetString("GoodAfternoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good evening.
+        /// </summary>
+        public static string GoodEvening {
+            get {
+                return ResourceManager.GetString("GoodEvening", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good morning.
+        /// </summary>
+        public static string GoodMorning {
+            get {
+                return ResourceManager.GetString("GoodMorning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello.
+        /// </summary>
+        public static string GoodNight {
+            get {
+                return ResourceManager.GetString("GoodNight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Language {
@@ -561,33 +669,6 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;h2&gt;Planned features&lt;/h2&gt;
-        ///&lt;p&gt;- Remove pages and allow nesting of folders&lt;/p&gt;
-        ///&lt;p&gt;- Allow adding documents to folders&lt;/p&gt;
-        ///&lt;p&gt;- Export and import data&lt;/p&gt;
-        ///&lt;p&gt;- Encrypt stored documents&lt;/p&gt;
-        ///&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-        ///
-        ///&lt;h2&gt;Changelog&lt;/h2&gt;
-        ///&lt;p&gt;Information about fixes, new features and improvements.&lt;/p&gt;
-        ///&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-        ///
-        ///&lt;h3&gt;Athena v1.0.5 (06.17.2024)&lt;/h3&gt;
-        ///&lt;p&gt;- Fix issues when adding tags &lt;/p&gt;
-        ///&lt;p&gt;- Activate ads&lt;/p&gt;
-        ///&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-        ///
-        ///&lt;h3&gt;Athena v1.0.4 (06.12.2024)&lt;/h3&gt;
-        ///&lt;p&gt;- Improve performance&lt;/p&gt;
-        ///&lt;p&gt;- Update dependen [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string NewsText {
-            get {
-                return ResourceManager.GetString("NewsText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to New tag.
         /// </summary>
         public static string NewTag {
@@ -611,6 +692,15 @@ namespace Athena.Resources.Localization {
         public static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to documents.
+        /// </summary>
+        public static string NoRecentDocuments {
+            get {
+                return ResourceManager.GetString("NoRecentDocuments", resourceCulture);
             }
         }
         
@@ -692,6 +782,15 @@ namespace Athena.Resources.Localization {
         public static string Pin {
             get {
                 return ResourceManager.GetString("Pin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent documents.
+        /// </summary>
+        public static string RecentDocuments {
+            get {
+                return ResourceManager.GetString("RecentDocuments", resourceCulture);
             }
         }
         
@@ -831,6 +930,114 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copyright related information about third-party resources.
+        /// </summary>
+        public static string SettingsCopyrightDesc {
+            get {
+                return ResourceManager.GetString("SettingsCopyrightDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copyright.
+        /// </summary>
+        public static string SettingsCopyrightTitle {
+            get {
+                return ResourceManager.GetString("SettingsCopyrightTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report bugs, request features or provide general feedback.
+        /// </summary>
+        public static string SettingsFeedbackDesc {
+            get {
+                return ResourceManager.GetString("SettingsFeedbackDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feedback.
+        /// </summary>
+        public static string SettingsFeedbackTitle {
+            get {
+                return ResourceManager.GetString("SettingsFeedbackTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information, explanations and further help.
+        /// </summary>
+        public static string SettingsHelpDesc {
+            get {
+                return ResourceManager.GetString("SettingsHelpDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string SettingsHelpTitle {
+            get {
+                return ResourceManager.GetString("SettingsHelpTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to News and updates about the app.
+        /// </summary>
+        public static string SettingsNewsDesc {
+            get {
+                return ResourceManager.GetString("SettingsNewsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to News.
+        /// </summary>
+        public static string SettingsNewsTitle {
+            get {
+                return ResourceManager.GetString("SettingsNewsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Legal information about Privacy policy.
+        /// </summary>
+        public static string SettingsPrivacyPolicyDesc {
+            get {
+                return ResourceManager.GetString("SettingsPrivacyPolicyDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Privacy policy.
+        /// </summary>
+        public static string SettingsPrivacyPolicyTitle {
+            get {
+                return ResourceManager.GetString("SettingsPrivacyPolicyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Legal information about Terms and Conditions.
+        /// </summary>
+        public static string SettingsTermsOfUseDesc {
+            get {
+                return ResourceManager.GetString("SettingsTermsOfUseDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terms of Use.
+        /// </summary>
+        public static string SettingsTermsOfUseTitle {
+            get {
+                return ResourceManager.GetString("SettingsTermsOfUseTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Share.
         /// </summary>
         public static string Share {
@@ -876,6 +1083,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tag name.
+        /// </summary>
+        public static string TagName {
+            get {
+                return ResourceManager.GetString("TagName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose a new name for {0}.
         /// </summary>
         public static string TagNewName {
@@ -903,140 +1119,74 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The start page contains your folders..
+        ///   Looks up a localized string similar to Text color.
         /// </summary>
-        public static string TutStep1 {
+        public static string TextColor {
             get {
-                return ResourceManager.GetString("TutStep1", resourceCulture);
+                return ResourceManager.GetString("TextColor", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use the three dots for more options..
+        ///   Looks up a localized string similar to Please enter your name.
         /// </summary>
-        public static string TutStep10 {
+        public static string WelcomeEnterName {
             get {
-                return ResourceManager.GetString("TutStep10", resourceCulture);
+                return ResourceManager.GetString("WelcomeEnterName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In the search tab, you can look for documents by name or by specific text within them. For example, searching for a document titled &apos;Contract&apos; produces one result..
+        ///   Looks up a localized string similar to Your name will only be used for the personal greeting.
         /// </summary>
-        public static string TutStep11 {
+        public static string WelcomeEnterNameDesc {
             get {
-                return ResourceManager.GetString("TutStep11", resourceCulture);
+                return ResourceManager.GetString("WelcomeEnterNameDesc", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to By using the filter icon, you can set specific search conditions. 
-        ///You can filter results by tags or enable full text search, but only documents created with the &apos;Enable AI text detection&apos; feature are included in the full text search..
+        ///   Looks up a localized string similar to You are now ready to use Athena!.
         /// </summary>
-        public static string TutStep12 {
+        public static string WelcomeReady {
             get {
-                return ResourceManager.GetString("TutStep12", resourceCulture);
+                return ResourceManager.GetString("WelcomeReady", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to In this example, the full text search filter is activated. Searching for the word &apos;Amet&apos; yields one result because the document &apos;Contract&apos; contains the word &apos;Amet&apos;..
+        ///   Looks up a localized string similar to If you have any questions or feedback, you can contact us at any time via the feedback form in the settings.
         /// </summary>
-        public static string TutStep13 {
+        public static string WelcomeReadyDesc {
             get {
-                return ResourceManager.GetString("TutStep13", resourceCulture);
+                return ResourceManager.GetString("WelcomeReadyDesc", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Long-tapping on a folder offers you a menu to quickly manage a folder..
+        ///   Looks up a localized string similar to Please select your language.
         /// </summary>
-        public static string TutStep2 {
+        public static string WelcomeSelectLanguage {
             get {
-                return ResourceManager.GetString("TutStep2", resourceCulture);
+                return ResourceManager.GetString("WelcomeSelectLanguage", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can add pages using the plus button. 
-        ///Use the three dots to access the folder menu. 
-        ///Long-pressing a page opens a menu for managing that page..
+        ///   Looks up a localized string similar to Thank you for downloading the Athena: AI Document Manager app.
         /// </summary>
-        public static string TutStep3 {
+        public static string WelcomeTitle {
             get {
-                return ResourceManager.GetString("TutStep3", resourceCulture);
+                return ResourceManager.GetString("WelcomeTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You can add documents using the plus button. 
-        ///Use the three dots to access the page menu.
-        ///Long-pressing a document opens a menu for managing that document..
+        ///   Looks up a localized string similar to Your name.
         /// </summary>
-        public static string TutStep4 {
+        public static string WelcomeYourNamePlaceholder {
             get {
-                return ResourceManager.GetString("TutStep4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to To add a document, simply scan images with your camera, select them from your gallery or choose PDFs on your device.
-        ///In the end, they are all merged into a single PDF..
-        /// </summary>
-        public static string TutStep5 {
-            get {
-                return ResourceManager.GetString("TutStep5", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Use the &apos;Delete document&apos; button to remove document from the selection.
-        ///Use the &apos;Enable AI text detection&apos; feature to scan the documents and make the text searchable..
-        /// </summary>
-        public static string TutStep6 {
-            get {
-                return ResourceManager.GetString("TutStep6", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to For each document, you can choose a title and an optional comment.
-        ///You can also select tags to categorize the documents. 
-        ///Use the Tags tab to manage the tags..
-        /// </summary>
-        public static string TutStep7 {
-            get {
-                return ResourceManager.GetString("TutStep7", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to After selecting an image, you can optionally crop it..
-        /// </summary>
-        public static string TutStep8 {
-            get {
-                return ResourceManager.GetString("TutStep8", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Long pressing a folder, a page or a document opens a menu to manage the resource..
-        /// </summary>
-        public static string TutStep9 {
-            get {
-                return ResourceManager.GetString("TutStep9", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Thank you for downloading the Athena: AI Document Manager app!
-        ///A short tutorial follows to show you the basics
-        ///
-        ///You can repeat this tutorial anytime via the &apos;Show tutorial&apos; button in the Settings tab..
-        /// </summary>
-        public static string TutWelcome {
-            get {
-                return ResourceManager.GetString("TutWelcome", resourceCulture);
+                return ResourceManager.GetString("WelcomeYourNamePlaceholder", resourceCulture);
             }
         }
         
