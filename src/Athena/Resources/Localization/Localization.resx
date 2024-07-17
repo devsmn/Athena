@@ -333,34 +333,10 @@ Depending on the size of the documents, this process may take a moment.</value>
     <value>No</value>
   </data>
   <data name="NoRecentDocuments" xml:space="preserve">
-    <value>documents</value>
+    <value>No recent documents</value>
   </data>
   <data name="OpenInBrowser" xml:space="preserve">
     <value>Open in browser</value>
-  </data>
-  <data name="PageDeleted" xml:space="preserve">
-    <value>Successfully deleted page {0}</value>
-  </data>
-  <data name="PageEmpty" xml:space="preserve">
-    <value>Use the plus button to add a new page</value>
-  </data>
-  <data name="PageInformation" xml:space="preserve">
-    <value>About this page...</value>
-  </data>
-  <data name="PageVMComment" xml:space="preserve">
-    <value>Optional comment</value>
-  </data>
-  <data name="PageVMCommentExceedCharLimit" xml:space="preserve">
-    <value>The comment should not exceed 80 characters</value>
-  </data>
-  <data name="PageVMTitle" xml:space="preserve">
-    <value>Page title</value>
-  </data>
-  <data name="PageVMTitleExceedCharLimit" xml:space="preserve">
-    <value>The title should not exceed 45 characters</value>
-  </data>
-  <data name="PageVMTitleRequired" xml:space="preserve">
-    <value>Title is required</value>
   </data>
   <data name="Pin" xml:space="preserve">
     <value>Pin</value>

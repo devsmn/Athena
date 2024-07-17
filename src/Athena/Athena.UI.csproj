@@ -80,6 +80,12 @@
 	  <Optimize>True</Optimize>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android34.0|AnyCPU'">
+	  <AndroidPackageFormat>aab</AndroidPackageFormat>
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+	</PropertyGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
     <AndroidLibrary Include="Dependencies\user-messaging-platform-2.0.0.aar" Bind="false" />
   </ItemGroup>

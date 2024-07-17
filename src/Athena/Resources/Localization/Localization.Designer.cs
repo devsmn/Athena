@@ -696,7 +696,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to documents.
+        ///   Looks up a localized string similar to No recent documents.
         /// </summary>
         public static string NoRecentDocuments {
             get {
@@ -710,78 +710,6 @@ namespace Athena.Resources.Localization {
         public static string OpenInBrowser {
             get {
                 return ResourceManager.GetString("OpenInBrowser", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Successfully deleted page {0}.
-        /// </summary>
-        public static string PageDeleted {
-            get {
-                return ResourceManager.GetString("PageDeleted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Use the plus button to add a new page.
-        /// </summary>
-        public static string PageEmpty {
-            get {
-                return ResourceManager.GetString("PageEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to About this page....
-        /// </summary>
-        public static string PageInformation {
-            get {
-                return ResourceManager.GetString("PageInformation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Optional comment.
-        /// </summary>
-        public static string PageVMComment {
-            get {
-                return ResourceManager.GetString("PageVMComment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The comment should not exceed 80 characters.
-        /// </summary>
-        public static string PageVMCommentExceedCharLimit {
-            get {
-                return ResourceManager.GetString("PageVMCommentExceedCharLimit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Page title.
-        /// </summary>
-        public static string PageVMTitle {
-            get {
-                return ResourceManager.GetString("PageVMTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The title should not exceed 45 characters.
-        /// </summary>
-        public static string PageVMTitleExceedCharLimit {
-            get {
-                return ResourceManager.GetString("PageVMTitleExceedCharLimit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Title is required.
-        /// </summary>
-        public static string PageVMTitleRequired {
-            get {
-                return ResourceManager.GetString("PageVMTitleRequired", resourceCulture);
             }
         }
         

@@ -343,30 +343,6 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="OpenInBrowser" xml:space="preserve">
     <value>Im Browser öffnen</value>
   </data>
-  <data name="PageDeleted" xml:space="preserve">
-    <value>Seite {0} erfolgreich gelöscht!</value>
-  </data>
-  <data name="PageEmpty" xml:space="preserve">
-    <value>Benutze den Plus button, um eine neue Seite anzulegen</value>
-  </data>
-  <data name="PageInformation" xml:space="preserve">
-    <value>Über diese Seite...</value>
-  </data>
-  <data name="PageVMComment" xml:space="preserve">
-    <value>Optionaler Kommentar</value>
-  </data>
-  <data name="PageVMCommentExceedCharLimit" xml:space="preserve">
-    <value>Der Kommentar darf nicht länger als 80 Zeichen sein</value>
-  </data>
-  <data name="PageVMTitle" xml:space="preserve">
-    <value>Titel der Seite</value>
-  </data>
-  <data name="PageVMTitleExceedCharLimit" xml:space="preserve">
-    <value>Der Titel darf nicht länger als 45 Zeichen sein</value>
-  </data>
-  <data name="PageVMTitleRequired" xml:space="preserve">
-    <value>Titel darf nicht leer sein</value>
-  </data>
   <data name="Pin" xml:space="preserve">
     <value>Anpinnen</value>
   </data>
