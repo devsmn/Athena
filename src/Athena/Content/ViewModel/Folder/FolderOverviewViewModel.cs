@@ -86,11 +86,13 @@ namespace Athena.UI
         {
             IsBusy = true;
 
-            Task.Run(() => {
+            Task.Run(() =>
+            {
                 var folders = ParentFolder.Folders.Select(x => new RootItemViewModel(x));
                 var documents = ParentFolder.Documents.Select(x => new RootItemViewModel(x));
 
-                Application.Current.Dispatcher.Dispatch(() => {
+                Application.Current.Dispatcher.Dispatch(() =>
+                {
                     RootSource.AddRange(folders);
                     RootSource.AddRange(documents);
                     IsBusy = false;
@@ -120,6 +122,9 @@ namespace Athena.UI
                     {
                         foreach (var folder in e.Folders)
                         {
+                            if (folder.ParentReference == null)
+                                continue;
+
                             if (folder.ParentReference.Id == ParentFolder.Id)
                             {
                                 RootSource.Process(folder);
@@ -276,7 +281,7 @@ namespace Athena.UI
             {
                 caption = Localization.DeleteFolder;
                 message = string.Format(Localization.DeleteFolderConfirm, item.Name);
-                deletedMessage = string.Format(Localization.DocumentDeleted, item.Name);
+                deletedMessage = string.Format(Localization.FolderDeleted, item.Name);
             }
 
             bool result = await DisplayAlert(
@@ -297,7 +302,8 @@ namespace Athena.UI
                 ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(
                     context,
                     item.Folder,
-                    UpdateType.Delete);
+                    UpdateType.Delete,
+                    ParentFolder.Key);
             }
             else
             {
