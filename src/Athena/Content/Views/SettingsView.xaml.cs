@@ -34,7 +34,7 @@ public partial class SettingsView : ContentPage
 
     private async void OnHelpClicked(object sender, EventArgs e)
     {
-        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/"));
+        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/app_help/"));
     }
 
     private async void OnFeedbackClicked(object sender, EventArgs e)

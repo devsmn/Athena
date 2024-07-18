@@ -1,3 +1,6 @@
+using System.Collections.ObjectModel;
+using Syncfusion.Maui.PdfViewer;
+
 namespace Athena.UI;
 
 
@@ -7,6 +10,11 @@ public partial class DocumentDetailsPdfView : ContentPage
     {
         InitializeComponent();
         pdfViewer.DocumentSource = pdf;
+
+        for (int i = 0; i < pdfViewer.Toolbars.Count; i++)
+        {
+            pdfViewer.Toolbars[i].IsVisible = false;
+        }
     }
 
     public DocumentDetailsPdfView(byte[] pdf, int pageNumber)

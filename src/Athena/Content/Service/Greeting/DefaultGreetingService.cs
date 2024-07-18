@@ -12,7 +12,7 @@ namespace Athena.UI
             {
                 >= 6 and < 12 => Localization.GoodMorning,
                 >= 12 and < 18 => Localization.GoodAfternoon,
-                >= 18 and < 23 => Localization.GoodEvening,
+                >= 18 and < 24 => Localization.GoodEvening,
                 _ => Localization.GoodNight,
             };
         }

@@ -12,7 +12,6 @@
 
         <syncfusion:SfPdfViewer x:Name="pdfViewer"
                                 Grid.Column="0"
-                                EnableTextSelection="False"
                                 ShowScrollHead="True"
                                 Margin="5"
                                 BackgroundColor="LightGray" />

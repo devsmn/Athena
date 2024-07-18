@@ -193,8 +193,8 @@
         </p:SfPopup>
 
         <syncfusion:SfPdfViewer DocumentSource="{Binding Document.Pdf}" 
-                        EnableTextSelection="False"
                         ShowScrollHead="True"
+                        ShowToolbars="False"
                         Margin="5"
                         BackgroundColor="LightGray" />
 
