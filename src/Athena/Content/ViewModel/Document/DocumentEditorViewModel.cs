@@ -624,7 +624,6 @@ namespace Athena.UI
                 var context = RetrieveContext();
                 context.Log(ex);
                 await Toast.Make("An error occurred").Show();
-                throw;
             }
         }
 
