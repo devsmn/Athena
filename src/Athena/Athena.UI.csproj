@@ -60,36 +60,36 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
 	  <DebugType>portable</DebugType>
-	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>1.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
 	  <DebugType>portable</DebugType>
-	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>1.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
 	  <DebugType>portable</DebugType>
 	  <Optimize>True</Optimize>
-	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>1.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
 	  <DebugType>portable</DebugType>
 	  <Optimize>True</Optimize>
-	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>1.1.2</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
 	  <AndroidPackageFormat>aab</AndroidPackageFormat>
 	  <AndroidUseAapt2>True</AndroidUseAapt2>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>1.1.2</ApplicationDisplayVersion>
 	  <DebugSymbols>True</DebugSymbols>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
-	  <ApplicationDisplayVersion>1.1.1</ApplicationDisplayVersion>
+	  <ApplicationDisplayVersion>1.1.2</ApplicationDisplayVersion>
 	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 	</PropertyGroup>
 
