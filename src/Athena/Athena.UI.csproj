@@ -39,7 +39,6 @@
 	  <TrimMode>link</TrimMode>
 	  <AndroidKeyStore>False</AndroidKeyStore>
 	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <DebugSymbols>False</DebugSymbols>
 	  <DebugType>portable</DebugType>
 	  <PublishTrimmed>False</PublishTrimmed>
 	  <Optimize>True</Optimize>
@@ -85,7 +84,7 @@
 	  <AndroidUseAapt2>True</AndroidUseAapt2>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
 	  <ApplicationDisplayVersion>1.1.2</ApplicationDisplayVersion>
-	  <DebugSymbols>True</DebugSymbols>
+	  <DebugSymbols>False</DebugSymbols>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
