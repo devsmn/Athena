@@ -157,7 +157,7 @@ namespace Athena.UI
                                 {
                                     Stack<Folder> folders = new Stack<Folder>();
 
-                                    foreach (var folder in ParentFolder.Folders)
+                                    foreach (var folder in ParentFolder.LoadedFolders)
                                     {
                                         folders.Push(folder);
                                     }

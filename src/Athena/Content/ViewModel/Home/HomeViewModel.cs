@@ -119,10 +119,52 @@ namespace Athena.UI
                                 RecentDocuments.Process(update);
                             }
                         }
-                        else 
+                        else if (update.Type == UpdateType.Edit)
                         {
                             RecentDocuments.Process(update);
                         }
+                        else if (update.Type == UpdateType.Delete)
+                        {
+                            var rootFolder = ServiceProvider.GetService<IDataBrokerService>().GetRootFolder();
+                            Stack<Folder> folders = new Stack<Folder>();
+
+                            bool stop = false;
+
+                            foreach (var folder in rootFolder.LoadedFolders)
+                            {
+                                folders.Push(folder);
+                            }
+
+                            folders.Push(rootFolder);
+
+                            while (folders.Count > 0)
+                            {
+                                Folder currentFolder = folders.Pop();
+
+                                foreach (var folderDoc in currentFolder.LoadedDocuments)
+                                {
+                                    if (folderDoc.Key.Id == update.Entity.Id)
+                                    {
+                                        currentFolder.ResetDocumentsLoaded();
+                                        stop = true;
+                                        break;
+                                    }
+                                }
+
+                                if (stop)
+                                    break;
+
+                                foreach (Folder folder in currentFolder.LoadedFolders)
+                                {
+                                    folders.Push(folder);
+                                }
+                            }
+
+                            RecentDocuments.Process(update);
+                        }
+
+
+
                     }
                 }
 
