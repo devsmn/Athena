@@ -127,7 +127,7 @@ namespace Athena.UI
 
                             if (folder.ParentReference.Id == ParentFolder.Id)
                             {
-                                RootSource.Process(folder);
+                                RootSource.Process(folder, ParentFolder);
                             }
                         }
                     }
@@ -149,7 +149,7 @@ namespace Athena.UI
 
                             if (document.ParentReference.Id == ParentFolder.Id)
                             {
-                                RootSource.Process(document);
+                                RootSource.Process(document, ParentFolder);
                             }
                             else
                             {
@@ -298,6 +298,8 @@ namespace Athena.UI
             if (item.IsFolder)
             {
                 item.Folder.Folder.Delete(context);
+
+
 
                 ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(
                     context,

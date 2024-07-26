@@ -119,7 +119,7 @@ namespace Athena.UI
                                 RecentDocuments.Process(update);
                             }
                         }
-                        else
+                        else 
                         {
                             RecentDocuments.Process(update);
                         }

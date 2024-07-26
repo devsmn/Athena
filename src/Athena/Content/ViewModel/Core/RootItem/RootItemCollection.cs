@@ -4,12 +4,12 @@ namespace Athena.UI
 {
     public class RootItemCollection : VisualCollection<RootItemViewModel, RootItem>
     {
-        public void Process(RequestUpdate<Document> update)
+        public void Process(RequestUpdate<Document> update, FolderViewModel parentFolder)
         {
             switch (update.Type)
             {
                 case UpdateType.Delete:
-                    Delete(update.Entity);
+                    Delete(update.Entity, parentFolder);
                     break;
 
                 case UpdateType.Add:
@@ -24,12 +24,12 @@ namespace Athena.UI
             update.Handled = true;
         }
 
-        public void Process(RequestUpdate<Folder> update)
+        public void Process(RequestUpdate<Folder> update, FolderViewModel parentFolder)
         {
             switch (update.Type)
             {
                 case UpdateType.Delete:
-                    Delete(update.Entity);
+                    Delete(update.Entity, parentFolder);
                     break;
 
                 case UpdateType.Add:
@@ -52,24 +52,30 @@ namespace Athena.UI
             Add(new RootItemViewModel(document));
         }
 
-        public void Delete(Folder folder)
+        public void Delete(Folder folder, FolderViewModel parentFolder)
         {
             var toDelete = Items.FirstOrDefault(x => x.IsFolder && x.Id == folder.Id);
 
-            if (toDelete != null)
+            if (toDelete == null)
             {
-                Remove(toDelete);
+                return;
             }
+
+            parentFolder?.DeleteFolder(folder);
+            Remove(toDelete);
         }
 
-        public void Delete(Document document)
+        public void Delete(Document document, FolderViewModel parentFolder)
         {
             var toDelete = Items.FirstOrDefault(x => !x.IsFolder && x.Id == document.Id);
 
-            if (toDelete != null)
+            if (toDelete == null)
             {
-                Remove(toDelete);
+                return;
             }
+
+            parentFolder?.DeleteDocument(document);
+            Remove(toDelete);
         }
 
         public void Edit(Folder folder)

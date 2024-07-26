@@ -207,6 +207,8 @@ namespace Athena.UI
 
             TagsAvailable = Tags.Any();
 
+            DetectText = true;
+
             if (!IsNew)
             {
                 DocumentStep = 1;

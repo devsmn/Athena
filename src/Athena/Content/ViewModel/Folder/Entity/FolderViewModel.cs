@@ -72,6 +72,7 @@ namespace Athena.UI
             IsPinned = entity.IsPinned;
         }
 
+
         [Display(AutoGenerateField = false)]
         public bool IsPinned
         {
@@ -113,6 +114,26 @@ namespace Athena.UI
         public FolderViewModel(Folder folder)
         {
             _folder = folder;
+        }
+
+        public void DeleteFolder(Folder toDelete)
+        {
+            var delete = Folder.Folders.FirstOrDefault(x => x.Key.Id == toDelete.Id);
+
+            if (delete == null)
+                return;
+
+            Folder.Folders.Remove(delete);
+        }
+
+        public void DeleteDocument(Document toDelete)
+        {
+            var delete = Folder.Documents.FirstOrDefault(x => x.Key.Id == toDelete.Id);
+
+            if (delete == null)
+                return;
+
+            Folder.Documents.Remove(delete);
         }
 
         public static implicit operator Folder(FolderViewModel viewModel)
