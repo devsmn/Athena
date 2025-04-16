@@ -53,9 +53,12 @@ namespace Athena.UI
                     InitializeData();
                 });
 
-            MainPage = new ContainerPage();
-
             Application.Current.ModalPopped += CurrentOnModalPopped;
+        }
+
+        protected override Window CreateWindow(IActivationState activationState)
+        {
+            return new Window(new ContainerPage());
         }
 
         public static void InitializeData()
