@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Import Project="..\..\version.props" />  
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
@@ -367,6 +367,10 @@
 
 	<ItemGroup>
 	  <MauiSplashScreen Include="Resources\Splash\athena_splash.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\version.props" Link="version.props" />
 	</ItemGroup>
 
 	<ItemGroup>
