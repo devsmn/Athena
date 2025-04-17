@@ -51,12 +51,14 @@ internal class AthenaBuild : NukeBuild
     private static AbsolutePath OutputDirectory => RootDirectory / "output";
 
     Target Clean => _ => _
-        .Before(Restore)
         .Executes(() =>
         {
+            DotNetTasks.DotNetClean(_ => _
+                .SetProject(Path.Combine(SourceDirectory, Solution)));
         });
 
     Target Restore => _ => _
+        .DependsOn(Clean)
         .Executes(() =>
         {
             DotNetTasks.DotNetRestore(_ => _ 
