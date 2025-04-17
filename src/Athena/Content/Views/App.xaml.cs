@@ -13,7 +13,7 @@ namespace Athena.UI
         public App()
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
-                "MzM4ODU5NUAzMjM2MmUzMDJlMzBOYkJYWWxSMGRMOHJDc1pucWxtMmNlT1VzSldCbEIyVThhcFRhLytmS1hjPQ==");
+                "MzgyMTA3MUAzMjM5MmUzMDJlMzAzYjMyMzkzYlFZSU9ScDVmeUJ5a1JHT0puWittU0VBWnE3S2tXblNMVzlDRy9kVitWWTA9");
 
             Application.Current.UserAppTheme = AppTheme.Light;
 #if ANDROID

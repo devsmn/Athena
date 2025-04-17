@@ -87,11 +87,13 @@
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
 	  <ApplicationDisplayVersion>1.1.2</ApplicationDisplayVersion>
 	  <DebugSymbols>False</DebugSymbols>
+	  <NoWarn>1701;1702;CA1416</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
 	  <ApplicationDisplayVersion>1.1.2</ApplicationDisplayVersion>
 	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	  <NoWarn>1701;1702;CA1416</NoWarn>
 	</PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
@@ -231,18 +233,18 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
 		<PackageReference Include="Plugin.AdMob" Version="1.1.0" />
-		<PackageReference Include="Syncfusion.Licensing" Version="26.1.42" />
-		<PackageReference Include="Syncfusion.Maui.Buttons" Version="26.1.42" />
-		<PackageReference Include="Syncfusion.Maui.Carousel" Version="26.1.42" />
-		<PackageReference Include="Syncfusion.Maui.DataForm" Version="26.1.42" />
-		<PackageReference Include="Syncfusion.Maui.Expander" Version="26.1.42" />
-		<PackageReference Include="Syncfusion.Maui.ImageEditor" Version="26.1.42" />
-		<PackageReference Include="Syncfusion.Maui.PdfViewer" Version="26.1.42" />
-		<PackageReference Include="Syncfusion.Maui.Popup" Version="26.1.42" />
-		<PackageReference Include="Syncfusion.Maui.Rotator" Version="26.1.42" />
-		<PackageReference Include="Syncfusion.Maui.TabView" Version="26.1.42" />
-		<PackageReference Include="Syncfusion.Maui.TreeView" Version="26.1.42" />
-		<PackageReference Include="Syncfusion.Pdf.NET" Version="26.1.42" />
+		<PackageReference Include="Syncfusion.Licensing" Version="29.1.38" />
+		<PackageReference Include="Syncfusion.Maui.Buttons" Version="29.1.38" />
+		<PackageReference Include="Syncfusion.Maui.Carousel" Version="29.1.38" />
+		<PackageReference Include="Syncfusion.Maui.DataForm" Version="29.1.38" />
+		<PackageReference Include="Syncfusion.Maui.Expander" Version="29.1.38" />
+		<PackageReference Include="Syncfusion.Maui.ImageEditor" Version="29.1.38" />
+		<PackageReference Include="Syncfusion.Maui.PdfViewer" Version="29.1.38" />
+		<PackageReference Include="Syncfusion.Maui.Popup" Version="29.1.38" />
+		<PackageReference Include="Syncfusion.Maui.Rotator" Version="29.1.38" />
+		<PackageReference Include="Syncfusion.Maui.TabView" Version="29.1.38" />
+		<PackageReference Include="Syncfusion.Maui.TreeView" Version="29.1.38" />
+		<PackageReference Include="Syncfusion.Pdf.NET" Version="29.1.38" />
 		<PackageReference Include="TesseractOcrMaui" Version="1.2.0" />
 	</ItemGroup>
 
