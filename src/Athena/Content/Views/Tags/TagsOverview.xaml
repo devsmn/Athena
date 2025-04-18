@@ -77,11 +77,10 @@
                    AcceptCommand="{Binding SaveSelectedTagCommand}"
                    DeclineCommand="{Binding DeleteSelectedTagCommand}"
                    ShowCloseButton="True"
-                   AppearanceMode="TwoButton"
+                   AppearanceMode="{Binding AppearanceMode}"
                    AcceptButtonText="{x:Static loc:Localization.Save}"
                    DeclineButtonText="{x:Static loc:Localization.Delete}"
                    ShowHeader="True"
-                   
                    HeaderTitle="{Binding SelectedTag, Converter={x:StaticResource EditTagNameTitleConverter}}">
             <p:SfPopup.ContentTemplate>
                 <DataTemplate>

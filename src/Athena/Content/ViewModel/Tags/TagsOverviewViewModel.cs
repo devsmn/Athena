@@ -4,8 +4,10 @@ using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Syncfusion.Maui.Popup;
 
 namespace Athena.UI
 {
@@ -28,6 +30,9 @@ namespace Athena.UI
 
         [ObservableProperty]
         private bool _isEditPopupOpen;
+
+        [ObservableProperty]
+        private PopupButtonAppearanceMode _appearanceMode;
 
         [ObservableProperty]
         private TagViewModel _selectedTag;
@@ -84,6 +89,7 @@ namespace Athena.UI
             if (tag == null)
                 return;
 
+            AppearanceMode = PopupButtonAppearanceMode.TwoButton;
             SelectedTag = tag;
 
             var bgColor = PredefinedColors.FirstOrDefault(
@@ -106,6 +112,7 @@ namespace Athena.UI
         [RelayCommand]
         internal void AddNewTag()
         {
+            AppearanceMode = PopupButtonAppearanceMode.OneButton;
             Tag newTag = new Tag();
             SelectedTag = new TagViewModel(newTag);
             SelectedBackgroundColor = PredefinedColors[WhiteIndex];
