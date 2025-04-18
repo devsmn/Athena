@@ -50,11 +50,23 @@ internal class AthenaBuild : NukeBuild
     private static AbsolutePath BuildDirectory => RootDirectory / "build";
     private static AbsolutePath OutputDirectory => RootDirectory / "output";
 
+    private string displayVersion;
+    private int appVersion;
+
     Target Clean => _ => _
         .Executes(() =>
         {
             DotNetTasks.DotNetClean(_ => _
-                .SetProject(Path.Combine(SourceDirectory, Solution)));
+                .SetProject(Path.Combine(SourceDirectory, Solution))
+                .SetConfiguration(Configuration));
+
+            //RootDirectory
+            //    .GlobDirectories("**/bin", "**/obj")
+            //    .ForEach(directory =>
+            //    {
+            //        Serilog.Log.Information($"Deleting {directory}");
+            //        directory.DeleteDirectory();
+            //    });
         });
 
     Target Restore => _ => _
@@ -80,6 +92,7 @@ internal class AthenaBuild : NukeBuild
             .SetProject(Path.Combine(SourceDirectory, Solution))
             .SetConfiguration(Configuration)
             .SetFramework("net9.0-android")
+            .SetVerbosity(DotNetVerbosity.detailed)
             .AddProcessAdditionalArguments("--no-restore")
             .AddProperty("AndroidPackageFormats", PackageFormat)
             .AddProperty("AndroidKeyStore", true)
@@ -87,7 +100,9 @@ internal class AthenaBuild : NukeBuild
             .AddProperty("AndroidSigningKeyAlias", AndroidSigningKeyAlias)
             .AddProperty("AndroidSigningKeyPass", AndroidSingingKeyPassword)
             .AddProperty("AndroidSigningStorePass", AndroidSingingKeyPassword)
-            .SetOutput(OutputDirectory));
+            .AddProperty("PublishDir", OutputDirectory)
+            .AddProperty("ApplicationVersion", appVersion)
+            .AddProperty("ApplicationDisplayVersion", displayVersion));
 
         Serilog.Log.Warning("Don't forget to commit the changes in version.props!");
     }
@@ -97,8 +112,8 @@ internal class AthenaBuild : NukeBuild
         XDocument versionDoc = XDocument.Load(RootDirectory / "version.props");
 
         var group = versionDoc.Root.Element("PropertyGroup");
-        string displayVersion = group.Element("ApplicationDisplayVersion").Value;
-        int appVersion = int.Parse(group.Element("ApplicationVersion").Value);
+        displayVersion = group.Element("ApplicationDisplayVersion").Value;
+        appVersion = int.Parse(group.Element("ApplicationVersion").Value);
         appVersion++;
 
         group.Element("ApplicationVersion").Value = appVersion.ToString();
