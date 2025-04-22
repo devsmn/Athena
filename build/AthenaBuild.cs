@@ -60,13 +60,15 @@ internal class AthenaBuild : NukeBuild
                 .SetProject(Path.Combine(SourceDirectory, Solution))
                 .SetConfiguration(Configuration));
 
-            //RootDirectory
-            //    .GlobDirectories("**/bin", "**/obj")
-            //    .ForEach(directory =>
-            //    {
-            //        Serilog.Log.Information($"Deleting {directory}");
-            //        directory.DeleteDirectory();
-            //    });
+            
+            SourceDirectory
+                .GlobDirectories("**/bin", "**/obj")
+                .AsParallel()
+                .ForEach(directory =>
+                {
+                    Serilog.Log.Information($"Deleting {directory}");
+                    directory.DeleteDirectory();
+                });
         });
 
     Target Restore => _ => _

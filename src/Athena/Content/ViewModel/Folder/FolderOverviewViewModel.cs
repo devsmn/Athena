@@ -246,7 +246,7 @@ namespace Athena.UI
 
             if (item.IsFolder)
             {
-                item.Folder.Folder.Save(this.RetrieveContext());
+                item.Folder.Folder.Save(this.RetrieveContext(), FolderSaveOptions.Folder);
 
                 ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(
                     RetrieveContext(),
