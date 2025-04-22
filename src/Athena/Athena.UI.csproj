@@ -36,6 +36,10 @@
 	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>-->
 
+<ItemGroup>
+  <AndroidSkipResourceProcessing Include="AnimalSniffer*" />
+</ItemGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <Debugger>Xamarin</Debugger>
 	  <TrimMode>link</TrimMode>
