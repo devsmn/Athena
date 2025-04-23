@@ -21,9 +21,9 @@
 
         public SearchResult(int documentId, int documentPageNr, string snippet)
         {
-            this.DocumentId = documentId.ToString();
-            this.DocumentPageNumber = documentPageNr.ToString();
-            this.Snippet = snippet;
+            DocumentId = documentId.ToString();
+            DocumentPageNumber = documentPageNr.ToString();
+            Snippet = snippet;
         }
 
         public void Fill()
@@ -33,7 +33,8 @@
                 Name = DocumentName,
             };
 
-            Folder = new Folder(Convert.ToInt32(FolderId)) {
+            Folder = new Folder(Convert.ToInt32(FolderId))
+            {
                 Name = FolderName
             };
         }

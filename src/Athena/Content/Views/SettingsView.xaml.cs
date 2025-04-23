@@ -1,13 +1,12 @@
 using Athena.Content.Views;
-using SelectionChangedEventArgs = Syncfusion.Maui.Inputs.SelectionChangedEventArgs;
 
 namespace Athena.UI;
 
 public partial class SettingsView : ContentPage
 {
-	public SettingsView()
-	{
-        this.BindingContext = new SettingsViewModel();
+    public SettingsView()
+    {
+        BindingContext = new SettingsViewModel();
         InitializeComponent();
         versionLabel.Text = $"{AppInfo.Current.Name} v{AppInfo.Current.VersionString}-{AppInfo.Current.BuildString}";
     }

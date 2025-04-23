@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace Athena.UI
 {
-    using Athena.DataModel;
+    using DataModel;
 
     internal partial class FolderEditorViewModel : ContextViewModel
     {
@@ -53,7 +53,7 @@ namespace Athena.UI
         [RelayCommand(CanExecute = nameof(CanExecuteNextStep))]
         private async Task NextStep()
         {
-            IContext context = this.RetrieveContext();
+            IContext context = RetrieveContext();
 
             if (IsNew)
             {

@@ -4,7 +4,7 @@
     {
         CancellationToken CancellationToken
         {
-            get; 
+            get;
         }
     }
 }

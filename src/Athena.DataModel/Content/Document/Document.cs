@@ -4,40 +4,25 @@ namespace Athena.DataModel
 {
     public partial class Document : Entity
     {
-        private string _name;
-        private string _comment;
         private byte[] _pdf;
         private string _pdfString;
         private byte[] _thumbnail;
         private string _thumbnailString;
-        private bool _isPinned;
 
         private bool _tagsLoaded;
         private bool _pdfRead;
 
-        public bool IsPinned
-        {
-            get { return _isPinned; }
-            set { _isPinned = value; }
-        }
+        public bool IsPinned { get; set; }
 
         public int IsPinnedInteger
         {
-            get { return Convert.ToInt32(IsPinned); }
-            set { IsPinned = Convert.ToBoolean(value); }
+            get => Convert.ToInt32(IsPinned);
+            set => IsPinned = Convert.ToBoolean(value);
         }
 
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
+        public string Name { get; set; }
 
-        public string Comment
-        {
-            get { return _comment; }
-            set { _comment = value; }
-        }
+        public string Comment { get; set; }
 
         public byte[] Pdf
         {
@@ -60,7 +45,7 @@ namespace Athena.DataModel
 
         public string PdfString
         {
-            get { return _pdfString; }
+            get => _pdfString;
             set
             {
                 _pdfString = value;
@@ -70,13 +55,13 @@ namespace Athena.DataModel
 
         public byte[] Thumbnail
         {
-            get { return _thumbnail; }
-            set { _thumbnail = value; }
+            get => _thumbnail;
+            set => _thumbnail = value;
         }
 
         public string ThumbnailString
         {
-            get { return _thumbnailString; }
+            get => _thumbnailString;
             set
             {
                 _thumbnailString = value;
@@ -93,7 +78,7 @@ namespace Athena.DataModel
             {
                 if (!_tagsLoaded)
                 {
-                    _tags = new List<Tag>(this.ReadAllTags(new AthenaDataContext()));
+                    _tags = new List<Tag>(ReadAllTags(new AthenaDataContext()));
                     _tagsLoaded = true;
                 }
                 return _tags;

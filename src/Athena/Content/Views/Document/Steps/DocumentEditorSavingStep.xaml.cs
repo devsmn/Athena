@@ -1,5 +1,3 @@
-using Plugin.AdMob;
-
 namespace Athena.UI;
 
 

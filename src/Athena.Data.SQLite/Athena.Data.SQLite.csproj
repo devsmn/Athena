@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -18,49 +18,30 @@
 		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <AndroidResource Remove="Content\Repositories\Chapter\NewFolder\**" />
+	  <AndroidResource Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
+	  <AndroidResource Remove="Content\Repositories\Document\sql\NewFolder\**" />
+	  <Compile Remove="Content\Repositories\Chapter\NewFolder\**" />
+	  <Compile Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
+	  <Compile Remove="Content\Repositories\Document\sql\NewFolder\**" />
+	  <EmbeddedResource Remove="Content\Repositories\Chapter\NewFolder\**" />
+	  <EmbeddedResource Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
+	  <EmbeddedResource Remove="Content\Repositories\Document\sql\NewFolder\**" />
+	  <MauiCss Remove="Content\Repositories\Chapter\NewFolder\**" />
+	  <MauiCss Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
+	  <MauiCss Remove="Content\Repositories\Document\sql\NewFolder\**" />
+	  <MauiXaml Remove="Content\Repositories\Chapter\NewFolder\**" />
+	  <MauiXaml Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
+	  <MauiXaml Remove="Content\Repositories\Document\sql\NewFolder\**" />
+	  <None Remove="Content\Repositories\Chapter\NewFolder\**" />
+	  <None Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
+	  <None Remove="Content\Repositories\Document\sql\NewFolder\**" />
+	</ItemGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="Athena.Data.SQLite.Proxy" />
   </ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="Content\sql\DML\Chapter\CHAPTER_DELETE.sql" />
-	  <None Remove="Content\sql\DML\Chapter\CHAPTER_INSERT.sql" />
-	  <None Remove="Content\sql\DML\Chapter\CHAPTER_READ.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_COUNT.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_DELETE.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_FTS_MOVE.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_INSERT.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_MOVE.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_READ.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_READ_PDF.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_READ_RECENT.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_SEARCH_NOTAG.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_SEARCH_TAG.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_TAG_DELETE.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_TAG_INSERT.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_TAG_READ.sql" />
-	  <None Remove="Content\sql\DML\Document\DOCUMENT_UPDATE.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_COUNT.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_CREATE_ROOT.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_DELETE.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_DOC_INSERT.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_DOC_READ.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_FOLDER_INSERT.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_FOLDER_READ.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_INSERT.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_READ.sql" />
-	  <None Remove="Content\sql\DML\Folder\FOLDER_UPDATE.sql" />
-	  <None Remove="Content\sql\DML\Tag\TAG_DELETE.sql" />
-	  <None Remove="Content\sql\DML\Tag\TAG_READ.sql" />
-	  <None Remove="Content\sql\DML\Tag\TAG_UPDATE.sql" />
-	  <None Remove="Content\sql\install\Chapter\CREATE_TABLE_CHAPTER.sql" />
-	  <None Remove="Content\sql\install\Document\CREATE_TABLE_DOCUMENT.sql" />
-	  <None Remove="Content\sql\install\Document\CREATE_TABLE_DOCUMENT_TAG.sql" />
-	  <None Remove="Content\sql\install\Folder\CREATE_TABLE_FOLDER.sql" />
-	  <None Remove="Content\sql\install\Folder\CREATE_TABLE_FOLDER_DOC.sql" />
-	  <None Remove="Content\sql\install\Folder\CREATE_TABLE_FOLDER_FOLDER.sql" />
-	  <None Remove="Content\sql\install\Tag\CREATE_TABLE_TAG.sql" />
-	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
@@ -76,162 +57,106 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiAsset Include="Content\sql\DML\Chapter\CHAPTER_DELETE.sql">
+	  <MauiAsset Include="Content\Repositories\Chapter\sql\CHAPTER_DELETE.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Chapter\CHAPTER_READ.sql">
+	  <MauiAsset Include="Content\Repositories\Chapter\sql\CHAPTER_READ.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_COUNT.sql">
+	  <MauiAsset Include="Content\Repositories\Chapter\sql\CHAPTER_INSERT.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_DELETE.sql">
+	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_COUNT.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_INSERT.sql">
+	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_DELETE.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_FTS_MOVE.sql">
+	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_DOC_INSERT.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_READ_RECENT.sql">
+	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_DOC_READ.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_READ_PDF.sql">
+	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_CREATE_ROOT.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_SEARCH_NOTAG.sql">
+	  <MauiAsset Include="Content\Repositories\Tag\sql\TAG_UPDATE.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_SEARCH_TAG.sql">
+	  <MauiAsset Include="Content\Repositories\Tag\sql\TAG_DELETE.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_READ.sql">
+	  <MauiAsset Include="Content\Repositories\Tag\sql\TAG_INSERT.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_TAG_DELETE.sql">
+	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_UPDATE.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_TAG_INSERT.sql">
+	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_FOLDER_READ.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_FOLDER_INSERT.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_INSERT.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_READ.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Tag\sql\TAG_READ.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Document\sql\install\CREATE_TABLE_DOCUMENT_TAG.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Document\sql\install\CREATE_TABLE_DOCUMENT.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Chapter\CHAPTER_INSERT.sql">
+	  <MauiAsset Include="Content\Repositories\Chapter\sql\CREATE_TABLE_CHAPTER.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_TAG_READ.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_MOVE.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Document\DOCUMENT_UPDATE.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_COUNT.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_DELETE.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_DOC_INSERT.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_DOC_READ.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_CREATE_ROOT.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Tag\TAG_UPDATE.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Tag\TAG_DELETE.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Tag\TAG_INSERT.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_UPDATE.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_FOLDER_READ.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_FOLDER_INSERT.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_INSERT.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Folder\FOLDER_READ.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\DML\Tag\TAG_READ.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\install\Document\CREATE_TABLE_DOCUMENT_TAG.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\install\Document\CREATE_TABLE_DOCUMENT.sql">
+	  <MauiAsset Include="Content\Repositories\Folder\sql\install\CREATE_TABLE_FOLDER.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\install\Chapter\CREATE_TABLE_CHAPTER.sql">
+	  <MauiAsset Include="Content\Repositories\Folder\sql\install\CREATE_TABLE_FOLDER_FOLDER.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\install\Folder\CREATE_TABLE_FOLDER.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\install\Folder\CREATE_TABLE_FOLDER_FOLDER.sql">
+	  <MauiAsset Include="Content\Repositories\Folder\sql\install\CREATE_TABLE_FOLDER_DOC.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\install\Folder\CREATE_TABLE_FOLDER_DOC.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
-	  <MauiAsset Include="Content\sql\install\Tag\CREATE_TABLE_TAG.sql">
+	  <MauiAsset Include="Content\Repositories\Tag\sql\install\CREATE_TABLE_TAG.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Platforms\Android\" />
+	  <Folder Include="Content\Repositories\Tag\sql\NewFolder\" />
 	</ItemGroup>
 
 	<ItemGroup>

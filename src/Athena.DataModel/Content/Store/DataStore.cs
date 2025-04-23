@@ -1,11 +1,11 @@
-﻿using Athena.DataModel.Core;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using Athena.DataModel.Core;
 
 namespace Athena.DataModel
 {
     public static class DataStore
     {
-        private static readonly Dictionary<Type, IAthenaRepository> stores = new ();
+        private static readonly Dictionary<Type, IAthenaRepository> stores = new();
 
         public static void Register<TRepository>(TRepository repository)
             where TRepository : class, IAthenaRepository

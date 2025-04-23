@@ -2,7 +2,7 @@
 
 namespace Athena.UI
 {
-    using Athena.DataModel.Core;
+    using DataModel.Core;
 
     internal interface IDataBrokerService
     {

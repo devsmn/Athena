@@ -4,10 +4,7 @@
     {
         private static readonly Lazy<IntegerEntityKey> key = new Lazy<IntegerEntityKey>(() => new IntegerEntityKey(0));
 
-        public static IntegerEntityKey Root
-        {
-            get { return key.Value; }
-        }
+        public static IntegerEntityKey Root => key.Value;
 
         public static int TemporaryId { get; } = -1;
         public int Id { get; set; }

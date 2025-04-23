@@ -1,0 +1,478 @@
+# iba standard EditorConfig 2024-12-04 V03 https://gitlab.iba-ag.com/sw-dev/dev-tools/repository-standard-configs
+
+# top-most EditorConfig file
+root = true
+
+#############################################
+# File encoding and identations             #
+#############################################
+
+# All files
+[*]
+charset = utf-8
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# XML project files
+[*.{csproj,esproj,msbuildproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj,dcproj}]
+indent_size = 2
+
+# XML solution file
+[*.sln]
+charset = utf-8-bom
+indent_style = tab
+
+# XML config files
+[*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
+indent_size = 2
+
+# NuGet CPM config
+[Directory.Packages.props]
+insert_final_newline = false
+
+# DNGuard XML project file
+[*.hvmprj]
+charset = utf-8-bom
+indent_size = 4
+
+# .NET code files
+[*.{cs,csx,vb,vbx,razor,cshtml}]
+charset = utf-8-bom
+indent_size = 4
+
+# Web development code files
+[*.{ts,tsx,js,json,htm,html,css,scss,less,sass}]
+indent_size = 4
+
+# C/C++ code files
+[*.{c++,cc,cpp,cxx,h,h++,hh,hpp,hxx,inl,ipp,tlh,tli}]
+indent_style = tab
+
+# Babel obfuscation projects
+[*.babel]
+charset = utf-8-bom
+indent_size = 2
+insert_final_newline = false
+
+# gRPC/Protobuf .proto files
+[*.proto]
+indent_size = 2
+
+# InnoSetup installer project files
+[*.{isl,iss}]
+indent_size = 2
+
+# Markdown files
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+
+# Powershell files
+[*.ps1]
+indent_size = 2
+
+# Linux shell script files
+[*.sh]
+indent_size = 2
+
+# SQL files
+[*.sql]
+indent_size = 2
+
+# XML files
+[*.xml]
+indent_size = 2
+
+# iba versions.htm
+[versions*.htm]
+indent_style = tab
+
+#############################################
+# .NET Coding Conventions                   #
+# Code quality rules                        #
+#############################################
+[*]
+# Disable all CA and IDE rules, we activate only the required ones
+dotnet_analyzer_diagnostic.severity = none
+
+# CA1001: Types that own disposable fields should be disposable
+# Default: severity = none
+dotnet_diagnostic.CA1001.severity = suggestion
+
+# CA1012: Abstract types should not have public constructors
+# Default: severity = none
+dotnet_diagnostic.CA1012.severity = suggestion
+
+# CA1024: Use properties where appropriate
+# Default: severity = none 
+dotnet_diagnostic.CA1024.severity = suggestion
+
+# CA1034: Nested types should not be visible
+# Default: severity = none
+dotnet_diagnostic.CA1034.severity = suggestion
+
+# CA1044: Properties should not be write only
+# Default: severity = none
+dotnet_diagnostic.CA1044.severity = suggestion
+
+# CA1052: Static holder types should be sealed
+# Default: severity = none
+dotnet_diagnostic.CA1052.severity = suggestion
+
+# CA1053: Static holder types should not have constructors
+# Default: severity = none
+dotnet_diagnostic.CA1053.severity = suggestion
+
+# CA1064: Exceptions should be public
+# Default: severity = suggestion
+dotnet_diagnostic.CA1064.severity = suggestion
+
+# CA1065: Do not raise exceptions in unexpected locations
+# Default: serverity = none
+dotnet_diagnostic.CA1065.severity = suggestion
+
+# CA1066: Implement IEquatable when overriding Equals
+# Default: severity = none
+dotnet_diagnostic.CA1066.severity = suggestion
+
+# CA1067: Override Equals when implementing IEquatable
+# Default: severity = suggestion
+dotnet_diagnostic.CA1067.severity = suggestion
+
+# CA1069: Enums should not have duplicate values
+# Default: severity = suggestion
+dotnet_diagnostic.CA1069.severity = suggestion
+
+# CA1508: Avoid dead conditional code
+# Default: severity = none
+dotnet_diagnostic.CA1508.severity = suggestion
+
+# CA1712: Do not prefix enum values with type name
+# Default: severity = none
+dotnet_diagnostic.CA1712.severity = suggestion
+dotnet_code_quality.CA1712.enum_values_prefix_trigger = AnyEnumValue
+
+# CA1715: Identifiers should have correct prefix
+# Default: severity = none
+dotnet_diagnostic.CA1715.severity = suggestion
+
+# CA1720: Identifiers should not contain type names
+# Default: severity = none
+dotnet_diagnostic.CA1720.severity = suggestion
+
+# CA1721: Property names should not match get methods
+# Default: severity = none
+dotnet_diagnostic.CA1721.severity = suggestion
+
+# CA1802: Use Literals Where Appropriate
+# Default: severity = none
+dotnet_diagnostic.CA1802.severity = suggestion
+
+# CA1805: Do not initialize unnecessarily
+# Default: severity = none
+dotnet_diagnostic.CA1805.severity = suggestion
+
+# CA1819: Properties should not return arrays
+# Default: severity = none
+dotnet_diagnostic.CA1819.severity = suggestion
+
+# CA1820: Test for empty strings using string length
+# Default: severity = none
+dotnet_diagnostic.CA1820.severity = suggestion
+
+# CA1821: Remove empty finalizers
+# Default: severity = suggestion
+dotnet_diagnostic.CA1821.severity = suggestion
+
+# CA1822: Mark members as static
+# Default: severity = suggestion
+dotnet_diagnostic.CA1822.severity = suggestion
+
+# CA1823: Avoid unused private fields
+# Default: severity = none
+dotnet_diagnostic.CA1823.severity = suggestion
+
+# CA1825: Avoid zero-length array allocations
+# Default: severity = suggestion
+dotnet_diagnostic.CA1825.severity = suggestion
+
+# CA1827: Do not use Count/LongCount when Any can be used
+# Default: severity = suggestion
+dotnet_diagnostic.CA1827.severity = suggestion
+
+# CA1829: Use Length/Count property instead of Enumerable.Count method
+# Default: severity = suggestion
+dotnet_diagnostic.CA1829.severity = suggestion
+
+# CA1834: Use StringBuilder.Append(char) for single character strings
+# Default: severity = suggestion
+dotnet_diagnostic.CA1834.severity = suggestion
+
+# CA1836: Prefer IsEmpty over Count when available
+# Default: severity = suggestion
+dotnet_diagnostic.CA1836.severity = suggestion
+
+# CA1841: Prefer Dictionary Contains methods
+# Default: severity = suggestion
+dotnet_diagnostic.CA1841.severity = suggestion
+
+# CA1847: Use char literal for a single character lookup
+# Default: severity = suggestion
+dotnet_diagnostic.CA1847.severity = suggestion
+
+# CA1853: Unnecessary call to 'Dictionary.ContainsKey(key)'
+# Default: severity = suggestion
+dotnet_diagnostic.CA1853.severity = suggestion
+
+# CA1854: Prefer the 'IDictionary.TryGetValue(TKey, out TValue)' method
+# Default: severity = suggestion
+dotnet_diagnostic.CA1854.severity = suggestion
+
+# CA2011: Do not assign property within its setter
+# Default: serverity = suggestion
+dotnet_diagnostic.CA2011.severity = suggestion
+
+# CA2207: Initialize value type static fields inline
+# Default: serverity = none
+dotnet_diagnostic.CA2207.severity = suggestion
+
+# CA2214: Do not call overridable methods in constructors
+# Default: severity = none
+dotnet_diagnostic.CA2214.severity = suggestion
+
+# CA2215: Dispose methods should call base class dispose
+# Default: severity = none
+dotnet_diagnostic.CA2215.severity = suggestion
+
+# CA2218: Override GetHashCode on overriding Equals
+# Default: severity = suggestion
+dotnet_diagnostic.CA2218.severity = suggestion
+
+# CA2219: Do not raise exceptions in exception clauses
+# Default: severity = suggestion
+dotnet_diagnostic.CA2219.severity = suggestion
+
+# CA2227: Collection properties should be read only
+# Default: severity = none
+dotnet_diagnostic.CA2227.severity = suggestion
+
+# CA2241: Provide correct arguments to formatting methods
+# Default: severity = suggestion
+dotnet_diagnostic.CA2241.severity = suggestion
+
+# CA2242: Test for NaN correctly
+# Default: severity = suggestion
+dotnet_diagnostic.CA2242.severity = suggestion
+
+# CA2244: Do not duplicate indexed element initializations
+# Default: severity = suggestion
+dotnet_diagnostic.CA2244.severity = suggestion
+
+# CA2245: Do not assign a property to itself
+# Default: severity = none
+dotnet_diagnostic.CA2245.severity = suggestion
+
+# CA2248: Provide correct enum argument to Enum.HasFlag
+# Default: severity = suggestion
+dotnet_diagnostic.CA2248.severity = suggestion
+
+# CA2249: Consider using String.Contains instead of String.IndexOf
+# Default: severity = suggestion
+dotnet_diagnostic.CA2249.severity = suggestion
+
+# CA2251: Use String.Equals over String.Compare
+# Default: severity = none
+dotnet_diagnostic.CA2251.severity = suggestion
+
+#############################################
+# .NET Coding Conventions                   #
+# Code-style rules                          #
+#############################################
+
+# IDE0001: Simplify name
+dotnet_diagnostic.IDE0001.severity = suggestion
+
+# IDE0002: Simplify member access
+dotnet_diagnostic.IDE0002.severity = suggestion
+
+# IDE0003: Remove this or Me qualification
+dotnet_diagnostic.IDE0003.severity = suggestion
+dotnet_style_qualification_for_field = false
+dotnet_style_qualification_for_property = false
+dotnet_style_qualification_for_method = false
+dotnet_style_qualification_for_event = false
+
+# IDE0004: Remove unnecessary cast
+dotnet_diagnostic.IDE0004.severity = suggestion
+
+# IDE0005: Remove unnecessary import
+# Only works if GenerateDocumentationFile property is set to true
+dotnet_diagnostic.IDE0005.severity = suggestion
+
+# IDE0018: Inline variable declaration
+dotnet_diagnostic.IDE0018.severity = suggestion
+csharp_style_inlined_variable_declaration = true
+
+# IDE0019: Use pattern matching to avoid as followed by a null check
+dotnet_diagnostic.IDE0019.severity = suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true
+
+# IDE0020: Use pattern matching to avoid is check followed by a cast (with variable)
+dotnet_diagnostic.IDE0020.severity = suggestion
+csharp_style_pattern_matching_over_is_with_cast_check = true
+
+# IDE0032: Use auto property
+dotnet_diagnostic.IDE0032.severity = suggestion
+dotnet_style_prefer_auto_properties = true
+
+# IDE0035: Remove unreachable code
+dotnet_diagnostic.IDE0035.severity = suggestion
+
+# IDE0036: Order modifiers
+dotnet_diagnostic.IDE0036.severity = suggestion
+csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async:suggestion
+
+# IDE0044: Add readonly modifier
+dotnet_diagnostic.IDE0044.severity = suggestion
+dotnet_style_readonly_field = true
+
+# IDE0049: Use language keywords instead of framework type names for type references
+dotnet_diagnostic.IDE0049.severity = suggestion
+dotnet_style_predefined_type_for_locals_parameters_members = true
+dotnet_style_predefined_type_for_member_access = false
+
+# IDE0051: Remove unused private member
+dotnet_diagnostic.IDE0051.severity = suggestion
+
+# IDE0055: Fix formatting
+dotnet_diagnostic.IDE0055.severity = suggestion
+
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = one_less_than_current
+csharp_indent_block_contents = true
+csharp_indent_braces = false
+csharp_indent_case_contents_when_block = false
+
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_parentheses = false
+csharp_space_before_colon_in_inheritance_clause = true
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+csharp_space_between_method_declaration_name_and_open_parenthesis = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+csharp_space_between_method_call_empty_parameter_list_parentheses = false
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+csharp_space_after_comma = true
+csharp_space_before_comma = false
+csharp_space_after_dot = false
+csharp_space_before_dot = false
+csharp_space_after_semicolon_in_for_statement = true
+csharp_space_before_semicolon_in_for_statement = false
+csharp_space_around_declaration_statements = false
+csharp_space_before_open_square_brackets = false
+csharp_space_between_empty_square_brackets = false
+csharp_space_between_square_brackets = false
+
+csharp_preserve_single_line_statements = false
+csharp_preserve_single_line_blocks = true
+
+# IDE0059: Remove unnecessary value assignment
+dotnet_diagnostic.IDE0059.severity = suggestion
+csharp_style_unused_value_assignment_preference = discard_variable
+
+# IDE0065: using directive placement
+dotnet_diagnostic.IDE0065.severity = suggestion
+csharp_using_directive_placement = outside_namespace
+
+# IDE0071: Simplify interpolation
+dotnet_diagnostic.IDE0071.severity = suggestion
+dotnet_style_prefer_simplified_interpolation = true
+
+# IDE0075: Simplify conditional expression
+dotnet_diagnostic.IDE0075.severity = suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true
+
+# IDE0079: Remove unnecessary suppression
+# This rule will be active althought all rules were disabled at beginning
+dotnet_diagnostic.IDE0079.severity = none
+
+# IDE0100: Remove unnecessary equality operator
+dotnet_diagnostic.IDE0100.severity = suggestion
+
+# IDE0110: Remove unnecessary discard
+dotnet_diagnostic.IDE0110.severity = suggestion
+
+# IDE1005: Use conditional delegate call
+dotnet_diagnostic.IDE1005.severity = suggestion
+csharp_style_conditional_delegate_call = true
+
+#############################################
+# Project specific settings                 #
+# Example:                                  #
+# [source/generatedcode/*.cs]               #
+# generated_code = true                     #
+#############################################
+
+[*.{cs,vb}]
+#### Naming styles ####
+
+# Naming rules
+
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
+dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+
+dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
+dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+
+# Symbol specifications
+
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.interface.required_modifiers = 
+
+dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
+dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.types.required_modifiers = 
+
+dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
+dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
+dotnet_naming_symbols.non_field_members.required_modifiers = 
+
+# Naming styles
+
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.required_suffix = 
+dotnet_naming_style.begins_with_i.word_separator = 
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.required_prefix = 
+dotnet_naming_style.pascal_case.required_suffix = 
+dotnet_naming_style.pascal_case.word_separator = 
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.required_prefix = 
+dotnet_naming_style.pascal_case.required_suffix = 
+dotnet_naming_style.pascal_case.word_separator = 
+dotnet_naming_style.pascal_case.capitalization = pascal_case

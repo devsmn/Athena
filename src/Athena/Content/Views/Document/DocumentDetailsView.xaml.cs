@@ -2,7 +2,7 @@ using Syncfusion.Maui.Popup;
 
 namespace Athena.UI
 {
-    using Athena.DataModel;
+    using DataModel;
 
 
     public partial class DocumentDetailsView : ContentPage
@@ -10,20 +10,20 @@ namespace Athena.UI
         public DocumentDetailsView(Folder parentFolder, Document document)
         {
             var vm = new DocumentDetailsViewModel(parentFolder, document);
-            this.BindingContext = vm;
+            BindingContext = vm;
 
             InitializeComponent();
         }
 
         public DocumentDetailsView(Chapter chapter)
         {
-            this.BindingContext = new DocumentDetailsViewModel(chapter);
+            BindingContext = new DocumentDetailsViewModel(chapter);
             InitializeComponent();
         }
 
         private void MenuItem_OnClicked(object sender, EventArgs e)
         {
-            menuPopup.ShowRelativeToView(this.Content, PopupRelativePosition.AlignTopRight);
+            menuPopup.ShowRelativeToView(Content, PopupRelativePosition.AlignTopRight);
         }
     }
 }

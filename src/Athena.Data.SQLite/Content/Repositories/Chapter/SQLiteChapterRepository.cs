@@ -1,9 +1,9 @@
 ﻿namespace Athena.Data.SQLite
 {
-    using Athena.DataModel;
-    using Athena.DataModel.Core;
+    using DataModel.Core;
+    using DataModel;
 
-    internal class SqLiteChapterRepository : SqLiteRepository, IChapterRepository
+    internal class SqliteChapterRepository : SqliteRepository, IChapterRepository
     {
         private string _insertChapterSql;
         private string _readChapterSql;
@@ -26,7 +26,8 @@
             return Audit<IEnumerable<Chapter>>(
                 context,
                 _readChapterSql,
-                command => {
+                command =>
+                {
                     command.Bind("@CHP_text", pattern);
 
                     var chapters = command.ExecuteQuery<Chapter>();
@@ -48,7 +49,8 @@
             Audit(
                 context,
                 _deleteChapterSql,
-                command => {
+                command =>
+                {
                     command.Bind("@DOC_ref", documentRef.ToString());
                     command.ExecuteNonQuery();
                 });
@@ -60,7 +62,8 @@
             Audit(
                 context,
                 _insertChapterSql,
-                command => {
+                command =>
+                {
                     command.Bind("@DOC_ref", chapter.DocumentId);
                     command.Bind("@DOC_pageNr", chapter.DocumentPageNumber);
                     command.Bind("@CHP_text", chapter.Snippet);

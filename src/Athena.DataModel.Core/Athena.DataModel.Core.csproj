@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -19,8 +19,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Folder Include="Content\Entities\Keys\Core\" />
-	  <Folder Include="Platforms\Android\" />
+	  <AndroidResource Remove="Content\Entities\Keys\Core\**" />
+	  <Compile Remove="Content\Entities\Keys\Core\**" />
+	  <EmbeddedResource Remove="Content\Entities\Keys\Core\**" />
+	  <MauiCss Remove="Content\Entities\Keys\Core\**" />
+	  <MauiXaml Remove="Content\Entities\Keys\Core\**" />
+	  <None Remove="Content\Entities\Keys\Core\**" />
 	</ItemGroup>
 
 	<ItemGroup>

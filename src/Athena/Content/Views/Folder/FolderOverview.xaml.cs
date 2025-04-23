@@ -1,17 +1,10 @@
-
-using Syncfusion.Maui.DataSource.Extensions;
-using Syncfusion.Maui.Popup;
-using System;
-using Syncfusion.Maui.TreeView;
+﻿using Syncfusion.Maui.Popup;
 using ItemLongPressEventArgs = Syncfusion.Maui.ListView.ItemLongPressEventArgs;
 
 namespace Athena.UI;
 
-
-
 public partial class FolderOverview : ContentPage
 {
-    private bool _firstUsageChecked;
     private readonly FolderOverviewViewModel _viewModel;
 
     public FolderOverview()

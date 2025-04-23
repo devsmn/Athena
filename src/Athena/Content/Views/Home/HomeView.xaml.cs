@@ -1,14 +1,11 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Maui.Controls.Shapes;
-
 namespace Athena.UI;
 
 public partial class HomeView : ContentPage
 {
     private bool _firstUsageChecked;
     private readonly HomeViewModel _viewModel;
-    
-	public HomeView()
+
+    public HomeView()
     {
         InitializeComponent();
         ServiceProvider.GetService<INavigationService>().AsRoot(this);

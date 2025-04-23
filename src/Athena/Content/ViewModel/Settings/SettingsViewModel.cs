@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using Athena.Resources.Localization;
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Maui.Alerts;
 
 namespace Athena.UI
 {

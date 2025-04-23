@@ -5,15 +5,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 #if ANDROID
-using Android;
-using Android.Content.PM;
-using AndroidX.Core.App;
-using AndroidX.Core.Content;
 #endif
 
 namespace Athena.UI
 {
-    using Athena.DataModel;
+    using DataModel;
     using CommunityToolkit.Maui.Alerts;
 
     public partial class DocumentDetailsViewModel : ContextViewModel
@@ -50,7 +46,7 @@ namespace Athena.UI
             Document = document;
             _parentFolder = parentFolder;
 
-            AllTags = new (Tag.ReadAll(RetrieveContext()).Select(x => new TagViewModel(x)));
+            AllTags = new(Tag.ReadAll(RetrieveContext()).Select(x => new TagViewModel(x)));
             SelectedTags = new ObservableCollection<TagViewModel>();
 
             foreach (var tag in AllTags)
@@ -202,7 +198,7 @@ namespace Athena.UI
         {
             try
             {
-                string mainDir = System.Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                string mainDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
 
                 if (!Directory.Exists(mainDir))
                 {
@@ -262,7 +258,7 @@ namespace Athena.UI
                 await PopAsync();
             }
         }
-        
+
 
         [RelayCommand]
         private async Task EditDocument()

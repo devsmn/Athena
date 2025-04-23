@@ -3,7 +3,7 @@ using Athena.DataModel.Core;
 
 namespace Athena.UI
 {
-    using Athena.DataModel;
+    using DataModel;
 
     public class DefaultDataBrokerService : IDataBrokerService
     {
@@ -80,7 +80,7 @@ namespace Athena.UI
                     context.Log(task.Exception);
                     throw task.Exception;
                 },
-                default,
+                CancellationToken.None,
                 TaskContinuationOptions.OnlyOnFaulted,
                 syncContext);
         }
@@ -123,7 +123,7 @@ namespace Athena.UI
                 return;
 
             // Reverse to start with the most recent sub.
-            // That way, when e.g moving a document, we can let the related view model handle the action, if available.
+            // That way, when e.g. moving a document, we can let the related view model handle the action, if available.
             // Otherwise, the chance is high that we traverse the documents of the root item and all subfolders
             // of the loaded folders until we find the correct document.
             var subs = Published.GetInvocationList().ToList();

@@ -1,17 +1,14 @@
-﻿using SQLite;
-using Athena.DataModel.Core;
+﻿using Athena.DataModel.Core;
+using SQLite;
 
 namespace Athena.Data.SQLite
 {
-    internal class SqLiteRepository
+    internal class SqliteRepository
     {
         private readonly Lazy<SQLiteAsyncConnection> _databaseDeferrer
             = new(() => new SQLiteAsyncConnection(Defines.DatabasePath, Defines.Flags));
 
-        protected SQLiteAsyncConnection Database
-        {
-            get { return _databaseDeferrer.Value; }
-        }
+        protected SQLiteAsyncConnection Database => _databaseDeferrer.Value;
 
         /// <summary>
         /// Runs the given <paramref name="script"/>.

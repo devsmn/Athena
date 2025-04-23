@@ -1,6 +1,6 @@
-﻿using Athena.DataModel.Core;
+﻿using System.Diagnostics;
+using Athena.DataModel.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Diagnostics;
 
 namespace Athena.UI
 {
@@ -53,7 +53,7 @@ namespace Athena.UI
             return new AthenaAppContext();
         }
 
-        protected async Task PushAsync(Microsoft.Maui.Controls.Page page)
+        protected async Task PushAsync(Page page)
         {
             await ServiceProvider.GetService<INavigationService>().PushAsync(page);
         }
@@ -63,7 +63,7 @@ namespace Athena.UI
             await ServiceProvider.GetService<INavigationService>().PopAsync();
         }
 
-        protected async Task PushModalAsync(Microsoft.Maui.Controls.Page page)
+        protected async Task PushModalAsync(Page page)
         {
             await ServiceProvider.GetService<INavigationService>().PushModalAsync(page);
         }

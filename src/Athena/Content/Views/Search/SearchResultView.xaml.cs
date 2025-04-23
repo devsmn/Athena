@@ -9,7 +9,7 @@ public partial class SearchResultView : ContentPage
 
     public SearchResultView(SearchChapterViewModel vm)
     {
-        this._vm = vm;
+        _vm = vm;
         BindingContext = vm;
         InitializeComponent();
     }
@@ -20,7 +20,7 @@ public partial class SearchResultView : ContentPage
             return;
 
         Document doc = Document.Read(new AthenaAppContext(), result.Document.Key);
-        this.Navigation.PushAsync(new DocumentDetailsView(null, doc));
-        this.searchResultView.SelectedItem = null;
+        Navigation.PushAsync(new DocumentDetailsView(null, doc));
+        searchResultView.SelectedItem = null;
     }
 }

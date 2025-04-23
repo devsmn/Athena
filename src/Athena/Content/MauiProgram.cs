@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Maui;
+using FFImageLoading.Maui;
 using Plugin.AdMob;
 using Plugin.AdMob.Configuration;
-using TesseractOcrMaui;
 using Syncfusion.Maui.Core.Hosting;
-using FFImageLoading.Maui;
+using TesseractOcrMaui;
 
 namespace Athena.UI;
 
@@ -36,7 +36,7 @@ public static class MauiProgram
 #if DEBUG
         //builder.Logging.AddDebug();
 #endif
-        
+
         builder.Services.AddTesseractOcr(
             files =>
             {

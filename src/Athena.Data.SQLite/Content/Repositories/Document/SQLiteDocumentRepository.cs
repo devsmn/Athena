@@ -1,14 +1,14 @@
-﻿using Athena.DataModel;
+﻿using System.Diagnostics;
+using Athena.DataModel;
 using Athena.DataModel.Core;
 using SQLite;
-using System.Diagnostics;
 
 namespace Athena.Data.SQLite
 {
     /// <summary>
     /// Provides the SQLite implementation of <see cref="IDocumentRepository"/>.
     /// </summary>
-    internal class SqLiteDocumentRepository : SqLiteRepository, IDocumentRepository
+    internal class SqliteDocumentRepository : SqliteRepository, IDocumentRepository
     {
         private string _insertDocumentSql;
         private string _insertDocumentTagSql;
@@ -38,7 +38,7 @@ namespace Athena.Data.SQLite
             _deleteDocumentSql = await ReadResourceAsync("DOCUMENT_DELETE.sql");
             _readDocumentTagSql = await ReadResourceAsync("DOCUMENT_TAG_READ.sql");
             _deleteTagSql = await ReadResourceAsync("DOCUMENT_TAG_DELETE.sql");
-            _searchDocWithTagSql = await ReadResourceAsync("DOCUMENT_SEARCH_TAG.sql"); ;
+            _searchDocWithTagSql = await ReadResourceAsync("DOCUMENT_SEARCH_TAG.sql");
             _searchDocNoTagSql = await ReadResourceAsync("DOCUMENT_SEARCH_NOTAG.sql");
             _readDocumentPdfSql = await ReadResourceAsync("DOCUMENT_READ_PDF.sql");
             _updateDocumentSql = await ReadResourceAsync("DOCUMENT_UPDATE.sql");
@@ -128,7 +128,7 @@ namespace Athena.Data.SQLite
         {
             documentName = string.IsNullOrEmpty(documentName) ? string.Empty : $"%{documentName}%";
 
-            return this.Audit(context, () =>
+            return Audit(context, () =>
             {
                 IEnumerable<SearchResult> results = new List<SearchResult>();
 
@@ -165,8 +165,8 @@ namespace Athena.Data.SQLite
 
         private IEnumerable<SearchResult> SearchNoTags(string documentName, bool useFts)
         {
-            var connection = this.Database.GetConnection();
-            SQLiteCommand command = connection.CreateCommand(this._searchDocNoTagSql);
+            var connection = Database.GetConnection();
+            SQLiteCommand command = connection.CreateCommand(_searchDocNoTagSql);
 
             command.Bind("@DOC_name", documentName);
             command.Bind("@useFTS", useFts ? 1 : 0);
@@ -180,7 +180,7 @@ namespace Athena.Data.SQLite
 
             string sql = _searchDocWithTagSql.Replace("<<__replace__>>", ids);
 
-            var connection = this.Database.GetConnection();
+            var connection = Database.GetConnection();
             SQLiteCommand command = connection.CreateCommand(sql);
 
             command.Bind("@DOC_name", documentName);
@@ -237,8 +237,8 @@ namespace Athena.Data.SQLite
 
         private void InsertDocumentCore(IContext context, Document document)
         {
-            var connection = this.Database.GetConnection();
-            SQLiteCommand command = connection.CreateCommand(this._insertDocumentSql);
+            var connection = Database.GetConnection();
+            SQLiteCommand command = connection.CreateCommand(_insertDocumentSql);
 
             command.Bind("@DOC_name", document.Name.EmptyIfNull());
             command.Bind("@DOC_comment", document.Comment.EmptyIfNull());
@@ -280,7 +280,7 @@ namespace Athena.Data.SQLite
         /// <inheritdoc />  
         public void MoveTo(IContext context, Document document, Folder oldFolder, Folder newFolder)
         {
-            this.Audit(
+            Audit(
                 context,
                 _moveToPageSql,
                 command =>
@@ -294,7 +294,7 @@ namespace Athena.Data.SQLite
                     command.ExecuteNonQuery();
                 });
 
-            this.Audit(
+            Audit(
                 context,
                 _moveToPageFtsSql,
                 command =>
@@ -314,7 +314,8 @@ namespace Athena.Data.SQLite
             return Audit<IEnumerable<Document>>(
                 context,
                 _readRecentSql,
-                command => {
+                command =>
+                {
                     command.Bind("@limit", limit);
                     return command.ExecuteQuery<Document>();
                 });

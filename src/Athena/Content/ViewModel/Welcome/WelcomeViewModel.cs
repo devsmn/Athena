@@ -1,7 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using HarfBuzzSharp;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Athena.Resources.Localization;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Athena.UI

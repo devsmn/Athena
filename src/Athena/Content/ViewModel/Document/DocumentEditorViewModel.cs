@@ -1,20 +1,20 @@
-﻿using CommunityToolkit.Maui.Alerts;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Text;
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Graphics.Platform;
 using Plugin.AdMob.Services;
 using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Parsing;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
 using TesseractOcrMaui.Results;
 using Exception = System.Exception;
 
 namespace Athena.UI
 {
-    using Athena.DataModel;
+    using DataModel;
     using CommunityToolkit.Mvvm.Input;
     using TesseractOcrMaui;
 
@@ -29,10 +29,7 @@ namespace Athena.UI
 
     public partial class DocumentReportItem : ObservableObject
     {
-        public int LevelInt
-        {
-            get { return (int)Level; }
-        }
+        public int LevelInt => (int)Level;
 
         [ObservableProperty]
         private string _message;
@@ -46,7 +43,7 @@ namespace Athena.UI
 
         public DocumentReportItem(string fileName, ReportIssueLevel level)
         {
-            this.Message = fileName;
+            Message = fileName;
             Level = level;
             Items = new ObservableCollection<DocumentReportItem>();
         }
@@ -173,7 +170,7 @@ namespace Athena.UI
 
         public DocumentViewModel Document
         {
-            get { return _document; }
+            get => _document;
 
             set
             {
@@ -276,12 +273,12 @@ namespace Athena.UI
                     var context = RetrieveContext();
 
 
-                    List<TagViewModel> newTags 
+                    List<TagViewModel> newTags
                         = SelectedTags
                             .Where(tag => !Document.Tags.Any(x => x.Id == tag.Id))
                             .ToList();
 
-                    List<TagViewModel> deletedTags 
+                    List<TagViewModel> deletedTags
                         = Document.Tags
                             .Where(tag => !SelectedTags.Any(x => x.Id == tag.Id))
                             .Select(tag => (TagViewModel)tag)
@@ -302,7 +299,7 @@ namespace Athena.UI
                     Document.Document.Save(context);
 
                     ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(
-                        context, 
+                        context,
                         Document,
                         UpdateType.Edit,
                         _parentFolder?.Key);

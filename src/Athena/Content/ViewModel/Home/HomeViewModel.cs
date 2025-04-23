@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Athena.DataModel;
+﻿using Athena.DataModel;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Athena.UI
@@ -56,7 +56,7 @@ namespace Athena.UI
 
         protected override Task OnAppInitialized()
         {
-            var context = this.RetrieveContext();
+            var context = RetrieveContext();
 
             UpdateCounterStats();
 
@@ -162,9 +162,6 @@ namespace Athena.UI
 
                             RecentDocuments.Process(update);
                         }
-
-
-
                     }
                 }
 
