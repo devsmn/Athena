@@ -1,6 +1,6 @@
-﻿using Athena.DataModel.Core;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
+using Athena.DataModel.Core;
 
 namespace Athena.UI
 {
@@ -11,7 +11,7 @@ namespace Athena.UI
         /// </summary>
         public AthenaAppContext()
         {
-            CancellationToken = new CancellationToken();
+            CancellationToken = CancellationToken.None;
             CorrelationId = Guid.NewGuid();
             ThreadId = Thread.CurrentThread.ManagedThreadId;
         }
@@ -20,7 +20,7 @@ namespace Athena.UI
         {
             return $"CorrelationId=[{CorrelationId}], ThreadId=[{ThreadId}, CancellationToken=[{CancellationToken}]";
         }
-        
+
         public override void Log(string message)
         {
             // TODO log to play console
@@ -37,7 +37,7 @@ namespace Athena.UI
         public override void Log(AggregateException aggregateException)
         {
             StringBuilder sb = new StringBuilder();
-            
+
             sb.Append(GetLogPrefix(true) + aggregateException.Message);
 
             foreach (var ex in aggregateException.InnerExceptions)

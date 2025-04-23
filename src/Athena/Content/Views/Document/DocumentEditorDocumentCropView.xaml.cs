@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Diagnostics;
 using Syncfusion.Maui.ImageEditor;
 
 namespace Athena.UI
@@ -34,17 +33,17 @@ namespace Athena.UI
         {
             foreach (var item in _hideItems)
             {
-                this.ImageEditor.SetToolbarItemVisibility(item, false);
+                ImageEditor.SetToolbarItemVisibility(item, false);
             }
         }
-        
+
 
         public EventHandler<ImageSavedEventArgs> ImageSaved;
 
 
         private void OnSavePickerOpening(object sender, CancelEventArgs e)
         {
-            e.Cancel = true; 
+            e.Cancel = true;
         }
 
         private byte[] GetImageStreamAsBytes(Stream input)
@@ -64,16 +63,16 @@ namespace Athena.UI
             }
 
         }
-        
+
         private async void ImageEditor_OnToolbarItemSelected(object sender, ToolbarItemSelectedEventArgs e)
         {
             if (e.ToolbarItem != null && e.ToolbarItem.Name == "Save")
             {
                 e.Cancel = true;
-                var imageStream = await this.ImageEditor.GetImageStream();
-                var bytes = this.GetImageStreamAsBytes(imageStream);
+                var imageStream = await ImageEditor.GetImageStream();
+                var bytes = GetImageStreamAsBytes(imageStream);
 
-                (this.BindingContext as DocumentEditCropViewModel).SavingImageCommand(new ImageSavedEventArgs(bytes));
+                (BindingContext as DocumentEditCropViewModel).SavingImageCommand(new ImageSavedEventArgs(bytes));
             }
         }
     }

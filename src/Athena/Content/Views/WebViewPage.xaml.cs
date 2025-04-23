@@ -4,9 +4,9 @@ public partial class WebViewPage : ContentPage
 {
     private readonly string _address;
 
-	public WebViewPage(string address)
-	{
-		InitializeComponent();
+    public WebViewPage(string address)
+    {
+        InitializeComponent();
         webView.Source = address;
         _address = address;
     }

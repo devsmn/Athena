@@ -48,7 +48,7 @@
         public async Task<string> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons)
         {
             var currentPage = _pages.Peek();
-            
+
             return await currentPage.DisplayActionSheet(
                 title,
                 cancel,

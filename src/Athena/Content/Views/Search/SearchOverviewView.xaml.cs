@@ -1,5 +1,5 @@
-using Syncfusion.Maui.Core;
 using System.Collections.ObjectModel;
+using Syncfusion.Maui.Core;
 
 namespace Athena.UI;
 
@@ -7,11 +7,11 @@ public partial class SearchOverviewView : ContentPage
 {
     private readonly SearchChapterViewModel _vm;
 
-	public SearchOverviewView()
+    public SearchOverviewView()
     {
         _vm = new SearchChapterViewModel();
         BindingContext = _vm;
-		InitializeComponent();
+        InitializeComponent();
         _vm.View = this;
     }
 

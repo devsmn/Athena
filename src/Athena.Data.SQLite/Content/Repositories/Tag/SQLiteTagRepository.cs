@@ -4,7 +4,7 @@ using SQLite;
 
 namespace Athena.Data.SQLite
 {
-    internal class SqLiteTagRepository : SqLiteRepository, ITagRepository
+    internal class SqliteTagRepository : SqliteRepository, ITagRepository
     {
         private string _readTagSql;
         private string _insertTagSql;
@@ -37,7 +37,7 @@ namespace Athena.Data.SQLite
 
         public void Save(IContext context, Tag tag)
         {
-            this.Audit(context, () =>
+            Audit(context, () =>
             {
                 if (tag.Key == null || tag.Id == IntegerEntityKey.TemporaryId)
                 {
@@ -52,9 +52,9 @@ namespace Athena.Data.SQLite
 
         private void UpdateCore(IContext context, Tag tag)
         {
-            var connection = this.Database.GetConnection();
+            var connection = Database.GetConnection();
 
-            SQLiteCommand command = connection.CreateCommand(this._updateTagSql);
+            SQLiteCommand command = connection.CreateCommand(_updateTagSql);
 
             command.Bind("@TAG_name", tag.Name.EmptyIfNull());
             command.Bind("@TAG_comment", tag.Comment.EmptyIfNull());
@@ -67,9 +67,9 @@ namespace Athena.Data.SQLite
 
         private void InsertCore(IContext context, Tag tag)
         {
-            var connection = this.Database.GetConnection();
+            var connection = Database.GetConnection();
 
-            SQLiteCommand command = connection.CreateCommand(this._insertTagSql);
+            SQLiteCommand command = connection.CreateCommand(_insertTagSql);
 
             command.Bind("@TAG_name", tag.Name.EmptyIfNull());
             command.Bind("@TAG_comment", tag.Comment.EmptyIfNull());

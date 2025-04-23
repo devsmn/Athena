@@ -4,8 +4,6 @@ namespace Athena.DataModel
 {
     public partial class Folder : Entity
     {
-        private string _name;
-        private string _comment;
         private bool _isPinned;
         private int _isPinnedInt;
 
@@ -34,7 +32,7 @@ namespace Athena.DataModel
 
         public int IsPinnedInt
         {
-            get { return _isPinnedInt; }
+            get => _isPinnedInt;
             set
             {
                 _isPinnedInt = value;
@@ -44,7 +42,7 @@ namespace Athena.DataModel
 
         public bool IsPinned
         {
-            get { return _isPinned; }
+            get => _isPinned;
             set
             {
                 _isPinned = value;
@@ -52,27 +50,13 @@ namespace Athena.DataModel
             }
         }
 
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
+        public string Name { get; set; }
 
-        public string Comment
-        {
-            get { return _comment; }
-            set { _comment = value; }
-        }
+        public string Comment { get; set; }
 
-        public IEnumerable<Folder> LoadedFolders
-        {
-            get { return _foldersLoaded ? Folders : Enumerable.Empty<Folder>(); }
-        }
+        public IEnumerable<Folder> LoadedFolders => _foldersLoaded ? Folders : Enumerable.Empty<Folder>();
 
-        public IEnumerable<Document> LoadedDocuments
-        {
-            get { return _documentsLoaded ? Documents : Enumerable.Empty<Document>(); }
-        }
+        public IEnumerable<Document> LoadedDocuments => _documentsLoaded ? Documents : Enumerable.Empty<Document>();
 
         public List<Folder> Folders
         {
@@ -87,7 +71,7 @@ namespace Athena.DataModel
                 return _folders;
             }
 
-            set { _folders = value; }
+            set => _folders = value;
         }
 
 
@@ -104,7 +88,7 @@ namespace Athena.DataModel
                 return _documents;
             }
 
-            set { _documents = value; }
+            set => _documents = value;
         }
 
         public override string ToString()

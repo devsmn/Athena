@@ -1,6 +1,3 @@
-using System.Collections.ObjectModel;
-using Syncfusion.Maui.PdfViewer;
-
 namespace Athena.UI;
 
 

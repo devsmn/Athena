@@ -31,7 +31,7 @@ namespace Athena.UI
 
         public ObservableCollection<SearchResult> SearchResult
         {
-            get { return _searchResult; }
+            get => _searchResult;
             set
             {
                 _searchResult = value;
@@ -46,7 +46,8 @@ namespace Athena.UI
             if (!e.Tags.Any())
                 return;
 
-            Application.Current.Dispatcher.Dispatch(() => {
+            Application.Current.Dispatcher.Dispatch(() =>
+            {
                 foreach (var tagUpdate in e.Tags)
                 {
                     Tags.Process(tagUpdate);
@@ -57,9 +58,9 @@ namespace Athena.UI
         public SearchChapterViewModel()
         {
             SelectedTags = new();
-            Tags = new (Tag.ReadAll(this.RetrieveContext()).Select(x => new TagViewModel(x)));
+            Tags = new(Tag.ReadAll(RetrieveContext()).Select(x => new TagViewModel(x)));
         }
-        
+
 
         [RelayCommand]
         private async Task StartSearch()
@@ -84,15 +85,16 @@ namespace Athena.UI
             {
                 var context = RetrieveContext();
 
-                var results = Document.Search(context, text, SelectedTags.Select(x => x.Tag),  IsFullTextSearch);
+                var results = Document.Search(context, text, SelectedTags.Select(x => x.Tag), IsFullTextSearch);
 
-                MainThread.InvokeOnMainThreadAsync(() => {
+                MainThread.InvokeOnMainThreadAsync(() =>
+                {
                     SearchResult = new ObservableCollection<SearchResult>(results);
                 });
             });
 
             IsBusy = false;
-            await this.View.Navigation.PushAsync(new SearchResultView(this));
+            await View.Navigation.PushAsync(new SearchResultView(this));
             Interlocked.Exchange(ref _isSearchActive, 0);
         }
 

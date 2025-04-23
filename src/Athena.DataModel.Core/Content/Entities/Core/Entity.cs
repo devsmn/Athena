@@ -6,8 +6,8 @@
 
         public int Id
         {
-            get { return Key.Id; }
-            set { Key = new IntegerEntityKey(value); }
+            get => Key.Id;
+            set => Key = new IntegerEntityKey(value);
         }
 
         public DateTime CreationDate

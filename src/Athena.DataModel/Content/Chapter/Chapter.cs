@@ -10,10 +10,7 @@ namespace Athena.DataModel
         public string PageId { get; set; }
         public string Snippet { get; set; }
 
-        public bool IsRoot
-        {
-            get { return FolderId == IntegerEntityKey.Root.ToString(); }
-        }
+        public bool IsRoot => FolderId == IntegerEntityKey.Root.ToString();
 
         public Document Document { get; set; }
         public Page Page { get; set; }

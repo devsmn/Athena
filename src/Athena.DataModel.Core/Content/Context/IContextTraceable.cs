@@ -4,12 +4,12 @@
     {
         Guid CorrelationId
         {
-            get; 
+            get;
         }
 
         int ThreadId
         {
-            get; 
+            get;
         }
     }
 }

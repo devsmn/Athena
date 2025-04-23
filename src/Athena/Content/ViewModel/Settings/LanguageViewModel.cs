@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using Athena.DataModel.Core;
-using Athena.Resources.Localization;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Athena.UI
 {

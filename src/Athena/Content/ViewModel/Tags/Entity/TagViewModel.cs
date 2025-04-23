@@ -8,19 +8,13 @@ namespace Athena.UI
     {
         private readonly Tag _tag;
 
-        public Tag Tag
-        {
-            get { return _tag; }
-        }
+        public Tag Tag => _tag;
 
-        public int Id
-        {
-            get { return _tag.Id; }
-        }
+        public int Id => _tag.Id;
 
         public string BackgroundColor
         {
-            get { return _tag.BackgroundColor; }
+            get => _tag.BackgroundColor;
             set
             {
                 _tag.BackgroundColor = value;
@@ -30,7 +24,7 @@ namespace Athena.UI
 
         public string TextColor
         {
-            get { return _tag.TextColor; }
+            get => _tag.TextColor;
             set
             {
                 _tag.TextColor = value;
@@ -41,7 +35,7 @@ namespace Athena.UI
 
         public string Name
         {
-            get { return _tag.Name; }
+            get => _tag.Name;
             set
             {
                 _tag.Name = value;

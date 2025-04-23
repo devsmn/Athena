@@ -1,7 +1,7 @@
-﻿using Athena.Data.Core;
+﻿using System.Diagnostics;
+using Athena.Data.Core;
 using Athena.DataModel;
 using Athena.DataModel.Core;
-using System.Diagnostics;
 
 namespace Athena.Data.SQLite.Proxy
 {
@@ -13,16 +13,16 @@ namespace Athena.Data.SQLite.Proxy
             try
             {
                 if (typeof(TRepository) == typeof(IDocumentRepository))
-                    return new SqLiteDocumentRepository();
+                    return new SqliteDocumentRepository();
 
                 if (typeof(TRepository) == typeof(IFolderRepository))
-                    return new SqLiteFolderRepository();
+                    return new SqliteFolderRepository();
 
                 if (typeof(TRepository) == typeof(IChapterRepository))
-                    return new SqLiteChapterRepository();
+                    return new SqliteChapterRepository();
 
                 if (typeof(TRepository) == typeof(ITagRepository))
-                    return new SqLiteTagRepository();
+                    return new SqliteTagRepository();
 
                 throw new ArgumentOutOfRangeException();
             }

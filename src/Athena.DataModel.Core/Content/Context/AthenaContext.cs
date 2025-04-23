@@ -27,10 +27,9 @@
 
         public abstract void Log(AggregateException aggregateException);
 
-
         protected string GetLogPrefix(bool isEx)
         {
-            return $"{(isEx ? "-E-" : "-I-")} [{DateTime.UtcNow.ToLongDateString()} {DateTime.UtcNow.ToLongTimeString()} - #{this.ThreadId}] {{{this.CorrelationId}}}: ";
+            return $"{(isEx ? "-E-" : "-I-")} [{DateTime.UtcNow.ToLongDateString()} {DateTime.UtcNow.ToLongTimeString()} - #{ThreadId}] {{{CorrelationId}}}: ";
         }
     }
 }

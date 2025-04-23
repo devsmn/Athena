@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace Athena.UI
 {
-    using Athena.DataModel;
+    using DataModel;
     using CommunityToolkit.Maui.Alerts;
     using CommunityToolkit.Maui.Core;
 
@@ -34,18 +34,18 @@ namespace Athena.UI
             _allFolders = allFolders;
             _dummyFolder = folder;
         }
-        
+
         protected override void OnDataPublished(DataPublishedEventArgs e)
         {
-            var folderUpdate = e.Folders.FirstOrDefault(x => x.Entity == this.Folder.Folder);
+            var folderUpdate = e.Folders.FirstOrDefault(x => x.Entity == Folder.Folder);
 
             if (folderUpdate == null)
                 return;
 
             if (folderUpdate.Type == UpdateType.Edit)
             {
-                this.Folder.Comment = folderUpdate.Entity.Comment;
-                this.Folder.Name = folderUpdate.Entity.Name;
+                Folder.Comment = folderUpdate.Entity.Comment;
+                Folder.Name = folderUpdate.Entity.Name;
             }
         }
 
@@ -66,13 +66,13 @@ namespace Athena.UI
                 string.Format(Localization.DeleteFolderConfirm, Folder.Name),
                 Localization.Yes,
                 Localization.No);
-            
+
             if (!result)
                 return;
 
-            var context = this.RetrieveContext();
+            var context = RetrieveContext();
             Folder.Folder.Delete(context);
-            ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(context, this.Folder, UpdateType.Delete);
+            ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(context, Folder, UpdateType.Delete);
             await Toast.Make(string.Format(Localization.FolderDeleted, Folder.Name), ToastDuration.Long).Show();
             await PopAsync();
         }

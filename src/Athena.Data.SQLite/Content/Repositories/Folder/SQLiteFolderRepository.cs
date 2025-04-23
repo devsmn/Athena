@@ -1,14 +1,14 @@
-﻿using Athena.DataModel.Core;
-using SQLite;
+﻿using SQLite;
 
 namespace Athena.Data.SQLite
 {
-    using Athena.DataModel;
+    using DataModel;
+    using DataModel.Core;
 
     /// <summary>
     /// Provides the SQLite implementation of <see cref="IFolderRepository"/>.
     /// </summary>
-    internal class SqLiteFolderRepository : SqLiteRepository, IFolderRepository
+    internal class SqliteFolderRepository : SqliteRepository, IFolderRepository
     {
         private string _readFolderSql;
         private string _deleteFolderSql;
@@ -252,9 +252,9 @@ namespace Athena.Data.SQLite
         {
             try
             {
-                var connection = this.Database.GetConnection();
+                var connection = Database.GetConnection();
 
-                SQLiteCommand command = connection.CreateCommand(this._insertFolderSql);
+                SQLiteCommand command = connection.CreateCommand(_insertFolderSql);
 
                 command.Bind("@FD_name", folder.Name.EmptyIfNull());
                 command.Bind("@FD_comment", folder.Comment.EmptyIfNull());

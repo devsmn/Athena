@@ -1,6 +1,6 @@
 ﻿namespace Athena.UI
 {
-    using Athena.DataModel;
+    using DataModel;
 
     public class DataPublishedEventArgs : EventArgs
     {

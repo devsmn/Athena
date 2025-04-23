@@ -85,7 +85,7 @@ namespace Athena.DataModel
         {
             PdfString = DataStore.Resolve<IDocumentRepository>().ReadPdfAsString(context, document);
         }
-        
+
         /// <summary>
         /// Moves this <see cref="Document"/> to the given <see cref="newFolder"/>.
         /// </summary>

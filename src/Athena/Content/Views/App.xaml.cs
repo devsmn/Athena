@@ -5,7 +5,6 @@ using AndroidX.AppCompat.App;
 using Athena.Data.SQLite.Proxy;
 using Athena.DataModel;
 using Athena.DataModel.Core;
-using Microsoft.Maui.Platform;
 namespace Athena.UI
 {
     public partial class App : Application
@@ -15,11 +14,11 @@ namespace Athena.UI
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
                 "MzgyMTA3MUAzMjM5MmUzMDJlMzAzYjMyMzkzYlFZSU9ScDVmeUJ5a1JHT0puWittU0VBWnE3S2tXblNMVzlDRy9kVitWWTA9");
 
-            Application.Current.UserAppTheme = AppTheme.Light;
+            Current.UserAppTheme = AppTheme.Light;
 #if ANDROID
             AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
 #endif
-            this.RequestedThemeChanged += (s, e) => { Application.Current.UserAppTheme = AppTheme.Light; };
+            RequestedThemeChanged += (s, e) => { Current.UserAppTheme = AppTheme.Light; };
 
             string lan = Preferences.Default.Get("Language", string.Empty);
 
@@ -53,7 +52,7 @@ namespace Athena.UI
                     InitializeData();
                 });
 
-            Application.Current.ModalPopped += CurrentOnModalPopped;
+            Current.ModalPopped += CurrentOnModalPopped;
         }
 
         protected override Window CreateWindow(IActivationState activationState)

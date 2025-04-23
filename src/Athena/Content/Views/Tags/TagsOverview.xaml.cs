@@ -5,10 +5,10 @@ namespace Athena.UI;
 
 public partial class TagsOverview : ContentPage
 {
-	public TagsOverview()
-	{
-		InitializeComponent();
-	}
+    public TagsOverview()
+    {
+        InitializeComponent();
+    }
 
     private void ButtonBase_OnClicked(object sender, EventArgs e)
     {

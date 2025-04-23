@@ -1,6 +1,6 @@
 ﻿namespace Athena.UI
 {
-    using Athena.DataModel.Core;
+    using DataModel.Core;
 
     public class RequestUpdate<TEntity> where TEntity : Entity
     {

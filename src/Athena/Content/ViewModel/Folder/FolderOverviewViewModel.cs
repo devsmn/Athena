@@ -1,15 +1,13 @@
-﻿using Athena.DataModel.Core;
+﻿using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Athena.Resources.Localization;
 using Syncfusion.TreeView.Engine;
 
 namespace Athena.UI
 {
-    using Athena.DataModel;
+    using DataModel;
     using CommunityToolkit.Maui.Alerts;
     using CommunityToolkit.Maui.Core;
-    using System;
 
     public partial class FolderOverviewViewModel : ContextViewModel
     {
@@ -113,99 +111,103 @@ namespace Athena.UI
                 IsBusy = true;
 
                 if (e.Folders.Count > 0)
-                {
-                    if (e.Folders[0].Type == UpdateType.Initialize)
-                    {
-                        RootSource.AddRange(e.Folders.Select(x => new RootItemViewModel(x)));
-                    }
-                    else
-                    {
-                        foreach (var folder in e.Folders)
-                        {
-                            if (folder.ParentReference == null)
-                                continue;
+                    ProcessFolderUpdate(e.Folders);
+                if (e.Documents.Count > 0)
+                    ProcessDocumentUpdate(e.Documents);
+                if (e.Tags.Count > 0)
+                    ProcessTagsUpdate(e.Tags);
 
-                            if (folder.ParentReference.Id == ParentFolder.Id)
-                            {
-                                RootSource.Process(folder, ParentFolder);
-                            }
-                        }
+                IsBusy = false;
+            });
+        }
+
+        private void ProcessFolderUpdate(IList<RequestUpdate<Folder>> folders)
+        {
+            if (folders[0].Type == UpdateType.Initialize)
+            {
+                RootSource.AddRange(folders.Select(x => new RootItemViewModel(x)));
+            }
+            else
+            {
+                foreach (var folder in folders)
+                {
+                    if (folder.ParentReference?.Id == ParentFolder.Id)
+                    {
+                        RootSource.Process(folder, ParentFolder);
+                        //break;
                     }
                 }
-                else if (e.Documents.Count > 0)
+            }
+        }
+
+        private void ProcessTagsUpdate(IList<RequestUpdate<Tag>> tags)
+        {
+            var deletedTagIds = tags
+                .Where(x => x.Type == UpdateType.Delete)
+                .Select(x => x.Entity.Id)
+                .ToHashSet();
+
+            foreach (var document in RootSource.Where(x => !x.IsFolder))
+            {
+                var validTags = document.Document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
+
+                document.Document.Tags.Clear();
+
+                foreach (var tag in validTags)
                 {
-                    if (e.Documents[0].Type == UpdateType.Initialize)
+                    document.Document.Tags.Add(tag);
+                }
+            }
+        }
+
+        private void ProcessDocumentUpdate(IList<RequestUpdate<Document>> documents)
+        {
+            if (documents[0].Type == UpdateType.Initialize)
+            {
+                RootSource.AddRange(documents.Select(x => new RootItemViewModel(x)));
+            }
+            else
+            {
+                foreach (var document in documents)
+                {
+                    if (document.Handled)
+                        continue;
+
+                    if (document.ParentReference.Id == ParentFolder.Id)
                     {
-                        RootSource.AddRange(e.Documents.Select(x => new RootItemViewModel(x)));
+                        RootSource.Process(document, ParentFolder);
                     }
                     else
                     {
-                        foreach (var document in e.Documents)
+                        if (document.Type == UpdateType.Add || document.Type == UpdateType.Delete)
                         {
-                            if (document.Handled)
+                            Stack<Folder> folders = new Stack<Folder>();
+
+                            foreach (var folder in ParentFolder.LoadedFolders)
                             {
-                                continue;
+                                folders.Push(folder);
                             }
 
-                            if (document.ParentReference.Id == ParentFolder.Id)
+                            while (folders.Count > 0)
                             {
-                                RootSource.Process(document, ParentFolder);
-                            }
-                            else
-                            {
-                                if (document.Type == UpdateType.Add || document.Type == UpdateType.Delete)
+                                Folder currentFolder = folders.Pop();
+
+                                if (currentFolder.Id == document.ParentReference.Id)
                                 {
-                                    Stack<Folder> folders = new Stack<Folder>();
+                                    currentFolder.ResetDocumentsLoaded();
+                                    document.Handled = true;
+                                    break;
+                                }
 
-                                    foreach (var folder in ParentFolder.LoadedFolders)
-                                    {
-                                        folders.Push(folder);
-                                    }
-
-                                    while (folders.Count > 0)
-                                    {
-                                        Folder currentFolder = folders.Pop();
-
-                                        if (currentFolder.Id == document.ParentReference.Id)
-                                        {
-                                            currentFolder.ResetDocumentsLoaded();
-                                            document.Handled = true;
-                                            break;
-                                        }
-
-                                        foreach (Folder folder in currentFolder.LoadedFolders)
-                                        {
-                                            folders.Push(folder);
-                                        }
-                                    }
+                                foreach (Folder folder in currentFolder.LoadedFolders)
+                                {
+                                    folders.Push(folder);
                                 }
                             }
                         }
                     }
                 }
-
-                if (e.Tags.Count > 0)
-                {
-                    var deletedTagIds = e.Tags
-                        .Where(x => x.Type == UpdateType.Delete)
-                        .Select(x => x.Entity.Id)
-                        .ToHashSet();
-
-                    foreach (var document in RootSource.Where(x => !x.IsFolder))
-                    {
-                        var validTags = document.Document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
-
-                        document.Document.Tags.Clear();
-
-                        foreach (var tag in validTags)
-                        {
-                            document.Document.Tags.Add(tag);
-                        }
-                    }
-                }
-
-                IsBusy = false;
-            });
+            }
         }
 
         [RelayCommand]
@@ -246,7 +248,7 @@ namespace Athena.UI
 
             if (item.IsFolder)
             {
-                item.Folder.Folder.Save(this.RetrieveContext(), FolderSaveOptions.Folder);
+                item.Folder.Folder.Save(RetrieveContext(), FolderSaveOptions.Folder);
 
                 ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(
                     RetrieveContext(),
@@ -256,7 +258,7 @@ namespace Athena.UI
             }
             else
             {
-                item.Document.Document.Save(this.RetrieveContext());
+                item.Document.Document.Save(RetrieveContext());
 
                 ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(
                     RetrieveContext(),
@@ -265,7 +267,7 @@ namespace Athena.UI
                     ParentFolder.Key);
             }
 
-            this.View.RefreshListViewGrouping();
+            View.RefreshListViewGrouping();
         }
 
         [RelayCommand]
