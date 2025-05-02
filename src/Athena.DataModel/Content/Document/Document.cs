@@ -5,7 +5,6 @@ namespace Athena.DataModel
     public partial class Document : Entity
     {
         private byte[] _pdf;
-        private string _pdfString;
         private byte[] _thumbnail;
         private string _thumbnailString;
 
@@ -40,16 +39,6 @@ namespace Athena.DataModel
             {
                 _pdf = value;
                 _pdfRead = true;
-            }
-        }
-
-        public string PdfString
-        {
-            get => _pdfString;
-            set
-            {
-                _pdfString = value;
-                _pdf = Convert.FromBase64String(value);
             }
         }
 

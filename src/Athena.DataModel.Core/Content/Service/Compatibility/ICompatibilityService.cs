@@ -1,34 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kotlin;
-
-namespace Athena.DataModel.Core
+﻿namespace Athena.DataModel.Core
 {
     public class VersionPatch
     {
         public int Version { get; }
 
-        private readonly List<Func<Task>> _patches;
+        private readonly List<Func<IContext, Task>> _patches;
 
-        public VersionPatch(int version, params Func<Task>[] patches)
+        public VersionPatch(int version, params Func<IContext, Task>[] patches)
         {
             Version = version;
             _patches = new();
             _patches.AddRange(patches);
         }
 
-        public void AddPatch(Func<Task> action)
+        public void AddPatch(Func<IContext, Task> action)
         {
             _patches.Add(action);
         }
 
-        public async Task PatchAsync()
+        public async Task PatchAsync(IContext context)
         {
             foreach (var patch in _patches)
-                await patch();
+                await patch(context);
         }
 
     }

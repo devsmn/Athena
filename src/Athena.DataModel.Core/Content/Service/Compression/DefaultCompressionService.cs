@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EasyCompressor;
+﻿using EasyCompressor;
 
 namespace Athena.DataModel.Core
 {
@@ -21,9 +16,19 @@ namespace Athena.DataModel.Core
             return await _compressor.CompressAsync(stream);
         }
 
-        public async Task<byte[]> Decompress(MemoryStream stream)
+        public byte[] Compress(byte[] data)
+        {
+            return _compressor.Compress(data);
+        }
+
+        public async Task<byte[]> DecompressAsync(MemoryStream stream)
         {
             return await _compressor.DecompressAsync(stream);
+        }
+
+        public byte[] Decompress(byte[] data)
+        {
+            return _compressor.Decompress(data);
         }
     }
 }

@@ -18,6 +18,10 @@
 		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	</PropertyGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="Athena.Data.SQLite.Proxy" />
   </ItemGroup>
@@ -108,10 +112,6 @@
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </MauiAsset>
-	  <MauiAsset Include="Content\Repositories\Document\sql\patches\DOCUMENT_PATCH_55.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-	  </MauiAsset>
 	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_COUNT.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>

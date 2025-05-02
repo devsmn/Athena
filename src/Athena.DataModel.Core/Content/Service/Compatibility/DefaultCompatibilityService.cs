@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AndroidX.Core.Content;
-
-namespace Athena.DataModel.Core
+﻿namespace Athena.DataModel.Core
 {
     public class DefaultCompatibilityService : ICompatibilityService
     {
-        private Dictionary<Type, List<VersionPatch>> _patches;
+        private readonly Dictionary<Type, List<VersionPatch>> _patches;
 
         public DefaultCompatibilityService()
         {

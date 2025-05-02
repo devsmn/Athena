@@ -20,7 +20,7 @@ namespace Athena.DataModel
             }
         }
 
-        public static async Task InitializeAsync()
+        public static async Task InitializeAsync(IContext context)
         {
             ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
 
@@ -29,9 +29,9 @@ namespace Athena.DataModel
                 try
                 {
                     // TODO: Parallel?
-                    instance.RegisterPatches(compatService);
-                    await instance.ExecutePatches(compatService);
-                    await instance.InitializeAsync();
+                    instance.RegisterPatches(context, compatService);
+                    await instance.ExecutePatches(context, compatService);
+                    await instance.InitializeAsync(context);
                 }
                 catch (Exception ex)
                 {
