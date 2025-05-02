@@ -22,11 +22,15 @@ namespace Athena.DataModel
 
         public static async Task InitializeAsync()
         {
+            ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
+
             foreach (var instance in stores.Values)
             {
                 try
                 {
-                    // TODO: Parallel
+                    // TODO: Parallel?
+                    instance.RegisterPatches(compatService);
+                    await instance.ExecutePatches(compatService);
                     await instance.InitializeAsync();
                 }
                 catch (Exception ex)

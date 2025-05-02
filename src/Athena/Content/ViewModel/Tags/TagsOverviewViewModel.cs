@@ -136,7 +136,7 @@ namespace Athena.UI
             SelectedTag.TextColor = SelectedTextColor.Hex;
 
             SelectedTag.Save(context);
-            ServiceProvider.GetService<IDataBrokerService>().Publish<Tag>(
+            Services.GetService<IDataBrokerService>().Publish<Tag>(
                 context, SelectedTag, isNew ? UpdateType.Add : UpdateType.Edit);
 
             SelectedTag = null;
@@ -164,7 +164,7 @@ namespace Athena.UI
             {
                 SelectedTag.Delete(context);
 
-                ServiceProvider.GetService<IDataBrokerService>().Publish<Tag>(context, SelectedTag, UpdateType.Delete);
+                Services.GetService<IDataBrokerService>().Publish<Tag>(context, SelectedTag, UpdateType.Delete);
                 await Toast.Make(string.Format(Localization.TagDeleted, SelectedTag.Name), ToastDuration.Long).Show();
             }
 

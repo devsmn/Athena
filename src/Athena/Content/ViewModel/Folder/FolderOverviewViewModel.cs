@@ -8,6 +8,7 @@ namespace Athena.UI
     using DataModel;
     using CommunityToolkit.Maui.Alerts;
     using CommunityToolkit.Maui.Core;
+    using Athena.DataModel.Core;
 
     public partial class FolderOverviewViewModel : ContextViewModel
     {
@@ -250,7 +251,7 @@ namespace Athena.UI
             {
                 item.Folder.Folder.Save(RetrieveContext(), FolderSaveOptions.Folder);
 
-                ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(
+                Services.GetService<IDataBrokerService>().Publish<Folder>(
                     RetrieveContext(),
                     item.Folder,
                     UpdateType.Edit,
@@ -260,7 +261,7 @@ namespace Athena.UI
             {
                 item.Document.Document.Save(RetrieveContext());
 
-                ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(
+                Services.GetService<IDataBrokerService>().Publish<Document>(
                     RetrieveContext(),
                     item.Document,
                     UpdateType.Edit,
@@ -303,7 +304,7 @@ namespace Athena.UI
 
 
 
-                ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(
+                Services.GetService<IDataBrokerService>().Publish<Folder>(
                     context,
                     item.Folder,
                     UpdateType.Delete,
@@ -313,7 +314,7 @@ namespace Athena.UI
             {
                 item.Document.Document.Delete(context);
 
-                ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(
+                Services.GetService<IDataBrokerService>().Publish<Document>(
                     context,
                     item.Document,
                     UpdateType.Delete,
@@ -343,7 +344,7 @@ namespace Athena.UI
         {
             MoveToFolders.Clear();
 
-            FolderViewModel rootFolder = ServiceProvider.GetService<IDataBrokerService>().GetRootFolder();
+            FolderViewModel rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
             MoveToFolders.Add(rootFolder);
 
             IsMoveDocumentPopupOpen = true;
@@ -404,7 +405,7 @@ namespace Athena.UI
             documentViewModel.Document.MoveTo(context, ParentFolder.Folder, SelectedMoveDestination.Folder);
 
             // TODO: fix adding and removing
-            IDataBrokerService publishService = ServiceProvider.GetService<IDataBrokerService>();
+            IDataBrokerService publishService = Services.GetService<IDataBrokerService>();
 
             publishService.Publish<Document>(
                 context,

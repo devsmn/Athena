@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Maui;
+﻿using Athena.DataModel.Core;
+using Athena.UI;
+using CommunityToolkit.Maui;
 using FFImageLoading.Maui;
 using Plugin.AdMob;
 using Plugin.AdMob.Configuration;
@@ -13,7 +15,7 @@ public static class MauiProgram
     {
 #if DEBUG
         AdConfig.UseTestAdUnitIds = true;
-        AdConfig.AddTestDevice("BA3156A459BD267FCF0E7B5173A25A2C");
+        AdConfig.AddTestDevice("B3EEABB8EE11C2BE770B684D95219ECB");
 #else
         AdConfig.DefaultInterstitialAdUnitId = "ca-app-pub-7134624676592827/8601607180";
         AdConfig.DefaultBannerAdUnitId = "ca-app-pub-7134624676592827/4690515785";
@@ -49,10 +51,13 @@ public static class MauiProgram
         builder.Services.AddSingleton<IPreferencesService, DefaultPreferencesService>();
         builder.Services.AddSingleton<IGreetingService, DefaultGreetingService>();
         builder.Services.AddSingleton<ILanguageService, DefaultLanguageService>();
+        builder.Services.AddTransient<IPdfCreatorService, DefaultPdfCreatorService>();
+        builder.Services.AddSingleton<ICompressionService, DefaultCompressionService>();
+        builder.Services.AddSingleton<ICompatibilityService, DefaultCompatibilityService>();
 
         var app = builder.Build();
 
-        ServiceProvider.Register(app.Services);
+        Services.Register(app.Services);
 
         return app;
     }

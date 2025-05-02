@@ -1,3 +1,5 @@
+﻿using Athena.DataModel.Core;
+
 namespace Athena.UI;
 
 public partial class HomeView : ContentPage
@@ -8,7 +10,7 @@ public partial class HomeView : ContentPage
     public HomeView()
     {
         InitializeComponent();
-        ServiceProvider.GetService<INavigationService>().AsRoot(this);
+        Services.GetService<INavigationService>().AsRoot(this);
 
         _viewModel = BindingContext as HomeViewModel;
         Loaded += OnLoaded;

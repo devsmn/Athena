@@ -12,9 +12,9 @@ namespace Athena.UI
         public ContextViewModel()
             : base()
         {
-            ServiceProvider.GetService<IDataBrokerService>().Published += OnDataBrokerPublished;
-            ServiceProvider.GetService<IDataBrokerService>().PublishStarted += OnDataBrokerPublishStarted;
-            ServiceProvider.GetService<IDataBrokerService>().AppInitialized += OnDataBrokerAppInitialized;
+            Services.GetService<IDataBrokerService>().Published += OnDataBrokerPublished;
+            Services.GetService<IDataBrokerService>().PublishStarted += OnDataBrokerPublishStarted;
+            Services.GetService<IDataBrokerService>().AppInitialized += OnDataBrokerAppInitialized;
         }
 
         private async void OnDataBrokerAppInitialized(object sender, EventArgs e)
@@ -55,27 +55,27 @@ namespace Athena.UI
 
         protected async Task PushAsync(Page page)
         {
-            await ServiceProvider.GetService<INavigationService>().PushAsync(page);
+            await Services.GetService<INavigationService>().PushAsync(page);
         }
 
         protected async Task PopAsync()
         {
-            await ServiceProvider.GetService<INavigationService>().PopAsync();
+            await Services.GetService<INavigationService>().PopAsync();
         }
 
         protected async Task PushModalAsync(Page page)
         {
-            await ServiceProvider.GetService<INavigationService>().PushModalAsync(page);
+            await Services.GetService<INavigationService>().PushModalAsync(page);
         }
 
         protected async Task PopModalAsync()
         {
-            await ServiceProvider.GetService<INavigationService>().PopModalAsync();
+            await Services.GetService<INavigationService>().PopModalAsync();
         }
 
         protected async Task<bool> DisplayAlert(string title, string message, string accept, string cancel)
         {
-            return await ServiceProvider.GetService<INavigationService>().DisplayAlert(
+            return await Services.GetService<INavigationService>().DisplayAlert(
                 title,
                 message,
                 accept,
@@ -84,7 +84,7 @@ namespace Athena.UI
 
         protected async Task<string> DisplayPrompt(string title, string message, string ok, string cancel)
         {
-            return await ServiceProvider.GetService<INavigationService>().DisplayPrompt(
+            return await Services.GetService<INavigationService>().DisplayPrompt(
                 title,
                 message,
                 ok,
@@ -93,7 +93,7 @@ namespace Athena.UI
 
         protected async Task<string> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons)
         {
-            return await ServiceProvider.GetService<INavigationService>().DisplayActionSheet(
+            return await Services.GetService<INavigationService>().DisplayActionSheet(
                 title,
                 cancel,
                 destruction,
@@ -109,9 +109,9 @@ namespace Athena.UI
         {
             if (disposing)
             {
-                ServiceProvider.GetService<IDataBrokerService>().Published -= OnDataBrokerPublished;
-                ServiceProvider.GetService<IDataBrokerService>().PublishStarted -= OnDataBrokerPublishStarted;
-                ServiceProvider.GetService<IDataBrokerService>().AppInitialized -= OnDataBrokerAppInitialized;
+                Services.GetService<IDataBrokerService>().Published -= OnDataBrokerPublished;
+                Services.GetService<IDataBrokerService>().PublishStarted -= OnDataBrokerPublishStarted;
+                Services.GetService<IDataBrokerService>().AppInitialized -= OnDataBrokerAppInitialized;
             }
         }
     }

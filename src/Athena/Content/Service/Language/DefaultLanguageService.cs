@@ -10,7 +10,7 @@ namespace Athena.UI
         {
             try
             {
-                IPreferencesService prefService = ServiceProvider.GetService<IPreferencesService>();
+                IPreferencesService prefService = Services.GetService<IPreferencesService>();
 
                 prefService.SetLanguage(code);
                 CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfoByIetfLanguageTag(code);
@@ -38,7 +38,7 @@ namespace Athena.UI
 
         public string GetLanguage()
         {
-            return ServiceProvider.GetService<IPreferencesService>().GetLanguage();
+            return Services.GetService<IPreferencesService>().GetLanguage();
         }
     }
 }

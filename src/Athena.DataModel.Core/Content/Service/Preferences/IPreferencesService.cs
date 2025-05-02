@@ -1,4 +1,4 @@
-﻿namespace Athena.UI
+﻿namespace Athena.DataModel.Core
 {
     public interface IPreferencesService
     {
@@ -53,5 +53,9 @@
         /// </summary>
         /// <param name="language"></param>
         void SetLanguage(string language);
+
+        int GetLastUsedVersion();
+
+        void SetLastUsedVersion(int version);
     }
 }

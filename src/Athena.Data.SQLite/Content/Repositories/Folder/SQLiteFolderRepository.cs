@@ -23,9 +23,6 @@ namespace Athena.Data.SQLite
 
         public async Task<bool> InitializeAsync()
         {
-            await RunScriptAsync("CREATE_TABLE_FOLDER.sql");
-            await RunScriptAsync("CREATE_TABLE_FOLDER_FOLDER.sql");
-            await RunScriptAsync("CREATE_TABLE_FOLDER_DOC.sql");
 
             _insertFolderSql = await ReadResourceAsync("FOLDER_INSERT.sql");
             _readFolderSql = await ReadResourceAsync("FOLDER_READ.sql");
@@ -39,6 +36,28 @@ namespace Athena.Data.SQLite
             _countAllSql = await ReadResourceAsync("FOLDER_COUNT.sql");
 
             return await Task.FromResult(true);
+        }
+
+        public void RegisterPatches(ICompatibilityService compatService)
+        {
+            compatService.RegisterPatch<SqliteFolderRepository>(new(1, CreateTables));
+        }
+
+        private async Task CreateTables()
+        {
+            await RunScriptAsync("CREATE_TABLE_FOLDER.sql");
+            await RunScriptAsync("CREATE_TABLE_FOLDER_FOLDER.sql");
+            await RunScriptAsync("CREATE_TABLE_FOLDER_DOC.sql");
+        }
+
+        public async Task ExecutePatches(ICompatibilityService compatService)
+        {
+            var patches = compatService.GetPatches<SqliteFolderRepository>();
+
+            foreach (var pat in patches)
+            {
+                await pat.PatchAsync();
+            }
         }
 
         public void AddDocument(IContext context, Folder folder, Document document)

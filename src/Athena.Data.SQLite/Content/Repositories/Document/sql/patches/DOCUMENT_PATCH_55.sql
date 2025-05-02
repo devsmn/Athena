@@ -1,0 +1,2 @@
+ALTER TABLE DOCUMENT
+  ADD DOC_pdfCompressed BLOB;

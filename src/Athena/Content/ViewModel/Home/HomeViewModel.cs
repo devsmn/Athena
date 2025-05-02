@@ -42,10 +42,10 @@ namespace Athena.UI
 
         private void UpdateGreeting()
         {
-            var greeting = ServiceProvider.GetService<IGreetingService>();
+            var greeting = Services.GetService<IGreetingService>();
             Greeting = greeting.Get();
 
-            string name = ServiceProvider.GetService<IPreferencesService>().GetName();
+            string name = Services.GetService<IPreferencesService>().GetName();
 
             if (!string.IsNullOrEmpty(name))
             {
@@ -125,7 +125,7 @@ namespace Athena.UI
                         }
                         else if (update.Type == UpdateType.Delete)
                         {
-                            var rootFolder = ServiceProvider.GetService<IDataBrokerService>().GetRootFolder();
+                            var rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
                             Stack<Folder> folders = new Stack<Folder>();
 
                             bool stop = false;
@@ -190,13 +190,13 @@ namespace Athena.UI
         [RelayCommand]
         public async Task OpenFolderOverview()
         {
-            var rootFolder = ServiceProvider.GetService<IDataBrokerService>().GetRootFolder();
+            var rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
             await PushAsync(new FolderOverview(rootFolder));
         }
 
         public async Task CheckFirstUsage()
         {
-            IPreferencesService prefService = ServiceProvider.GetService<IPreferencesService>();
+            IPreferencesService prefService = Services.GetService<IPreferencesService>();
 
             bool isFirstUsage = prefService.IsFirstUsage();
 
