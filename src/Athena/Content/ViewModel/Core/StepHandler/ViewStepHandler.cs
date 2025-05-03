@@ -7,6 +7,7 @@ namespace Athena.UI
         where TViewModel : ContextViewModel
     {
         private readonly Dictionary<int, IViewStep<TViewModel>> _steps = new();
+        private readonly HashSet<int> _increaseSteps = new();
         private readonly TViewModel _vm;
 
         [ObservableProperty]
@@ -22,11 +23,21 @@ namespace Athena.UI
             _steps.Add(index, step);
         }
 
+        public void RegisterIncrease(int index)
+        {
+            _increaseSteps.Add(index);
+        }
+
         public async Task Next(IContext context)
         {
             int tmpIndex = StepIndex;
+            tmpIndex++;
 
-            if (_steps.TryGetValue(++tmpIndex, out IViewStep<TViewModel> step))
+            if (_increaseSteps.Contains(tmpIndex))
+            {
+                StepIndex = tmpIndex;
+            }
+            else if (_steps.TryGetValue(tmpIndex, out IViewStep<TViewModel> step))
             {
                 StepIndex = tmpIndex;
                 await step.ExecuteAsync(context, _vm);
@@ -36,8 +47,15 @@ namespace Athena.UI
         public async Task<bool> Back(IContext context)
         {
             int tmpIndex = StepIndex;
+            tmpIndex++;
 
-            if (!_steps.TryGetValue(--tmpIndex, out IViewStep<TViewModel> step))
+            if (_increaseSteps.Contains(tmpIndex))
+            {
+                StepIndex = tmpIndex;
+                return true;
+            }
+
+            if (!_steps.TryGetValue(tmpIndex, out IViewStep<TViewModel> step))
                 return false;
 
             StepIndex = tmpIndex;

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 <Import Project="..\..\version.props" />  
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -97,10 +97,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Content\Views\Folder\Steps\**" />
+	  <AndroidSkipResourceProcessing Remove="Content\Views\Folder\Steps\**" />
+	  <Compile Remove="Content\Views\Folder\Steps\**" />
 	  <Compile Remove="Content\Views\Page\**" />
+	  <EmbeddedResource Remove="Content\Views\Folder\Steps\**" />
 	  <EmbeddedResource Remove="Content\Views\Page\**" />
+	  <MauiCss Remove="Content\Views\Folder\Steps\**" />
 	  <MauiCss Remove="Content\Views\Page\**" />
+	  <MauiXaml Remove="Content\Views\Folder\Steps\**" />
 	  <MauiXaml Remove="Content\Views\Page\**" />
+	  <None Remove="Content\Views\Folder\Steps\**" />
 	  <None Remove="Content\Views\Page\**" />
 	</ItemGroup>
 
@@ -303,10 +310,6 @@
     <MauiXaml Update="Content\Views\Welcome\Steps\WelcomeViewLanguageStep.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Content\Views\Folder\Steps\" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">

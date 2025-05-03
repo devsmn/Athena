@@ -5,14 +5,14 @@ namespace Athena.DataModel
 {
     public static class DataStore
     {
-        private static readonly Dictionary<Type, IAthenaRepository> stores = new();
+        private static readonly Dictionary<Type, IAthenaRepository> _stores = new();
 
         public static void Register<TRepository>(TRepository repository)
             where TRepository : class, IAthenaRepository
         {
             try
             {
-                stores.Add(repository.GetType(), repository);
+                _stores.Add(repository.GetType(), repository);
             }
             catch (Exception ex)
             {
@@ -24,14 +24,14 @@ namespace Athena.DataModel
         {
             ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
 
-            foreach (var instance in stores.Values)
+            foreach (var instance in _stores.Values)
             {
                 try
                 {
                     // TODO: Parallel?
+                    await instance.InitializeAsync(context);
                     instance.RegisterPatches(context, compatService);
                     await instance.ExecutePatches(context, compatService);
-                    await instance.InitializeAsync(context);
                 }
                 catch (Exception ex)
                 {
@@ -45,7 +45,7 @@ namespace Athena.DataModel
         internal static TRepository Resolve<TRepository>()
             where TRepository : IAthenaRepository
         {
-            foreach (var store in stores)
+            foreach (var store in _stores)
             {
                 if (store.Value is TRepository value)
                     return value;

@@ -16,7 +16,7 @@ namespace Athena.Data.SQLite
         /// <param name="script"></param>
         protected async Task RunScriptAsync(string script)
         {
-            using (Stream fs = await FileSystem.Current.OpenAppPackageFileAsync(script))
+            await using (Stream fs = await FileSystem.Current.OpenAppPackageFileAsync(script))
             {
                 using (StreamReader reader = new StreamReader(fs))
                 {
@@ -33,7 +33,7 @@ namespace Athena.Data.SQLite
         /// <returns></returns>
         protected static async Task<string> ReadResourceAsync(string file)
         {
-            using (Stream fs = await FileSystem.Current.OpenAppPackageFileAsync(file))
+            await using (Stream fs = await FileSystem.Current.OpenAppPackageFileAsync(file))
             {
                 using (StreamReader reader = new StreamReader(fs))
                 {

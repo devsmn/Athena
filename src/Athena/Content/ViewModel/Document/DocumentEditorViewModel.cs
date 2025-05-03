@@ -95,8 +95,9 @@ namespace Athena.UI
         public DocumentEditorViewModel(Folder parentFolder, Document document)
         {
             _stepHandler = new(this);
-            _stepHandler.Register(1, new DocumentCreatePdfStep());
-            _stepHandler.Register(2, new DocumentCloseStep());
+            _stepHandler.RegisterIncrease(1);
+            _stepHandler.Register(2, new DocumentCreatePdfStep());
+            _stepHandler.Register(3, new DocumentCloseStep());
 
             DocumentReports = new();
             _interstitialAdService = Services.GetService<IInterstitialAdService>();
@@ -382,7 +383,7 @@ namespace Athena.UI
             DocumentImageViewModel imageVm = new DocumentImageViewModel();
             imageVm.Image = e.Buffer;
 
-            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Guid.NewGuid() + ".jpg");//address
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Guid.NewGuid() + ".jpg");
             await File.WriteAllBytesAsync(fileName, e.Buffer);
 
             imageVm.ImagePath = fileName;

@@ -29,7 +29,7 @@ namespace Athena.DataModel
             {
                 if (!_pdfRead)
                 {
-                    ReadPdf(new AthenaDataContext(), this);
+                    ReadPdf(new AthenaDataContext());
                     _pdfRead = true;
                 }
 

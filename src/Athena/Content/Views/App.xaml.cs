@@ -31,6 +31,7 @@ namespace Athena.UI
             languageService.SetLanguage(new AthenaAppContext(), lan, false);
 
             InitializeComponent();
+            var context = new AthenaAppContext();
 
             Task.Run(async () =>
             {
@@ -45,7 +46,7 @@ namespace Athena.UI
                 DataStore.Register(SqLiteProxy.Request<IDocumentRepository>(parameter));
                 DataStore.Register(SqLiteProxy.Request<IChapterRepository>(parameter));
                 DataStore.Register(SqLiteProxy.Request<ITagRepository>(parameter));
-                await DataStore.InitializeAsync();
+                await DataStore.InitializeAsync(context);
             }).ContinueWith(
                 _ =>
                 {

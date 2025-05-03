@@ -77,7 +77,7 @@ namespace Athena.Data.SQLite
             Debug.WriteLine("Patch 55: Starting document PDF compression patch");
 
             await Audit(
-                null,
+                context,
                 _readDocumentSql,
                 async command =>
                 {
@@ -89,6 +89,8 @@ namespace Athena.Data.SQLite
 
                     foreach (var document in documents)
                     {
+                        document.ReadPdf(context);
+
                         using (MemoryStream ms = new(document.Pdf))
                         {
                             document.Pdf = await compressionService.CompressAsync(ms);
@@ -125,6 +127,8 @@ namespace Athena.Data.SQLite
                     command.Bind("@DOC_ref", key.Id);
 
                     Document doc = command.ExecuteQuery<Document>()[0];
+
+                    // Documents are decompressed via ReadPdf.
                     //doc.Pdf = compression.Decompress(doc.Pdf);
 
                     return doc;

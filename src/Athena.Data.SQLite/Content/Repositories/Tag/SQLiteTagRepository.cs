@@ -21,7 +21,7 @@ namespace Athena.Data.SQLite
             return true;
         }
 
-        public void RegisterPatches(ICompatibilityService compatService)
+        public void RegisterPatches(IContext context, ICompatibilityService compatService)
         {
             compatService.RegisterPatch<SqliteTagRepository>(new(1, CreateTables));
         }
