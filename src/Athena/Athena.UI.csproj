@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 <Import Project="..\..\version.props" />  
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -36,9 +36,9 @@
 	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>-->
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
-  </ItemGroup>
+  </ItemGroup>-->
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <Debugger>Xamarin</Debugger>
@@ -60,11 +60,11 @@
 	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
 	  <AndroidUseAapt2>True</AndroidUseAapt2>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-	  <AndroidPackageFormat>aab</AndroidPackageFormat>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-	  <AndroidPackageFormat>aab</AndroidPackageFormat>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	  <AndroidUseAapt2>True</AndroidUseAapt2>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
 	  <DebugSymbols>False</DebugSymbols>
@@ -324,9 +324,9 @@
 	  </PackageReference>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
 	  <PackageReference Include="Xamarin.AndroidX.Collection.Ktx">
-	    <Version>1.4.0.2</Version>
+	    <Version>1.5.0.1</Version>
 	  </PackageReference>
 	</ItemGroup>
 

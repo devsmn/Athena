@@ -197,9 +197,9 @@
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
 	</ItemGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
-  </ItemGroup>
+  </ItemGroup>-->
   <ItemGroup>
     <AndroidResource Remove="Content\Repositories\Document\sql\NewFolder\**" />
     <AndroidSkipResourceProcessing Remove="Content\Repositories\Document\sql\NewFolder\**" />

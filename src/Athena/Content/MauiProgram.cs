@@ -13,14 +13,6 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-#if DEBUG
-        AdConfig.UseTestAdUnitIds = true;
-        AdConfig.AddTestDevice("B3EEABB8EE11C2BE770B684D95219ECB");
-#else
-        AdConfig.DefaultInterstitialAdUnitId = "ca-app-pub-7134624676592827/8601607180";
-        AdConfig.DefaultBannerAdUnitId = "ca-app-pub-7134624676592827/4690515785";
-        //AdConfig.AddTestDevice("BA3156A459BD267FCF0E7B5173A25A2C");
-#endif
 
         var builder = MauiApp.CreateBuilder();
         builder
@@ -37,6 +29,17 @@ public static class MauiProgram
 
 #if DEBUG
         //builder.Logging.AddDebug();
+#endif
+
+#if DEBUG
+        AdConfig.UseTestAdUnitIds = true;
+        AdConfig.AddTestDevice("B3EEABB8EE11C2BE770B684D95219ECB");
+#else
+        AdConfig.UseTestAdUnitIds = false;
+        AdConfig.DefaultInterstitialAdUnitId = "ca-app-pub-7134624676592827/8601607180";
+        AdConfig.DefaultBannerAdUnitId = "ca-app-pub-7134624676592827/4690515785";
+        AdConfig.DisableConsentCheck = true;
+        //AdConfig.AddTestDevice("BA3156A459BD267FCF0E7B5173A25A2C");
 #endif
 
         builder.Services.AddTesseractOcr(

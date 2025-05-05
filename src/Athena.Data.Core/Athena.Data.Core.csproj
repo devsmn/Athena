@@ -17,9 +17,9 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
 		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
-  </ItemGroup>
+  </ItemGroup>-->
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Athena.DataModel.Core\Athena.DataModel.Core.csproj" />

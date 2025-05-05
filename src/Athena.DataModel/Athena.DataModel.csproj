@@ -21,9 +21,9 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
 	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 	</PropertyGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
-  </ItemGroup>
+  </ItemGroup>-->
 	<ItemGroup>
 	  <ProjectReference Include="..\Athena.Data.Core\Athena.Data.Core.csproj" />
 	</ItemGroup>

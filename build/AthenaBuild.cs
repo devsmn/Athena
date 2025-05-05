@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Security.Cryptography.Pkcs;
 using System.Xml;
@@ -94,7 +94,7 @@ internal class AthenaBuild : NukeBuild
             .SetProject(Path.Combine(SourceDirectory, Solution))
             .SetConfiguration(Configuration)
             .SetFramework("net9.0-android")
-            .SetVerbosity(DotNetVerbosity.detailed)
+            .SetVerbosity(DotNetVerbosity.normal)
             .AddProcessAdditionalArguments("--no-restore")
             .AddProperty("AndroidPackageFormats", PackageFormat)
             .AddProperty("AndroidKeyStore", true)
