@@ -9,15 +9,33 @@
         private string _readChapterSql;
         private string _deleteChapterSql;
 
-        public async Task<bool> InitializeAsync()
+        public async Task<bool> InitializeAsync(IContext context)
         {
-            await RunScriptAsync("CREATE_TABLE_CHAPTER.sql");
-
             _insertChapterSql = await ReadResourceAsync("CHAPTER_INSERT.sql");
             _readChapterSql = await ReadResourceAsync("CHAPTER_READ.sql");
             _deleteChapterSql = await ReadResourceAsync("CHAPTER_DELETE.sql");
 
             return true;
+        }
+
+        public void RegisterPatches(IContext context, ICompatibilityService compatService)
+        {
+            compatService.RegisterPatch<SqliteChapterRepository>(new(1, CreateTables));
+        }
+
+        private async Task CreateTables(IContext context)
+        {
+            await RunScriptAsync("CREATE_TABLE_CHAPTER.sql");
+        }
+
+        public async Task ExecutePatches(IContext context, ICompatibilityService compatService)
+        {
+            var patches = compatService.GetPatches<SqliteChapterRepository>();
+
+            foreach (var pat in patches)
+            {
+                await pat.PatchAsync(context);
+            }
         }
 
         /// <inheritdoc />  

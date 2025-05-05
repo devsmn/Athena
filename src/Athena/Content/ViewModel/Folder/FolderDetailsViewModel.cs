@@ -7,6 +7,7 @@ namespace Athena.UI
     using DataModel;
     using CommunityToolkit.Maui.Alerts;
     using CommunityToolkit.Maui.Core;
+    using Athena.DataModel.Core;
 
     public partial class FolderDetailsViewModel : ContextViewModel
     {
@@ -72,7 +73,7 @@ namespace Athena.UI
 
             var context = RetrieveContext();
             Folder.Folder.Delete(context);
-            ServiceProvider.GetService<IDataBrokerService>().Publish<Folder>(context, Folder, UpdateType.Delete);
+            Services.GetService<IDataBrokerService>().Publish<Folder>(context, Folder, UpdateType.Delete);
             await Toast.Make(string.Format(Localization.FolderDeleted, Folder.Name), ToastDuration.Long).Show();
             await PopAsync();
         }

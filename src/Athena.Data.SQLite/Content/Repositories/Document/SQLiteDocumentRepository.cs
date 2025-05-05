@@ -25,12 +25,11 @@ namespace Athena.Data.SQLite
         private string _moveToPageFtsSql;
         private string _readRecentSql;
         private string _countAllSql;
+        private string _patchPdfSql;
 
-        public async Task<bool> InitializeAsync()
+
+        public async Task<bool> InitializeAsync(IContext context)
         {
-            await RunScriptAsync("CREATE_TABLE_DOCUMENT.sql");
-            await RunScriptAsync("CREATE_TABLE_DOCUMENT_TAG.sql");
-
             _insertDocumentSql = await ReadResourceAsync("DOCUMENT_INSERT.sql");
             _insertDocumentTagSql = await ReadResourceAsync("DOCUMENT_TAG_INSERT.sql");
             _readDocumentSql = await ReadResourceAsync("DOCUMENT_READ.sql");
@@ -46,22 +45,72 @@ namespace Athena.Data.SQLite
             _moveToPageFtsSql = await ReadResourceAsync("DOCUMENT_FTS_MOVE.sql");
             _readRecentSql = await ReadResourceAsync("DOCUMENT_READ_RECENT.sql");
             _countAllSql = await ReadResourceAsync("DOCUMENT_COUNT.sql");
+            _patchPdfSql = await ReadResourceAsync("DOCUMENT_UPDATE_PDF.sql");
 
             return await Task.FromResult(true);
         }
 
-        /// <inheritdoc />  
-        public IEnumerable<Document> ReadAll(IContext context, Page page)
+        public void RegisterPatches(IContext context, ICompatibilityService compatService)
         {
-            return Audit<IEnumerable<Document>>(
+            compatService.RegisterPatch<SqliteDocumentRepository>(new(1, CreateTables));
+            compatService.RegisterPatch<SqliteDocumentRepository>(new(55, PatchTables55));
+        }
+
+        public async Task ExecutePatches(IContext context, ICompatibilityService compatService)
+        {
+            var patches = compatService.GetPatches<SqliteDocumentRepository>();
+
+            foreach (var pat in patches)
+            {
+                await pat.PatchAsync(context);
+            }
+        }
+
+        private async Task CreateTables(IContext context)
+        {
+            await RunScriptAsync("CREATE_TABLE_DOCUMENT.sql");
+            await RunScriptAsync("CREATE_TABLE_DOCUMENT_TAG.sql");
+        }
+
+        private async Task PatchTables55(IContext context)
+        {
+            Debug.WriteLine("Patch 55: Starting document PDF compression patch");
+
+            await Audit(
                 context,
-                _readFolderDocSql,
+                _readDocumentSql,
+                async command =>
+                {
+                    Debug.WriteLine("Patch 55: Compressing PDFs");
+                    command.Bind("@DOC_ref", -1);
+                    var documents = command.ExecuteQuery<Document>();
+
+                    ICompressionService compressionService = Services.GetService<ICompressionService>();
+
+                    foreach (var document in documents)
+                    {
+                        document.ReadPdf(context);
+
+                        using (MemoryStream ms = new(document.Pdf))
+                        {
+                            document.Pdf = await compressionService.CompressAsync(ms);
+                            PatchPdf(document);
+                        }
+                    }
+                });
+
+            Debug.WriteLine("Patch 55: Document PDF compression patch finished");
+        }
+
+        private void PatchPdf(Document doc)
+        {
+            Audit(
+                null,
+                _patchPdfSql,
                 command =>
                 {
-                    command.Bind("@PG_ref", page.Id);
-                    var document = command.ExecuteQuery<Document>();
-
-                    return document;
+                    command.Bind("@DOC_ref", doc.Id);
+                    command.Bind("@DOC_pdf", doc.Pdf);
                 });
         }
 
@@ -73,8 +122,16 @@ namespace Athena.Data.SQLite
                 _readDocumentSql,
                 command =>
                 {
+                    ICompressionService compression = Services.GetService<ICompressionService>();
+
                     command.Bind("@DOC_ref", key.Id);
-                    return command.ExecuteQuery<Document>()[0];
+
+                    Document doc = command.ExecuteQuery<Document>()[0];
+
+                    // Documents are decompressed via ReadPdf.
+                    //doc.Pdf = compression.Decompress(doc.Pdf);
+
+                    return doc;
                 });
         }
 
@@ -151,7 +208,7 @@ namespace Athena.Data.SQLite
         }
 
         /// <inheritdoc />  
-        public string ReadPdfAsString(IContext context, Document document)
+        public byte[] ReadPdf(IContext context, Document document)
         {
             return Audit(
                 context,
@@ -159,7 +216,10 @@ namespace Athena.Data.SQLite
                 command =>
                 {
                     command.Bind("@DOC_ref", document.Id);
-                    return command.ExecuteScalar<string>();
+                    byte[] data = command.ExecuteScalar<byte[]>();
+
+                    ICompressionService compressionService = Services.GetService<ICompressionService>();
+                    return compressionService.Decompress(data);
                 });
         }
 
@@ -240,9 +300,12 @@ namespace Athena.Data.SQLite
             var connection = Database.GetConnection();
             SQLiteCommand command = connection.CreateCommand(_insertDocumentSql);
 
+            ICompressionService compress = Services.GetService<ICompressionService>();
+            byte[] pdf = compress.Compress(document.Pdf ?? Array.Empty<byte>());
+
             command.Bind("@DOC_name", document.Name.EmptyIfNull());
             command.Bind("@DOC_comment", document.Comment.EmptyIfNull());
-            command.Bind("@DOC_pdf", Convert.ToBase64String(document.Pdf ?? Array.Empty<byte>()));
+            command.Bind("@DOC_pdf", pdf);
             command.Bind("@DOC_thumbnail", Convert.ToBase64String(document.Thumbnail ?? Array.Empty<byte>()));
             command.Bind("@DOC_creationDate", DateTime.UtcNow);
             command.Bind("@DOC_modDate", DateTime.UtcNow);

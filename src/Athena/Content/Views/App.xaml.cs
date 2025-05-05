@@ -27,10 +27,11 @@ namespace Athena.UI
                 lan = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             }
 
-            ILanguageService languageService = ServiceProvider.GetService<ILanguageService>();
+            ILanguageService languageService = Services.GetService<ILanguageService>();
             languageService.SetLanguage(new AthenaAppContext(), lan, false);
 
             InitializeComponent();
+            var context = new AthenaAppContext();
 
             Task.Run(async () =>
             {
@@ -39,13 +40,13 @@ namespace Athena.UI
                     MinimumVersion = new Version(0, 1)
                 };
 
-                ServiceProvider.GetService<IDataBrokerService>().PrepareForLoading();
+                Services.GetService<IDataBrokerService>().PrepareForLoading();
 
                 DataStore.Register(SqLiteProxy.Request<IFolderRepository>(parameter));
                 DataStore.Register(SqLiteProxy.Request<IDocumentRepository>(parameter));
                 DataStore.Register(SqLiteProxy.Request<IChapterRepository>(parameter));
                 DataStore.Register(SqLiteProxy.Request<ITagRepository>(parameter));
-                await DataStore.InitializeAsync();
+                await DataStore.InitializeAsync(context);
             }).ContinueWith(
                 _ =>
                 {
@@ -63,10 +64,12 @@ namespace Athena.UI
         public static void InitializeData()
         {
             // Data will be initialized via the welcome view.
-            if (ServiceProvider.GetService<IPreferencesService>().IsFirstUsage())
+            if (Services.GetService<IPreferencesService>().IsFirstUsage())
                 return;
 
-            IDataBrokerService service = ServiceProvider.GetService<IDataBrokerService>();
+            Services.GetService<ICompatibilityService>().UpdateLastUsedVersion();
+
+            IDataBrokerService service = Services.GetService<IDataBrokerService>();
             var context = new AthenaAppContext();
 
             Folder rootFolder = GetRootFolder(context);

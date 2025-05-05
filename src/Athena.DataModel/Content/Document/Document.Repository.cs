@@ -80,10 +80,9 @@ namespace Athena.DataModel
         /// Reads the PDF.
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="document"></param>
-        public void ReadPdf(IContext context, Document document)
+        public void ReadPdf(IContext context)
         {
-            PdfString = DataStore.Resolve<IDocumentRepository>().ReadPdfAsString(context, document);
+            Pdf = DataStore.Resolve<IDocumentRepository>().ReadPdf(context, this);
         }
 
         /// <summary>

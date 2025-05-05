@@ -17,6 +17,9 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
 		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
+  <!--<ItemGroup>
+    <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
+  </ItemGroup>-->
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Athena.DataModel.Core\Athena.DataModel.Core.csproj" />
@@ -31,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.60" />
+	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
 	</ItemGroup>
 
 	<ItemGroup>

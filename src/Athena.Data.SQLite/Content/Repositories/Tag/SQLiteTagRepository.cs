@@ -11,16 +11,35 @@ namespace Athena.Data.SQLite
         private string _updateTagSql;
         private string _deleteTagSql;
 
-        public async Task<bool> InitializeAsync()
+        public async Task<bool> InitializeAsync(IContext context)
         {
-            await RunScriptAsync("CREATE_TABLE_TAG.sql");
-
             _readTagSql = await ReadResourceAsync("TAG_READ.sql");
             _insertTagSql = await ReadResourceAsync("TAG_INSERT.sql");
             _deleteTagSql = await ReadResourceAsync("TAG_DELETE.sql");
             _updateTagSql = await ReadResourceAsync("TAG_UPDATE.sql");
 
             return true;
+        }
+
+        public void RegisterPatches(IContext context, ICompatibilityService compatService)
+        {
+            compatService.RegisterPatch<SqliteTagRepository>(new(1, CreateTables));
+        }
+
+        private async Task CreateTables(IContext context)
+        {
+            await RunScriptAsync("CREATE_TABLE_TAG.sql");
+
+        }
+
+        public async Task ExecutePatches(IContext context, ICompatibilityService compatService)
+        {
+            var patches = compatService.GetPatches<SqliteTagRepository>();
+
+            foreach (var pat in patches)
+            {
+                await pat.PatchAsync(context);
+            }
         }
 
         public IEnumerable<Tag> ReadAll(IContext context)

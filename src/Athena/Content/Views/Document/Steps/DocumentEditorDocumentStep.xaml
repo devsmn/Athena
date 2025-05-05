@@ -6,6 +6,7 @@
              xmlns:sfc="clr-namespace:Syncfusion.Maui.Carousel;assembly=Syncfusion.Maui.Carousel"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Name="view"
              x:Class="Athena.UI.DocumentEditorDocumentStep">
     <ContentView.Resources>
         <ResourceDictionary>
@@ -25,7 +26,7 @@
         </ControlTemplate>
 
         <ControlTemplate x:Key="DocumentsListView">
-            <sfc:SfCarousel ItemsSource="{Binding Source={x:Reference parent}, Path=BindingContext.Images}"
+            <sfc:SfCarousel ItemsSource="{Binding Source={x:Reference view}, Path=BindingContext.Images}"
                             x:Name="listView"
                             HeightRequest="240"
                             ViewMode="Linear">
@@ -73,7 +74,6 @@
                                            Margin="2"
                                            Aspect="AspectFill" />
 
-
                                     <Label Text="{Binding FileName}" 
                                            FontSize="12"
                                            Grid.Row="1"
@@ -83,8 +83,8 @@
                                            IsVisible="{Binding IsPdf}"/>
 
 
-                                    <sfb:SfButton Command="{Binding Source={x:Reference parent}, Path=BindingContext.DeleteImageCommand}"
-                                                  CommandParameter="{Binding}"
+                                    <sfb:SfButton Command="{Binding Source={x:Reference view}, Path=BindingContext.DeleteImageCommand}"
+                                                  CommandParameter="{Binding .}"
                                                   Grid.Row="2"
                                                   HorizontalTextAlignment="Start"
                                                   Text="{x:Static loc:Localization.DeleteDocument}"
@@ -105,7 +105,7 @@
         </ControlTemplate>
     </ContentView.Resources>
 
-    <VerticalStackLayout x:Name="parent"
+    <VerticalStackLayout 
         HorizontalOptions="Center">
 
         <Label Text="{x:Static loc:Localization.DocumentEditorAddDocuments}" 

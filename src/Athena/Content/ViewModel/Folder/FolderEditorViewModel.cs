@@ -65,7 +65,7 @@ namespace Athena.UI
                 Folder.Folder.Save(context, FolderSaveOptions.Folder);
             }
 
-            ServiceProvider.GetService<IDataBrokerService>().Publish(context, Folder.Folder, IsNew ? UpdateType.Add : UpdateType.Edit, _parentFolder?.Key);
+            Services.GetService<IDataBrokerService>().Publish(context, Folder.Folder, IsNew ? UpdateType.Add : UpdateType.Edit, _parentFolder?.Key);
             await PopAsync();
             Folder.PropertyChanged -= FolderOnPropertyChanged;
             NewFolderStep = 0;

@@ -76,12 +76,12 @@ namespace Athena.DataModel
         IEnumerable<SearchResult> Search(IContext context, string documentName, IEnumerable<Tag> tags, bool useFts);
 
         /// <summary>
-        /// Reads the PDF as a string.
+        /// Reads the PDF.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="document"></param>
         /// <returns></returns>
-        string ReadPdfAsString(IContext context, Document document);
+        byte[] ReadPdf(IContext context, Document document);
 
         /// <summary>
         /// Moves the provided <paramref name="document"/> to the given <paramref name="newFolder"/>.

@@ -1,14 +1,14 @@
 ﻿using System.Diagnostics;
 
-namespace Athena.UI
+namespace Athena.DataModel.Core
 {
-    public static class ServiceProvider
+    public static class Services
     {
         private static IServiceProvider serviceProvider;
 
         public static void Register(IServiceProvider serviceProvider)
         {
-            ServiceProvider.serviceProvider = serviceProvider;
+            Services.serviceProvider = serviceProvider;
         }
 
         [DebuggerStepThrough]

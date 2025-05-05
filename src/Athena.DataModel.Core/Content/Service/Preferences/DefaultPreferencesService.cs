@@ -1,11 +1,12 @@
-﻿namespace Athena.UI
+﻿namespace Athena.DataModel.Core
 {
-    internal class DefaultPreferencesService : IPreferencesService
+    public class DefaultPreferencesService : IPreferencesService
     {
         private const string FirstUsageKey = "FirstUsage";
         private const string NameKey = "Name";
         private const string LanguageKey = "Language";
         private const string DefaultLanguage = "en-US";
+        private const string LastUsedVersion = "LastUsedVersion";
 
         /// <inheritdoc />  
         public bool IsFirstUsage()
@@ -53,6 +54,16 @@
         public void SetLanguage(string language)
         {
             Set(LanguageKey, language);
+        }
+
+        public int GetLastUsedVersion()
+        {
+            return Get(LastUsedVersion, 0);
+        }
+
+        public void SetLastUsedVersion(int version)
+        {
+            Set(LastUsedVersion, version);
         }
     }
 }

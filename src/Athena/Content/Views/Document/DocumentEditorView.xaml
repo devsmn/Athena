@@ -18,7 +18,7 @@
         </ResourceDictionary>
 
         <ControlTemplate x:Key="DocumentStep">
-            <local:DocumentEditorDocumentStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+            <local:DocumentEditorDocumentStep BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
         </ControlTemplate>
 
         <ControlTemplate x:Key="MetaInfoStep">
@@ -57,19 +57,19 @@
                 <Style TargetType="ContentView">
                     <Style.Triggers>
                         <DataTrigger TargetType="ContentView" 
-                                     Binding="{Binding Path=DocumentStep}"
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
                                      Value="0">
                             <Setter Property="ControlTemplate" Value="{StaticResource DocumentStep}" />
                         </DataTrigger>
 
                         <DataTrigger TargetType="ContentView"
-                                     Binding="{Binding Path=DocumentStep}"
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
                                      Value="1">
                             <Setter Property="ControlTemplate" Value="{StaticResource MetaInfoStep}" />
                         </DataTrigger>
 
                         <DataTrigger TargetType="ContentView"
-                                     Binding="{Binding Path=DocumentStep}"
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
                                      Value="2">
                             <Setter Property="ControlTemplate" Value="{StaticResource SavingStep}" />
                         </DataTrigger>
@@ -89,19 +89,19 @@
             <Button.Style>
                 <Style TargetType="Button">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=DocumentStep}"
+                        <DataTrigger Binding="{Binding Path=StepHandler.StepIndex}"
                              TargetType="Button"
                              Value="0">
                             <Setter Property="Text" Value="{x:Static loc:Localization.Next}"/>
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding Path=DocumentStep}"
+                        <DataTrigger Binding="{Binding Path=StepHandler.StepIndex}"
                              TargetType="Button"
                              Value="1">
                             <Setter Property="Text" Value="{x:Static loc:Localization.Save}"/>
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding Path=DocumentStep}"
+                        <DataTrigger Binding="{Binding Path=StepHandler.StepIndex}"
                                      TargetType="Button"
                                      Value="2">
                             <Setter Property="Text" Value="{x:Static loc:Localization.Close}"/>

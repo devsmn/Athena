@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -24,7 +25,7 @@ namespace Athena.UI
 
         public SettingsViewModel()
         {
-            _languageService = ServiceProvider.GetService<ILanguageService>();
+            _languageService = Services.GetService<ILanguageService>();
             Languages = new ObservableCollection<LanguageViewModel>(_languageService.GetSupportedLanguages());
 
             string lan = _languageService.GetLanguage();

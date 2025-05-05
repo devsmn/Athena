@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -18,6 +18,12 @@
 		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	</PropertyGroup>
+  <!--<ItemGroup>
+    <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
+  </ItemGroup>-->
 	<ItemGroup>
 	  <ProjectReference Include="..\Athena.Data.Core\Athena.Data.Core.csproj" />
 	  <ProjectReference Include="..\Athena.Data.SQLite\Athena.Data.SQLite.csproj" />
@@ -29,7 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.60" />
+	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
 	</ItemGroup>
 
 	<ItemGroup>

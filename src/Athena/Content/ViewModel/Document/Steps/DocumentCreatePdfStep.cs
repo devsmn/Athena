@@ -1,0 +1,155 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Athena.DataModel.Core;
+using Athena.DataModel;
+using Athena.UI;
+using Microsoft.Extensions.DependencyInjection;
+using TesseractOcrMaui;
+using TesseractOcrMaui.Results;
+
+namespace Athena.UI
+{
+
+    internal class DocumentCreatePdfStep : IViewStep<DocumentEditorViewModel>
+    {
+        private DocumentEditorViewModel _vm;
+        private IContext _context;
+
+        public async Task ExecuteAsync(IContext context, DocumentEditorViewModel vm)
+        {
+            this._vm = vm;
+            _context = context;
+            await CreatePdfStep();
+        }
+
+        private async Task CreatePdfStep()
+        {
+            _vm.IsBusy = true;
+            Report("Converting document to pdf...");
+
+            PdfCreationSummary summary = new();
+            StringBuilder pdfText = new();
+
+            _vm.ShowAd();
+            _vm.Document.Pdf = await CreatePdf(_context, summary, pdfText);
+            await PostProcessPdf(_context, summary, pdfText);
+            summary.Finish();
+
+            Report("Publishing changes...");
+
+            IDataBrokerService dataService = Services.GetService<IDataBrokerService>();
+
+            dataService.Publish(_context, _vm.Document.Document, UpdateType.Add, _vm.ParentFolder.Key);
+            dataService.Publish(_context, _vm.Document.Document, UpdateType.Edit, _vm.ParentFolder.Key);
+
+
+            _vm.IsBusy = false;
+            Report("Finished!");
+
+            _vm.DocumentReports = new ObservableCollection<PdfCreationSummaryStep>(summary.Reports);
+        }
+
+        private void Report(string msg)
+        {
+            MainThread.BeginInvokeOnMainThread(() => _vm.BusyText = msg);
+        }
+
+        private async Task<byte[]> CreatePdf(IContext context, PdfCreationSummary summary, StringBuilder pdfText)
+        {
+            IPdfCreatorService pdfCreator = Services.GetService<IPdfCreatorService>();
+            pdfCreator.Report = Report;
+
+            return await Task.Run(async () => await pdfCreator.CreateAsync(
+                context,
+                summary,
+                _vm.Document.Name,
+                _vm.Images,
+                _vm.DetectText,
+                pdfText));
+        }
+
+        private async Task PostProcessPdf(IContext context, PdfCreationSummary summary, StringBuilder pdfText)
+        {
+            Report("Saving tags...");
+
+            foreach (var tag in _vm.SelectedTags)
+            {
+                _vm.Document.Tags.Add(tag);
+            }
+
+            _vm.ParentFolder.AddDocument(_vm.Document);
+            _vm.ParentFolder.Save(context);
+
+            if (_vm.DetectText)
+            {
+                var ocr = Services.GetService<ITesseract>();
+                int docIdx = 0;
+
+                StringBuilder sb = new StringBuilder();
+
+                foreach (var document in _vm.Images)
+                {
+                    if (document.IsPdf)
+                        continue;
+
+                    Report($"Detecting text in document #{++docIdx}. This may take a while");
+
+                    var result = await ocr.RecognizeTextAsync(document.ImagePath);
+
+                    if (!result.FinishedWithSuccess())
+                    {
+                        summary.Report(
+                            document.Id,
+                            $"Unable to detect text: {result.Message}",
+                            ReportIssueLevel.Error);
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(result.RecognisedText))
+                        {
+                            summary.Report(
+                                document.Id,
+                                $"Document contains no text",
+                                ReportIssueLevel.Warning);
+                        }
+                        else
+                        {
+                            sb.Append(result.RecognisedText);
+                            sb.AppendLine();
+
+                            summary.Report(
+                                document.Id,
+                                $"Detected text",
+                                ReportIssueLevel.Success);
+
+                            if (result.Confidence < 0.7)
+                            {
+                                summary.Report(
+                                    document.Id,
+                                    "Bad image quality, detected text might not be accurate",
+                                    ReportIssueLevel.Warning);
+                            }
+                        }
+                    }
+                }
+
+                sb.Append(pdfText);
+
+                if (sb.Length > 0)
+                {
+                    Chapter chapter = new Chapter(_vm.Document.Key.Id, docIdx, sb.ToString())
+                    {
+                        FolderId = _vm.ParentFolder.Id.ToString()
+                    };
+
+                    chapter.Save(context);
+                }
+            }
+        }
+    }
+
+}

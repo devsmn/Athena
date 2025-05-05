@@ -11,6 +11,7 @@ namespace Athena.UI
 {
     using DataModel;
     using CommunityToolkit.Maui.Alerts;
+    using Athena.DataModel.Core;
 
     public partial class DocumentDetailsViewModel : ContextViewModel
     {
@@ -131,7 +132,7 @@ namespace Athena.UI
             Document.Document.Delete(context);
 
             await Toast.Make(string.Format(Localization.DocumentDeleted, Document.Name), ToastDuration.Long).Show();
-            ServiceProvider.GetService<IDataBrokerService>().Publish<Document>(context, Document, UpdateType.Delete, _parentFolder?.Key);
+            Services.GetService<IDataBrokerService>().Publish<Document>(context, Document, UpdateType.Delete, _parentFolder?.Key);
 
             await PopAsync();
         }
@@ -249,7 +250,7 @@ namespace Athena.UI
 
                 await Toast.Make(string.Format(Localization.DocumentDeleted, name), ToastDuration.Long).Show();
 
-                ServiceProvider.GetService<IDataBrokerService>().Publish(
+                Services.GetService<IDataBrokerService>().Publish(
                     context,
                     Document.Document,
                     UpdateType.Delete,

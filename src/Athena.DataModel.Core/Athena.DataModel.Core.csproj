@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -18,6 +18,12 @@
 		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	</PropertyGroup>
+  <!--<ItemGroup>
+    <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
+  </ItemGroup>-->
 	<ItemGroup>
 	  <AndroidResource Remove="Content\Entities\Keys\Core\**" />
 	  <Compile Remove="Content\Entities\Keys\Core\**" />
@@ -28,11 +34,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="EasyCompressor.LZ4" Version="2.1.0" />
 	  <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.60" />
+	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
 	</ItemGroup>
 
 	<ItemGroup>

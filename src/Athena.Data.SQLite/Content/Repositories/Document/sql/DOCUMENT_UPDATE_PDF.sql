@@ -1,0 +1,3 @@
+UPDATE DOCUMENT
+SET DOC_pdf = @DOC_pdf
+WHERE DOC_ref = @DOC_ref;

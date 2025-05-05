@@ -9,6 +9,7 @@ namespace Athena.UI
         /// <summary>
         /// Initializes a new instance of <see cref="AthenaAppContext"/>.
         /// </summary>
+        [DebuggerStepThrough]
         public AthenaAppContext()
         {
             CancellationToken = CancellationToken.None;

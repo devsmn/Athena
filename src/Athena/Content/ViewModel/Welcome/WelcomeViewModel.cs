@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -49,12 +50,14 @@ namespace Athena.UI
         private readonly ILanguageService _languageService;
         private readonly IGreetingService _greetingService;
         private readonly IPreferencesService _prefService;
+        private readonly ICompatibilityService _compatService;
 
         public WelcomeViewModel()
         {
-            _greetingService = ServiceProvider.GetService<IGreetingService>();
-            _languageService = ServiceProvider.GetService<ILanguageService>();
-            _prefService = ServiceProvider.GetService<IPreferencesService>();
+            _greetingService = Services.GetService<IGreetingService>();
+            _languageService = Services.GetService<ILanguageService>();
+            _prefService = Services.GetService<IPreferencesService>();
+            _compatService = Services.GetService<ICompatibilityService>();
 
             Languages = new ObservableCollection<LanguageViewModel>(_languageService.GetSupportedLanguages());
             SelectedLanguage = Languages[0];
@@ -74,6 +77,7 @@ namespace Athena.UI
 
             if (Step > 2)
             {
+                _compatService.UpdateLastUsedVersion();
                 _prefService.SetFirstUsage();
                 _prefService.SetName(Name);
                 _languageService.SetLanguage(RetrieveContext(), SelectedLanguage.Id, true);

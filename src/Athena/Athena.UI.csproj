@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 <Import Project="..\..\version.props" />  
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -36,9 +36,9 @@
 	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>-->
 
-<ItemGroup>
-  <AndroidSkipResourceProcessing Include="AnimalSniffer*" />
-</ItemGroup>
+  <!--<ItemGroup>
+    <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
+  </ItemGroup>-->
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
 	  <Debugger>Xamarin</Debugger>
@@ -60,11 +60,11 @@
 	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
 	  <AndroidUseAapt2>True</AndroidUseAapt2>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-	  <AndroidPackageFormat>aab</AndroidPackageFormat>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-	  <AndroidPackageFormat>aab</AndroidPackageFormat>
+	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	  <AndroidUseAapt2>True</AndroidUseAapt2>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
 	  <DebugSymbols>False</DebugSymbols>
@@ -97,10 +97,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Content\Views\Folder\Steps\**" />
+	  <AndroidSkipResourceProcessing Remove="Content\Views\Folder\Steps\**" />
+	  <Compile Remove="Content\Views\Folder\Steps\**" />
 	  <Compile Remove="Content\Views\Page\**" />
+	  <EmbeddedResource Remove="Content\Views\Folder\Steps\**" />
 	  <EmbeddedResource Remove="Content\Views\Page\**" />
+	  <MauiCss Remove="Content\Views\Folder\Steps\**" />
 	  <MauiCss Remove="Content\Views\Page\**" />
+	  <MauiXaml Remove="Content\Views\Folder\Steps\**" />
 	  <MauiXaml Remove="Content\Views\Page\**" />
+	  <None Remove="Content\Views\Folder\Steps\**" />
 	  <None Remove="Content\Views\Page\**" />
 	</ItemGroup>
 
@@ -212,7 +219,7 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
-		<PackageReference Include="Plugin.AdMob" Version="1.1.0" />
+		<PackageReference Include="Plugin.AdMob" Version="2.3.1" />
 		<PackageReference Include="Syncfusion.Licensing" Version="29.1.38" />
 		<PackageReference Include="Syncfusion.Maui.Buttons" Version="29.1.38" />
 		<PackageReference Include="Syncfusion.Maui.Carousel" Version="29.1.38" />
@@ -282,21 +289,6 @@
 	  <MauiXaml Update="Content\Views\Tags\TagsOverview.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-    <MauiXaml Update="Content\Views\Document\DocumentEditorDocumentCropView.xaml.">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="Content\Views\Document\DocumentEditorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorSavingStep.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorMetaInfoStep.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorDocumentStep.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
     <MauiXaml Update="Content\Views\Folder\FolderOverview.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -320,10 +312,6 @@
     </MauiXaml>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Content\Views\Folder\Steps\" />
-	</ItemGroup>
-
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
 	  <PackageReference Include="ImageCropper.Maui">
 	    <Version>1.0.3</Version>
@@ -336,9 +324,9 @@
 	  </PackageReference>
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
 	  <PackageReference Include="Xamarin.AndroidX.Collection.Ktx">
-	    <Version>1.4.0.2</Version>
+	    <Version>1.5.0.1</Version>
 	  </PackageReference>
 	</ItemGroup>
 
@@ -374,7 +362,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.60" />
+	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
 	</ItemGroup>
 
 </Project>

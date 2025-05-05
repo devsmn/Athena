@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -18,26 +18,9 @@
 		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <AndroidResource Remove="Content\Repositories\Chapter\NewFolder\**" />
-	  <AndroidResource Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
-	  <AndroidResource Remove="Content\Repositories\Document\sql\NewFolder\**" />
-	  <Compile Remove="Content\Repositories\Chapter\NewFolder\**" />
-	  <Compile Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
-	  <Compile Remove="Content\Repositories\Document\sql\NewFolder\**" />
-	  <EmbeddedResource Remove="Content\Repositories\Chapter\NewFolder\**" />
-	  <EmbeddedResource Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
-	  <EmbeddedResource Remove="Content\Repositories\Document\sql\NewFolder\**" />
-	  <MauiCss Remove="Content\Repositories\Chapter\NewFolder\**" />
-	  <MauiCss Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
-	  <MauiCss Remove="Content\Repositories\Document\sql\NewFolder\**" />
-	  <MauiXaml Remove="Content\Repositories\Chapter\NewFolder\**" />
-	  <MauiXaml Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
-	  <MauiXaml Remove="Content\Repositories\Document\sql\NewFolder\**" />
-	  <None Remove="Content\Repositories\Chapter\NewFolder\**" />
-	  <None Remove="Content\Repositories\Chapter\sql\NewFolder\**" />
-	  <None Remove="Content\Repositories\Document\sql\NewFolder\**" />
-	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	</PropertyGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="Athena.Data.SQLite.Proxy" />
@@ -69,6 +52,66 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_COUNT.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </MauiAsset>
+    <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_DELETE.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_FTS_MOVE.sql">
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_INSERT.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </MauiAsset>
+    <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_MOVE.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_READ.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </MauiAsset>
+    <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_READ_PDF.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </MauiAsset>
+    <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_READ_RECENT.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </MauiAsset>
+    <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_SEARCH_NOTAG.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </MauiAsset>
+    <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_SEARCH_TAG.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_TAG_DELETE.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_TAG_INSERT.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_TAG_READ.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_UPDATE.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
+	  <MauiAsset Include="Content\Repositories\Document\sql\DOCUMENT_UPDATE_PDF.sql">
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </MauiAsset>
 	  <MauiAsset Include="Content\Repositories\Folder\sql\FOLDER_COUNT.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
@@ -154,13 +197,20 @@
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
 	</ItemGroup>
-
+  <!--<ItemGroup>
+    <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
+  </ItemGroup>-->
+  <ItemGroup>
+    <AndroidResource Remove="Content\Repositories\Document\sql\NewFolder\**" />
+    <AndroidSkipResourceProcessing Remove="Content\Repositories\Document\sql\NewFolder\**" />
+    <Compile Remove="Content\Repositories\Document\sql\NewFolder\**" />
+    <EmbeddedResource Remove="Content\Repositories\Document\sql\NewFolder\**" />
+    <MauiCss Remove="Content\Repositories\Document\sql\NewFolder\**" />
+    <MauiXaml Remove="Content\Repositories\Document\sql\NewFolder\**" />
+    <None Remove="Content\Repositories\Document\sql\NewFolder\**" />
+  </ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Content\Repositories\Tag\sql\NewFolder\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.60" />
+	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
 	</ItemGroup>
 
 	<ItemGroup>
