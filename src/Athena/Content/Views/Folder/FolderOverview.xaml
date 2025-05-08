@@ -425,7 +425,7 @@
                 HorizontalOptions="End"
                 VerticalOptions="End"
                 WidthRequest="60"
-                Margin="5"
+                Margin="10"
                 HeightRequest="60"
                 CornerRadius="30"
                 FontSize="30" 
@@ -444,31 +444,48 @@
             <p:SfPopup.ContentTemplate>
                 <DataTemplate>
                     <VerticalStackLayout HorizontalOptions="End"
-                                         VerticalOptions="End">
+                                         VerticalOptions="End"
+                                         Margin="5">
 
                         <sfb:SfButton ImageSize="25" 
-                                      Background="{x:StaticResource Primary}"
-                                      TextColor="White"
+                                      Background="{x:StaticResource Secondary}"
+                                      TextColor="Black"
                                       ShowIcon="True"
-                                      Margin="3,3,3,0"
+                                      Margin="3,3,5,0"
                                       Text="{x:Static loc:Localization.AddDocument}"
                                       HorizontalTextAlignment="Start"
-                                      CornerRadius="30"
+                                      CornerRadius="16"
+                                      MaximumHeightRequest="50"
                                       Command="{Binding AddDocumentCommand}"
                                       WidthRequest="165"
-                                      ImageSource="add_document.png"/>
+                                      ImageSource="add_document.png">
+                            <sfb:SfButton.Shadow>
+                                <Shadow  Brush="Black"
+                                         Offset="0,4"
+                                         Radius="8"
+                                         Opacity="0.2"/>
+                            </sfb:SfButton.Shadow>
+                        </sfb:SfButton>
 
                         <sfb:SfButton ImageSize="25" 
-                                      Background="{x:StaticResource Primary}"
+                                      Background="{x:StaticResource Secondary}"
                                       ShowIcon="True"
-                                      Margin="3"
+                                      Margin="3,3,5,0"
                                       HorizontalTextAlignment="Start"
-                                      TextColor="White"
-                                      CornerRadius="30"
+                                      TextColor="Black"
+                                      CornerRadius="16"
+                                      MaximumHeightRequest="50"
                                       WidthRequest="165"
                                       Command="{Binding AddFolderCommand}"
                                       Text="{x:Static loc:Localization.AddFolder}"
-                                      ImageSource="add_folder.png"/>
+                                      ImageSource="add_folder.png">
+                            <sfb:SfButton.Shadow>
+                                <Shadow  Brush="Black"
+                                         Offset="0,4"
+                                         Radius="8"
+                                         Opacity="0.2"/>
+                            </sfb:SfButton.Shadow>
+                        </sfb:SfButton>
 
                     </VerticalStackLayout>
 

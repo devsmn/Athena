@@ -1065,6 +1065,16 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The text detection is currently not available because no languages have been selected.
+        ///Make sure that the desired languages have been selected in the settings..
+        /// </summary>
+        public static string TextDetectionNotAvailable {
+            get {
+                return ResourceManager.GetString("TextDetectionNotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter your name.
         /// </summary>
         public static string WelcomeEnterName {

@@ -455,6 +455,10 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="TextColor" xml:space="preserve">
     <value>Text color</value>
   </data>
+  <data name="TextDetectionNotAvailable" xml:space="preserve">
+    <value>The text detection is currently not available because no languages have been selected.
+Make sure that the desired languages have been selected in the settings.</value>
+  </data>
   <data name="WelcomeEnterName" xml:space="preserve">
     <value>Please enter your name</value>
   </data>

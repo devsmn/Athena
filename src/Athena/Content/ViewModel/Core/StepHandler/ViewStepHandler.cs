@@ -18,11 +18,21 @@ namespace Athena.UI
             _vm = vm;
         }
 
+        /// <summary>
+        /// Registers a new <see cref="IViewStep{TViewModel}"/> that executes a certain action.
+        /// </summary>
+        /// <typeparam name="TStep"></typeparam>
+        /// <param name="index"></param>
+        /// <param name="step"></param>
         public void Register<TStep>(int index, TStep step) where TStep : IViewStep<TViewModel>
         {
             _steps.Add(index, step);
         }
 
+        /// <summary>
+        /// Registers a new increase/decrease only step. Mainly used for binding different view states.
+        /// </summary>
+        /// <param name="index"></param>
         public void RegisterIncrease(int index)
         {
             _increaseSteps.Add(index);
@@ -47,7 +57,7 @@ namespace Athena.UI
         public async Task<bool> Back(IContext context)
         {
             int tmpIndex = StepIndex;
-            tmpIndex++;
+            tmpIndex--;
 
             if (_increaseSteps.Contains(tmpIndex))
             {
