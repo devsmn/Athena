@@ -115,6 +115,9 @@
           "description": "Signing key pass",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
         },
+        "AppProject": {
+          "type": "string"
+        },
         "Configuration": {
           "type": "string",
           "description": "Configuration to build: Release (Default) or Debug",

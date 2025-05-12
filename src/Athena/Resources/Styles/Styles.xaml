@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <?xaml-comp compile="true" ?>
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -69,8 +69,42 @@
         </Setter>
     </Style>
 
-    <Style TargetType="sfb:SfButton">
-        <Setter Property="TextColor" Value="Black" />
+    <Style TargetType="sfb:SfButton" x:Key="PrimaryButtonFlat">
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="CornerRadius" Value="16" />
+    </Style>
+
+    <Style TargetType="sfb:SfButton" x:Key="PrimaryButton"
+           BasedOn="{StaticResource PrimaryButtonFlat}">
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="Black"
+                        Opacity="0.2"
+                        Offset="0,4"
+                        Radius="8"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="sfb:SfButton" x:Key="SecondaryButtonFlat">
+        <Setter Property="Background" Value="{StaticResource Secondary}" />
+        <Setter Property="Stroke" Value="Gray" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="CornerRadius" Value="16" />
+    </Style>
+
+    <Style TargetType="sfb:SfButton" x:Key="SecondaryButton"
+           BasedOn="{StaticResource SecondaryButtonFlat}">
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="Black"
+                        Opacity="0.2"
+                        Offset="0,4"
+                        Radius="8"/>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 

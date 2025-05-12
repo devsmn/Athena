@@ -46,6 +46,9 @@ internal class AthenaBuild : NukeBuild
     [Parameter]
     private readonly string Solution;
 
+    [Parameter]
+    private readonly string AppProject;
+
     private AbsolutePath SourceDirectory => RootDirectory / "src";
     private static AbsolutePath BuildDirectory => RootDirectory / "build";
     private static AbsolutePath OutputDirectory => RootDirectory / "output";
@@ -91,7 +94,7 @@ internal class AthenaBuild : NukeBuild
     private void BuildCore()
     {
         DotNetTasks.DotNetPublish(_ => _
-            .SetProject(Path.Combine(SourceDirectory, Solution))
+            .SetProject(Path.Combine(SourceDirectory, AppProject))
             .SetConfiguration(Configuration)
             .SetFramework("net9.0-android")
             .SetVerbosity(DotNetVerbosity.normal)

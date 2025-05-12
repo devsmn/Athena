@@ -37,7 +37,7 @@ namespace Athena.UI
         private async Task SelectionChanged()
         {
             bool confirm = await DisplayAlert(
-                Localization.Language,
+                Localization.DisplayLanguage,
                 string.Format(Localization.ChangeLanguageConfirm, SelectedLanguage.Name),
                 Localization.Yes,
                 Localization.No);

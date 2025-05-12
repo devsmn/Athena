@@ -175,6 +175,9 @@ Die Seite kann nicht wiederhergestellt werden!</value>
     <value>Möchtest du die Kategorie {0} wirklich löschen? 
 Der Tag kann nicht wiederhergestellt werden!</value>
   </data>
+  <data name="DisplayLanguage" xml:space="preserve">
+    <value>Anzeigesprache</value>
+  </data>
   <data name="DocFolderOverviewText" xml:space="preserve">
     <value>Du hast &lt;strong&gt;{0}&lt;/strong&gt; {1} und &lt;strong&gt;{2}&lt;/strong&gt; {3} erstellt</value>
   </data>
@@ -304,9 +307,6 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="GoodNight" xml:space="preserve">
     <value>Hallo</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Sprache</value>
-  </data>
   <data name="Loading pages" xml:space="preserve">
     <value>Seiten werden geladen...</value>
   </data>
@@ -419,6 +419,12 @@ Depending on the size of the documents, this process may take a moment.</comment
   </data>
   <data name="SettingsNewsTitle" xml:space="preserve">
     <value>Neuigkeiten</value>
+  </data>
+  <data name="SettingsOcrDesc" xml:space="preserve">
+    <value>Verwalte unterstützte  Sprachen</value>
+  </data>
+  <data name="SettingsOcrTitle" xml:space="preserve">
+    <value>Texterkennung</value>
   </data>
   <data name="SettingsPrivacyPolicyDesc" xml:space="preserve">
     <value>Rechtliche Informationen zum Datenschutz</value>

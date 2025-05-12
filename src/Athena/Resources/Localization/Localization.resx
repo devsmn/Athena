@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -175,6 +175,9 @@ The page cannot be recovered!</value>
     <value>Do you really want to delete the tag {0}?
 The tag cannot be recovered!</value>
   </data>
+  <data name="DisplayLanguage" xml:space="preserve">
+    <value>Display language</value>
+  </data>
   <data name="DocFolderOverviewText" xml:space="preserve">
     <value>You created &lt;strong&gt;{0}&lt;/strong&gt; {1} and &lt;strong&gt;{2}&lt;/strong&gt; {3}</value>
   </data>
@@ -299,9 +302,6 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="GoodNight" xml:space="preserve">
     <value>Hello</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
-  </data>
   <data name="LoadingDocuments" xml:space="preserve">
     <value>Loading documents...</value>
   </data>
@@ -412,6 +412,12 @@ Depending on the size of the documents, this process may take a moment.</value>
   </data>
   <data name="SettingsNewsTitle" xml:space="preserve">
     <value>News</value>
+  </data>
+  <data name="SettingsOcrDesc" xml:space="preserve">
+    <value>Manage supported languages</value>
+  </data>
+  <data name="SettingsOcrTitle" xml:space="preserve">
+    <value>Text detection</value>
   </data>
   <data name="SettingsPrivacyPolicyDesc" xml:space="preserve">
     <value>Legal information about Privacy policy</value>

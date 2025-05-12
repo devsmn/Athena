@@ -1,6 +1,7 @@
 {
-  "$schema": "build.schema.json",
-  "Solution": "Athena/Athena.sln",
-  "AndroidSigningKeyAlias": "v1:GMNJFz8U6CKUAbLjqKFeUw==",
-  "AndroidSingingKeyPassword": "v1:m9GmNJ7s7PDAYGNHWeX82AUYqd3CSqI8E2Hvwqz22Dw="
+    "$schema": "build.schema.json",
+    "Solution": "Athena/Athena.sln",
+    "AppProject":  "Athena/Athena.UI.csproj",
+    "AndroidSigningKeyAlias": "v1:GMNJFz8U6CKUAbLjqKFeUw==",
+    "AndroidSingingKeyPassword": "v1:m9GmNJ7s7PDAYGNHWeX82AUYqd3CSqI8E2Hvwqz22Dw="
 }

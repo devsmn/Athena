@@ -1,4 +1,4 @@
-using Athena.Content.Views;
+﻿using Athena.Content.Views;
 
 namespace Athena.UI;
 
@@ -39,5 +39,10 @@ public partial class SettingsView : ContentPage
     private async void OnFeedbackClicked(object sender, EventArgs e)
     {
         await Navigation.PushModalAsync(new WebViewPage("https://forms.gle/SDAERdx1JGny77EZ7"));
+    }
+
+    private async void OnOcrLanguagesClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new OcrLanguageSettings());
     }
 }

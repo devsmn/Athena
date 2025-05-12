@@ -1,5 +1,9 @@
-﻿using System.Text;
+﻿using System.Reflection.Metadata;
+using System.Text;
+using Android.Content;
 using Android.Net;
+using Android.Telephony;
+using Athena.DataModel.Core;
 using TesseractOcrMaui;
 using TesseractOcrMaui.Enums;
 using TesseractOcrMaui.Exceptions;
@@ -11,7 +15,7 @@ namespace Athena.UI
     {
         private TessEngine _engine;
         private OcrError _error;
-        private string _supportedLanguages;
+        private string _installedLanguages;
         private string _dataDirectory;
         private bool _dataValidated;
 
@@ -21,31 +25,24 @@ namespace Athena.UI
         {
             get
             {
-                if (!_dataValidated)
-                    ValidateData();
-
+                EnsureDataValidated();
                 return _error;
             }
             private set => _error = value;
         }
 
 
-        private void ValidateData()
+        private void ValidateData(IContext context = null)
         {
-            _supportedLanguages = string.Empty;
-            _dataDirectory = string.Empty;
+            context?.Log("Validating installation");
+            _installedLanguages = string.Empty;
+            _dataDirectory = Path.Combine(FileSystem.Current.AppDataDirectory, "trainedOcrData");
 
-            string dataFolder = Path.Combine(FileSystem.Current.AppDataDirectory, "trainedOcrData");
+            if (!Directory.Exists(_dataDirectory))
+                Directory.CreateDirectory(_dataDirectory);
 
-            if (!Directory.Exists(dataFolder))
-            {
-                Error = OcrError.TrainedDataDirectoryMissing;
-                return;
-            }
-
-            string[] files = Directory.GetFiles(dataFolder);
+            string[] files = Directory.GetFiles(_dataDirectory);
             StringBuilder languages = new();
-
 
             if (files.Length == 0)
             {
@@ -59,11 +56,11 @@ namespace Athena.UI
                 languages.Append($"{lan}+");
             }
 
-            _supportedLanguages = languages.ToString();
+            _installedLanguages = languages.ToString();
 
-            if (!string.IsNullOrEmpty(_supportedLanguages))
+            if (!string.IsNullOrEmpty(_installedLanguages))
             {
-                _supportedLanguages = _supportedLanguages.Substring(0, _supportedLanguages.Length - 2);
+                _installedLanguages = _installedLanguages.Substring(0, _installedLanguages.Length - 1);
                 return;
             }
 
@@ -75,7 +72,7 @@ namespace Athena.UI
             ValidateData();
 
             if (Error == OcrError.None)
-                return new TessEngine(_dataDirectory, _supportedLanguages);
+                return new TessEngine(_dataDirectory, _installedLanguages);
 
             return null;
         }
@@ -84,6 +81,85 @@ namespace Athena.UI
         {
             _engine = null;
             _dataValidated = false;
+        }
+
+        private void EnsureDataValidated()
+        {
+            if (!_dataValidated)
+                ValidateData();
+        }
+
+        public string[] GetInstalledLanguages(IContext context)
+        {
+            context.Log("Getting installed languages");
+
+            EnsureDataValidated();
+
+            if (string.IsNullOrEmpty(_installedLanguages))
+                return null;
+
+            return _installedLanguages.Split('+', StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        public void DeleteInstalledLanguages(IContext context)
+        {
+            EnsureDataValidated();
+
+            string[] files = Directory.GetFiles(_dataDirectory);
+
+            foreach (string file in files)
+            {
+                try
+                {
+                    context.Log($"Deleting {file}");
+                    File.Delete(file);
+                }
+                catch (Exception ex)
+                {
+                    context.Log($"Unable to delete {file}: {ex.Message}");
+                }
+            }
+        }
+
+        public void DeleteInstalledLanguages(IContext context, IEnumerable<string> languages)
+        {
+            EnsureDataValidated();
+
+            string[] files = Directory.GetFiles(_dataDirectory);
+            Dictionary<string, string> localFiles = files.ToDictionary(Path.GetFileNameWithoutExtension);
+
+            foreach (string lan in languages)
+            {
+                if (!localFiles.TryGetValue(lan, out string fullPath))
+                    continue;
+
+                try
+                {
+                    context.Log($"Deleting {fullPath}");
+                    File.Delete(fullPath);
+                }
+                catch (Exception ex)
+                {
+                    context.Log($"Unable to delete {fullPath}: {ex.Message}");
+                }
+            }
+        }
+
+        public async Task DownloadLanguagesAsync(IContext context, IEnumerable<string> languages)
+        {
+            EnsureDataValidated();
+
+            IDownloadService downloadService = Services.GetService<IDownloadService>();
+
+            string url = @"https://github.com/tesseract-ocr/tessdata_fast/raw/main/{0}.traineddata";
+
+            foreach (string lan in languages)
+            {
+                await downloadService.DownloadAsync(
+                    context,
+                    string.Format(url, lan),
+                    Path.Combine(_dataDirectory, $"{lan}.traineddata"));
+            }
         }
 
         public async Task<RecognizionResult> RecognizeTextAsync(string path)

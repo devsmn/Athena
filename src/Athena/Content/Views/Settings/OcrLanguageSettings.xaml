@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ui="clr-namespace:Athena.UI"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             x:Name="page"
+             Style="{StaticResource ContentPageStyle}"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             x:Class="Athena.UI.OcrLanguageSettings"
+             Title="OcrLanguageSettings">
+  
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ui:LanguageSizeToMbConverter x:Key="LanguageSizeToMbConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+
+        <!--<sf:SfListView ItemsSource="{Binding AllSupportedLanguages}">
+            <sf:SfListView.ItemTemplate>
+                <DataTemplate>
+                    <sfb:SfCheckBox Text="{Binding DisplayName}"
+                                    x:Name="checkbox"
+                                    IsChecked="{Binding IsChecked}">
+                        <sfb:SfCheckBox.Behaviors>
+                            <toolkit:EventToCommandBehavior
+                                BindingContext="{Binding Path=BindingContext, Source={x:Reference checkbox}}"
+                                EventName="StateChanged"
+                                Command="{Binding Source={x:Reference page}, Path=BindingContext.IsCheckedChangedCommand}" />
+                        </sfb:SfCheckBox.Behaviors>
+                    </sfb:SfCheckBox>
+                </DataTemplate>
+            </sf:SfListView.ItemTemplate>
+        </sf:SfListView>-->
+
+        <editors:SfAutocomplete ItemsSource="{Binding AllSupportedLanguages}"
+                                DisplayMemberPath="DisplayName"
+                                SelectionMode="Multiple"
+                                EnableAutoSize="True"
+                                Margin="5"
+                                Placeholder="Start typing to select languages..."
+                                IsClearButtonVisible="False"
+                                x:Name="list"
+                                TextSearchMode="Contains"
+                                TextMemberPath="DisplayName"
+                                SelectedItems="{Binding SelectedSupportedLanguages}"
+                                TokensWrapMode="Wrap"
+                                >
+            <editors:SfAutocomplete.Behaviors>
+                <toolkit:EventToCommandBehavior
+                    BindingContext="{Binding Path=BindingContext, Source={x:Reference list}}"
+                    EventName="SelectionChanged"
+                    Command="{Binding Source={x:Reference page}, Path=BindingContext.IsCheckedChangedCommand}" />
+            </editors:SfAutocomplete.Behaviors>
+
+        </editors:SfAutocomplete>
+         
+        <Grid Grid.Row="1"
+              Background="White" 
+                VerticalOptions="End"
+              >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto "/>
+                <RowDefinition Height="auto "/>
+                <RowDefinition Height="auto "/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Margin="5"
+                   Grid.Row="0"
+                   Grid.ColumnSpan="2">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Estimated local size: "  />
+                        <Span Text="{Binding EstimatedLocalSize, Converter={x:StaticResource LanguageSizeToMbConverter}}" FontAttributes="Bold"  />
+                        <Span Text=" MB" FontAttributes="Bold"  />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label Margin="5,0,5,5"
+                   Grid.Row="1"
+                   Grid.ColumnSpan="2">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Estimated download size: "  />
+                        <Span Text="{Binding EstimatedDownloadSize, Converter={x:StaticResource LanguageSizeToMbConverter}}" FontAttributes="Bold" />
+                        <Span Text=" MB" FontAttributes="Bold"  />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <sfb:SfButton Grid.Row="2"
+                          Margin="5"
+                          Grid.Column="0"
+                          Style="{StaticResource PrimaryButtonFlat}"
+                          Command="{Binding UpdateLanguagesCommand}"
+                          Text="Update">
+            </sfb:SfButton>
+
+            <sfb:SfButton Text="Delete installed languages"
+                          Margin="5"
+                          Style="{StaticResource SecondaryButtonFlat}"
+                          Grid.Row="2"
+                          Grid.Column="1"
+                          Command="{Binding DeleteLocalFilesCommand}"
+                          />
+
+
+        </Grid>
+
+        <p:SfPopup x:Name="sfPopup"
+                   HeaderTitle="Loading"
+                   StaysOpen="True"
+                   IsOpen="{Binding IsBusy}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate >
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="true" />
+                        <Label Text="{Binding BusyText}"
+                               Margin="5"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+
+    </Grid>
+
+</ContentPage>

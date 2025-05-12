@@ -227,6 +227,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display language.
+        /// </summary>
+        public static string DisplayLanguage {
+            get {
+                return ResourceManager.GetString("DisplayLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You created &lt;strong&gt;{0}&lt;/strong&gt; {1} and &lt;strong&gt;{2}&lt;/strong&gt; {3}.
         /// </summary>
         public static string DocFolderOverviewText {
@@ -597,15 +606,6 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Language.
-        /// </summary>
-        public static string Language {
-            get {
-                return ResourceManager.GetString("Language", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Loading documents....
         /// </summary>
         public static string LoadingDocuments {
@@ -935,6 +935,24 @@ namespace Athena.Resources.Localization {
         public static string SettingsNewsTitle {
             get {
                 return ResourceManager.GetString("SettingsNewsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage supported languages.
+        /// </summary>
+        public static string SettingsOcrDesc {
+            get {
+                return ResourceManager.GetString("SettingsOcrDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text detection.
+        /// </summary>
+        public static string SettingsOcrTitle {
+            get {
+                return ResourceManager.GetString("SettingsOcrTitle", resourceCulture);
             }
         }
         

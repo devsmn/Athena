@@ -51,6 +51,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<ICompressionService, DefaultCompressionService>();
         builder.Services.AddSingleton<ICompatibilityService, DefaultCompatibilityService>();
         builder.Services.AddSingleton<IOcrService, DefaultOcrService>();
+        builder.Services.AddTransient<IDownloadService, DefaultDownloadService>();
+        builder.Services.AddSingleton<INetworkService, DefaultNetworkService>();
 
         var app = builder.Build();
 
