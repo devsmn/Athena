@@ -1,9 +1,6 @@
-﻿using System.Reflection.Metadata;
-using System.Text;
-using Android.Content;
-using Android.Net;
-using Android.Telephony;
+﻿using System.Text;
 using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 using TesseractOcrMaui;
 using TesseractOcrMaui.Enums;
 using TesseractOcrMaui.Exceptions;
@@ -34,9 +31,10 @@ namespace Athena.UI
 
         private void ValidateData(IContext context = null)
         {
-            context?.Log("Validating installation");
+            context?.Log(Localization.ValidatingInstalledLanguages);
             _installedLanguages = string.Empty;
             _dataDirectory = Path.Combine(FileSystem.Current.AppDataDirectory, "trainedOcrData");
+            _error = OcrError.None;
 
             if (!Directory.Exists(_dataDirectory))
                 Directory.CreateDirectory(_dataDirectory);
@@ -91,7 +89,7 @@ namespace Athena.UI
 
         public string[] GetInstalledLanguages(IContext context)
         {
-            context.Log("Getting installed languages");
+            context.Log(Localization.RetrievingInstalledLanguages);
 
             EnsureDataValidated();
 
@@ -109,15 +107,20 @@ namespace Athena.UI
 
             foreach (string file in files)
             {
-                try
-                {
-                    context.Log($"Deleting {file}");
-                    File.Delete(file);
-                }
-                catch (Exception ex)
-                {
-                    context.Log($"Unable to delete {file}: {ex.Message}");
-                }
+                DeleteLanguageCore(context, file);
+            }
+        }
+
+        private void DeleteLanguageCore(IContext context, string path)
+        {
+            try
+            {
+                context.Log(string.Format(Localization.DeletingLanguage, path));
+                File.Delete(path);
+            }
+            catch (Exception ex)
+            {
+                context.Log(ex);
             }
         }
 
@@ -133,15 +136,7 @@ namespace Athena.UI
                 if (!localFiles.TryGetValue(lan, out string fullPath))
                     continue;
 
-                try
-                {
-                    context.Log($"Deleting {fullPath}");
-                    File.Delete(fullPath);
-                }
-                catch (Exception ex)
-                {
-                    context.Log($"Unable to delete {fullPath}: {ex.Message}");
-                }
+                DeleteLanguageCore(context, fullPath);
             }
         }
 
@@ -155,6 +150,8 @@ namespace Athena.UI
 
             foreach (string lan in languages)
             {
+                context?.Log(string.Format(Localization.DownloadingLanguage, lan));
+
                 await downloadService.DownloadAsync(
                     context,
                     string.Format(url, lan),

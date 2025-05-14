@@ -31,16 +31,27 @@ namespace Athena.UI
 
         private bool _pendingChanges;
 
+        private bool PendingChanges
+        {
+            get => _pendingChanges;
+            set
+            {
+                _pendingChanges = value;
+                UpdateLanguagesCommand.NotifyCanExecuteChanged();
+            }
+        }
+
         public OcrLanguageSettingsViewModel()
         {
         }
 
-        public async Task LoadAllSupportedLanguagesAsync()
+        public async Task LoadAllSupportedLanguagesAsync(bool setFlags = true)
         {
             _loading = true;
-            IsBusy = true;
-            _pendingChanges = false;
-            ReportProgress("Loading languages");
+            if (setFlags)
+                IsBusy = true;
+            PendingChanges = false;
+            ReportProgress(Localization.RetrievingInstalledLanguages);
 
             await Task.Delay(100);
             EstimatedDownloadSize = 0d;
@@ -191,14 +202,15 @@ namespace Athena.UI
                         }
                     }
                 }
-
-
             });
 
             AllSupportedLanguages = new(tmpList.Values.OrderBy(x => x.DisplayName));
             SelectedSupportedLanguages = new(AllSupportedLanguages.Where(x => x.IsInstalled));
+            DeleteLocalFilesCommand.NotifyCanExecuteChanged();
 
-            IsBusy = false;
+            if (setFlags)
+                IsBusy = false;
+
             _loading = false;
         }
 
@@ -208,7 +220,7 @@ namespace Athena.UI
             if (_loading)
                 return;
 
-            _pendingChanges = true;
+            PendingChanges = true;
 
             EstimatedDownloadSize = SelectedSupportedLanguages
                 .Where(x => !x.IsInstalled)
@@ -219,56 +231,56 @@ namespace Athena.UI
                 .Sum(x => x.Size);
         }
 
-        [RelayCommand]
+        private bool CanDeleteLocalFiles()
+        {
+            return AllSupportedLanguages?.Any(x => x.IsInstalled) == true;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanDeleteLocalFiles))]
         private async Task DeleteLocalFiles()
         {
             IOcrService ocrService = Services.GetService<IOcrService>();
             IContext context = GetReportContext();
 
+            var toDelete = AllSupportedLanguages.Where(x => x.IsInstalled).ToList();
+
+            bool yes = await DisplayAlert(
+                Localization.DeleteInstalledLanguagesConfirmTitle,
+                string.Format(Localization.DeleteInstalledLanguagesConfirmText, toDelete.Count, toDelete.Sum(x => x.Size)),
+                Localization.Yes,
+                Localization.No);
+
+            if (!yes)
+                return;
+
+            await DeleteLocalFilesCore(context, ocrService);
+        }
+
+        private async Task DeleteLocalFilesCore(IContext context, IOcrService ocrService)
+        {
             IsBusy = true;
+
             await Task.Run(async () =>
             {
+                await Task.Delay(500);
                 ocrService.DeleteInstalledLanguages(context);
-                context.Log("Updating overview");
                 ocrService.Reset();
-                await LoadAllSupportedLanguagesAsync();
+                await LoadAllSupportedLanguagesAsync(false);
             });
 
             IsBusy = false;
-            await Toast.Make("Successfully deleted installed languages").Show();
+            await Toast.Make(Localization.InstalledLanguagesDeletedSuccessfully).Show();
 
         }
 
-        [RelayCommand]
+        public bool CanExecuteSave()
+        {
+            return _pendingChanges;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanExecuteSave))]
         private async Task UpdateLanguages()
         {
-            INetworkService networkService = Services.GetService<INetworkService>();
-
-            if (!networkService.IsInternetAccessPossible())
-            {
-                await DisplayAlert(
-                    "No internet connection",
-                    "You are not connected to the internet.",
-                    "Ok",
-                    string.Empty);
-
-                return;
-            }
-
-            bool yes = false;
-
-            if (!networkService.IsWifi())
-            {
-                yes = await DisplayAlert(
-                    "Internet connection",
-                    $"You are not connected to a WiFi network. Do you really want to download {Math.Round(EstimatedDownloadSize / 100.0, 2)} MB with your mobile data?",
-                    Localization.Yes,
-                    Localization.No);
-
-                if (!yes)
-                    return;
-            }
-
             var filesToDownload = SelectedSupportedLanguages
                 .Where(x => !x.IsInstalled)
                 .ToList();
@@ -278,14 +290,46 @@ namespace Athena.UI
                 .Except(SelectedSupportedLanguages)
                 .ToList();
 
-            string downloadInfo = $"download {filesToDownload.Count} ({Math.Round(EstimatedDownloadSize / 100.0, 2)} MB) language(s)";
-            string deleteInfo = $"delete {filesToDelete.Count} ({Math.Round(filesToDelete.Sum(x => x.Size / 100.0), 2)} MB) language(s)";
+            INetworkService networkService = Services.GetService<INetworkService>();
+            bool yes;
 
-            string info = "You are about to";
+            if (filesToDownload.Count > 0)
+            {
+                if (!networkService.IsInternetAccessPossible())
+                {
+                    await DisplayAlert(
+                        Localization.NotInternetTitle,
+                        Localization.NoInternetText,
+                        "Ok",
+                        string.Empty);
+
+                    filesToDownload.Clear();
+                }
+
+                if (filesToDownload.Count > 0 && !networkService.IsWifi())
+                {
+                    yes = await DisplayAlert(
+                        Localization.NoWlanConnectionTitle,
+                        string.Format(Localization.NoWlanConnectionText, Math.Round(EstimatedDownloadSize / 100.0, 2)),
+                        Localization.Yes,
+                        Localization.No);
+
+                    if (!yes)
+                        filesToDownload.Clear();
+                }
+            }
+
+            if (filesToDownload.Count == 0 && filesToDelete.Count == 0)
+                return;
+
+            string downloadInfo = string.Format(Localization.DownloadLanguagesInfo, filesToDownload.Count, Math.Round(EstimatedDownloadSize / 100.0, 2));
+            string deleteInfo = string.Format(Localization.DeleteLanguageInfo, filesToDelete.Count, Math.Round(filesToDelete.Sum(x => x.Size / 100.0), 2));
+
+            string info = Localization.SaveLanguagesPrefix;
 
             if (filesToDelete.Count > 0 && filesToDownload.Count > 0)
             {
-                info += $" {downloadInfo} and {deleteInfo}";
+                info += $" {downloadInfo} {Localization.SaveAnd} {deleteInfo}";
             }
             else if (filesToDelete.Count > 0 && filesToDownload.Count == 0)
             {
@@ -297,25 +341,31 @@ namespace Athena.UI
             }
 
             yes = await DisplayAlert(
-                "Update languages",
-                $"{info}. Continue?",
+                Localization.SaveLanguagesTitle,
+                string.Format(Localization.SaveLanguagesText, info),
                 Localization.Yes,
                 Localization.No);
 
             if (!yes)
                 return;
 
-            IOcrService ocrService = Services.GetService<IOcrService>();
+            await Save(filesToDownload, filesToDelete);
+        }
 
-            IsBusy = true;
+        private async Task Save(List<OcrLanguage> filesToDownload, List<OcrLanguage> filesToDelete)
+        {
+            MainThread.BeginInvokeOnMainThread(() => IsBusy = true);
+
+            IOcrService ocrService = Services.GetService<IOcrService>();
 
             IContext context = GetReportContext();
 
             await Task.Run(async () =>
             {
+                await Task.Delay(500);
                 if (filesToDownload.Count > 0)
                 {
-                    context.Log("Downloading new languages");
+                    context.Log(Localization.DownloadingLanguage);
 
                     await ocrService.DownloadLanguagesAsync(
                         context,
@@ -324,20 +374,18 @@ namespace Athena.UI
 
                 if (filesToDelete.Count > 0)
                 {
-                    context.Log("Downloading new languages");
+                    context.Log(Localization.DeletingLanguages);
 
                     ocrService.DeleteInstalledLanguages(
                         context,
                         filesToDelete.Select(x => x.ShortName));
                 }
 
-                context.Log("Updating overview");
                 ocrService.Reset();
-                await LoadAllSupportedLanguagesAsync();
+                await LoadAllSupportedLanguagesAsync(false);
 
             });
-
-            IsBusy = false;
+            MainThread.BeginInvokeOnMainThread(() => IsBusy = false);
         }
 
         private ReportContext GetReportContext()
@@ -352,11 +400,11 @@ namespace Athena.UI
 
         public async Task<bool> CanClose()
         {
-            if (_pendingChanges)
+            if (PendingChanges)
             {
                 bool yes = await DisplayAlert(
-                    "Pending changes",
-                    "You have unsaved changes. Closing this page will loose your changes. Close this page?",
+                    Localization.LanguagesPendingChangesTitle,
+                    Localization.LanguagesPendingChangesText,
                     Localization.Yes,
                     Localization.No);
 

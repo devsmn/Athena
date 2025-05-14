@@ -5,6 +5,7 @@
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              x:Name="page"
              Style="{StaticResource ContentPageStyle}"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -20,6 +21,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -27,30 +30,45 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-
-        <!--<sf:SfListView ItemsSource="{Binding AllSupportedLanguages}">
-            <sf:SfListView.ItemTemplate>
-                <DataTemplate>
-                    <sfb:SfCheckBox Text="{Binding DisplayName}"
-                                    x:Name="checkbox"
-                                    IsChecked="{Binding IsChecked}">
-                        <sfb:SfCheckBox.Behaviors>
-                            <toolkit:EventToCommandBehavior
-                                BindingContext="{Binding Path=BindingContext, Source={x:Reference checkbox}}"
-                                EventName="StateChanged"
-                                Command="{Binding Source={x:Reference page}, Path=BindingContext.IsCheckedChangedCommand}" />
-                        </sfb:SfCheckBox.Behaviors>
-                    </sfb:SfCheckBox>
+        <p:SfPopup x:Name="sfPopup"
+                   HeaderTitle="Loading"
+                   AutoSizeMode="Height"
+                   Grid.RowSpan="3"
+                   StaysOpen="True"
+                   IsOpen="{Binding IsBusy}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate >
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="true" />
+                        <Label Text="{Binding BusyText}"
+                               Margin="10"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
                 </DataTemplate>
-            </sf:SfListView.ItemTemplate>
-        </sf:SfListView>-->
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+
+        <Label Text="{x:Static loc:Localization.SettingsOcrTitle}"
+                Grid.Row="0"
+                Margin="5,20,5,2"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                FontSize="32"/>
+
+        <Label Text="{x:Static loc:Localization.OcrLanguagesDescription}"
+               Grid.Row="1"
+               Margin="5"
+               HorizontalTextAlignment="Center"/>
 
         <editors:SfAutocomplete ItemsSource="{Binding AllSupportedLanguages}"
                                 DisplayMemberPath="DisplayName"
                                 SelectionMode="Multiple"
                                 EnableAutoSize="True"
-                                Margin="5"
-                                Placeholder="Start typing to select languages..."
+                                Margin="10"
+                                Grid.Row="2"
+                                Placeholder="{x:Static loc:Localization.OcrTypeToSelectLanguages}"
                                 IsClearButtonVisible="False"
                                 x:Name="list"
                                 TextSearchMode="Contains"
@@ -67,7 +85,7 @@
 
         </editors:SfAutocomplete>
          
-        <Grid Grid.Row="1"
+        <Grid Grid.Row="3"
               Background="White" 
                 VerticalOptions="End"
               >
@@ -88,7 +106,7 @@
                    Grid.ColumnSpan="2">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Estimated local size: "  />
+                        <Span Text="{x:Static loc:Localization.OcrEstimatedLocalSize}"  />
                         <Span Text="{Binding EstimatedLocalSize, Converter={x:StaticResource LanguageSizeToMbConverter}}" FontAttributes="Bold"  />
                         <Span Text=" MB" FontAttributes="Bold"  />
                     </FormattedString>
@@ -100,7 +118,7 @@
                    Grid.ColumnSpan="2">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Estimated download size: "  />
+                        <Span Text="{x:Static loc:Localization.OcrEstimatedDownloadSize}"  />
                         <Span Text="{Binding EstimatedDownloadSize, Converter={x:StaticResource LanguageSizeToMbConverter}}" FontAttributes="Bold" />
                         <Span Text=" MB" FontAttributes="Bold"  />
                     </FormattedString>
@@ -112,10 +130,10 @@
                           Grid.Column="0"
                           Style="{StaticResource PrimaryButtonFlat}"
                           Command="{Binding UpdateLanguagesCommand}"
-                          Text="Update">
+                          Text="{x:Static loc:Localization.Save}">
             </sfb:SfButton>
 
-            <sfb:SfButton Text="Delete installed languages"
+            <sfb:SfButton Text="{x:Static loc:Localization.OcrDeleteInstalledLanguages}"
                           Margin="5"
                           Style="{StaticResource SecondaryButtonFlat}"
                           Grid.Row="2"
@@ -125,24 +143,6 @@
 
 
         </Grid>
-
-        <p:SfPopup x:Name="sfPopup"
-                   HeaderTitle="Loading"
-                   StaysOpen="True"
-                   IsOpen="{Binding IsBusy}">
-            <p:SfPopup.ContentTemplate>
-                <DataTemplate >
-                    <VerticalStackLayout HorizontalOptions="Center">
-                        <ActivityIndicator IsRunning="true" />
-                        <Label Text="{Binding BusyText}"
-                               Margin="5"
-                               VerticalTextAlignment="Center"
-                               HorizontalTextAlignment="Center"/>
-                    </VerticalStackLayout>
-                </DataTemplate>
-            </p:SfPopup.ContentTemplate>
-        </p:SfPopup>
-
 
     </Grid>
 

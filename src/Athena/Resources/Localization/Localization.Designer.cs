@@ -189,6 +189,33 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do your really want to delete {0} ({1} MB) installed language(s)?.
+        /// </summary>
+        public static string DeleteInstalledLanguagesConfirmText {
+            get {
+                return ResourceManager.GetString("DeleteInstalledLanguagesConfirmText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete installed languages.
+        /// </summary>
+        public static string DeleteInstalledLanguagesConfirmTitle {
+            get {
+                return ResourceManager.GetString("DeleteInstalledLanguagesConfirmTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delete {0} ({1} MB) language(s).
+        /// </summary>
+        public static string DeleteLanguageInfo {
+            get {
+                return ResourceManager.GetString("DeleteLanguageInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete page.
         /// </summary>
         public static string DeletePage {
@@ -223,6 +250,24 @@ namespace Athena.Resources.Localization {
         public static string DeleteTagConfirm {
             get {
                 return ResourceManager.GetString("DeleteTagConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting {0}.
+        /// </summary>
+        public static string DeletingLanguage {
+            get {
+                return ResourceManager.GetString("DeletingLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting languages.
+        /// </summary>
+        public static string DeletingLanguages {
+            get {
+                return ResourceManager.GetString("DeletingLanguages", resourceCulture);
             }
         }
         
@@ -435,6 +480,33 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloading {0}.
+        /// </summary>
+        public static string DownloadingLanguage {
+            get {
+                return ResourceManager.GetString("DownloadingLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloading new languages.
+        /// </summary>
+        public static string DownloadingNewLanguages {
+            get {
+                return ResourceManager.GetString("DownloadingNewLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to download {0} ({1} MB) language(s).
+        /// </summary>
+        public static string DownloadLanguagesInfo {
+            get {
+                return ResourceManager.GetString("DownloadLanguagesInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
@@ -606,6 +678,33 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Successfully deleted installed languages.
+        /// </summary>
+        public static string InstalledLanguagesDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("InstalledLanguagesDeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have unsaved changes. If you close this page without saving, your changes will be lost. Close this page?.
+        /// </summary>
+        public static string LanguagesPendingChangesText {
+            get {
+                return ResourceManager.GetString("LanguagesPendingChangesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pending changes.
+        /// </summary>
+        public static string LanguagesPendingChangesTitle {
+            get {
+                return ResourceManager.GetString("LanguagesPendingChangesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading documents....
         /// </summary>
         public static string LoadingDocuments {
@@ -696,11 +795,92 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are not connected to the internet, therfore languages cannot be downloaded.
+        /// </summary>
+        public static string NoInternetText {
+            get {
+                return ResourceManager.GetString("NoInternetText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No recent documents.
         /// </summary>
         public static string NoRecentDocuments {
             get {
                 return ResourceManager.GetString("NoRecentDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No internet connection.
+        /// </summary>
+        public static string NotInternetTitle {
+            get {
+                return ResourceManager.GetString("NotInternetTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are not connected to a WiFi network. Do you really want to download {0} MB with your mobile data?.
+        /// </summary>
+        public static string NoWlanConnectionText {
+            get {
+                return ResourceManager.GetString("NoWlanConnectionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internet connection.
+        /// </summary>
+        public static string NoWlanConnectionTitle {
+            get {
+                return ResourceManager.GetString("NoWlanConnectionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete installed languages.
+        /// </summary>
+        public static string OcrDeleteInstalledLanguages {
+            get {
+                return ResourceManager.GetString("OcrDeleteInstalledLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Estimated download size: .
+        /// </summary>
+        public static string OcrEstimatedDownloadSize {
+            get {
+                return ResourceManager.GetString("OcrEstimatedDownloadSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Estimated local size: .
+        /// </summary>
+        public static string OcrEstimatedLocalSize {
+            get {
+                return ResourceManager.GetString("OcrEstimatedLocalSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Here you can manage the languages supported by the text detection. Already installed languages can be deleted by removing them from the list. New languages can be installed by adding them. .
+        /// </summary>
+        public static string OcrLanguagesDescription {
+            get {
+                return ResourceManager.GetString("OcrLanguagesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start typing to select languages....
+        /// </summary>
+        public static string OcrTypeToSelectLanguages {
+            get {
+                return ResourceManager.GetString("OcrTypeToSelectLanguages", resourceCulture);
             }
         }
         
@@ -732,11 +912,56 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Retrieving installed languages.
+        /// </summary>
+        public static string RetrievingInstalledLanguages {
+            get {
+                return ResourceManager.GetString("RetrievingInstalledLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to and.
+        /// </summary>
+        public static string SaveAnd {
+            get {
+                return ResourceManager.GetString("SaveAnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are about to.
+        /// </summary>
+        public static string SaveLanguagesPrefix {
+            get {
+                return ResourceManager.GetString("SaveLanguagesPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}. Continue?.
+        /// </summary>
+        public static string SaveLanguagesText {
+            get {
+                return ResourceManager.GetString("SaveLanguagesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save languages.
+        /// </summary>
+        public static string SaveLanguagesTitle {
+            get {
+                return ResourceManager.GetString("SaveLanguagesTitle", resourceCulture);
             }
         }
         
@@ -1084,11 +1309,20 @@ namespace Athena.Resources.Localization {
         
         /// <summary>
         ///   Looks up a localized string similar to The text detection is currently not available because no languages have been selected.
-        ///Make sure that the desired languages have been selected in the settings..
+        ///Make sure that the desired languages have been selected in the settings under Text detection..
         /// </summary>
         public static string TextDetectionNotAvailable {
             get {
                 return ResourceManager.GetString("TextDetectionNotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validating installed languages.
+        /// </summary>
+        public static string ValidatingInstalledLanguages {
+            get {
+                return ResourceManager.GetString("ValidatingInstalledLanguages", resourceCulture);
             }
         }
         
