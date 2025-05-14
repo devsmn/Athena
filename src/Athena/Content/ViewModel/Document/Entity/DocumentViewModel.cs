@@ -124,14 +124,12 @@ namespace Athena.UI
 
         public void AddTag(IContext context, TagViewModel tag)
         {
-            Document.AddTag(context, tag);
             _document.Tags.Add(tag);
             Tags.Add(tag);
         }
 
         public void DeleteTag(IContext context, TagViewModel tag)
         {
-            Document.DeleteTag(context, tag);
             _document.Tags.Remove(tag);
             Tags.Remove(tag);
         }

@@ -91,6 +91,7 @@
                                                   HorizontalTextAlignment="Start"
                                                   Text="{x:Static loc:Localization.DeleteDocument}"
                                                   Background="Transparent"
+                                                  TextColor="Black"
                                                   ImageSource="delete.png"
                                                   ImageSize="25"
                                                   Margin="3"

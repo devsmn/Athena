@@ -2,6 +2,7 @@
 using System.Text;
 using Athena.DataModel;
 using Athena.DataModel.Core;
+using BitMiracle.LibTiff.Classic;
 using TesseractOcrMaui.Enums;
 using TesseractOcrMaui.Results;
 
@@ -70,11 +71,11 @@ namespace Athena.UI
 
             foreach (var tag in _vm.SelectedTags)
             {
-                _vm.Document.Tags.Add(tag);
+                _vm.Document.AddTag(context, tag);
             }
 
             _vm.ParentFolder.AddDocument(_vm.Document);
-            _vm.ParentFolder.Save(context);
+            _vm.Document.Document.Save(context);
 
             if (_vm.DetectText)
             {
