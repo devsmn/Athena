@@ -369,8 +369,7 @@
                            ItemsSource="{Binding RootSource}"
                            SelectedItem="{Binding SelectedItem}"
                            GroupHeaderSize="0"
-                           SelectionChangedCommand="{Binding ItemClickedCommand}"
-                           Margin="5">
+                           SelectionChangedCommand="{Binding ItemClickedCommand}">
                 <sf:SfListView.GroupHeaderTemplate>
                     <DataTemplate>
                         <ViewCell Height="0"/>
@@ -443,51 +442,46 @@
             </p:SfPopup.PopupStyle>
             <p:SfPopup.ContentTemplate>
                 <DataTemplate>
-                    <VerticalStackLayout HorizontalOptions="End"
-                                         VerticalOptions="End"
-                                         Margin="5">
+                    <Grid 
+                          >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
                         <sfb:SfButton ImageSize="25" 
-                                      Background="{x:StaticResource Secondary}"
-                                      TextColor="Black"
                                       ShowIcon="True"
-                                      Margin="3,3,5,0"
+                                      Margin="3,3,10,5"
+                                      Style="{x:StaticResource SecondaryButton}"
                                       Text="{x:Static loc:Localization.AddDocument}"
                                       HorizontalTextAlignment="Start"
-                                      CornerRadius="16"
+                                      HorizontalOptions="End"
+                                      VerticalOptions="End"
                                       MaximumHeightRequest="50"
                                       Command="{Binding AddDocumentCommand}"
                                       WidthRequest="165"
                                       ImageSource="add_document.png">
-                            <sfb:SfButton.Shadow>
-                                <Shadow  Brush="Black"
-                                         Offset="0,4"
-                                         Radius="8"
-                                         Opacity="0.2"/>
-                            </sfb:SfButton.Shadow>
                         </sfb:SfButton>
 
-                        <sfb:SfButton ImageSize="25" 
-                                      Background="{x:StaticResource Secondary}"
+                        <sfb:SfButton ImageSize="25"
+                                      Grid.Row="1"
                                       ShowIcon="True"
-                                      Margin="3,3,5,0"
+                                      Margin="3,3,10,10"
                                       HorizontalTextAlignment="Start"
-                                      TextColor="Black"
-                                      CornerRadius="16"
+                                      Style="{x:StaticResource SecondaryButton}"
                                       MaximumHeightRequest="50"
                                       WidthRequest="165"
+                                      HorizontalOptions="End"
+                                      VerticalOptions="End"
                                       Command="{Binding AddFolderCommand}"
                                       Text="{x:Static loc:Localization.AddFolder}"
                                       ImageSource="add_folder.png">
-                            <sfb:SfButton.Shadow>
-                                <Shadow  Brush="Black"
-                                         Offset="0,4"
-                                         Radius="8"
-                                         Opacity="0.2"/>
-                            </sfb:SfButton.Shadow>
                         </sfb:SfButton>
 
-                    </VerticalStackLayout>
+                    </Grid>
 
                 </DataTemplate>
             </p:SfPopup.ContentTemplate>

@@ -194,7 +194,7 @@ Der Tag kann nicht wiederhergestellt werden!</value>
     <value>Anzeigesprache</value>
   </data>
   <data name="DocFolderOverviewText" xml:space="preserve">
-    <value>Du hast &lt;strong&gt;{0}&lt;/strong&gt; {1} und &lt;strong&gt;{2}&lt;/strong&gt; {3} erstellt</value>
+    <value>Du hast {0} {1} und {2} {3} erstellt</value>
   </data>
   <data name="DocFolderOverviewTextLastUpdate" xml:space="preserve">
     <value>Zuletzt aktualisiert um {0}</value>

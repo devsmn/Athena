@@ -107,6 +107,21 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Border" x:Key="ListViewItem">
+        <Setter Property="BackgroundColor" Value="White" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Margin" Value="5" />
+        
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="Black"
+                        Opacity="0.3"
+                        Offset="5,5"
+                        Radius="10"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <Style TargetType="CheckBox">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />

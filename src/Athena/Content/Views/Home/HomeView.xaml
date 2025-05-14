@@ -61,7 +61,6 @@
                        Grid.Row="3"
                        FontSize="14"
                        Text="{Binding DataOverviewText}"
-                       TextType="Html"
                        Margin="10,10,10,2" />
 
         <Label HorizontalTextAlignment="Center" 
@@ -81,8 +80,8 @@
                           Command="{Binding OpenFolderOverviewCommand}"
                           TextColor="White"
                           Text="{x:Static loc:Localization.FolderAndDocuments}"
-                          FontSize="16"
-                          HeightRequest="75"
+                          FontSize="18"
+                          HeightRequest="65"
                           StrokeThickness="0">
         </sfb:SfButton>
 
@@ -126,19 +125,35 @@
                     <Grid >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
+                    <Border  BackgroundColor="White"
+                             Margin="7"
+                            StrokeThickness="0" StrokeShape="RoundRectangle 10,10,10,10">
+                        <Border.Shadow>
+                            <Shadow Brush="Gray"
+                                    Opacity="0.2"
+                                    Offset="0,4"
+                                    Radius="5"/>
+                        </Border.Shadow>
 
-                        <ffimageloading:CachedImage 
+                        <Grid Margin="3">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ffimageloading:CachedImage 
                              Grid.RowSpan="3"
                              FadeAnimationEnabled="False"
                              LoadingPlaceholder="image_placeholder.png"
@@ -148,14 +163,14 @@
                              Aspect="Fill"
                              Source="document_color.png"/>
 
-                        <Label 
+                            <Label 
                              Text="{Binding Name}" 
                              Margin="5,5,5,0"
                              Grid.Column="1"
                              LineBreakMode="TailTruncation"
                              VerticalTextAlignment="Center"/>
 
-                        <Label 
+                            <Label 
                              Text="{Binding Comment}" 
                              IsVisible="{Binding Comment, Converter={x:StaticResource StringLengthToVisibilityConverter}}"
                              FontSize="12"
@@ -166,7 +181,7 @@
                              Grid.Column="1"
                              VerticalTextAlignment="Center"/>
 
-                        <ffimageloading:CachedImage 
+                            <ffimageloading:CachedImage 
                              Grid.Column="3"
                              Grid.RowSpan="3"
                              VerticalOptions="Center"
@@ -178,14 +193,14 @@
                              LoadingPlaceholder="image_placeholder.png"
                              FadeAnimationForCachedImages="False"/>
 
-                        <chip:SfChipGroup
+                            <chip:SfChipGroup
                              Grid.Row="2"
                              Grid.Column="1"
                              ItemsSource="{Binding Tags}" 
                              ChipPadding="0,3,3,0"
                              ChipType="Action" >
-                            <chip:SfChipGroup.ChipLayout>
-                                <FlexLayout 
+                                <chip:SfChipGroup.ChipLayout>
+                                    <FlexLayout 
                                      HorizontalOptions="Start" 
                                      Direction="Row" 
                                      Margin="3"
@@ -193,9 +208,9 @@
                                      JustifyContent="Start" 
                                      AlignContent="Start" 
                                      AlignItems="Start"/>
-                            </chip:SfChipGroup.ChipLayout>
-                            <chip:SfChipGroup.ItemTemplate>
-                                <!--<DataTemplate>
+                                </chip:SfChipGroup.ChipLayout>
+                                <chip:SfChipGroup.ItemTemplate>
+                                    <!--<DataTemplate>
                                     <StackLayout BackgroundColor="{Binding BackgroundColor}" >
                                         <Label   Text="{Binding Name}" 
                                                   TextColor="{Binding TextColor}"
@@ -205,27 +220,28 @@
                                                   VerticalOptions="Center" />
                                     </StackLayout>
                                 </DataTemplate>-->
-                                <DataTemplate>
-                                    <HorizontalStackLayout>
-                                        <chip:SfChip HeightRequest="30"  
+                                    <DataTemplate>
+                                        <HorizontalStackLayout>
+                                            <chip:SfChip HeightRequest="30"  
                                                      Text="{Binding Name}"
                                                      StrokeThickness="1"
                                                      Background="{Binding BackgroundColor, Converter={x:StaticResource HexToBrushConverter}}" 
                                                      TextColor="{Binding TextColor}"/>
 
-                                    </HorizontalStackLayout>
-                                </DataTemplate>
-                            </chip:SfChipGroup.ItemTemplate>
-                        </chip:SfChipGroup>
+                                        </HorizontalStackLayout>
+                                    </DataTemplate>
+                                </chip:SfChipGroup.ItemTemplate>
+                            </chip:SfChipGroup>
 
-                        <BoxView 
+                            <!--<BoxView 
                              Grid.Row="3"
                              Grid.ColumnSpan="4"
                              Color="LightGray"
                              HeightRequest="0.5"
-                             HorizontalOptions="Fill"/>
+                             HorizontalOptions="Fill"/>-->
+                        </Grid>
+                    </Border>
                     </Grid>
-
                 </DataTemplate>
             </sf:SfListView.ItemTemplate>
         </sf:SfListView>

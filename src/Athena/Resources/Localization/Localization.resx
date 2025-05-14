@@ -194,7 +194,7 @@ The tag cannot be recovered!</value>
     <value>Display language</value>
   </data>
   <data name="DocFolderOverviewText" xml:space="preserve">
-    <value>You created &lt;strong&gt;{0}&lt;/strong&gt; {1} and &lt;strong&gt;{2}&lt;/strong&gt; {3}</value>
+    <value>You created {0} {1} and {2} {3}</value>
   </data>
   <data name="DocFolderOverviewTextLastUpdate" xml:space="preserve">
     <value>Last updated at {0}</value>
