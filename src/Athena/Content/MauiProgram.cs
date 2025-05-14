@@ -42,13 +42,6 @@ public static class MauiProgram
         //AdConfig.AddTestDevice("BA3156A459BD267FCF0E7B5173A25A2C");
 #endif
 
-        builder.Services.AddTesseractOcr(
-            files =>
-            {
-                files.AddFile("eng.traineddata");
-                files.AddFile("deu.traineddata");
-            });
-
         builder.Services.AddSingleton<IDataBrokerService, DefaultDataBrokerService>();
         builder.Services.AddSingleton<INavigationService, DefaultNavigationService>();
         builder.Services.AddSingleton<IPreferencesService, DefaultPreferencesService>();
@@ -57,6 +50,9 @@ public static class MauiProgram
         builder.Services.AddTransient<IPdfCreatorService, DefaultPdfCreatorService>();
         builder.Services.AddSingleton<ICompressionService, DefaultCompressionService>();
         builder.Services.AddSingleton<ICompatibilityService, DefaultCompatibilityService>();
+        builder.Services.AddSingleton<IOcrService, DefaultOcrService>();
+        builder.Services.AddTransient<IDownloadService, DefaultDownloadService>();
+        builder.Services.AddSingleton<INetworkService, DefaultNetworkService>();
 
         var app = builder.Build();
 

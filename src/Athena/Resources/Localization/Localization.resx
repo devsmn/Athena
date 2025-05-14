@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -161,6 +161,15 @@ The document cannot be recovered!</value>
     <value>Do you really want to delete the folder {0}?
 The folder cannot be recovered!</value>
   </data>
+  <data name="DeleteInstalledLanguagesConfirmText" xml:space="preserve">
+    <value>Do your really want to delete {0} ({1} MB) installed language(s)?</value>
+  </data>
+  <data name="DeleteInstalledLanguagesConfirmTitle" xml:space="preserve">
+    <value>Delete installed languages</value>
+  </data>
+  <data name="DeleteLanguageInfo" xml:space="preserve">
+    <value>delete {0} ({1} MB) language(s)</value>
+  </data>
   <data name="DeletePage" xml:space="preserve">
     <value>Delete page</value>
   </data>
@@ -174,6 +183,15 @@ The page cannot be recovered!</value>
   <data name="DeleteTagConfirm" xml:space="preserve">
     <value>Do you really want to delete the tag {0}?
 The tag cannot be recovered!</value>
+  </data>
+  <data name="DeletingLanguage" xml:space="preserve">
+    <value>Deleting {0}</value>
+  </data>
+  <data name="DeletingLanguages" xml:space="preserve">
+    <value>Deleting languages</value>
+  </data>
+  <data name="DisplayLanguage" xml:space="preserve">
+    <value>Display language</value>
   </data>
   <data name="DocFolderOverviewText" xml:space="preserve">
     <value>You created &lt;strong&gt;{0}&lt;/strong&gt; {1} and &lt;strong&gt;{2}&lt;/strong&gt; {3}</value>
@@ -242,6 +260,15 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="DocumentVMNameRequired" xml:space="preserve">
     <value>Name is required</value>
   </data>
+  <data name="DownloadingLanguage" xml:space="preserve">
+    <value>Downloading {0}</value>
+  </data>
+  <data name="DownloadingNewLanguages" xml:space="preserve">
+    <value>Downloading new languages</value>
+  </data>
+  <data name="DownloadLanguagesInfo" xml:space="preserve">
+    <value>download {0} ({1} MB) language(s)</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
@@ -299,8 +326,14 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="GoodNight" xml:space="preserve">
     <value>Hello</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Language</value>
+  <data name="InstalledLanguagesDeletedSuccessfully" xml:space="preserve">
+    <value>Successfully deleted installed languages</value>
+  </data>
+  <data name="LanguagesPendingChangesText" xml:space="preserve">
+    <value>You have unsaved changes. If you close this page without saving, your changes will be lost. Close this page?</value>
+  </data>
+  <data name="LanguagesPendingChangesTitle" xml:space="preserve">
+    <value>Pending changes</value>
   </data>
   <data name="LoadingDocuments" xml:space="preserve">
     <value>Loading documents...</value>
@@ -332,8 +365,35 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="NoInternetText" xml:space="preserve">
+    <value>You are not connected to the internet, therfore languages cannot be downloaded</value>
+  </data>
   <data name="NoRecentDocuments" xml:space="preserve">
     <value>No recent documents</value>
+  </data>
+  <data name="NotInternetTitle" xml:space="preserve">
+    <value>No internet connection</value>
+  </data>
+  <data name="NoWlanConnectionText" xml:space="preserve">
+    <value>You are not connected to a WiFi network. Do you really want to download {0} MB with your mobile data?</value>
+  </data>
+  <data name="NoWlanConnectionTitle" xml:space="preserve">
+    <value>Internet connection</value>
+  </data>
+  <data name="OcrDeleteInstalledLanguages" xml:space="preserve">
+    <value>Delete installed languages</value>
+  </data>
+  <data name="OcrEstimatedDownloadSize" xml:space="preserve">
+    <value>Estimated download size: </value>
+  </data>
+  <data name="OcrEstimatedLocalSize" xml:space="preserve">
+    <value>Estimated local size: </value>
+  </data>
+  <data name="OcrLanguagesDescription" xml:space="preserve">
+    <value>Here you can manage the languages supported by the text detection. Already installed languages can be deleted by removing them from the list. New languages can be installed by adding them. </value>
+  </data>
+  <data name="OcrTypeToSelectLanguages" xml:space="preserve">
+    <value>Start typing to select languages...</value>
   </data>
   <data name="OpenInBrowser" xml:space="preserve">
     <value>Open in browser</value>
@@ -344,8 +404,23 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="RecentDocuments" xml:space="preserve">
     <value>Recent documents</value>
   </data>
+  <data name="RetrievingInstalledLanguages" xml:space="preserve">
+    <value>Retrieving installed languages</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="SaveAnd" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="SaveLanguagesPrefix" xml:space="preserve">
+    <value>You are about to</value>
+  </data>
+  <data name="SaveLanguagesText" xml:space="preserve">
+    <value>{0}. Continue?</value>
+  </data>
+  <data name="SaveLanguagesTitle" xml:space="preserve">
+    <value>Save languages</value>
   </data>
   <data name="Scan" xml:space="preserve">
     <value>Scan</value>
@@ -413,6 +488,12 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="SettingsNewsTitle" xml:space="preserve">
     <value>News</value>
   </data>
+  <data name="SettingsOcrDesc" xml:space="preserve">
+    <value>Manage supported languages</value>
+  </data>
+  <data name="SettingsOcrTitle" xml:space="preserve">
+    <value>Text detection</value>
+  </data>
   <data name="SettingsPrivacyPolicyDesc" xml:space="preserve">
     <value>Legal information about Privacy policy</value>
   </data>
@@ -454,6 +535,13 @@ Depending on the size of the documents, this process may take a moment.</value>
   </data>
   <data name="TextColor" xml:space="preserve">
     <value>Text color</value>
+  </data>
+  <data name="TextDetectionNotAvailable" xml:space="preserve">
+    <value>The text detection is currently not available because no languages have been selected.
+Make sure that the desired languages have been selected in the settings under Text detection.</value>
+  </data>
+  <data name="ValidatingInstalledLanguages" xml:space="preserve">
+    <value>Validating installed languages</value>
   </data>
   <data name="WelcomeEnterName" xml:space="preserve">
     <value>Please enter your name</value>

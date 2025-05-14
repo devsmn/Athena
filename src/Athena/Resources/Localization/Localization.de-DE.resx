@@ -161,6 +161,15 @@ Das Dokument kann nicht wiederhergestellt werden!</value>
     <value>Möchtest du den Ordner {0} wirklich löschen? 
 Der Ordner kann nicht wiederhergestellt werden!</value>
   </data>
+  <data name="DeleteInstalledLanguagesConfirmText" xml:space="preserve">
+    <value>Möchtest du wirklich {0} ({1} MB) installierte Sprache(n) löschen?</value>
+  </data>
+  <data name="DeleteInstalledLanguagesConfirmTitle" xml:space="preserve">
+    <value>Installierte Sprachen löschen</value>
+  </data>
+  <data name="DeleteLanguageInfo" xml:space="preserve">
+    <value>{0} ({1} MB) Sprache(n) zu löschen</value>
+  </data>
   <data name="DeletePage" xml:space="preserve">
     <value>Seite löschen</value>
   </data>
@@ -174,6 +183,15 @@ Die Seite kann nicht wiederhergestellt werden!</value>
   <data name="DeleteTagConfirm" xml:space="preserve">
     <value>Möchtest du die Kategorie {0} wirklich löschen? 
 Der Tag kann nicht wiederhergestellt werden!</value>
+  </data>
+  <data name="DeletingLanguage" xml:space="preserve">
+    <value>{0} wird gelöscht</value>
+  </data>
+  <data name="DeletingLanguages" xml:space="preserve">
+    <value>Installierte Sprachen werden gelöscht</value>
+  </data>
+  <data name="DisplayLanguage" xml:space="preserve">
+    <value>Anzeigesprache</value>
   </data>
   <data name="DocFolderOverviewText" xml:space="preserve">
     <value>Du hast &lt;strong&gt;{0}&lt;/strong&gt; {1} und &lt;strong&gt;{2}&lt;/strong&gt; {3} erstellt</value>
@@ -246,6 +264,15 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="DocumentVMNameRequired" xml:space="preserve">
     <value>Der Name darf nicht leer sein</value>
   </data>
+  <data name="DownloadingLanguage" xml:space="preserve">
+    <value>{0} wird heruntergeladen</value>
+  </data>
+  <data name="DownloadingNewLanguages" xml:space="preserve">
+    <value>Neue Sprachen werden heruntergeladen</value>
+  </data>
+  <data name="DownloadLanguagesInfo" xml:space="preserve">
+    <value>{0} ({1} MB) Sprache(n) herunterzuladen</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Bearbeiten</value>
   </data>
@@ -304,8 +331,14 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="GoodNight" xml:space="preserve">
     <value>Hallo</value>
   </data>
-  <data name="Language" xml:space="preserve">
-    <value>Sprache</value>
+  <data name="InstalledLanguagesDeletedSuccessfully" xml:space="preserve">
+    <value>Die installierten Sprachen wurden erfolgreich gelöscht</value>
+  </data>
+  <data name="LanguagesPendingChangesText" xml:space="preserve">
+    <value>Du hast deine Änderungen nicht gespeichert. Wenn du diese Seite schließt, werden deine Änderungen verworfen. Willst du die Seite wirklich schließen?</value>
+  </data>
+  <data name="LanguagesPendingChangesTitle" xml:space="preserve">
+    <value>Ungespeicherte Änderungen</value>
   </data>
   <data name="Loading pages" xml:space="preserve">
     <value>Seiten werden geladen...</value>
@@ -337,8 +370,35 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="No" xml:space="preserve">
     <value>Nein</value>
   </data>
+  <data name="NoInternetText" xml:space="preserve">
+    <value>Du bist nicht mit dem Internet verbunden, daher können keine Sprachen heruntergeladen werden</value>
+  </data>
   <data name="NoRecentDocuments" xml:space="preserve">
     <value>Keine zuletzt genutzten Dokumente</value>
+  </data>
+  <data name="NotInternetTitle" xml:space="preserve">
+    <value>Keine Internetverbindung</value>
+  </data>
+  <data name="NoWlanConnectionText" xml:space="preserve">
+    <value>Du bist mit keinem WLAN Netzwerk verbunden. Möchtest du {0} MB wirklich mit deinen mobilen Daten herunterladen?</value>
+  </data>
+  <data name="NoWlanConnectionTitle" xml:space="preserve">
+    <value>Internetverbindung</value>
+  </data>
+  <data name="OcrDeleteInstalledLanguages" xml:space="preserve">
+    <value>Installierte Sprachen löschen</value>
+  </data>
+  <data name="OcrEstimatedDownloadSize" xml:space="preserve">
+    <value>Geschätzte Downloadgröße: </value>
+  </data>
+  <data name="OcrEstimatedLocalSize" xml:space="preserve">
+    <value>Geschätzter belegter Speicherplatz: </value>
+  </data>
+  <data name="OcrLanguagesDescription" xml:space="preserve">
+    <value>Hier kannst du die Sprachen verwalten, die von der Texterkennung unterstützt werden. Bereits installierte Sprachen können gelöscht werden, indem sie aus der Liste entfernt werden. Neue Sprachen können installiert werden, indem sie hinzugefügt werden.</value>
+  </data>
+  <data name="OcrTypeToSelectLanguages" xml:space="preserve">
+    <value>Tippen beginnen, um Sprachen auszuwählen</value>
   </data>
   <data name="OpenInBrowser" xml:space="preserve">
     <value>Im Browser öffnen</value>
@@ -349,8 +409,23 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="RecentDocuments" xml:space="preserve">
     <value>Aktuelle Dokumente</value>
   </data>
+  <data name="RetrievingInstalledLanguages" xml:space="preserve">
+    <value>Installierte Sprachen werden geladen</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Speichern</value>
+  </data>
+  <data name="SaveAnd" xml:space="preserve">
+    <value>und</value>
+  </data>
+  <data name="SaveLanguagesPrefix" xml:space="preserve">
+    <value>Du bist dabei, </value>
+  </data>
+  <data name="SaveLanguagesText" xml:space="preserve">
+    <value>{0}. Fortfahren?</value>
+  </data>
+  <data name="SaveLanguagesTitle" xml:space="preserve">
+    <value>Sprachen speichern</value>
   </data>
   <data name="Scan" xml:space="preserve">
     <value>Scannen</value>
@@ -420,6 +495,12 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="SettingsNewsTitle" xml:space="preserve">
     <value>Neuigkeiten</value>
   </data>
+  <data name="SettingsOcrDesc" xml:space="preserve">
+    <value>Verwalte unterstützte  Sprachen</value>
+  </data>
+  <data name="SettingsOcrTitle" xml:space="preserve">
+    <value>Texterkennung</value>
+  </data>
   <data name="SettingsPrivacyPolicyDesc" xml:space="preserve">
     <value>Rechtliche Informationen zum Datenschutz</value>
   </data>
@@ -461,6 +542,13 @@ Depending on the size of the documents, this process may take a moment.</comment
   </data>
   <data name="TextColor" xml:space="preserve">
     <value>Textfarbe</value>
+  </data>
+  <data name="TextDetectionNotAvailable" xml:space="preserve">
+    <value>Die Texterkennung ist derzeit nicht verfügbar, da keine Sprachen ausgewählt wurden.
+Stelle sicher, dass die gewünschten Sprachen in den Einstellungen unter Texterkennung ausgewählt wurden.</value>
+  </data>
+  <data name="ValidatingInstalledLanguages" xml:space="preserve">
+    <value>Installierte Sprachen werden überprüft</value>
   </data>
   <data name="WelcomeEnterName" xml:space="preserve">
     <value>Bitte gib deinen Namen ein</value>

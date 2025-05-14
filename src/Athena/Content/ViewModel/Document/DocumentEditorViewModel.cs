@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using Athena.DataModel;
 using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -67,6 +68,12 @@ namespace Athena.UI
         private bool _detectText;
 
         [ObservableProperty]
+        private string _detectTextInfo;
+
+        [ObservableProperty]
+        private bool _detectTextPossible;
+
+        [ObservableProperty]
         private bool _tagsAvailable;
 
         private DocumentViewModel _document;
@@ -76,6 +83,7 @@ namespace Athena.UI
 
         [ObservableProperty]
         private ObservableCollection<TagViewModel> _selectedTags;
+
 
         public Folder ParentFolder => _parentFolder;
 
@@ -122,8 +130,6 @@ namespace Athena.UI
 
             TagsAvailable = Tags.Any();
 
-            DetectText = true;
-
             if (!IsNew)
             {
                 _stepHandler.StepIndex = 1;
@@ -138,6 +144,20 @@ namespace Athena.UI
                         SelectedTags.Add(tag);
                 }
             }
+
+            IOcrService ocrService = Services.GetService<IOcrService>();
+
+            if (ocrService.Error != OcrError.None)
+            {
+                DetectTextInfo = Localization.TextDetectionNotAvailable;
+                DetectTextPossible = false;
+            }
+            else
+            {
+                DetectTextPossible = true;
+            }
+
+            DetectText = DetectTextPossible;
         }
 
         public void ShowAd()

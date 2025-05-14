@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 <Import Project="..\..\version.props" />  
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -14,7 +14,7 @@
 		<ApplicationTitle>Athena</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.athena</ApplicationId>
+		<ApplicationId>com.spflaum.athena</ApplicationId>
 		<ApplicationIdGuid>7f91bd27-2b90-424d-abff-94309ddb125d</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -97,16 +97,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Content\ViewModel\Settings\NewFolder\**" />
 	  <AndroidResource Remove="Content\Views\Folder\Steps\**" />
 	  <AndroidSkipResourceProcessing Remove="Content\Views\Folder\Steps\**" />
+	  <Compile Remove="Content\ViewModel\Settings\NewFolder\**" />
 	  <Compile Remove="Content\Views\Folder\Steps\**" />
 	  <Compile Remove="Content\Views\Page\**" />
+	  <EmbeddedResource Remove="Content\ViewModel\Settings\NewFolder\**" />
 	  <EmbeddedResource Remove="Content\Views\Folder\Steps\**" />
 	  <EmbeddedResource Remove="Content\Views\Page\**" />
+	  <MauiCss Remove="Content\ViewModel\Settings\NewFolder\**" />
 	  <MauiCss Remove="Content\Views\Folder\Steps\**" />
 	  <MauiCss Remove="Content\Views\Page\**" />
+	  <MauiXaml Remove="Content\ViewModel\Settings\NewFolder\**" />
 	  <MauiXaml Remove="Content\Views\Folder\Steps\**" />
 	  <MauiXaml Remove="Content\Views\Page\**" />
+	  <None Remove="Content\ViewModel\Settings\NewFolder\**" />
 	  <None Remove="Content\Views\Folder\Steps\**" />
 	  <None Remove="Content\Views\Page\**" />
 	</ItemGroup>
@@ -146,6 +152,7 @@
 	  <None Remove="Resources\Images\news.png" />
 	  <None Remove="Resources\Images\next.png" />
 	  <None Remove="Resources\Images\next_inverted.png" />
+	  <None Remove="Resources\Images\ocr.png" />
 	  <None Remove="Resources\Images\page.png" />
 	  <None Remove="Resources\Images\pdf.png" />
 	  <None Remove="Resources\Images\plus.png" />
@@ -164,6 +171,10 @@
 	  <None Remove="Resources\Images\warning_color.png" />
 	  <None Remove="Resources\Splash\athena_splash.png" />
 	  <None Remove="Resources\Splash\athena_splash_circle.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\ocr.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -283,7 +294,10 @@
 	  <MauiXaml Update="Content\Views\Search\SearchResultView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\SettingsView.xaml">
+	  <MauiXaml Update="Content\Views\Settings\OcrLanguageSettings.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Content\Views\Settings\SettingsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Content\Views\Tags\TagsOverview.xaml">
@@ -363,6 +377,12 @@
 
 	<ItemGroup>
 	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Content\Views\Settings\OcrLanguageSettings.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
 	</ItemGroup>
 
 </Project>

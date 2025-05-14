@@ -6,12 +6,14 @@
              xmlns:sfc="clr-namespace:Syncfusion.Maui.Carousel;assembly=Syncfusion.Maui.Carousel"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              x:Name="view"
              x:Class="Athena.UI.DocumentEditorDocumentStep">
     <ContentView.Resources>
         <ResourceDictionary>
             <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
             <ui:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+            <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
 
         <ControlTemplate x:Key="EmptyDocumentsView">
@@ -32,7 +34,7 @@
                             ViewMode="Linear">
                 <sfc:SfCarousel.ItemTemplate>
                     <DataTemplate >
-                        <Grid > 
+                        <Grid >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
@@ -147,6 +149,7 @@
                               Command="{Binding TakeImageCommand}"
                               Background="White"
                               ImageAlignment="Top"
+                              TextColor="Black"
                               WidthRequest="100"
                               ImageSource="camera.png"
                               ShowIcon="True"
@@ -161,6 +164,7 @@
                               Command="{Binding PickImageCommand}"
                               Background="White"
                               WidthRequest="100"
+                              TextColor="Black"
                               ImageAlignment="Top"
                               ImageSource="gallery.png"
                               ShowIcon="True"
@@ -175,6 +179,7 @@
                               Command="{Binding PickFileCommand}"
                               Background="White"
                               WidthRequest="100"
+                              TextColor="Black"
                               ImageAlignment="Top"
                               ImageSource="pdf.png"
                               ShowIcon="True"
@@ -193,8 +198,53 @@
                FontSize="12"/>
 
         <sfb:SfCheckBox 
-            Margin="5,0,5,5" 
-            IsChecked="{Binding DetectText}" 
-            Text="{x:Static loc:Localization.DocumentEditorEnableAI}"/>
+            Margin="5,0,5,0"
+            IsChecked="{Binding DetectText}"
+            IsEnabled="{Binding DetectTextPossible}"
+            Text="{x:Static loc:Localization.DocumentEditorEnableAI}">
+            <sfb:SfCheckBox.Style>
+                <Style TargetType="sfb:SfCheckBox">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="sfb:SfCheckBox"
+                                     Binding="{Binding DetectTextPossible}"
+                                     Value="false">
+                            <Setter Property="TextColor" Value="Gray" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="sfb:SfCheckBox"
+                                     Binding="{Binding DetectTextPossible}"
+                                     Value="true">
+                            <Setter Property="TextColor" Value="Black" />
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </sfb:SfCheckBox.Style>
+        </sfb:SfCheckBox>
+
+        <Grid Margin="15, 0, 5, 0" IsVisible="{Binding DetectTextPossible, Converter={x:StaticResource InverseBooleanConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ffimageloading:CachedImage 
+                FadeAnimationEnabled="False"
+                LoadingPlaceholder="image_placeholder.png"
+                FadeAnimationForCachedImages="False"
+                WidthRequest="25" 
+                HeightRequest="25"
+                Aspect="Fill"
+                Source="warning_color.png"/>
+
+            <Label Grid.Column="1"
+                   Margin="10, 0, 0, 0"
+                   LineBreakMode="WordWrap"
+                   FontSize="12"
+                   IsVisible="{Binding DetectTextPossible, Converter={x:StaticResource InverseBooleanConverter}}"
+                   Text="{Binding DetectTextInfo}"
+            />
+        </Grid>
+
+
     </VerticalStackLayout>
 </ContentView>

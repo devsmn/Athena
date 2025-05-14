@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Text;
-using System.Threading.Tasks;
-using Athena.DataModel.Core;
 using Athena.DataModel;
-using Athena.UI;
-using Microsoft.Extensions.DependencyInjection;
-using TesseractOcrMaui;
+using Athena.DataModel.Core;
+using TesseractOcrMaui.Enums;
 using TesseractOcrMaui.Results;
 
 namespace Athena.UI
 {
-
     internal class DocumentCreatePdfStep : IViewStep<DocumentEditorViewModel>
     {
         private DocumentEditorViewModel _vm;
@@ -21,7 +14,7 @@ namespace Athena.UI
 
         public async Task ExecuteAsync(IContext context, DocumentEditorViewModel vm)
         {
-            this._vm = vm;
+            _vm = vm;
             _context = context;
             await CreatePdfStep();
         }
@@ -45,7 +38,6 @@ namespace Athena.UI
 
             dataService.Publish(_context, _vm.Document.Document, UpdateType.Add, _vm.ParentFolder.Key);
             dataService.Publish(_context, _vm.Document.Document, UpdateType.Edit, _vm.ParentFolder.Key);
-
 
             _vm.IsBusy = false;
             Report("Finished!");
@@ -86,7 +78,7 @@ namespace Athena.UI
 
             if (_vm.DetectText)
             {
-                var ocr = Services.GetService<ITesseract>();
+                var ocrService = Services.GetService<IOcrService>();
                 int docIdx = 0;
 
                 StringBuilder sb = new StringBuilder();
@@ -98,10 +90,21 @@ namespace Athena.UI
 
                     Report($"Detecting text in document #{++docIdx}. This may take a while");
 
-                    var result = await ocr.RecognizeTextAsync(document.ImagePath);
+                    var result = await ocrService.RecognizeTextAsync(document.ImagePath);
 
                     if (!result.FinishedWithSuccess())
                     {
+                        if (result.Status == RecognizionStatus.CannotLoadTessData)
+                        {
+                            if (ocrService.Error != OcrError.TrainedDataDirectoryMissing)
+                            {
+                                summary.Report(
+                                    document.Id,
+                                    $"No languages configured for text detection. Choose languages in settings",
+                                    ReportIssueLevel.Error);
+                            }
+                        }
+
                         summary.Report(
                             document.Id,
                             $"Unable to detect text: {result.Message}",
