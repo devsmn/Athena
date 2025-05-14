@@ -70,7 +70,7 @@ namespace Athena.UI
             ValidateData();
 
             if (Error == OcrError.None)
-                return new TessEngine(_dataDirectory, _installedLanguages);
+                return new TessEngine(_installedLanguages, _dataDirectory);
 
             return null;
         }
