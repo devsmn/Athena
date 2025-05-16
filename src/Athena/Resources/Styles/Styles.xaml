@@ -69,6 +69,10 @@
         </Setter>
     </Style>
 
+    <Style TargetType="sfb:SfButton">
+        <Setter Property="TextColor" Value="Black" />
+    </Style>
+
     <Style TargetType="sfb:SfButton" x:Key="PrimaryButtonFlat">
         <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="TextColor" Value="White" />
@@ -77,6 +81,7 @@
 
     <Style TargetType="sfb:SfButton" x:Key="PrimaryButton"
            BasedOn="{StaticResource PrimaryButtonFlat}">
+        <Setter Property="StrokeThickness" Value="0" />
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow Brush="Black"
@@ -97,6 +102,7 @@
 
     <Style TargetType="sfb:SfButton" x:Key="SecondaryButton"
            BasedOn="{StaticResource SecondaryButtonFlat}">
+        <Setter Property="StrokeThickness" Value="0" />
         <Setter Property="Shadow">
             <Setter.Value>
                 <Shadow Brush="Black"

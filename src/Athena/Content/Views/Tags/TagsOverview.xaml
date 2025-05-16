@@ -9,8 +9,8 @@
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="Athena.UI.TagsOverview"
              x:Name="parent"
-             Style="{StaticResource ContentPageStyle}"
-             Title="TagsOverview">
+             Title="{x:Static loc:Localization.Tags}"
+             Style="{StaticResource ContentPageStyle}">
     <ContentPage.Resources>
         <local:EditTagNameTitleConverter x:Key="EditTagNameTitleConverter" />
         <local:HexToBrushConverter x:Key="HexToBrushConverter" />
@@ -97,17 +97,17 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Text="Name" 
-                               Margin="3"
+                               Margin="5"
                                VerticalTextAlignment="Center"/>
 
                         <Entry Placeholder="{x:Static loc:Localization.TagName}" 
                                Text="{Binding SelectedTagName}"
                                Grid.Column="1"
-                               Margin="3" />
+                               Margin="5" />
 
                         <Label Text="{x:Static loc:Localization.BackgroundColor}" 
                                Grid.Row="1"
-                               Margin="3"
+                               Margin="5"
                                VerticalTextAlignment="Center"/>
 
                         <input:SfComboBox Grid.Row="1"
@@ -116,7 +116,7 @@
                                           IsClearButtonVisible="False"
                                           Placeholder="Select a color"
                                           Background="Transparent"
-                                          Margin="3"
+                                          Margin="5"
                                           DisplayMemberPath="Name"
                                           SelectedItem="{Binding SelectedBackgroundColor}"
                                           ItemsSource="{Binding PredefinedColors}">
@@ -137,7 +137,7 @@
 
                         <Label Text="{x:Static loc:Localization.TextColor}" 
                                Grid.Row="2"
-                               Margin="3"
+                               Margin="5"
                                VerticalTextAlignment="Center"/>
 
                         <input:SfComboBox Grid.Row="2"
@@ -146,7 +146,7 @@
                                           IsClearButtonVisible="False"
                                           Placeholder="Select a color"
                                           Background="Transparent"
-                                          Margin="3"
+                                          Margin="5"
                                           DisplayMemberPath="Name"
                                           SelectedItem="{Binding SelectedTextColor}"
                                           ItemsSource="{Binding PredefinedColors}">
@@ -176,11 +176,18 @@
                 VerticalOptions="End"
                 Text="+"
                 WidthRequest="60"
-                Margin="5"
+                Margin="10"
                 HeightRequest="60"
                 CornerRadius="30"
                 FontSize="30" 
-                Command="{Binding AddNewTagCommand}"/>
+                Command="{Binding AddNewTagCommand}">
+            <Button.Shadow>
+                <Shadow Brush="Black"
+                        Offset="0,4"
+                        Radius="8"
+                        Opacity="0.3"/>
+            </Button.Shadow>
+        </Button>
 
     </Grid>
 </ContentPage>
