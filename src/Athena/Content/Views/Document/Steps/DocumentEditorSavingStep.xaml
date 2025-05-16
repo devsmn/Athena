@@ -35,12 +35,19 @@
 
             <tree:SfTreeView ItemsSource="{Binding DocumentReports}" 
                              SelectionMode="None"
+                             NodeSizeMode="Dynamic"
                              Margin="3"
-                             ItemHeight="30"
                              ChildPropertyName="Items">
                 <tree:SfTreeView.ItemTemplate>
                     <DataTemplate>
-                        <HorizontalStackLayout VerticalOptions="Center">
+                        <Grid VerticalOptions="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
                             <ffimageloading:CachedImage LoadingPlaceholder="image_placeholder.png"
                                                         x:Name="levelImage"
                                                         FadeAnimationForCachedImages="False"
@@ -52,11 +59,13 @@
                                                         IsVisible="{Binding Source={x:Reference levelImage}, Path=Source, Converter={x:StaticResource StringLengthToVisConv}}"
                                                         Source="{Binding Level, Converter={x:StaticResource IssueLevelToImageConverter}}"/>
 
-                            <Label Text="{Binding Message}" 
+                            <Label Text="{Binding Message}"
+                                   Grid.Column="1"
                                    Margin="0, 3, 3, 0"
                                    LineBreakMode="CharacterWrap"
                                    VerticalTextAlignment="Center"/>
-                        </HorizontalStackLayout>
+
+                        </Grid>
 
                     </DataTemplate>
                 </tree:SfTreeView.ItemTemplate>

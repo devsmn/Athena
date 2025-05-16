@@ -4,14 +4,13 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-#if ANDROID
-#endif
 
 namespace Athena.UI
 {
     using DataModel;
     using CommunityToolkit.Maui.Alerts;
     using Athena.DataModel.Core;
+    using AndroidX.Startup;
 
     public partial class DocumentDetailsViewModel : ContextViewModel
     {
@@ -40,21 +39,22 @@ namespace Athena.UI
         [ObservableProperty]
         private ObservableCollection<TagViewModel> _selectedTags;
 
+        [ObservableProperty]
+        private bool _isBusy;
+
+        [ObservableProperty]
+        private byte[] _pdf;
+
+        private bool _initialized;
+
         private readonly Folder _parentFolder;
 
         public DocumentDetailsViewModel(Folder parentFolder, Document document)
         {
             Document = document;
             _parentFolder = parentFolder;
-
-            AllTags = new(Tag.ReadAll(RetrieveContext()).Select(x => new TagViewModel(x)));
             SelectedTags = new ObservableCollection<TagViewModel>();
 
-            foreach (var tag in AllTags)
-            {
-                if (document.Tags.Any(x => x.Id == tag.Id))
-                    SelectedTags.Add(tag);
-            }
         }
 
         public DocumentDetailsViewModel(Chapter chapter)
@@ -63,6 +63,40 @@ namespace Athena.UI
             _chapter = chapter;
 
             IsSearchResult = true;
+        }
+
+        [RelayCommand]
+        private async Task InitializeData()
+        {
+            if (_initialized)
+                return;
+
+            IsBusy = true;
+
+            await Task.Run(async () =>
+            {
+                await Task.Delay(200);
+                byte[] pdf = Document.Pdf;
+
+                var allTags = new List<TagViewModel>(Tag.ReadAll(RetrieveContext()).Select(x => new TagViewModel(x)));
+                var selectedTags = new List<TagViewModel>();
+
+                foreach (var tag in allTags)
+                {
+                    if (Document.Tags.Any(x => x.Id == tag.Id))
+                        selectedTags.Add(tag);
+                }
+
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    AllTags = new(allTags);
+                    SelectedTags = new(selectedTags);
+                    Pdf = pdf;
+                });
+            });
+
+            _initialized = true;
+            IsBusy = false;
         }
 
         protected override void OnDataPublished(DataPublishedEventArgs e)

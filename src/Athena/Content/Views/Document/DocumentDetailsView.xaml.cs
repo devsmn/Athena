@@ -1,4 +1,4 @@
-using Syncfusion.Maui.Popup;
+﻿using Syncfusion.Maui.Popup;
 
 namespace Athena.UI
 {
@@ -7,17 +7,20 @@ namespace Athena.UI
 
     public partial class DocumentDetailsView : ContentPage
     {
+        private DocumentDetailsViewModel _vm;
+
         public DocumentDetailsView(Folder parentFolder, Document document)
         {
-            var vm = new DocumentDetailsViewModel(parentFolder, document);
-            BindingContext = vm;
+            _vm = new DocumentDetailsViewModel(parentFolder, document);
+            BindingContext = _vm;
 
             InitializeComponent();
         }
 
         public DocumentDetailsView(Chapter chapter)
         {
-            BindingContext = new DocumentDetailsViewModel(chapter);
+            _vm = new DocumentDetailsViewModel(chapter);
+            BindingContext = _vm;
             InitializeComponent();
         }
 

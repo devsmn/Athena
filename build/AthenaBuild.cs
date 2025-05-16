@@ -99,15 +99,15 @@ internal class AthenaBuild : NukeBuild
             .SetFramework("net9.0-android")
             .SetVerbosity(DotNetVerbosity.normal)
             .AddProcessAdditionalArguments("--no-restore")
-            .AddProperty("AndroidPackageFormats", PackageFormat)
-            .AddProperty("AndroidKeyStore", true)
-            .AddProperty("AndroidSigningKeyStore", AndroidSigningKeyStore)
-            .AddProperty("AndroidSigningKeyAlias", AndroidSigningKeyAlias)
-            .AddProperty("AndroidSigningKeyPass", AndroidSingingKeyPassword)
-            .AddProperty("AndroidSigningStorePass", AndroidSingingKeyPassword)
-            .AddProperty("PublishDir", OutputDirectory)
-            .AddProperty("ApplicationVersion", appVersion)
-            .AddProperty("ApplicationDisplayVersion", displayVersion));
+            .SetProperty("AndroidPackageFormats", PackageFormat)
+            .SetProperty("AndroidKeyStore", true)
+            .SetProperty("AndroidSigningKeyStore", AndroidSigningKeyStore)
+            .SetProperty("AndroidSigningKeyAlias", AndroidSigningKeyAlias)
+            .SetProperty("AndroidSigningKeyPass", AndroidSingingKeyPassword)
+            .SetProperty("AndroidSigningStorePass", AndroidSingingKeyPassword)
+            .SetProperty("PublishDir", OutputDirectory)
+            .SetProperty("ApplicationVersion", appVersion)
+            .SetProperty("ApplicationDisplayVersion", displayVersion));
 
         Serilog.Log.Warning("Don't forget to commit the changes in version.props!");
     }
