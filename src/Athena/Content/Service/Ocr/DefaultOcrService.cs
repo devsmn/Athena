@@ -16,8 +16,6 @@ namespace Athena.UI
         private string _dataDirectory;
         private bool _dataValidated;
 
-        private TessEngine Engine => _engine ??= CreateNewEngine();
-
         public OcrError Error
         {
             get
@@ -183,23 +181,19 @@ namespace Athena.UI
             string? text = null;
             float confidence = -1f;
 
-            if (Engine == null)
-            {
-                return new RecognizionResult
-                {
-                    Status = RecognizionStatus.Failed
-                };
-            }
-
+            
             try
             {
-                using (var page = Engine.ProcessImage(pix))
+                using (TessEngine engine = CreateNewEngine())
                 {
-                    // SegMode can't be OsdOnly in here.
-                    confidence = page.GetConfidence();
+                    using (var page = engine.ProcessImage(pix))
+                    {
+                        // SegMode can't be OsdOnly in here.
+                        confidence = page.GetConfidence();
 
-                    // SegMode can't be OsdOnly in here.
-                    text = page.GetText();
+                        // SegMode can't be OsdOnly in here.
+                        text = page.GetText();
+                    }
                 }
             }
             catch (DllNotFoundException)

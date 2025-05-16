@@ -281,7 +281,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You created &lt;strong&gt;{0}&lt;/strong&gt; {1} and &lt;strong&gt;{2}&lt;/strong&gt; {3}.
+        ///   Looks up a localized string similar to You created {0} {1} and {2} {3}.
         /// </summary>
         public static string DocFolderOverviewText {
             get {

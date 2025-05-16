@@ -21,7 +21,7 @@ namespace Athena.UI
         {
             //Create a new PDF document
             PdfDocument doc = new PdfDocument();
-            doc.Compression = PdfCompressionLevel.Best;
+            doc.Compression = PdfCompressionLevel.Normal;
             doc.DocumentInformation.Author = AppPrefix;
             doc.DocumentInformation.CreationDate = DateTime.UtcNow;
             doc.DocumentInformation.Title = $"{AppPrefix} - {name}";
@@ -76,10 +76,10 @@ namespace Athena.UI
 
                     FileStream imageStream = new FileStream(document.ImagePath, FileMode.Open, FileAccess.Read);
 
-                    Microsoft.Maui.Graphics.IImage img = PlatformImage.FromStream(imageStream).Downsize(1080, true);
+                    Microsoft.Maui.Graphics.IImage img = PlatformImage.FromStream(imageStream).Downsize(1920, true);
                     MemoryStream ms = new MemoryStream();
 
-                    await img.SaveAsync(ms);
+                    await img.SaveAsync(ms, ImageFormat.Jpeg, 0.92f);
 
                     PdfBitmap image = new PdfBitmap(ms);
                     PdfUnitConverter converter = new PdfUnitConverter();

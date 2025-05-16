@@ -41,7 +41,6 @@ public static class MauiProgram
         AdConfig.DisableConsentCheck = true;
         //AdConfig.AddTestDevice("BA3156A459BD267FCF0E7B5173A25A2C");
 #endif
-
         builder.Services.AddSingleton<IDataBrokerService, DefaultDataBrokerService>();
         builder.Services.AddSingleton<INavigationService, DefaultNavigationService>();
         builder.Services.AddSingleton<IPreferencesService, DefaultPreferencesService>();

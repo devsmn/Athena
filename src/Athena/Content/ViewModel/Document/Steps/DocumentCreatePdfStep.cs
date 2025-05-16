@@ -75,7 +75,8 @@ namespace Athena.UI
             }
 
             _vm.ParentFolder.AddDocument(_vm.Document);
-            _vm.Document.Document.Save(context);
+            _vm.ParentFolder.Save(context, FolderSaveOptions.Documents);
+            //_vm.Document.Document.Save(context);
 
             if (_vm.DetectText)
             {
