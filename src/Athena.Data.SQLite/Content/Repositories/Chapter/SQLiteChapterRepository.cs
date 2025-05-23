@@ -11,6 +11,7 @@
 
         public async Task<bool> InitializeAsync(IContext context)
         {
+            context.Log("Initializing search repository");
             _insertChapterSql = await ReadResourceAsync("CHAPTER_INSERT.sql");
             _readChapterSql = await ReadResourceAsync("CHAPTER_READ.sql");
             _deleteChapterSql = await ReadResourceAsync("CHAPTER_DELETE.sql");
@@ -25,6 +26,7 @@
 
         private async Task CreateTables(IContext context)
         {
+            context.Log("Creating search repository data storage");
             await RunScriptAsync("CREATE_TABLE_CHAPTER.sql");
         }
 

@@ -1,9 +1,9 @@
-using SelectionChangedEventArgs = Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs;
+﻿using SelectionChangedEventArgs = Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs;
 
 namespace Athena.UI;
 
 
-public partial class TagsOverview : ContentPage
+public partial class TagsOverview : DefaultContentPage
 {
     public TagsOverview()
     {

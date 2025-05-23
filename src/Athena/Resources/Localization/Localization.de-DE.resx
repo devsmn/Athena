@@ -397,6 +397,9 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="OcrLanguagesDescription" xml:space="preserve">
     <value>Hier kannst du die Sprachen verwalten, die von der Texterkennung unterstützt werden. Bereits installierte Sprachen können gelöscht werden, indem sie aus der Liste entfernt werden. Neue Sprachen können installiert werden, indem sie hinzugefügt werden.</value>
   </data>
+  <data name="OcrLanguagesSaved" xml:space="preserve">
+    <value>Die Texterkennungssprachen wurden erfolgreich gespeichert!</value>
+  </data>
   <data name="OcrTypeToSelectLanguages" xml:space="preserve">
     <value>Tippen beginnen, um Sprachen auszuwählen</value>
   </data>

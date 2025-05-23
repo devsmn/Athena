@@ -876,6 +876,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Successfully saved text detection languages!.
+        /// </summary>
+        public static string OcrLanguagesSaved {
+            get {
+                return ResourceManager.GetString("OcrLanguagesSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start typing to select languages....
         /// </summary>
         public static string OcrTypeToSelectLanguages {

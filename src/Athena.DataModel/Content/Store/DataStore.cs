@@ -20,6 +20,11 @@ namespace Athena.DataModel
             }
         }
 
+        public static void Clear()
+        {
+            _stores.Clear();
+        }
+
         public static async Task InitializeAsync(IContext context)
         {
             ICompatibilityService compatService = Services.GetService<ICompatibilityService>();

@@ -30,6 +30,8 @@ namespace Athena.Data.SQLite
 
         public async Task<bool> InitializeAsync(IContext context)
         {
+            context.Log("Initializing document repository");
+
             _insertDocumentSql = await ReadResourceAsync("DOCUMENT_INSERT.sql");
             _insertDocumentTagSql = await ReadResourceAsync("DOCUMENT_TAG_INSERT.sql");
             _readDocumentSql = await ReadResourceAsync("DOCUMENT_READ.sql");
@@ -68,20 +70,22 @@ namespace Athena.Data.SQLite
 
         private async Task CreateTables(IContext context)
         {
+            context.Log("Creating document data storage");
+
             await RunScriptAsync("CREATE_TABLE_DOCUMENT.sql");
             await RunScriptAsync("CREATE_TABLE_DOCUMENT_TAG.sql");
         }
 
         private async Task PatchTables55(IContext context)
         {
-            Debug.WriteLine("Patch 55: Starting document PDF compression patch");
+            context.Log("Patch #55: Preparing sources");
 
             await Audit(
                 context,
                 _readDocumentSql,
                 async command =>
                 {
-                    Debug.WriteLine("Patch 55: Compressing PDFs");
+                    context.Log("Patch #55: compressing PDFs");
                     command.Bind("@DOC_ref", -1);
                     var documents = command.ExecuteQuery<Document>();
 
@@ -89,6 +93,7 @@ namespace Athena.Data.SQLite
 
                     foreach (var document in documents)
                     {
+                        context.Log($"Path #55: Patching PDF for document {document.Id}");
                         document.ReadPdf(context);
 
                         using (MemoryStream ms = new(document.Pdf))
@@ -99,7 +104,7 @@ namespace Athena.Data.SQLite
                     }
                 });
 
-            Debug.WriteLine("Patch 55: Document PDF compression patch finished");
+            Debug.WriteLine("Patch #55: Document PDF compression patch finished");
         }
 
         private void PatchPdf(Document doc)

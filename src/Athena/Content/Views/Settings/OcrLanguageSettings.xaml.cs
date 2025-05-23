@@ -1,14 +1,11 @@
 ﻿namespace Athena.UI;
 
-public partial class OcrLanguageSettings : ContentPage
+public partial class OcrLanguageSettings : DefaultContentPage
 {
     public OcrLanguageSettings()
     {
         BindingContext = new OcrLanguageSettingsViewModel();
         InitializeComponent();
-
-        NavigatedTo += OnNavigatedTo;
-
     }
 
     protected override bool OnBackButtonPressed()
@@ -22,11 +19,6 @@ public partial class OcrLanguageSettings : ContentPage
         });
 
         return true;
-    }
-
-    private async void OnNavigatedTo(object sender, NavigatedToEventArgs e)
-    {
-        await (BindingContext as OcrLanguageSettingsViewModel).LoadAllSupportedLanguagesAsync();
     }
 
 }

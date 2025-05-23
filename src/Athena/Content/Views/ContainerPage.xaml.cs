@@ -1,7 +1,7 @@
+﻿using System.Diagnostics;
+
 namespace Athena.UI
 {
-
-
     public partial class ContainerPage : TabbedPage
     {
         public ContainerPage()

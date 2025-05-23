@@ -5,7 +5,7 @@ namespace Athena.UI
     using DataModel;
 
 
-    public partial class DocumentDetailsView : ContentPage
+    public partial class DocumentDetailsView : DefaultContentPage
     {
         private DocumentDetailsViewModel _vm;
 

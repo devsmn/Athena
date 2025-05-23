@@ -23,6 +23,7 @@ namespace Athena.Data.SQLite
 
         public async Task<bool> InitializeAsync(IContext context)
         {
+            context.Log("Initializing folder repository");
 
             _insertFolderSql = await ReadResourceAsync("FOLDER_INSERT.sql");
             _readFolderSql = await ReadResourceAsync("FOLDER_READ.sql");
@@ -45,6 +46,8 @@ namespace Athena.Data.SQLite
 
         private async Task CreateTables(IContext context)
         {
+            context.Log("Creating folder data storage");
+
             await RunScriptAsync("CREATE_TABLE_FOLDER.sql");
             await RunScriptAsync("CREATE_TABLE_FOLDER_FOLDER.sql");
             await RunScriptAsync("CREATE_TABLE_FOLDER_DOC.sql");

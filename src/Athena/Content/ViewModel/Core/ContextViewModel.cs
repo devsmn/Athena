@@ -7,7 +7,10 @@ namespace Athena.UI
     public partial class ContextViewModel : ObservableObject, IDisposable
     {
         [ObservableProperty]
-        private bool _showActivityIndicator;
+        private bool _isBusy;
+
+        [ObservableProperty]
+        private string _busyText;
 
         public ContextViewModel()
             : base()
@@ -51,6 +54,17 @@ namespace Athena.UI
         protected IContext RetrieveContext()
         {
             return new AthenaAppContext();
+        }
+
+        [DebuggerStepThrough]
+        protected IContext RetrieveReportContext()
+        {
+            return new ReportContext(Report);
+        }
+
+        private void Report(string message)
+        {
+            MainThread.BeginInvokeOnMainThread(() => BusyText = message);
         }
 
         protected async Task PushAsync(Page page)
@@ -113,6 +127,37 @@ namespace Athena.UI
                 Services.GetService<IDataBrokerService>().PublishStarted -= OnDataBrokerPublishStarted;
                 Services.GetService<IDataBrokerService>().AppInitialized -= OnDataBrokerAppInitialized;
             }
+        }
+
+        protected async Task ExecuteAsyncBackgroundAction(Func<IContext, Task> action)
+        {
+            MainThread.BeginInvokeOnMainThread(() => IsBusy = true); 
+
+            await Task.Run(async () =>
+            {
+                await Task.Delay(100);
+                await action(RetrieveReportContext());
+            });
+
+            MainThread.BeginInvokeOnMainThread(() => IsBusy = false);
+        }
+
+        protected async Task ExecuteBackgroundAction(Action<IContext> action)
+        {
+            MainThread.BeginInvokeOnMainThread(() => IsBusy = true);
+
+            await Task.Run(async () =>
+            {
+                await Task.Delay(100);
+                action(RetrieveReportContext());
+            });
+
+            MainThread.BeginInvokeOnMainThread(() => IsBusy = false);
+        }
+
+        public virtual Task InitializeAsync()
+        {
+            return Task.CompletedTask;
         }
     }
 }

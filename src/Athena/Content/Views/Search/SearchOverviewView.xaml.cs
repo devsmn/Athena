@@ -1,9 +1,9 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Syncfusion.Maui.Core;
 
 namespace Athena.UI;
 
-public partial class SearchOverviewView : ContentPage
+public partial class SearchOverviewView : DefaultContentPage
 {
     private readonly SearchChapterViewModel _vm;
 
