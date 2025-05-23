@@ -1327,6 +1327,33 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I have read and understood the privacy policy and terms of use. By continuing, I agree to the changes.
+        /// </summary>
+        public static string ToSChangedCheckConfirm {
+            get {
+                return ResourceManager.GetString("ToSChangedCheckConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The terms of use and the privacy policy have changed. Please carefully read both documents..
+        /// </summary>
+        public static string ToSChangedDescription {
+            get {
+                return ResourceManager.GetString("ToSChangedDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terms of use/privacy policy.
+        /// </summary>
+        public static string ToSChangedTitle {
+            get {
+                return ResourceManager.GetString("ToSChangedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Validating installed languages.
         /// </summary>
         public static string ValidatingInstalledLanguages {

@@ -7,6 +7,7 @@
         private const string LanguageKey = "Language";
         private const string DefaultLanguage = "en-US";
         private const string LastUsedVersion = "LastUsedVersion";
+        private const string LastTermsVersion = "LastToSVersion";
 
         /// <inheritdoc />  
         public bool IsFirstUsage()
@@ -64,6 +65,16 @@
         public void SetLastUsedVersion(int version)
         {
             Set(LastUsedVersion, version);
+        }
+
+        public int GetLastTermsOfUseVersion()
+        {
+            return Get(LastTermsVersion, 0);
+        }
+
+        public void SetLastTermsOfUseVersion(int version)
+        {
+            Set(LastTermsVersion, version);
         }
     }
 }

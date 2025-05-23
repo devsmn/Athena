@@ -213,6 +213,19 @@ namespace Athena.UI
             }
         }
 
+        public async Task CheckToSChange()
+        {
+            IPreferencesService prefService = Services.GetService<IPreferencesService>();
+
+            int lastVersion = prefService.GetLastTermsOfUseVersion();
+
+            if (lastVersion != IPreferencesService.ToSVersion)
+            {
+                prefService.SetLastTermsOfUseVersion(IPreferencesService.ToSVersion);
+                await PushModalAsync(new ToSChangedView());
+            }
+        }
+
         public async Task InitializeAsync()
         {
             IsBusy = true;

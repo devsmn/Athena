@@ -543,6 +543,15 @@ Depending on the size of the documents, this process may take a moment.</value>
     <value>The text detection is currently not available because no languages have been selected.
 Make sure that the desired languages have been selected in the settings under Text detection.</value>
   </data>
+  <data name="ToSChangedCheckConfirm" xml:space="preserve">
+    <value>I have read and understood the privacy policy and terms of use. By continuing, I agree to the changes</value>
+  </data>
+  <data name="ToSChangedDescription" xml:space="preserve">
+    <value>The terms of use and the privacy policy have changed. Please carefully read both documents.</value>
+  </data>
+  <data name="ToSChangedTitle" xml:space="preserve">
+    <value>Terms of use/privacy policy</value>
+  </data>
   <data name="ValidatingInstalledLanguages" xml:space="preserve">
     <value>Validating installed languages</value>
   </data>

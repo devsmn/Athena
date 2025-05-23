@@ -2,6 +2,8 @@
 {
     public interface IPreferencesService
     {
+        public const int ToSVersion = 1;
+
         /// <summary>
         /// Gets whether the app is used for the first time.
         /// </summary>
@@ -57,5 +59,9 @@
         int GetLastUsedVersion();
 
         void SetLastUsedVersion(int version);
+
+        int GetLastTermsOfUseVersion();
+
+        void SetLastTermsOfUseVersion(int version);
     }
 }
