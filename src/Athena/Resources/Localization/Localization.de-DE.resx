@@ -550,6 +550,15 @@ Depending on the size of the documents, this process may take a moment.</comment
     <value>Die Texterkennung ist derzeit nicht verfügbar, da keine Sprachen ausgewählt wurden.
 Stelle sicher, dass die gewünschten Sprachen in den Einstellungen unter Texterkennung ausgewählt wurden.</value>
   </data>
+  <data name="ToSChangedCheckConfirm" xml:space="preserve">
+    <value>Ich habe die Datenschutzrichtlinie und die Nutzungsbedingungen gelesen und verstanden. Durch das Fortfahren erkläre ich mich mit den Änderungen einverstanden</value>
+  </data>
+  <data name="ToSChangedDescription" xml:space="preserve">
+    <value>Die Nutzungsbedingungen und die Datenschutzrichtlinie haben sich geändert. Bitte lies beide Dokumente sorgfältig durch.</value>
+  </data>
+  <data name="ToSChangedTitle" xml:space="preserve">
+    <value>Nutzungsbedingungen/Datenschutzrichtlinie</value>
+  </data>
   <data name="ValidatingInstalledLanguages" xml:space="preserve">
     <value>Installierte Sprachen werden überprüft</value>
   </data>

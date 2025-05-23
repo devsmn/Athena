@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ui="clr-namespace:Athena.UI"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             x:Class="Athena.UI.ToSChangedView"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             Title="">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Text="{x:Static loc:Localization.ToSChangedTitle}"
+               Margin="5,20,5,2"
+               FontAttributes="Bold"
+               LineBreakMode="WordWrap"
+               VerticalTextAlignment="Center"
+               Grid.ColumnSpan="2"
+               HorizontalTextAlignment="Center"
+               FontSize="32"/>
+
+        <Label Text="{x:Static loc:Localization.ToSChangedDescription}"
+               Grid.Row="1"
+               LineBreakMode="WordWrap"
+               VerticalTextAlignment="Center"
+               HorizontalTextAlignment="Center"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               Margin="5"/>
+
+        <sfb:SfButton Style="{x:StaticResource SecondaryButtonFlat}"
+                      Margin="10, 10, 5, 10"
+                      Grid.Row="2"
+                      Grid.Column="0"
+                      Clicked="OnPrivacyPolicyClicked"
+                      Text="{x:Static  loc:Localization.SettingsPrivacyPolicyTitle}"/>
+
+        <sfb:SfButton Style="{x:StaticResource SecondaryButtonFlat}"
+                      Margin="10, 10, 5, 10"
+                      Grid.Row="2"
+                      Clicked="OnTermsOfUseClicked"
+                      Grid.Column="1"
+                      Text="{x:Static  loc:Localization.SettingsTermsOfUseTitle}"/>
+
+        <sfb:SfCheckBox Text="{x:Static  loc:Localization.ToSChangedCheckConfirm}"
+                        Grid.Row="3"
+                        IsChecked="{Binding IsConfirmChecked}"
+                        BackgroundColor="Transparent"
+                        LineBreakMode="WordWrap"
+                        Grid.Column="0"
+                        HorizontalTextAlignment="Center"
+                        Grid.ColumnSpan="2"
+                        Margin="10, 20, 10, 20"/>
+
+        <sfb:SfButton Text="{x:Static  loc:Localization.Next}"
+                      Margin="5,0,0,40"
+                      Grid.ColumnSpan="2"
+                      WidthRequest="200"
+                      Grid.Column="0"
+                      VerticalOptions="End"
+                      Grid.Row="4"
+                      Command="{Binding ConfirmClickedCommand}"
+                      Style="{x:StaticResource PrimaryButtonFlat}" />
+
+    </Grid>
+</ui:DefaultContentPage>
