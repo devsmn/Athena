@@ -1,4 +1,5 @@
-﻿using Athena.DataModel;
+﻿using Athena.Data.SQLite.Proxy;
+using Athena.DataModel;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -30,6 +31,12 @@ namespace Athena.UI
 
         [ObservableProperty]
         private DocumentViewModel _selectedItem;
+
+        [ObservableProperty]
+        private bool _isBusy;
+
+        [ObservableProperty]
+        private string _busyText;
 
         [ObservableProperty]
         private VisualCollection<DocumentViewModel, Document> _recentDocuments;
@@ -205,5 +212,56 @@ namespace Athena.UI
                 await PushModalAsync(new WelcomeView());
             }
         }
+
+        public async Task InitializeAsync()
+        {
+            IsBusy = true;
+            IContext context = RetrieveReportContext();
+            
+            await Task.Run(async () =>
+            {
+                await Task.Delay(200);
+                SqLiteProxyParameter parameter = new SqLiteProxyParameter { MinimumVersion = new Version(0, 1) };
+
+                Services.GetService<IDataBrokerService>().PrepareForLoading();
+
+                DataStore.Clear();
+                DataStore.Register(SqLiteProxy.Request<IFolderRepository>(parameter));
+                DataStore.Register(SqLiteProxy.Request<IDocumentRepository>(parameter));
+                DataStore.Register(SqLiteProxy.Request<IChapterRepository>(parameter));
+                DataStore.Register(SqLiteProxy.Request<ITagRepository>(parameter));
+                await DataStore.InitializeAsync(context);
+
+                // Data will be initialized via the welcome view.
+                if (Services.GetService<IPreferencesService>().IsFirstUsage())
+                    return;
+
+                Services.GetService<ICompatibilityService>().UpdateLastUsedVersion();
+
+                IDataBrokerService service = Services.GetService<IDataBrokerService>();
+
+                Folder rootFolder = GetRootFolder(context);
+
+                service.SetRootFolder(rootFolder);
+                service.Publish(context, rootFolder.Folders, UpdateType.Initialize);
+                service.Publish(context, rootFolder.Documents, UpdateType.Initialize);
+                service.RaiseAppInitialized();
+            });
+
+            IsBusy = false;
+        }
+
+        private static Folder GetRootFolder(IContext context)
+        {
+            var rootFolder = Folder.Read(context, IntegerEntityKey.Root);
+
+            if (rootFolder != null)
+                return rootFolder;
+
+            Folder.CreateRoot(context);
+            return Folder.Read(context, IntegerEntityKey.Root);
+        }
+
+
     }
 }

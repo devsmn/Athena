@@ -392,6 +392,9 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="OcrLanguagesDescription" xml:space="preserve">
     <value>Here you can manage the languages supported by the text detection. Already installed languages can be deleted by removing them from the list. New languages can be installed by adding them. </value>
   </data>
+  <data name="OcrLanguagesSaved" xml:space="preserve">
+    <value>Successfully saved text detection languages!</value>
+  </data>
   <data name="OcrTypeToSelectLanguages" xml:space="preserve">
     <value>Start typing to select languages...</value>
   </data>

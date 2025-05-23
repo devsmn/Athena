@@ -65,20 +65,13 @@ namespace Athena.UI
             IsSearchResult = true;
         }
 
-        [RelayCommand]
-        private async Task InitializeData()
+        public override async Task InitializeAsync()
         {
-            if (_initialized)
-                return;
-
-            IsBusy = true;
-
-            await Task.Run(async () =>
+            await ExecuteAsyncBackgroundAction(async context =>
             {
-                await Task.Delay(200);
                 byte[] pdf = Document.Pdf;
 
-                var allTags = new List<TagViewModel>(Tag.ReadAll(RetrieveContext()).Select(x => new TagViewModel(x)));
+                var allTags = new List<TagViewModel>(Tag.ReadAll(context).Select(x => new TagViewModel(x)));
                 var selectedTags = new List<TagViewModel>();
 
                 foreach (var tag in allTags)
@@ -94,9 +87,6 @@ namespace Athena.UI
                     Pdf = pdf;
                 });
             });
-
-            _initialized = true;
-            IsBusy = false;
         }
 
         protected override void OnDataPublished(DataPublishedEventArgs e)

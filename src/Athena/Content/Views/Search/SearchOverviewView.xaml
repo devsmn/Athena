@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Athena.UI.SearchOverviewView"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
-             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
-             xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
-             xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
-             Style="{StaticResource ContentPageStyle}"
-             Title="{x:Static loc:Localization.Search}">
+<ui:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="Athena.UI.SearchOverviewView"
+                    xmlns:loc="clr-namespace:Athena.Resources.Localization"
+                    xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+                    xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+                    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
+                    xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+                    xmlns:ui="clr-namespace:Athena.UI"
+                    Title="{x:Static loc:Localization.Search}">
     <Grid HorizontalOptions="Center" Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -155,13 +155,13 @@
                    HeaderTitle="Loading"
                    StaysOpen="True"
                    AutoSizeMode="Height"
-                   Message="Loading search result"
+                   Message="Loading..."
                    IsOpen="{Binding IsBusy}">
             <p:SfPopup.ContentTemplate>
                 <DataTemplate >
                     <VerticalStackLayout HorizontalOptions="Center">
                         <ActivityIndicator IsRunning="true" />
-                        <Label Text="{x:Static loc:Localization.SearchRunning}" VerticalTextAlignment="Center"
+                        <Label Text="{Binding BusyText}" VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center"/>
 
                     </VerticalStackLayout>
@@ -170,4 +170,4 @@
         </p:SfPopup>
 
     </Grid>
-</ContentPage>
+</ui:DefaultContentPage>

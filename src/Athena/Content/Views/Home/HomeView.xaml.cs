@@ -1,10 +1,11 @@
-﻿using Athena.DataModel.Core;
+﻿using System.Diagnostics;
+using Athena.DataModel.Core;
 
 namespace Athena.UI;
 
 public partial class HomeView : ContentPage
 {
-    private bool _firstUsageChecked;
+    private bool _dataInitialized;
     private readonly HomeViewModel _viewModel;
 
     public HomeView()
@@ -18,10 +19,11 @@ public partial class HomeView : ContentPage
 
     private async void OnLoaded(object sender, EventArgs e)
     {
-        if (_firstUsageChecked)
+        if (_dataInitialized)
             return;
 
-        _firstUsageChecked = true;
         await _viewModel.CheckFirstUsage();
+        await _viewModel.InitializeAsync();
+        _dataInitialized = true;
     }
 }

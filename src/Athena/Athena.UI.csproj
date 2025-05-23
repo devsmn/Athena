@@ -252,6 +252,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Content\Views\DefaultContentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Content\Views\Document\DocumentDetailsPdfView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

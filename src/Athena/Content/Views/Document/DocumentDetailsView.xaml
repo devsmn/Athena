@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ui:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Athena.UI.DocumentDetailsView"
-             Style="{StaticResource ContentPageStyle}"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
              xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:ui="clr-namespace:Athena.UI"
              Title="{Binding Document.Name}">
 
-    <ContentPage.Behaviors>
+    <!--<ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="NavigatedTo" Command="{Binding InitializeDataCommand}" />
-    </ContentPage.Behaviors>
+    </ContentPage.Behaviors>-->
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="menu.png" Clicked="MenuItem_OnClicked"/>
@@ -223,4 +223,4 @@
     </Grid>
 
 
-</ContentPage>
+</ui:DefaultContentPage>

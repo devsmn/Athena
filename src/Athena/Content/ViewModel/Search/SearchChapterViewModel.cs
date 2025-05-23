@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Athena.DataModel;
+using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -14,9 +16,6 @@ namespace Athena.UI
 
         [ObservableProperty]
         private bool _isFullTextSearch;
-
-        [ObservableProperty]
-        private bool _isBusy;
 
         [ObservableProperty]
         private bool _showFilterPopup;
@@ -58,7 +57,16 @@ namespace Athena.UI
         public SearchChapterViewModel()
         {
             SelectedTags = new();
-            Tags = new(Tag.ReadAll(RetrieveContext()).Select(x => new TagViewModel(x)));
+        }
+
+        public override async Task InitializeAsync()
+        {
+            await ExecuteBackgroundAction(context =>
+            {
+                var tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
+                Tags = new(tags);
+            });
+
         }
 
 
@@ -79,21 +87,17 @@ namespace Athena.UI
             if (Interlocked.Exchange(ref _isSearchActive, 1) == 1)
                 return;
 
-            IsBusy = true;
+            BusyText = Localization.SearchRunning;
 
-            await Task.Run(() =>
+            await ExecuteBackgroundAction(context =>
             {
-                var context = RetrieveContext();
-
                 var results = Document.Search(context, text, SelectedTags.Select(x => x.Tag), IsFullTextSearch);
-
                 MainThread.InvokeOnMainThreadAsync(() =>
                 {
                     SearchResult = new ObservableCollection<SearchResult>(results);
                 });
             });
 
-            IsBusy = false;
             await View.Navigation.PushAsync(new SearchResultView(this));
             Interlocked.Exchange(ref _isSearchActive, 0);
         }
