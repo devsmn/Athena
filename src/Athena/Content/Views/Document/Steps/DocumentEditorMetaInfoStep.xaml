@@ -5,6 +5,7 @@
              xmlns:sf="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
              xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="Athena.UI.DocumentEditorMetaInfoStep">
 
     <Grid>
@@ -36,10 +37,31 @@
             </sf:SfDataForm.TextInputLayoutSettings>
         </sf:SfDataForm>
 
-        <Label Text="{x:Static loc:Localization.DocumentEditorSelectTags}"
-               Grid.Row="2"
-               FontSize="Title"
-               FontAttributes="Bold"/>
+
+        <HorizontalStackLayout Grid.Row="2">
+
+            <Label Text="{x:Static loc:Localization.DocumentEditorSelectTags}"
+                   FontSize="Title"
+                   FontAttributes="Bold"/>
+
+
+            <sfb:SfButton Margin="3,0,0,0"
+                          Clicked="TagsInfoClicked"
+                          HorizontalTextAlignment="Start"
+                          BackgroundImageSource="info.png"
+                          ImageSource="info.png"
+                          Background="Transparent"
+                          HeightRequest="25"
+                          WidthRequest="25"
+                          VerticalTextAlignment="Center"
+                          HorizontalOptions="Center"
+                          ImageAlignment="Default"
+                          StrokeThickness="0"/>
+
+        </HorizontalStackLayout>
+
+
+        
 
         <Label Grid.Row="3" 
                Margin="5"

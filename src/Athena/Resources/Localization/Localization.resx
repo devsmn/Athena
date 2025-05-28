@@ -390,7 +390,7 @@ Depending on the size of the documents, this process may take a moment.</value>
     <value>Estimated local size: </value>
   </data>
   <data name="OcrLanguagesDescription" xml:space="preserve">
-    <value>Here you can manage the languages supported by the text detection. Already installed languages can be deleted by removing them from the list. New languages can be installed by adding them. </value>
+    <value>Here you can manage the languages supported by the text detection when creating new documents. Already installed languages can be deleted by removing them from the list. New languages can be installed by adding them. </value>
   </data>
   <data name="OcrLanguagesSaved" xml:space="preserve">
     <value>Successfully saved text detection languages!</value>
@@ -629,5 +629,8 @@ Make sure that the desired languages have been selected in the settings under Te
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="DocumentEditorTagsInfo" xml:space="preserve">
+    <value>Documents can be assigned to different categories to make them easier and more intuitive to manage.</value>
   </data>
 </root>

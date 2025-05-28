@@ -395,7 +395,7 @@ Depending on the size of the documents, this process may take a moment.</comment
     <value>Geschätzter belegter Speicherplatz: </value>
   </data>
   <data name="OcrLanguagesDescription" xml:space="preserve">
-    <value>Hier kannst du die Sprachen verwalten, die von der Texterkennung unterstützt werden. Bereits installierte Sprachen können gelöscht werden, indem sie aus der Liste entfernt werden. Neue Sprachen können installiert werden, indem sie hinzugefügt werden.</value>
+    <value>Hier kannst du die Sprachen verwalten, die von der Texterkennung beim Anlegen von Dokumenten unterstützt werden. Bereits installierte Sprachen können gelöscht werden, indem sie aus der Liste entfernt werden. Neue Sprachen können installiert werden, indem sie hinzugefügt werden.</value>
   </data>
   <data name="OcrLanguagesSaved" xml:space="preserve">
     <value>Die Texterkennungssprachen wurden erfolgreich gespeichert!</value>
@@ -638,5 +638,8 @@ Stelle sicher, dass die gewünschten Sprachen in den Einstellungen unter Texterk
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>
+  </data>
+  <data name="DocumentEditorTagsInfo" xml:space="preserve">
+    <value>Dokumente können verschiedenen Kategorien zugewiesen werden, um sie leichter und intuitiver zu verwalten.</value>
   </data>
 </root>

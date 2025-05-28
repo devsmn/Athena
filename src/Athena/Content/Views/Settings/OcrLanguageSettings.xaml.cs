@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Athena.Resources.Localization;
 
 namespace Athena.UI;
 
@@ -21,5 +22,10 @@ public partial class OcrLanguageSettings : DefaultContentPage
         });
 
         return true;
+    }
+
+    private void OnInfoClicked(object sender, EventArgs e)
+    {
+        ShowInfoPopup(Localization.SettingsOcrTitle, Localization.OcrLanguagesDescription);
     }
 }

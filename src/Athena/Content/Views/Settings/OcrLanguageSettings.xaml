@@ -49,23 +49,39 @@
         </p:SfPopup>
 
 
-        <Label Text="{x:Static loc:Localization.SettingsOcrTitle}"
-                Grid.Row="0"
-                Margin="5,20,5,2"
-                FontAttributes="Bold"
-                HorizontalTextAlignment="Center"
-                FontSize="32"/>
+        <HorizontalStackLayout Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
 
-        <Label Text="{x:Static loc:Localization.OcrLanguagesDescription}"
-               Grid.Row="1"
-               Margin="5"
-               HorizontalTextAlignment="Center"/>
+
+            <Label Text="{x:Static loc:Localization.SettingsOcrTitle}"
+                   Grid.Row="0"
+                   Margin="5,20,5,2"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   FontSize="32"/>
+
+
+
+            <sfb:SfButton Margin="3,20,0,2"
+                          Clicked="OnInfoClicked"
+                          HorizontalTextAlignment="Start"
+                          BackgroundImageSource="info.png"
+                          ImageSource="info.png"
+                          Background="Transparent"
+                          HeightRequest="25"
+                          WidthRequest="25"
+                          VerticalTextAlignment="Center"
+                          HorizontalOptions="Center"
+                          ImageAlignment="Default"
+                          StrokeThickness="0"/>
+
+        </HorizontalStackLayout>
 
         <editors:SfAutocomplete ItemsSource="{Binding AllSupportedLanguages}"
                                 DisplayMemberPath="DisplayName"
                                 SelectionMode="Multiple"
                                 EnableAutoSize="True"
                                 Margin="10"
+                                Background="Transparent"
                                 Grid.Row="2"
                                 Placeholder="{x:Static loc:Localization.OcrTypeToSelectLanguages}"
                                 IsClearButtonVisible="False"

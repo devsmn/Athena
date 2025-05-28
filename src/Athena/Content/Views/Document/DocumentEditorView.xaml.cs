@@ -2,7 +2,7 @@
 {
     using DataModel;
 
-    public partial class DocumentEditorView : ContentPage
+    public partial class DocumentEditorView : DefaultContentPage
     {
         public DocumentEditorView(Folder folder, Document document)
         {
