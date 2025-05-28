@@ -50,6 +50,9 @@ namespace Athena.UI
                 foreach (var tagUpdate in e.Tags)
                 {
                     Tags.Process(tagUpdate);
+
+                    if (tagUpdate.Type == UpdateType.Delete || tagUpdate.Type == UpdateType.Edit)
+                        SelectedTags.Process(tagUpdate);
                 }
             });
         }

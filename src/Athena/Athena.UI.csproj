@@ -391,4 +391,8 @@
 	  </None>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Content\NewFolder\" />
+	</ItemGroup>
+
 </Project>

@@ -372,6 +372,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Documents can be assigned to different categories to make them easier and more intuitive to manage..
+        /// </summary>
+        public static string DocumentEditorTagsInfo {
+            get {
+                return ResourceManager.GetString("DocumentEditorTagsInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use the plus button to add a new document.
         /// </summary>
         public static string DocumentEmpty {
@@ -813,7 +822,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Here you can manage the languages supported by the text detection. Already installed languages can be deleted by removing them from the list. New languages can be installed by adding them. .
+        ///   Looks up a localized string similar to Here you can manage the languages supported by the text detection when creating new documents. Already installed languages can be deleted by removing them from the list. New languages can be installed by adding them. .
         /// </summary>
         public static string OcrLanguagesDescription {
             get {
