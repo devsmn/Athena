@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             x:Class="Athena.UI.ToSAcceptView">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*" />
+            <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Text="{x:Static loc:Localization.ToSChangedTitle}"
+           Margin="5,20,5,2"
+           FontAttributes="Bold"
+           LineBreakMode="WordWrap"
+           VerticalTextAlignment="Center"
+           Grid.ColumnSpan="2"
+           HorizontalTextAlignment="Center"
+           FontSize="32"/>
+
+        <Label Text="{x:Static loc:Localization.ToSChangedDescription}"
+           Grid.Row="1"
+           LineBreakMode="WordWrap"
+           VerticalTextAlignment="Center"
+           HorizontalTextAlignment="Center"
+           Grid.Column="0"
+           Grid.ColumnSpan="2"
+           Margin="5"/>
+
+        <sfb:SfButton Style="{x:StaticResource SecondaryButtonFlat}"
+                  Margin="10, 10, 5, 10"
+                  Grid.Row="2"
+                  Grid.Column="0"
+                  Clicked="OnPrivacyPolicyClicked"
+                  Text="{x:Static  loc:Localization.SettingsPrivacyPolicyTitle}"/>
+
+        <sfb:SfButton Style="{x:StaticResource SecondaryButtonFlat}"
+                  Margin="10, 10, 5, 10"
+                  Grid.Row="2"
+                  Clicked="OnTermsOfUseClicked"
+                  Grid.Column="1"
+                  Text="{x:Static  loc:Localization.SettingsTermsOfUseTitle}"/>
+
+        <Grid Grid.Row="3"
+              Grid.Column="0"
+              Grid.ColumnSpan="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <sfb:SfCheckBox Grid.Column="0"
+                    IsChecked="{Binding IsConfirmChecked}"
+                    
+                    Margin="10, 20, 10, 20"/>
+
+            <Label Grid.Column="1"
+                   Margin="0, 20, 10, 20"
+                   Text="{x:Static loc:Localization.ToSChangedCheckConfirm}"
+                   LineBreakMode="WordWrap"/>
+
+        </Grid>
+    </Grid>
+</ContentView>

@@ -44,7 +44,6 @@ namespace Athena.UI
             }
         }
 
-
         private bool CanExecuteNextStep()
         {
             return !string.IsNullOrWhiteSpace(Folder.Name);

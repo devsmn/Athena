@@ -47,56 +47,63 @@ namespace Athena.UI
         [ObservableProperty]
         private string _name;
 
-        private readonly ILanguageService _languageService;
-        private readonly IGreetingService _greetingService;
-        private readonly IPreferencesService _prefService;
-        private readonly ICompatibilityService _compatService;
+        [ObservableProperty]
+        private bool _isConfirmChecked;
+
+        public ILanguageService LanguageService { get; private set; }
+        public IGreetingService GreetingService { get; private set; }
+        public IPreferencesService PrefService { get; private set; }
+        public ICompatibilityService CompatService { get; private set; }
+
+        private readonly ViewStepHandler<WelcomeViewModel> _stepHandler;
+
+        public ViewStepHandler<WelcomeViewModel> StepHandler => _stepHandler;
 
         public WelcomeViewModel()
         {
-            _greetingService = Services.GetService<IGreetingService>();
-            _languageService = Services.GetService<ILanguageService>();
-            _prefService = Services.GetService<IPreferencesService>();
-            _compatService = Services.GetService<ICompatibilityService>();
+            _stepHandler = new(this);
+            _stepHandler.RegisterIncrease(0);
+            _stepHandler.RegisterIncrease(1);
+            _stepHandler.RegisterIncrease(2);
+            _stepHandler.RegisterIncrease(3);
+            _stepHandler.Register(4, new WelcomeViewLastStep());
 
-            Languages = new ObservableCollection<LanguageViewModel>(_languageService.GetSupportedLanguages());
+            GreetingService = Services.GetService<IGreetingService>();
+            LanguageService = Services.GetService<ILanguageService>();
+            PrefService = Services.GetService<IPreferencesService>();
+            CompatService = Services.GetService<ICompatibilityService>();
+
+            Languages = new ObservableCollection<LanguageViewModel>(LanguageService.GetSupportedLanguages());
             SelectedLanguage = Languages[0];
 
             SelectionChanged();
         }
 
-        [RelayCommand]
-        private async Task NextStep()
+        partial void OnIsConfirmCheckedChanged(bool value)
         {
-            Step++;
-
-            if (Step < 2)
-            {
-                NextButtonText = Localization.Next;
-            }
-
-            if (Step > 2)
-            {
-                _compatService.UpdateLastUsedVersion();
-                _prefService.SetFirstUsage();
-                _prefService.SetName(Name);
-                _languageService.SetLanguage(RetrieveContext(), SelectedLanguage.Id, true);
-            }
-            else if (Step > 1)
-            {
-                NextButtonText = Localization.Close;
-            }
+            NextStepCommand.NotifyCanExecuteChanged();
         }
 
-        public void BackButton()
+        private bool CanExecuteNextStep()
         {
-            Step = Math.Max(--Step, 0);
+            return StepHandler.StepIndex != 2 || IsConfirmChecked;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanExecuteNextStep))]
+        private async Task NextStep()
+        {
+            await StepHandler.Next(RetrieveContext());
+        }
+
+        public async Task BackButton()
+        {
+            await StepHandler.Back(RetrieveContext());
         }
 
         [RelayCommand]
         public void SelectionChanged()
         {
-            _languageService.SetLanguage(RetrieveContext(), SelectedLanguage.Id, false);
+            LanguageService.SetLanguage(RetrieveContext(), SelectedLanguage.Id, false);
 
             EnterNameText = Localization.WelcomeEnterName;
             EnterNameTextDesc = Localization.WelcomeEnterNameDesc;
@@ -106,7 +113,7 @@ namespace Athena.UI
             NextButtonText = Localization.Next;
             WelcomeReadyTextDesc = Localization.WelcomeReadyDesc;
             WelcomeReadyText = Localization.WelcomeReady;
-            Greeting = _greetingService.Get();
+            Greeting = GreetingService.Get();
         }
     }
 }

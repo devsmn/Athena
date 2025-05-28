@@ -24,7 +24,6 @@ public partial class HomeView : ContentPage
 
         await _viewModel.CheckFirstUsage();
         await _viewModel.InitializeAsync();
-        await _viewModel.CheckToSChange();
         _dataInitialized = true;
     }
 }
