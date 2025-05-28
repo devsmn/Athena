@@ -1,38 +1,39 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-<Import Project="..\..\version.props" />  
-	<PropertyGroup>
-		<TargetFrameworks>net9.0-android</TargetFrameworks>
-		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
-		<OutputType>Exe</OutputType>
-		<RootNamespace>Athena</RootNamespace>
-		<UseMaui>true</UseMaui>
-		<SingleProject>true</SingleProject>
-		<ImplicitUsings>enable</ImplicitUsings>
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\version.props" />
+  <PropertyGroup>
+    <TargetFrameworks>net9.0-android</TargetFrameworks>
+    <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+    <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Athena</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
     <SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
-		<!-- Display name -->
-		<ApplicationTitle>Athena</ApplicationTitle>
+    <!-- Display name -->
+    <ApplicationTitle>Athena</ApplicationTitle>
 
-		<!-- App Identifier -->
-		<ApplicationId>com.spflaum.athena</ApplicationId>
-		<ApplicationIdGuid>7f91bd27-2b90-424d-abff-94309ddb125d</ApplicationIdGuid>
+    <!-- App Identifier -->
+    <ApplicationId>com.spflaum.athena</ApplicationId>
+    <ApplicationIdGuid>7f91bd27-2b90-424d-abff-94309ddb125d</ApplicationIdGuid>
 
-		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
 
-		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+
+    <!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>-->
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">29.0</SupportedOSPlatformVersion>
-		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">29.0</SupportedOSPlatformVersion>
+    <!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<NeutralLanguage>en-US</NeutralLanguage>
-		<WindowsPackageType>None</WindowsPackageType>
-	</PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <WindowsPackageType>None</WindowsPackageType>
+  </PropertyGroup>
 
-	<!--<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
+  <!--<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-android33.0|AnyCPU'">
 	  <AndroidPackageFormat>apk</AndroidPackageFormat>
 	</PropertyGroup>-->
 
@@ -40,272 +41,272 @@
     <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
   </ItemGroup>-->
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-	  <Debugger>Xamarin</Debugger>
-	  <TrimMode>link</TrimMode>
-	  <AndroidKeyStore>False</AndroidKeyStore>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <DebugType>portable</DebugType>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <Optimize>True</Optimize>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+    <Debugger>Xamarin</Debugger>
+    <TrimMode>link</TrimMode>
+    <AndroidKeyStore>False</AndroidKeyStore>
+    <RunAOTCompilation>False</RunAOTCompilation>
+    <DebugType>portable</DebugType>
+    <PublishTrimmed>False</PublishTrimmed>
+    <Optimize>True</Optimize>
+    <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-	  <Debugger>Xamarin</Debugger>
-	  <TrimMode>link</TrimMode>
-	  <AndroidKeyStore>False</AndroidKeyStore>
-	  <DebugSymbols>True</DebugSymbols>
-	  <DebugType>portable</DebugType>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+    <Debugger>Xamarin</Debugger>
+    <TrimMode>link</TrimMode>
+    <AndroidKeyStore>False</AndroidKeyStore>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+    <AndroidUseAapt2>True</AndroidUseAapt2>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <AndroidUseAapt2>True</AndroidUseAapt2>
-	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-	  <DebugSymbols>False</DebugSymbols>
-	  <NoWarn>1701;1702;CA1416</NoWarn>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidUseAapt2>True</AndroidUseAapt2>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <DebugSymbols>False</DebugSymbols>
+    <NoWarn>1701;1702;CA1416</NoWarn>
+  </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-	  <NoWarn>1701;1702;CA1416</NoWarn>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <NoWarn>1701;1702;CA1416</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
     <AndroidLibrary Include="Dependencies\user-messaging-platform-2.0.0.aar" Bind="false" />
   </ItemGroup>
 
-	<ItemGroup>
-		<!-- App Icon -->
-		<!--<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />-->
+  <ItemGroup>
+    <!-- App Icon -->
+    <!--<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />-->
 
-		<!-- Splash Screen -->
-		<!--<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />-->
+    <!-- Splash Screen -->
+    <!--<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />-->
 
-		<!-- Images -->
+    <!-- Images -->
 
-		<!-- Custom Fonts -->
-		<MauiFont Include="Resources\Fonts\*" />
+    <!-- Custom Fonts -->
+    <MauiFont Include="Resources\Fonts\*" />
 
-		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-	</ItemGroup>
+    <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+    <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <AndroidResource Remove="Content\ViewModel\Settings\NewFolder\**" />
-	  <AndroidResource Remove="Content\Views\Folder\Steps\**" />
-	  <AndroidSkipResourceProcessing Remove="Content\Views\Folder\Steps\**" />
-	  <Compile Remove="Content\ViewModel\Settings\NewFolder\**" />
-	  <Compile Remove="Content\Views\Folder\Steps\**" />
-	  <Compile Remove="Content\Views\Page\**" />
-	  <EmbeddedResource Remove="Content\ViewModel\Settings\NewFolder\**" />
-	  <EmbeddedResource Remove="Content\Views\Folder\Steps\**" />
-	  <EmbeddedResource Remove="Content\Views\Page\**" />
-	  <MauiCss Remove="Content\ViewModel\Settings\NewFolder\**" />
-	  <MauiCss Remove="Content\Views\Folder\Steps\**" />
-	  <MauiCss Remove="Content\Views\Page\**" />
-	  <MauiXaml Remove="Content\ViewModel\Settings\NewFolder\**" />
-	  <MauiXaml Remove="Content\Views\Folder\Steps\**" />
-	  <MauiXaml Remove="Content\Views\Page\**" />
-	  <None Remove="Content\ViewModel\Settings\NewFolder\**" />
-	  <None Remove="Content\Views\Folder\Steps\**" />
-	  <None Remove="Content\Views\Page\**" />
-	</ItemGroup>
+  <ItemGroup>
+    <AndroidResource Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <AndroidResource Remove="Content\Views\Folder\Steps\**" />
+    <AndroidSkipResourceProcessing Remove="Content\Views\Folder\Steps\**" />
+    <Compile Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <Compile Remove="Content\Views\Folder\Steps\**" />
+    <Compile Remove="Content\Views\Page\**" />
+    <EmbeddedResource Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <EmbeddedResource Remove="Content\Views\Folder\Steps\**" />
+    <EmbeddedResource Remove="Content\Views\Page\**" />
+    <MauiCss Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <MauiCss Remove="Content\Views\Folder\Steps\**" />
+    <MauiCss Remove="Content\Views\Page\**" />
+    <MauiXaml Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <MauiXaml Remove="Content\Views\Folder\Steps\**" />
+    <MauiXaml Remove="Content\Views\Page\**" />
+    <None Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <None Remove="Content\Views\Folder\Steps\**" />
+    <None Remove="Content\Views\Page\**" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <None Remove="Resources\AppIcon\athena_icon.png" />
-	  <None Remove="Resources\AppIcon\athena_splash_circle.png" />
-	  <None Remove="Resources\Images\add_document.png" />
-	  <None Remove="Resources\Images\add_document_negative.png" />
-	  <None Remove="Resources\Images\add_folder.png" />
-	  <None Remove="Resources\Images\camera.png" />
-	  <None Remove="Resources\Images\copyright.png" />
-	  <None Remove="Resources\Images\delete.png" />
-	  <None Remove="Resources\Images\delete_inverse.png" />
-	  <None Remove="Resources\Images\delete_negative.png" />
-	  <None Remove="Resources\Images\document.png" />
-	  <None Remove="Resources\Images\document_color.png" />
-	  <None Remove="Resources\Images\dotnet_bot.svg" />
-	  <None Remove="Resources\Images\edit.png" />
-	  <None Remove="Resources\Images\empty.png" />
-	  <None Remove="Resources\Images\empty_folder.png" />
-	  <None Remove="Resources\Images\error_color.png" />
-	  <None Remove="Resources\Images\favorite.png" />
-	  <None Remove="Resources\Images\favorite_negative.png" />
-	  <None Remove="Resources\Images\feedback.png" />
-	  <None Remove="Resources\Images\filter.png" />
-	  <None Remove="Resources\Images\folder.png" />
-	  <None Remove="Resources\Images\folder_color.png" />
-	  <None Remove="Resources\Images\gallery.png" />
-	  <None Remove="Resources\Images\help.png" />
-	  <None Remove="Resources\Images\home.png" />
-	  <None Remove="Resources\Images\image_placeholder.png" />
-	  <None Remove="Resources\Images\info.png" />
-	  <None Remove="Resources\Images\menu.png" />
-	  <None Remove="Resources\Images\menu_filled.png" />
-	  <None Remove="Resources\Images\move.png" />
-	  <None Remove="Resources\Images\news.png" />
-	  <None Remove="Resources\Images\next.png" />
-	  <None Remove="Resources\Images\next_inverted.png" />
-	  <None Remove="Resources\Images\ocr.png" />
-	  <None Remove="Resources\Images\page.png" />
-	  <None Remove="Resources\Images\pdf.png" />
-	  <None Remove="Resources\Images\plus.png" />
-	  <None Remove="Resources\Images\privacy.png" />
-	  <None Remove="Resources\Images\save.png" />
-	  <None Remove="Resources\Images\search.png" />
-	  <None Remove="Resources\Images\settings.png" />
-	  <None Remove="Resources\Images\share.png" />
-	  <None Remove="Resources\Images\success_color.png" />
-	  <None Remove="Resources\Images\tag.png" />
-	  <None Remove="Resources\Images\terms_and_conditions.png" />
-	  <None Remove="Resources\Images\text_search.png" />
-	  <None Remove="Resources\Images\text_search_disabled.png" />
-	  <None Remove="Resources\Images\tut_step1.jpg" />
-	  <None Remove="Resources\Images\view_externally.png" />
-	  <None Remove="Resources\Images\warning_color.png" />
-	  <None Remove="Resources\Splash\athena_splash.png" />
-	  <None Remove="Resources\Splash\athena_splash_circle.png" />
-	</ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\AppIcon\athena_icon.png" />
+    <None Remove="Resources\AppIcon\athena_splash_circle.png" />
+    <None Remove="Resources\Images\add_document.png" />
+    <None Remove="Resources\Images\add_document_negative.png" />
+    <None Remove="Resources\Images\add_folder.png" />
+    <None Remove="Resources\Images\camera.png" />
+    <None Remove="Resources\Images\copyright.png" />
+    <None Remove="Resources\Images\delete.png" />
+    <None Remove="Resources\Images\delete_inverse.png" />
+    <None Remove="Resources\Images\delete_negative.png" />
+    <None Remove="Resources\Images\document.png" />
+    <None Remove="Resources\Images\document_color.png" />
+    <None Remove="Resources\Images\dotnet_bot.svg" />
+    <None Remove="Resources\Images\edit.png" />
+    <None Remove="Resources\Images\empty.png" />
+    <None Remove="Resources\Images\empty_folder.png" />
+    <None Remove="Resources\Images\error_color.png" />
+    <None Remove="Resources\Images\favorite.png" />
+    <None Remove="Resources\Images\favorite_negative.png" />
+    <None Remove="Resources\Images\feedback.png" />
+    <None Remove="Resources\Images\filter.png" />
+    <None Remove="Resources\Images\folder.png" />
+    <None Remove="Resources\Images\folder_color.png" />
+    <None Remove="Resources\Images\gallery.png" />
+    <None Remove="Resources\Images\help.png" />
+    <None Remove="Resources\Images\home.png" />
+    <None Remove="Resources\Images\image_placeholder.png" />
+    <None Remove="Resources\Images\info.png" />
+    <None Remove="Resources\Images\menu.png" />
+    <None Remove="Resources\Images\menu_filled.png" />
+    <None Remove="Resources\Images\move.png" />
+    <None Remove="Resources\Images\news.png" />
+    <None Remove="Resources\Images\next.png" />
+    <None Remove="Resources\Images\next_inverted.png" />
+    <None Remove="Resources\Images\ocr.png" />
+    <None Remove="Resources\Images\page.png" />
+    <None Remove="Resources\Images\pdf.png" />
+    <None Remove="Resources\Images\plus.png" />
+    <None Remove="Resources\Images\privacy.png" />
+    <None Remove="Resources\Images\save.png" />
+    <None Remove="Resources\Images\search.png" />
+    <None Remove="Resources\Images\settings.png" />
+    <None Remove="Resources\Images\share.png" />
+    <None Remove="Resources\Images\success_color.png" />
+    <None Remove="Resources\Images\tag.png" />
+    <None Remove="Resources\Images\terms_and_conditions.png" />
+    <None Remove="Resources\Images\text_search.png" />
+    <None Remove="Resources\Images\text_search_disabled.png" />
+    <None Remove="Resources\Images\tut_step1.jpg" />
+    <None Remove="Resources\Images\view_externally.png" />
+    <None Remove="Resources\Images\warning_color.png" />
+    <None Remove="Resources\Splash\athena_splash.png" />
+    <None Remove="Resources\Splash\athena_splash_circle.png" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <MauiImage Include="Resources\Images\ocr.png" />
-	</ItemGroup>
+  <ItemGroup>
+    <MauiImage Include="Resources\Images\ocr.png" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <MauiImage Include="Resources\Images\add_document.png" />
-	  <MauiImage Include="Resources\Images\add_document_negative.png" />
-	  <MauiImage Include="Resources\Images\add_folder.png" />
-	  <MauiImage Include="Resources\Images\camera.png" />
-	  <MauiImage Include="Resources\Images\copyright.png" />
-	  <MauiImage Include="Resources\Images\delete.png" />
-	  <MauiImage Include="Resources\Images\delete_negative.png" />
-	  <MauiImage Include="Resources\Images\document.png" />
-	  <MauiImage Include="Resources\Images\document_color.png" />
-	  <MauiImage Include="Resources\Images\dotnet_bot.svg" />
-	  <MauiImage Include="Resources\Images\edit.png" />
-	  <MauiImage Include="Resources\Images\empty.png" />
-	  <MauiImage Include="Resources\Images\empty_folder.png" />
-	  <MauiImage Include="Resources\Images\error_color.png" />
-	  <MauiImage Include="Resources\Images\favorite.png" />
-	  <MauiImage Include="Resources\Images\favorite_negative.png" />
-	  <MauiImage Include="Resources\Images\feedback.png" />
-	  <MauiImage Include="Resources\Images\filter.png" />
-	  <MauiImage Include="Resources\Images\folder.png" />
-	  <MauiImage Include="Resources\Images\folder_color.png" />
-	  <MauiImage Include="Resources\Images\gallery.png" />
-	  <MauiImage Include="Resources\Images\help.png" />
-	  <MauiImage Include="Resources\Images\home.png" />
-	  <MauiImage Include="Resources\Images\image_placeholder.png" />
-	  <MauiImage Include="Resources\Images\info.png" />
-	  <MauiImage Include="Resources\Images\menu.png" />
-	  <MauiImage Include="Resources\Images\menu_filled.png" />
-	  <MauiImage Include="Resources\Images\news.png" />
-	  <MauiImage Include="Resources\Images\next.png" />
-	  <MauiImage Include="Resources\Images\next_inverted.png" />
-	  <MauiImage Include="Resources\Images\page.png" />
-	  <MauiImage Include="Resources\Images\pdf.png" />
-	  <MauiImage Include="Resources\Images\plus.png" />
-	  <MauiImage Include="Resources\Images\privacy.png" />
-	  <MauiImage Include="Resources\Images\save.png" />
-	  <MauiImage Include="Resources\Images\search.png" />
-	  <MauiImage Include="Resources\Images\settings.png" />
-	  <MauiImage Include="Resources\Images\share.png" />
-	  <MauiImage Include="Resources\Images\success_color.png" />
-	  <MauiImage Include="Resources\Images\tag.png" />
-	  <MauiImage Include="Resources\Images\terms_and_conditions.png" />
-	  <MauiImage Include="Resources\Images\text_search.png" />
-	  <MauiImage Include="Resources\Images\text_search_disabled.png" />
-	  <MauiImage Include="Resources\Images\view_externally.png" />
-	  <MauiImage Include="Resources\Images\warning_color.png" />
-	</ItemGroup>
+  <ItemGroup>
+    <MauiImage Include="Resources\Images\add_document.png" />
+    <MauiImage Include="Resources\Images\add_document_negative.png" />
+    <MauiImage Include="Resources\Images\add_folder.png" />
+    <MauiImage Include="Resources\Images\camera.png" />
+    <MauiImage Include="Resources\Images\copyright.png" />
+    <MauiImage Include="Resources\Images\delete.png" />
+    <MauiImage Include="Resources\Images\delete_negative.png" />
+    <MauiImage Include="Resources\Images\document.png" />
+    <MauiImage Include="Resources\Images\document_color.png" />
+    <MauiImage Include="Resources\Images\dotnet_bot.svg" />
+    <MauiImage Include="Resources\Images\edit.png" />
+    <MauiImage Include="Resources\Images\empty.png" />
+    <MauiImage Include="Resources\Images\empty_folder.png" />
+    <MauiImage Include="Resources\Images\error_color.png" />
+    <MauiImage Include="Resources\Images\favorite.png" />
+    <MauiImage Include="Resources\Images\favorite_negative.png" />
+    <MauiImage Include="Resources\Images\feedback.png" />
+    <MauiImage Include="Resources\Images\filter.png" />
+    <MauiImage Include="Resources\Images\folder.png" />
+    <MauiImage Include="Resources\Images\folder_color.png" />
+    <MauiImage Include="Resources\Images\gallery.png" />
+    <MauiImage Include="Resources\Images\help.png" />
+    <MauiImage Include="Resources\Images\home.png" />
+    <MauiImage Include="Resources\Images\image_placeholder.png" />
+    <MauiImage Include="Resources\Images\info.png" />
+    <MauiImage Include="Resources\Images\menu.png" />
+    <MauiImage Include="Resources\Images\menu_filled.png" />
+    <MauiImage Include="Resources\Images\news.png" />
+    <MauiImage Include="Resources\Images\next.png" />
+    <MauiImage Include="Resources\Images\next_inverted.png" />
+    <MauiImage Include="Resources\Images\page.png" />
+    <MauiImage Include="Resources\Images\pdf.png" />
+    <MauiImage Include="Resources\Images\plus.png" />
+    <MauiImage Include="Resources\Images\privacy.png" />
+    <MauiImage Include="Resources\Images\save.png" />
+    <MauiImage Include="Resources\Images\search.png" />
+    <MauiImage Include="Resources\Images\settings.png" />
+    <MauiImage Include="Resources\Images\share.png" />
+    <MauiImage Include="Resources\Images\success_color.png" />
+    <MauiImage Include="Resources\Images\tag.png" />
+    <MauiImage Include="Resources\Images\terms_and_conditions.png" />
+    <MauiImage Include="Resources\Images\text_search.png" />
+    <MauiImage Include="Resources\Images\text_search_disabled.png" />
+    <MauiImage Include="Resources\Images\view_externally.png" />
+    <MauiImage Include="Resources\Images\warning_color.png" />
+  </ItemGroup>
 
-	<ItemGroup>
+  <ItemGroup>
     <PackageReference Include="FFImageLoading.Maui" Version="1.2.5" />
-		<PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
-		<PackageReference Include="Plugin.AdMob" Version="2.3.1" />
-		<PackageReference Include="Syncfusion.Licensing" Version="29.1.38" />
-		<PackageReference Include="Syncfusion.Maui.Buttons" Version="29.1.38" />
-		<PackageReference Include="Syncfusion.Maui.Carousel" Version="29.1.38" />
-		<PackageReference Include="Syncfusion.Maui.DataForm" Version="29.1.38" />
-		<PackageReference Include="Syncfusion.Maui.Expander" Version="29.1.38" />
-		<PackageReference Include="Syncfusion.Maui.ImageEditor" Version="29.1.38" />
-		<PackageReference Include="Syncfusion.Maui.PdfViewer" Version="29.1.38" />
-		<PackageReference Include="Syncfusion.Maui.Popup" Version="29.1.38" />
-		<PackageReference Include="Syncfusion.Maui.Rotator" Version="29.1.38" />
-		<PackageReference Include="Syncfusion.Maui.TabView" Version="29.1.38" />
-		<PackageReference Include="Syncfusion.Maui.TreeView" Version="29.1.38" />
-		<PackageReference Include="Syncfusion.Pdf.NET" Version="29.1.38" />
-		<PackageReference Include="TesseractOcrMaui" Version="1.2.0" />
-	</ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
+    <PackageReference Include="Plugin.AdMob" Version="2.3.1" />
+    <PackageReference Include="Syncfusion.Licensing" Version="29.1.38" />
+    <PackageReference Include="Syncfusion.Maui.Buttons" Version="29.1.38" />
+    <PackageReference Include="Syncfusion.Maui.Carousel" Version="29.1.38" />
+    <PackageReference Include="Syncfusion.Maui.DataForm" Version="29.1.38" />
+    <PackageReference Include="Syncfusion.Maui.Expander" Version="29.1.38" />
+    <PackageReference Include="Syncfusion.Maui.ImageEditor" Version="29.1.38" />
+    <PackageReference Include="Syncfusion.Maui.PdfViewer" Version="29.1.38" />
+    <PackageReference Include="Syncfusion.Maui.Popup" Version="29.1.38" />
+    <PackageReference Include="Syncfusion.Maui.Rotator" Version="29.1.38" />
+    <PackageReference Include="Syncfusion.Maui.TabView" Version="29.1.38" />
+    <PackageReference Include="Syncfusion.Maui.TreeView" Version="29.1.38" />
+    <PackageReference Include="Syncfusion.Pdf.NET" Version="29.1.38" />
+    <PackageReference Include="TesseractOcrMaui" Version="1.2.0" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Athena.Data.SQLite.Provider\Athena.Data.SQLite.Proxy.csproj" />
-	  <ProjectReference Include="..\Athena.DataModel\Athena.DataModel.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Athena.Data.SQLite.Provider\Athena.Data.SQLite.Proxy.csproj" />
+    <ProjectReference Include="..\Athena.DataModel\Athena.DataModel.csproj" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <MauiXaml Update="Content\Views\DefaultContentPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Document\DocumentDetailsPdfView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Document\DocumentDetailsView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Document\DocumentEditorView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Document\DocumentEditorDocumentCropView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorFinishedStep.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorSavingStep.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorDocumentStep.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorMetaInfoStep.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\ContainerPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Folder\FolderOverview.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Folder\FolderEditorView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Home\HomeView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Search\SearchChapterView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Search\SearchResultView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Settings\OcrLanguageSettings.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Settings\SettingsView.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Content\Views\Tags\TagsOverview.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+  <ItemGroup>
+    <MauiXaml Update="Content\Views\DefaultContentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Document\DocumentDetailsPdfView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Document\DocumentDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Document\DocumentEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Document\DocumentEditorDocumentCropView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorFinishedStep.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorSavingStep.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorDocumentStep.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Document\Steps\DocumentEditorMetaInfoStep.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\ContainerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Folder\FolderOverview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Folder\FolderEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Home\HomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Search\SearchChapterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Search\SearchResultView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Settings\OcrLanguageSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Settings\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Tags\TagsOverview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Content\Views\Folder\FolderOverview.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -336,69 +337,69 @@
     <MauiXaml Update="Content\Views\Welcome\Steps\WelcomeViewLanguageStep.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-	</ItemGroup>
+  </ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
-	  <PackageReference Include="ImageCropper.Maui">
-	    <Version>1.0.3</Version>
-	  </PackageReference>
-	</ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
+    <PackageReference Include="ImageCropper.Maui">
+      <Version>1.0.3</Version>
+    </PackageReference>
+  </ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android33.0'">
-	  <PackageReference Include="ImageCropper.Maui">
-	    <Version>1.0.3</Version>
-	  </PackageReference>
-	</ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android33.0'">
+    <PackageReference Include="ImageCropper.Maui">
+      <Version>1.0.3</Version>
+    </PackageReference>
+  </ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
-	  <PackageReference Include="Xamarin.AndroidX.Collection.Ktx">
-	    <Version>1.5.0.1</Version>
-	  </PackageReference>
-	</ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+    <PackageReference Include="Xamarin.AndroidX.Collection.Ktx">
+      <Version>1.5.0.1</Version>
+    </PackageReference>
+  </ItemGroup>
 
-	<ItemGroup>
-	  <MauiIcon Include="Resources\AppIcon\athena_icon.png" />
-	  <MauiImage Include="Resources\Images\move.png" />
-	</ItemGroup>
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\athena_icon.png" />
+    <MauiImage Include="Resources\Images\move.png" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <MauiSplashScreen Include="Resources\Splash\athena_splash.png" />
-	</ItemGroup>
+  <ItemGroup>
+    <MauiSplashScreen Include="Resources\Splash\athena_splash.png" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <None Include="..\..\version.props" Link="version.props" />
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\version.props" Link="version.props" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <Compile Update="Resources\Localization\Localization.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Localization.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources\Localization\Localization.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Localization.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
-	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Localization\Localization.de-DE.resx">
-	    <Generator></Generator>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Localization\Localization.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Localization.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	</ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Localization\Localization.de-DE.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Localization\Localization.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Localization.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <None Update="Content\Views\Settings\OcrLanguageSettings.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Update="Content\Views\Settings\OcrLanguageSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Content\NewFolder\" />
-	</ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\NewFolder\" />
+  </ItemGroup>
 
 </Project>

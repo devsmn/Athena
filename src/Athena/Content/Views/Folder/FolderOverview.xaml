@@ -392,7 +392,10 @@
         </p:SfPopup>
 
 
-        <admob:BannerAd Grid.Row="0" AdSize="SmartBanner"  BackgroundColor="White"/>
+        <admob:BannerAd Grid.Row="0"
+                        AdSize="SmartBanner"
+                        AdUnitId="ca-app-pub-7134624676592827/4690515785"
+                        BackgroundColor="White"/>
 
         <shimmer:SfShimmer IsActive="{Binding IsBusy}" 
                                RepeatCount="6"

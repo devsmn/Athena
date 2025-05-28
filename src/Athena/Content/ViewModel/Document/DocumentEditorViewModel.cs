@@ -171,7 +171,7 @@ namespace Athena.UI
             IsPopupOpen = true;
 
 
-            await Task.Run(() => MainThread.BeginInvokeOnMainThread(() => _interstitialAdService.PrepareAd()));
+            await Task.Run(() => MainThread.BeginInvokeOnMainThread(() => _interstitialAdService.PrepareAd("ca-app-pub-7134624676592827/8601607180")));
             IsPopupOpen = false;
         }
 
