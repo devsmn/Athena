@@ -14,14 +14,4 @@ public partial class ToSChangedView : DefaultContentPage
     {
         return true;
     }
-
-    private async void OnPrivacyPolicyClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/privacy/"));
-    }
-
-    private async void OnTermsOfUseClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/tos/"));
-    }
 }

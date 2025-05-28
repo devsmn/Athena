@@ -312,10 +312,16 @@
     <MauiXaml Update="Content\Views\Folder\FolderEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Content\Views\Terms\ToSAcceptView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Content\Views\Terms\ToSChangedView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Content\Views\WebViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Welcome\Steps\WelcomeViewConfirmToSStep.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Content\Views\Welcome\Steps\WelcomeViewNameStep.xaml">

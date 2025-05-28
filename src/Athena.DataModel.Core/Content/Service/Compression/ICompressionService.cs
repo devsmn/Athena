@@ -16,7 +16,18 @@
         /// <returns></returns>
         public byte[] Compress(byte[] data);
 
+        /// <summary>
+        /// Asynchronously decompresses the given <paramref name="stream"/>.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
         public Task<byte[]> DecompressAsync(MemoryStream stream);
+
+        /// <summary>
+        /// Decompresses the given <paramref name="data"/>.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public byte[] Decompress(byte[] data);
     }
 }

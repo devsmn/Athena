@@ -30,6 +30,10 @@
             <ui:WelcomeViewTutorialStartStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
         </ControlTemplate>
 
+        <ControlTemplate x:Key="ToSAcceptViewStep">
+            <ui:ToSAcceptView  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>
+
     </ContentPage.Resources>
 
     <Grid>
@@ -45,22 +49,29 @@
                 <Style TargetType="ContentView">
                     <Style.Triggers>
                         <DataTrigger TargetType="ContentView" 
-                                     Binding="{Binding Path=Step}"
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
                                      Value="0">
                             <Setter Property="ControlTemplate" Value="{StaticResource LanguageStep}" />
                         </DataTrigger>
 
                         <DataTrigger TargetType="ContentView" 
-                                     Binding="{Binding Path=Step}"
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
                                      Value="1">
                             <Setter Property="ControlTemplate" Value="{StaticResource NameStep}" />
                         </DataTrigger>
 
                         <DataTrigger TargetType="ContentView" 
-                                     Binding="{Binding Path=Step}"
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
                                      Value="2">
+                            <Setter Property="ControlTemplate" Value="{StaticResource ToSAcceptViewStep}" />
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="ContentView" 
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
+                                     Value="3">
                             <Setter Property="ControlTemplate" Value="{StaticResource TutorialStartStep}" />
                         </DataTrigger>
+
 
                     </Style.Triggers>
                 </Style>

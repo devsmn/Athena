@@ -1,36 +1,27 @@
 ﻿namespace Athena.DataModel.Core
 {
-    public class VersionPatch
-    {
-        public int Version { get; }
-
-        private readonly List<Func<IContext, Task>> _patches;
-
-        public VersionPatch(int version, params Func<IContext, Task>[] patches)
-        {
-            Version = version;
-            _patches = new();
-            _patches.AddRange(patches);
-        }
-
-        public void AddPatch(Func<IContext, Task> action)
-        {
-            _patches.Add(action);
-        }
-
-        public async Task PatchAsync(IContext context)
-        {
-            foreach (var patch in _patches)
-                await patch(context);
-        }
-
-    }
+    /// <summary>
+    /// Provides functionality to keep compatibility between one or more versions. 
+    /// </summary>
     public interface ICompatibilityService
     {
-        int GetLastUsedVersion();
+        /// <summary>
+        /// Gets a list of <see cref="VersionPatch"/> for the given entity <typeparamref name="TFor"/>.
+        /// </summary>
+        /// <typeparam name="TFor"></typeparam>
+        /// <returns></returns>
         IEnumerable<VersionPatch> GetPatches<TFor>();
+
+        /// <summary>
+        /// Registers a <see cref="VersionPatch"/> for the given entity <typeparamref name="TFor"/>.
+        /// </summary>
+        /// <typeparam name="TFor"></typeparam>
+        /// <param name="patch"></param>
         void RegisterPatch<TFor>(VersionPatch patch);
-        int GetCurrentVersion();
+
+        /// <summary>
+        /// Updates the last used version.
+        /// </summary>
         void UpdateLastUsedVersion();
     }
 }

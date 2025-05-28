@@ -211,6 +211,10 @@ namespace Athena.UI
             {
                 await PushModalAsync(new WelcomeView());
             }
+            else
+            {
+                await CheckToSChange();
+            }
         }
 
         public async Task CheckToSChange()

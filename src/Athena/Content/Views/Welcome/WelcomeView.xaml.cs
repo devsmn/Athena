@@ -1,4 +1,4 @@
-namespace Athena.UI;
+﻿namespace Athena.UI;
 
 public partial class WelcomeView : ContentPage
 {

@@ -38,6 +38,11 @@ namespace Athena.UI
             _increaseSteps.Add(index);
         }
 
+        /// <summary>
+        /// Asynchronously executes the next step.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public async Task Next(IContext context)
         {
             int tmpIndex = StepIndex;
@@ -54,6 +59,11 @@ namespace Athena.UI
             }
         }
 
+        /// <summary>
+        /// Asynchronously executes the previous step.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public async Task<bool> Back(IContext context)
         {
             int tmpIndex = StepIndex;

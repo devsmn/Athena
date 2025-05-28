@@ -24,6 +24,11 @@ namespace Athena.UI
         {
         }
 
+        /// <summary>
+        /// Adds the given range of <paramref name="items"/> to this collection.
+        /// The notifications are suspended until all items were added.
+        /// </summary>
+        /// <param name="items"></param>
         public void AddRange(IEnumerable<TViewModel> items)
         {
             foreach (var item in items)
@@ -36,12 +41,20 @@ namespace Athena.UI
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
+        /// <summary>
+        /// Edits the given <paramref name="entity"/>.
+        /// </summary>
+        /// <param name="entity"></param>
         public void Edit(TEntity entity)
         {
             var toEdit = Find(entity.Id);
             toEdit?.Edit(entity);
         }
 
+        /// <summary>
+        /// Deletes the given <paramref name="entity"/>.
+        /// </summary>
+        /// <param name="entity"></param>
         public void Delete(TEntity entity)
         {
             var toDelete = Find(entity.Id);
@@ -57,6 +70,10 @@ namespace Athena.UI
             return Items.FirstOrDefault(x => x.Id == id);
         }
 
+        /// <summary>
+        /// Processes the given <paramref name="update"/>.
+        /// </summary>
+        /// <param name="update"></param>
         public void Process(RequestUpdate<TEntity> update)
         {
             switch (update.Type)

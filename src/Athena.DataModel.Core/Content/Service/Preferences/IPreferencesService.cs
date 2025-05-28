@@ -56,12 +56,28 @@
         /// <param name="language"></param>
         void SetLanguage(string language);
 
+        /// <summary>
+        /// Gets the last used version.
+        /// </summary>
+        /// <returns></returns>
         int GetLastUsedVersion();
 
+        /// <summary>
+        /// Sets the last used version to the given <paramref name="version"/>.
+        /// </summary>
+        /// <param name="version"></param>
         void SetLastUsedVersion(int version);
 
+        /// <summary>
+        /// Gets the last seen ToS version.
+        /// </summary>
+        /// <returns></returns>
         int GetLastTermsOfUseVersion();
 
+        /// <summary>
+        /// Updates the last seen ToS version to the given <paramref name="version"/>.
+        /// </summary>
+        /// <param name="version"></param>
         void SetLastTermsOfUseVersion(int version);
     }
 }
