@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -161,14 +161,14 @@ Das Dokument kann nicht wiederhergestellt werden!</value>
     <value>Möchtest du den Ordner {0} wirklich löschen? 
 Der Ordner kann nicht wiederhergestellt werden!</value>
   </data>
-  <data name="DeleteInstalledLanguagesConfirmText" xml:space="preserve">
-    <value>Möchtest du wirklich {0} ({1} MB) installierte Sprache(n) löschen?</value>
+  <data name="OcrDeleteInstalledLanguagesConfirmText" xml:space="preserve">
+    <value>Möchtest du wirklich {0} installierte Sprache(n) löschen? (ca.  {1} MB)</value>
   </data>
   <data name="DeleteInstalledLanguagesConfirmTitle" xml:space="preserve">
     <value>Installierte Sprachen löschen</value>
   </data>
-  <data name="DeleteLanguageInfo" xml:space="preserve">
-    <value>{0} ({1} MB) Sprache(n) zu löschen</value>
+  <data name="OcrDeleteLanguageInfo" xml:space="preserve">
+    <value>{0} Sprache(n) zu löschen (ca. {1} MB)</value>
   </data>
   <data name="DeletePage" xml:space="preserve">
     <value>Seite löschen</value>
@@ -187,7 +187,7 @@ Der Tag kann nicht wiederhergestellt werden!</value>
   <data name="DeletingLanguage" xml:space="preserve">
     <value>{0} wird gelöscht</value>
   </data>
-  <data name="DeletingLanguages" xml:space="preserve">
+  <data name="OcrDeletingLanguages" xml:space="preserve">
     <value>Installierte Sprachen werden gelöscht</value>
   </data>
   <data name="DisplayLanguage" xml:space="preserve">
@@ -264,14 +264,14 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="DocumentVMNameRequired" xml:space="preserve">
     <value>Der Name darf nicht leer sein</value>
   </data>
-  <data name="DownloadingLanguage" xml:space="preserve">
+  <data name="OcrDownloadingLanguage" xml:space="preserve">
     <value>{0} wird heruntergeladen</value>
   </data>
   <data name="DownloadingNewLanguages" xml:space="preserve">
     <value>Neue Sprachen werden heruntergeladen</value>
   </data>
-  <data name="DownloadLanguagesInfo" xml:space="preserve">
-    <value>{0} ({1} MB) Sprache(n) herunterzuladen</value>
+  <data name="OcrDownloadLanguagesInfo" xml:space="preserve">
+    <value>{0} Sprache(n) herunterzuladen (ca. {1} MB)</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Bearbeiten</value>
@@ -331,13 +331,13 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="GoodNight" xml:space="preserve">
     <value>Hallo</value>
   </data>
-  <data name="InstalledLanguagesDeletedSuccessfully" xml:space="preserve">
+  <data name="OcrInstalledLanguagesDeletedSuccessfully" xml:space="preserve">
     <value>Die installierten Sprachen wurden erfolgreich gelöscht</value>
   </data>
-  <data name="LanguagesPendingChangesText" xml:space="preserve">
+  <data name="OcrLanguagesPendingChangesText" xml:space="preserve">
     <value>Du hast deine Änderungen nicht gespeichert. Wenn du diese Seite schließt, werden deine Änderungen verworfen. Willst du die Seite wirklich schließen?</value>
   </data>
-  <data name="LanguagesPendingChangesTitle" xml:space="preserve">
+  <data name="OcrLanguagesPendingChangesTitle" xml:space="preserve">
     <value>Ungespeicherte Änderungen</value>
   </data>
   <data name="Loading pages" xml:space="preserve">
@@ -370,19 +370,19 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="No" xml:space="preserve">
     <value>Nein</value>
   </data>
-  <data name="NoInternetText" xml:space="preserve">
+  <data name="OcrNoInternetText" xml:space="preserve">
     <value>Du bist nicht mit dem Internet verbunden, daher können keine Sprachen heruntergeladen werden</value>
   </data>
   <data name="NoRecentDocuments" xml:space="preserve">
     <value>Keine zuletzt genutzten Dokumente</value>
   </data>
-  <data name="NotInternetTitle" xml:space="preserve">
+  <data name="OcrNotInternetTitle" xml:space="preserve">
     <value>Keine Internetverbindung</value>
   </data>
-  <data name="NoWlanConnectionText" xml:space="preserve">
+  <data name="OcrNoWlanConnectionText" xml:space="preserve">
     <value>Du bist mit keinem WLAN Netzwerk verbunden. Möchtest du {0} MB wirklich mit deinen mobilen Daten herunterladen?</value>
   </data>
-  <data name="NoWlanConnectionTitle" xml:space="preserve">
+  <data name="OcrNoWlanConnectionTitle" xml:space="preserve">
     <value>Internetverbindung</value>
   </data>
   <data name="OcrDeleteInstalledLanguages" xml:space="preserve">
@@ -406,28 +406,79 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="OpenInBrowser" xml:space="preserve">
     <value>Im Browser öffnen</value>
   </data>
+  <data name="PdfCreationBadImageQuality" xml:space="preserve">
+    <value>Schlechte Bildqualität. Der erkannte Text ist eventuell ungenau</value>
+  </data>
+  <data name="PdfCreationConvertingDocument" xml:space="preserve">
+    <value>Dokument {0} wird konvertiert</value>
+  </data>
+  <data name="PdfCreationDetectedText" xml:space="preserve">
+    <value>Text erkannt</value>
+  </data>
+  <data name="PdfCreationDetectingTextInDocument" xml:space="preserve">
+    <value>Text in Dokument {0} wird erkannt. Dies kann einen Moment dauern</value>
+  </data>
+  <data name="PdfCreationDocumentContainsNoText" xml:space="preserve">
+    <value>Dokument beinhaltet keinen Text</value>
+  </data>
+  <data name="PdfCreationExtractingTextFromPdf" xml:space="preserve">
+    <value>Text wird aus PDF {0} extrahiert</value>
+  </data>
+  <data name="PdfCreationImageCompressed" xml:space="preserve">
+    <value>Inhalt wird komprimiert</value>
+  </data>
+  <data name="PdfCreationLoadingPdf" xml:space="preserve">
+    <value>PDF {0} wird geladen</value>
+  </data>
+  <data name="PdfCreationMergingPdf" xml:space="preserve">
+    <value>PDF {0} wird gemerged</value>
+  </data>
+  <data name="PdfCreationNoLanguagesConfigured" xml:space="preserve">
+    <value>Keine Sprachen zur Texterkennung ausgewählt. Bitte Sprachen in den Einstellungen unter Texterkennung auswählen</value>
+  </data>
+  <data name="PdfCreationPdfLoaded" xml:space="preserve">
+    <value>PDF geladen</value>
+  </data>
+  <data name="PdfCreationSavingDocument" xml:space="preserve">
+    <value>Dokument wird gespeichert</value>
+  </data>
+  <data name="PdfCreationSavingPdf" xml:space="preserve">
+    <value>PDF wird gespeichert</value>
+  </data>
+  <data name="PdfCreationSavingTags" xml:space="preserve">
+    <value>Tags werden gespeichert...</value>
+  </data>
+  <data name="PdfCreationTextDetected" xml:space="preserve">
+    <value>Text extrahiert</value>
+  </data>
+  <data name="PdfCreationTextDetectionDisabled" xml:space="preserve">
+    <value>Texterkennung deaktiviert</value>
+  </data>
+  <data name="PdfCreationTextDetectionFailed" xml:space="preserve">
+    <value>Text konnte nicht erkannt werden: {0}</value>
+  </data>
   <data name="Pin" xml:space="preserve">
     <value>Anpinnen</value>
   </data>
   <data name="RecentDocuments" xml:space="preserve">
     <value>Aktuelle Dokumente</value>
   </data>
-  <data name="RetrievingInstalledLanguages" xml:space="preserve">
+  <data name="OcrRetrievingInstalledLanguages" xml:space="preserve">
     <value>Installierte Sprachen werden geladen</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Speichern</value>
   </data>
-  <data name="SaveAnd" xml:space="preserve">
+  <data name="OcrSaveAnd" xml:space="preserve">
     <value>und</value>
   </data>
-  <data name="SaveLanguagesPrefix" xml:space="preserve">
+  <data name="OcrSaveLanguagesPrefix" xml:space="preserve">
     <value>Du bist dabei, </value>
   </data>
-  <data name="SaveLanguagesText" xml:space="preserve">
+  <data name="OcrSaveLanguagesText" xml:space="preserve">
     <value>{0}. Fortfahren?</value>
   </data>
-  <data name="SaveLanguagesTitle" xml:space="preserve">
+  <data name="OcrSaveLanguagesTitle" xml:space="preserve">
     <value>Sprachen speichern</value>
   </data>
   <data name="Scan" xml:space="preserve">

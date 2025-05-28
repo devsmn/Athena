@@ -131,20 +131,20 @@ namespace Athena.UI
 
         protected async Task ExecuteAsyncBackgroundAction(Func<IContext, Task> action)
         {
-            MainThread.BeginInvokeOnMainThread(() => IsBusy = true); 
+            await MainThread.InvokeOnMainThreadAsync(() => IsBusy = true); 
 
             await Task.Run(async () =>
             {
-                await Task.Delay(100);
+                await Task.Delay(200);
                 await action(RetrieveReportContext());
             });
 
-            MainThread.BeginInvokeOnMainThread(() => IsBusy = false);
+            await MainThread.InvokeOnMainThreadAsync(() => IsBusy = false);
         }
 
         protected async Task ExecuteBackgroundAction(Action<IContext> action)
         {
-            MainThread.BeginInvokeOnMainThread(() => IsBusy = true);
+            await MainThread.InvokeOnMainThreadAsync(() => IsBusy = true);
 
             await Task.Run(async () =>
             {
@@ -152,7 +152,7 @@ namespace Athena.UI
                 action(RetrieveReportContext());
             });
 
-            MainThread.BeginInvokeOnMainThread(() => IsBusy = false);
+            await MainThread.InvokeOnMainThreadAsync(() => IsBusy = false);
         }
 
         public virtual Task InitializeAsync()

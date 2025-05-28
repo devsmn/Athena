@@ -161,14 +161,14 @@ The document cannot be recovered!</value>
     <value>Do you really want to delete the folder {0}?
 The folder cannot be recovered!</value>
   </data>
-  <data name="DeleteInstalledLanguagesConfirmText" xml:space="preserve">
-    <value>Do your really want to delete {0} ({1} MB) installed language(s)?</value>
+  <data name="OcrDeleteInstalledLanguagesConfirmText" xml:space="preserve">
+    <value>Do your really want to delete {0} installed language(s)? (ca. {1} MB)</value>
   </data>
-  <data name="DeleteInstalledLanguagesConfirmTitle" xml:space="preserve">
+  <data name="OcrDeleteInstalledLanguagesConfirmTitle" xml:space="preserve">
     <value>Delete installed languages</value>
   </data>
-  <data name="DeleteLanguageInfo" xml:space="preserve">
-    <value>delete {0} ({1} MB) language(s)</value>
+  <data name="OcrDeleteLanguageInfo" xml:space="preserve">
+    <value>delete {0} language(s) (ca. {1} MB)</value>
   </data>
   <data name="DeletePage" xml:space="preserve">
     <value>Delete page</value>
@@ -187,7 +187,7 @@ The tag cannot be recovered!</value>
   <data name="DeletingLanguage" xml:space="preserve">
     <value>Deleting {0}</value>
   </data>
-  <data name="DeletingLanguages" xml:space="preserve">
+  <data name="OcrDeletingLanguages" xml:space="preserve">
     <value>Deleting languages</value>
   </data>
   <data name="DisplayLanguage" xml:space="preserve">
@@ -260,14 +260,14 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="DocumentVMNameRequired" xml:space="preserve">
     <value>Name is required</value>
   </data>
-  <data name="DownloadingLanguage" xml:space="preserve">
+  <data name="OcrDownloadingLanguage" xml:space="preserve">
     <value>Downloading {0}</value>
   </data>
   <data name="DownloadingNewLanguages" xml:space="preserve">
     <value>Downloading new languages</value>
   </data>
-  <data name="DownloadLanguagesInfo" xml:space="preserve">
-    <value>download {0} ({1} MB) language(s)</value>
+  <data name="OcrDownloadLanguagesInfo" xml:space="preserve">
+    <value>download {0} language(s) (ca. {1} MB)</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
@@ -326,13 +326,13 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="GoodNight" xml:space="preserve">
     <value>Hello</value>
   </data>
-  <data name="InstalledLanguagesDeletedSuccessfully" xml:space="preserve">
+  <data name="OcrInstalledLanguagesDeletedSuccessfully" xml:space="preserve">
     <value>Successfully deleted installed languages</value>
   </data>
-  <data name="LanguagesPendingChangesText" xml:space="preserve">
-    <value>You have unsaved changes. If you close this page without saving, your changes will be lost. Close this page?</value>
+  <data name="OcrLanguagesPendingChangesText" xml:space="preserve">
+    <value>You have unsaved changes. If you close this page without saving, your changes will be lost. Do you really want to close this page?</value>
   </data>
-  <data name="LanguagesPendingChangesTitle" xml:space="preserve">
+  <data name="OcrLanguagesPendingChangesTitle" xml:space="preserve">
     <value>Pending changes</value>
   </data>
   <data name="LoadingDocuments" xml:space="preserve">
@@ -365,19 +365,19 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
-  <data name="NoInternetText" xml:space="preserve">
+  <data name="OcrNoInternetText" xml:space="preserve">
     <value>You are not connected to the internet, therfore languages cannot be downloaded</value>
   </data>
   <data name="NoRecentDocuments" xml:space="preserve">
     <value>No recent documents</value>
   </data>
-  <data name="NotInternetTitle" xml:space="preserve">
+  <data name="OcrNotInternetTitle" xml:space="preserve">
     <value>No internet connection</value>
   </data>
-  <data name="NoWlanConnectionText" xml:space="preserve">
+  <data name="OcrNoWlanConnectionText" xml:space="preserve">
     <value>You are not connected to a WiFi network. Do you really want to download {0} MB with your mobile data?</value>
   </data>
-  <data name="NoWlanConnectionTitle" xml:space="preserve">
+  <data name="OcrNoWlanConnectionTitle" xml:space="preserve">
     <value>Internet connection</value>
   </data>
   <data name="OcrDeleteInstalledLanguages" xml:space="preserve">
@@ -401,28 +401,79 @@ Depending on the size of the documents, this process may take a moment.</value>
   <data name="OpenInBrowser" xml:space="preserve">
     <value>Open in browser</value>
   </data>
+  <data name="PdfCreationBadImageQuality" xml:space="preserve">
+    <value>Bad image quality, detected text might not be accurate</value>
+  </data>
+  <data name="PdfCreationConvertingDocument" xml:space="preserve">
+    <value>Converting document {0}</value>
+  </data>
+  <data name="PdfCreationDetectedText" xml:space="preserve">
+    <value>Detected text</value>
+  </data>
+  <data name="PdfCreationDetectingTextInDocument" xml:space="preserve">
+    <value>Detecting text in document {0}. This may take a while</value>
+  </data>
+  <data name="PdfCreationDocumentContainsNoText" xml:space="preserve">
+    <value>Document contains no text</value>
+  </data>
+  <data name="PdfCreationExtractingTextFromPdf" xml:space="preserve">
+    <value>Extracting text from pdf {0}</value>
+  </data>
+  <data name="PdfCreationImageCompressed" xml:space="preserve">
+    <value>Images compressed</value>
+  </data>
+  <data name="PdfCreationLoadingPdf" xml:space="preserve">
+    <value>Loading pdf {0}</value>
+  </data>
+  <data name="PdfCreationMergingPdf" xml:space="preserve">
+    <value>Merging pdf {0}</value>
+  </data>
+  <data name="PdfCreationNoLanguagesConfigured" xml:space="preserve">
+    <value>No languages configured for text detection. Choose languages in the settings under text detection</value>
+  </data>
+  <data name="PdfCreationPdfLoaded" xml:space="preserve">
+    <value>PDF loaded</value>
+  </data>
+  <data name="PdfCreationSavingDocument" xml:space="preserve">
+    <value>Saving document</value>
+  </data>
+  <data name="PdfCreationSavingPdf" xml:space="preserve">
+    <value>Saving pdf</value>
+  </data>
+  <data name="PdfCreationSavingTags" xml:space="preserve">
+    <value>Saving tags...</value>
+  </data>
+  <data name="PdfCreationTextDetected" xml:space="preserve">
+    <value>Text extracted</value>
+  </data>
+  <data name="PdfCreationTextDetectionDisabled" xml:space="preserve">
+    <value>Text detection disabled</value>
+  </data>
+  <data name="PdfCreationTextDetectionFailed" xml:space="preserve">
+    <value>Unable to detect text: {0}</value>
+  </data>
   <data name="Pin" xml:space="preserve">
     <value>Pin</value>
   </data>
   <data name="RecentDocuments" xml:space="preserve">
     <value>Recent documents</value>
   </data>
-  <data name="RetrievingInstalledLanguages" xml:space="preserve">
+  <data name="OcrRetrievingInstalledLanguages" xml:space="preserve">
     <value>Retrieving installed languages</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
-  <data name="SaveAnd" xml:space="preserve">
+  <data name="OcrSaveAnd" xml:space="preserve">
     <value>and</value>
   </data>
-  <data name="SaveLanguagesPrefix" xml:space="preserve">
+  <data name="OcrSaveLanguagesPrefix" xml:space="preserve">
     <value>You are about to</value>
   </data>
-  <data name="SaveLanguagesText" xml:space="preserve">
+  <data name="OcrSaveLanguagesText" xml:space="preserve">
     <value>{0}. Continue?</value>
   </data>
-  <data name="SaveLanguagesTitle" xml:space="preserve">
+  <data name="OcrSaveLanguagesTitle" xml:space="preserve">
     <value>Save languages</value>
   </data>
   <data name="Scan" xml:space="preserve">

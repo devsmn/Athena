@@ -63,7 +63,7 @@ namespace Athena.UI
 
         protected override void OnDataPublished(DataPublishedEventArgs e)
         {
-            if (!e.Tags.Any())
+            if (!e.Tags.Any() || _tags == null)
                 return;
 
             Application.Current.Dispatcher.Dispatch(() =>
