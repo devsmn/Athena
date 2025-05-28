@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 using Microsoft.Maui.Graphics.Platform;
 using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
@@ -37,7 +38,7 @@ namespace Athena.UI
 
                 try
                 {
-                    Report?.Invoke($"Converting document #{++docIdx}");
+                    Report?.Invoke(string.Format(Localization.PdfCreationConvertingDocument, ++docIdx));
 
                     if (string.IsNullOrWhiteSpace(document.ImagePath))
                     {
@@ -46,29 +47,29 @@ namespace Athena.UI
 
                     if (document.IsPdf)
                     {
-                        Report?.Invoke($"Loading pdf {document.FileName}");
+                        Report?.Invoke(string.Format(Localization.PdfCreationLoadingPdf, document.FileName));
                         FileStream pdfStream = new FileStream(document.ImagePath, FileMode.Open, FileAccess.Read);
                         PdfLoadedDocument loadedDoc = new PdfLoadedDocument(pdfStream);
                         loadedDoc.FileStructure.IncrementalUpdate = false;
 
-                        Report?.Invoke($"Merging pdf {document.FileName}");
+                        Report?.Invoke(string.Format(Localization.PdfCreationMergingPdf, document.FileName));
                         PdfDocumentBase.Merge(doc, loadedDoc);
 
-                        summary.Report(document.Id, "PDF loaded", ReportIssueLevel.Success);
+                        summary.Report(document.Id, Localization.PdfCreationPdfLoaded, ReportIssueLevel.Success);
 
                         if (detectText)
                         {
-                            Report?.Invoke($"Extracting text from pdf {document.FileName}");
+                            Report?.Invoke(string.Format(Localization.PdfCreationExtractingTextFromPdf, document.FileName));
                             foreach (PdfLoadedPage loadedPage in loadedDoc.Pages)
                             {
                                 pdfText.AppendLine(loadedPage.ExtractText(true));
                             }
 
-                            summary.Report(document.Id, "Text extracted", ReportIssueLevel.Success);
+                            summary.Report(document.Id, Localization.PdfCreationTextDetected, ReportIssueLevel.Success);
                         }
                         else
                         {
-                            summary.Report(document.Id, "Text detection disabled", ReportIssueLevel.Info);
+                            summary.Report(document.Id, Localization.PdfCreationTextDetectionDisabled, ReportIssueLevel.Info);
                         }
 
                         continue;
@@ -91,7 +92,7 @@ namespace Athena.UI
                     var page = section.Pages.Add();
 
                     page.Graphics.DrawImage(image, 0, 0, size.Width, size.Height);
-                    summary.Report(document.Id, "Image compressed", ReportIssueLevel.Success);
+                    summary.Report(document.Id, Localization.PdfCreationImageCompressed, ReportIssueLevel.Success);
                 }
                 catch (Exception ex)
                 {
@@ -102,7 +103,7 @@ namespace Athena.UI
             //Creating the stream object
             MemoryStream preCompressStream = new MemoryStream();
 
-            Report?.Invoke("Saving pdf");
+            Report?.Invoke(Localization.PdfCreationSavingPdf);
 
             doc.Save(preCompressStream);
 
@@ -110,7 +111,7 @@ namespace Athena.UI
             preCompressStream.Position = 0;
             doc.Close(true);
 
-            Report?.Invoke("Saving document");
+            Report?.Invoke(Localization.PdfCreationSavingDocument);
 
             byte[] pdf = preCompressStream.ToArray();
 

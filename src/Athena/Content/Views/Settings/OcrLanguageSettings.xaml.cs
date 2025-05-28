@@ -1,4 +1,6 @@
-﻿namespace Athena.UI;
+﻿using System.Diagnostics;
+
+namespace Athena.UI;
 
 public partial class OcrLanguageSettings : DefaultContentPage
 {
@@ -20,5 +22,4 @@ public partial class OcrLanguageSettings : DefaultContentPage
 
         return true;
     }
-
 }

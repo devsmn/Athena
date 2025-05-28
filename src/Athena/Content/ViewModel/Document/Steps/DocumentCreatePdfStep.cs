@@ -2,6 +2,7 @@
 using System.Text;
 using Athena.DataModel;
 using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 using BitMiracle.LibTiff.Classic;
 using TesseractOcrMaui.Enums;
 using TesseractOcrMaui.Results;
@@ -90,7 +91,7 @@ namespace Athena.UI
                     if (document.IsPdf)
                         continue;
 
-                    Report($"Detecting text in document #{++docIdx}. This may take a while");
+                    Report(string.Format(Localization.PdfCreationDetectingTextInDocument, ++docIdx));
 
                     var result = await ocrService.RecognizeTextAsync(document.ImagePath);
 
@@ -102,14 +103,14 @@ namespace Athena.UI
                             {
                                 summary.Report(
                                     document.Id,
-                                    $"No languages configured for text detection. Choose languages in settings",
+                                    Localization.PdfCreationNoLanguagesConfigured,
                                     ReportIssueLevel.Error);
                             }
                         }
 
                         summary.Report(
                             document.Id,
-                            $"Unable to detect text: {result.Message}",
+                            string.Format(Localization.PdfCreationTextDetectionFailed, result.Message),
                             ReportIssueLevel.Error);
                     }
                     else
@@ -118,7 +119,7 @@ namespace Athena.UI
                         {
                             summary.Report(
                                 document.Id,
-                                $"Document contains no text",
+                                Localization.PdfCreationDocumentContainsNoText,
                                 ReportIssueLevel.Warning);
                         }
                         else
@@ -128,14 +129,14 @@ namespace Athena.UI
 
                             summary.Report(
                                 document.Id,
-                                $"Detected text",
+                                Localization.PdfCreationDetectedText,
                                 ReportIssueLevel.Success);
 
                             if (result.Confidence < 0.7)
                             {
                                 summary.Report(
                                     document.Id,
-                                    "Bad image quality, detected text might not be accurate",
+                                    Localization.PdfCreationBadImageQuality,
                                     ReportIssueLevel.Warning);
                             }
                         }

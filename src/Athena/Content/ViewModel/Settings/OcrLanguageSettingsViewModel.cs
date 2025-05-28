@@ -16,18 +16,10 @@ namespace Athena.UI
         private ObservableCollection<OcrLanguage> _selectedSupportedLanguages;
 
         [ObservableProperty]
-        private bool _isBusy;
-
-        [ObservableProperty]
-        private string _busyText;
-
-        [ObservableProperty]
         private double _estimatedDownloadSize;
 
         [ObservableProperty]
         private double _estimatedLocalSize;
-
-        private bool _loading;
 
         private bool _pendingChanges;
 
@@ -53,7 +45,7 @@ namespace Athena.UI
 
             await ExecuteAsyncBackgroundAction(async context =>
             {
-                context.Log(Localization.RetrievingInstalledLanguages);
+                context.Log(Localization.OcrRetrievingInstalledLanguages);
 
 
                 Dictionary<string, OcrLanguage> tmpList = new();
@@ -186,7 +178,6 @@ namespace Athena.UI
                     tmpList.Add("yid", new("yid", "Yiddish", 100));
                     tmpList.Add("yor", new("yor", "Yoruba", 100));
 
-                    IContext context = RetrieveReportContext();
                     IOcrService service = Services.GetService<IOcrService>();
                     var languages = service.GetInstalledLanguages(context);
 
@@ -212,7 +203,7 @@ namespace Athena.UI
         [RelayCommand]
         private void IsCheckedChanged()
         {
-            if (_loading)
+            if (IsBusy)
                 return;
 
             PendingChanges = true;
@@ -240,8 +231,8 @@ namespace Athena.UI
             var toDelete = AllSupportedLanguages.Where(x => x.IsInstalled).ToList();
 
             bool yes = await DisplayAlert(
-                Localization.DeleteInstalledLanguagesConfirmTitle,
-                string.Format(Localization.DeleteInstalledLanguagesConfirmText, toDelete.Count, toDelete.Sum(x => x.Size)),
+                Localization.OcrDeleteInstalledLanguagesConfirmTitle,
+                string.Format(Localization.OcrDeleteInstalledLanguagesConfirmText, toDelete.Count, toDelete.Sum(x => x.Size)),
                 Localization.Yes,
                 Localization.No);
 
@@ -251,17 +242,17 @@ namespace Athena.UI
             await DeleteLocalFilesCore(context, ocrService);
         }
 
-        private async Task DeleteLocalFilesCore(IContext context, IOcrService ocrService)
+        private async Task DeleteLocalFilesCore(IContext passedContext, IOcrService ocrService)
         {
             await ExecuteAsyncBackgroundAction(async context =>
             {
-                ocrService.DeleteInstalledLanguages(context);
+                ocrService.DeleteInstalledLanguages(passedContext);
                 ocrService.Reset();
                 await InitializeAsync();
 
             });
 
-            await Toast.Make(Localization.InstalledLanguagesDeletedSuccessfully).Show();
+            await Toast.Make(Localization.OcrInstalledLanguagesDeletedSuccessfully).Show();
 
         }
 
@@ -290,8 +281,8 @@ namespace Athena.UI
                 if (!networkService.IsInternetAccessPossible())
                 {
                     await DisplayAlert(
-                        Localization.NotInternetTitle,
-                        Localization.NoInternetText,
+                        Localization.OcrNotInternetTitle,
+                        Localization.OcrNoInternetText,
                         "Ok",
                         string.Empty);
 
@@ -301,8 +292,8 @@ namespace Athena.UI
                 if (filesToDownload.Count > 0 && !networkService.IsWifi())
                 {
                     yes = await DisplayAlert(
-                        Localization.NoWlanConnectionTitle,
-                        string.Format(Localization.NoWlanConnectionText, Math.Round(EstimatedDownloadSize / 100.0, 2)),
+                        Localization.OcrNoWlanConnectionTitle,
+                        string.Format(Localization.OcrNoWlanConnectionText, Math.Round(EstimatedDownloadSize / 100.0, 2)),
                         Localization.Yes,
                         Localization.No);
 
@@ -314,14 +305,14 @@ namespace Athena.UI
             if (filesToDownload.Count == 0 && filesToDelete.Count == 0)
                 return;
 
-            string downloadInfo = string.Format(Localization.DownloadLanguagesInfo, filesToDownload.Count, Math.Round(EstimatedDownloadSize / 100.0, 2));
-            string deleteInfo = string.Format(Localization.DeleteLanguageInfo, filesToDelete.Count, Math.Round(filesToDelete.Sum(x => x.Size / 100.0), 2));
+            string downloadInfo = string.Format(Localization.OcrDownloadLanguagesInfo, filesToDownload.Count, Math.Round(EstimatedDownloadSize / 100.0, 2));
+            string deleteInfo = string.Format(Localization.OcrDeleteLanguageInfo, filesToDelete.Count, Math.Round(filesToDelete.Sum(x => x.Size / 100.0), 2));
 
-            string info = Localization.SaveLanguagesPrefix;
+            string info = Localization.OcrSaveLanguagesPrefix;
 
             if (filesToDelete.Count > 0 && filesToDownload.Count > 0)
             {
-                info += $" {downloadInfo} {Localization.SaveAnd} {deleteInfo}";
+                info += $" {downloadInfo} {Localization.OcrSaveAnd} {deleteInfo}";
             }
             else if (filesToDelete.Count > 0 && filesToDownload.Count == 0)
             {
@@ -333,8 +324,8 @@ namespace Athena.UI
             }
 
             yes = await DisplayAlert(
-                Localization.SaveLanguagesTitle,
-                string.Format(Localization.SaveLanguagesText, info),
+                Localization.OcrSaveLanguagesTitle,
+                string.Format(Localization.OcrSaveLanguagesText, info),
                 Localization.Yes,
                 Localization.No);
 
@@ -354,7 +345,7 @@ namespace Athena.UI
                 {
                     if (filesToDownload.Count > 0)
                     {
-                        context.Log(Localization.DownloadingLanguage);
+                        context.Log(Localization.OcrDownloadingLanguage);
 
                         await ocrService.DownloadLanguagesAsync(
                             context,
@@ -363,7 +354,7 @@ namespace Athena.UI
 
                     if (filesToDelete.Count > 0)
                     {
-                        context.Log(Localization.DeletingLanguages);
+                        context.Log(Localization.OcrDeletingLanguages);
 
                         ocrService.DeleteInstalledLanguages(
                             context,
@@ -384,8 +375,8 @@ namespace Athena.UI
             if (PendingChanges)
             {
                 bool yes = await DisplayAlert(
-                    Localization.LanguagesPendingChangesTitle,
-                    Localization.LanguagesPendingChangesText,
+                    Localization.OcrLanguagesPendingChangesTitle,
+                    Localization.OcrLanguagesPendingChangesText,
                     Localization.Yes,
                     Localization.No);
 

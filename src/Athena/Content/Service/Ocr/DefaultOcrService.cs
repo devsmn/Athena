@@ -87,7 +87,7 @@ namespace Athena.UI
 
         public string[] GetInstalledLanguages(IContext context)
         {
-            context.Log(Localization.RetrievingInstalledLanguages);
+            context.Log(Localization.OcrRetrievingInstalledLanguages);
 
             EnsureDataValidated();
 
@@ -148,7 +148,7 @@ namespace Athena.UI
 
             foreach (string lan in languages)
             {
-                context?.Log(string.Format(Localization.DownloadingLanguage, lan));
+                context?.Log(string.Format(Localization.OcrDownloadingLanguage, lan));
 
                 await downloadService.DownloadAsync(
                     context,
