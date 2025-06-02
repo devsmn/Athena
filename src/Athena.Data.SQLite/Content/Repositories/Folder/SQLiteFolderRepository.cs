@@ -1,10 +1,10 @@
 ﻿using SQLite;
+using Athena.DataModel;
+using Athena.DataModel.Core;
+
 
 namespace Athena.Data.SQLite
 {
-    using DataModel;
-    using DataModel.Core;
-
     /// <summary>
     /// Provides the SQLite implementation of <see cref="IFolderRepository"/>.
     /// </summary>
@@ -172,11 +172,11 @@ namespace Athena.Data.SQLite
         {
             if (folder.Key == null || folder.Key.Id == IntegerEntityKey.TemporaryId)
             {
-                Insert(context, folder);
+                InsertCore(context, folder);
             }
             else
             {
-                Update(context, folder, folderOptions);
+                UpdateCore(context, folder, folderOptions);
             }
         }
 
@@ -203,7 +203,7 @@ namespace Athena.Data.SQLite
                     command.Bind("@FD_ref", folder.Key.Id);
                     command.ExecuteNonQuery();
 
-                    // We currently can't resolve this via CASCADE because the Chapters of the documents are not referenced directly.
+                    // We currently can't resolve this via CASCADE because the Chapters of the documents are not referenced directly (FTS5).
                     foreach (var subFolder in folder.Folders)
                     {
                         subFolder.Delete(context);
@@ -234,7 +234,7 @@ namespace Athena.Data.SQLite
                 });
         }
 
-        private void Update(IContext context, Folder folder, FolderSaveOptions saveOptions)
+        private void UpdateCore(IContext context, Folder folder, FolderSaveOptions saveOptions)
         {
             Audit(
                 context,
@@ -268,9 +268,7 @@ namespace Athena.Data.SQLite
                 });
         }
 
-
-
-        private void Insert(IContext context, Folder folder)
+        private void InsertCore(IContext context, Folder folder)
         {
             try
             {

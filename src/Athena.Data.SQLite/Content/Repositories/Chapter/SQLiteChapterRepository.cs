@@ -3,6 +3,9 @@
     using DataModel.Core;
     using DataModel;
 
+    /// <summary>
+    /// Provides the sqlite specific implementation of the <see cref="IChapterRepository"/>.
+    /// </summary>
     internal class SqliteChapterRepository : SqliteRepository, IChapterRepository
     {
         private string _insertChapterSql;
@@ -12,6 +15,7 @@
         public async Task<bool> InitializeAsync(IContext context)
         {
             context.Log("Initializing search repository");
+
             _insertChapterSql = await ReadResourceAsync("CHAPTER_INSERT.sql");
             _readChapterSql = await ReadResourceAsync("CHAPTER_READ.sql");
             _deleteChapterSql = await ReadResourceAsync("CHAPTER_DELETE.sql");

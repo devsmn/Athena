@@ -2,6 +2,9 @@
 
 namespace Athena.UI
 {
+    /// <summary>
+    /// The default implementation of <see cref="IDownloadService"/>.
+    /// </summary>
     public class DefaultDownloadService : IDownloadService
     {
         private readonly HttpClient _httpClient;

@@ -5,6 +5,11 @@ using Athena.DataModel.Core;
 
 namespace Athena.UI
 {
+    /// <summary>
+    /// Provides a common base for binding operations for logically similar entities (e.g. folders and documents).
+    /// </summary>
+    /// <typeparam name="TViewModel">The viewmodel of the entity.</typeparam>
+    /// <typeparam name="TEntity">The entity.</typeparam>
     public class VisualCollection<TViewModel, TEntity> : ObservableCollection<TViewModel>
         where TViewModel : class, IVisualModel<TEntity>
         where TEntity : Entity

@@ -104,7 +104,7 @@ namespace Athena.Data.SQLite
                     }
                 });
 
-            Debug.WriteLine("Patch #55: Document PDF compression patch finished");
+            context?.Log("Document PDF compression patch finished");
         }
 
         private void PatchPdf(Document doc)
@@ -127,10 +127,7 @@ namespace Athena.Data.SQLite
                 _readDocumentSql,
                 command =>
                 {
-                    ICompressionService compression = Services.GetService<ICompressionService>();
-
                     command.Bind("@DOC_ref", key.Id);
-
                     Document doc = command.ExecuteQuery<Document>()[0];
 
                     // Documents are decompressed via ReadPdf.
@@ -242,7 +239,6 @@ namespace Athena.Data.SQLite
         private IEnumerable<SearchResult> SearchWithTags(string documentName, IEnumerable<Tag> tags, bool useFts)
         {
             string ids = string.Join(",", tags.Select(x => x.Id));
-
             string sql = _searchDocWithTagSql.Replace("<<__replace__>>", ids);
 
             var connection = Database.GetConnection();

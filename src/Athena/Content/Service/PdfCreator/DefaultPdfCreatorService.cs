@@ -20,7 +20,6 @@ namespace Athena.UI
             bool detectText,
             StringBuilder pdfText)
         {
-            //Create a new PDF document
             PdfDocument doc = new PdfDocument();
             doc.Compression = PdfCompressionLevel.Normal;
             doc.DocumentInformation.Author = AppPrefix;
@@ -50,6 +49,8 @@ namespace Athena.UI
                         Report?.Invoke(string.Format(Localization.PdfCreationLoadingPdf, document.FileName));
                         FileStream pdfStream = new FileStream(document.ImagePath, FileMode.Open, FileAccess.Read);
                         PdfLoadedDocument loadedDoc = new PdfLoadedDocument(pdfStream);
+
+                        // Disabling incremental updates improves the file size.
                         loadedDoc.FileStructure.IncrementalUpdate = false;
 
                         Report?.Invoke(string.Format(Localization.PdfCreationMergingPdf, document.FileName));
@@ -100,14 +101,12 @@ namespace Athena.UI
                 }
             }
 
-            //Creating the stream object
-            MemoryStream preCompressStream = new MemoryStream();
-
             Report?.Invoke(Localization.PdfCreationSavingPdf);
 
+            MemoryStream preCompressStream = new MemoryStream();
             doc.Save(preCompressStream);
 
-            //If the position is not set to '0' then the PDF will be empty
+            // If the position is not set to '0', the PDF will be empty.
             preCompressStream.Position = 0;
             doc.Close(true);
 

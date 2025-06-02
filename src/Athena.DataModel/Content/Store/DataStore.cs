@@ -3,10 +3,18 @@ using Athena.DataModel.Core;
 
 namespace Athena.DataModel
 {
+    /// <summary>
+    /// Provides static access to data stores.
+    /// </summary>
     public static class DataStore
     {
         private static readonly Dictionary<Type, IAthenaRepository> _stores = new();
 
+        /// <summary>
+        /// Registers the given <paramref name="repository"/>.
+        /// </summary>
+        /// <typeparam name="TRepository"></typeparam>
+        /// <param name="repository"></param>
         public static void Register<TRepository>(TRepository repository)
             where TRepository : class, IAthenaRepository
         {
@@ -20,11 +28,19 @@ namespace Athena.DataModel
             }
         }
 
+        /// <summary>
+        /// Clears the data stores.
+        /// </summary>
         public static void Clear()
         {
             _stores.Clear();
         }
 
+        /// <summary>
+        /// Initializes the registered repositories.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static async Task InitializeAsync(IContext context)
         {
             ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
@@ -46,6 +62,11 @@ namespace Athena.DataModel
             }
         }
 
+        /// <summary>
+        /// Retrieves the instance for the given repository.
+        /// </summary>
+        /// <typeparam name="TRepository"></typeparam>
+        /// <returns></returns>
         [DebuggerStepThrough]
         internal static TRepository Resolve<TRepository>()
             where TRepository : IAthenaRepository

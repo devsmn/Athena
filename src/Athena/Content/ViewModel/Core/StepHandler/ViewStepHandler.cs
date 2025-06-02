@@ -3,6 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Athena.UI
 {
+    /// <summary>
+    /// Provides common methods for handling step-based views. 
+    /// </summary>
+    /// <typeparam name="TViewModel"></typeparam>
     public partial class ViewStepHandler<TViewModel> : ObservableObject
         where TViewModel : ContextViewModel
     {

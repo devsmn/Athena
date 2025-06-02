@@ -1,10 +1,9 @@
 ﻿using System.Diagnostics;
+using Athena.DataModel;
 using Athena.DataModel.Core;
 
 namespace Athena.UI
 {
-    using DataModel;
-
     public class DefaultDataBrokerService : IDataBrokerService
     {
         public event EventHandler<DataPublishedEventArgs> Published;

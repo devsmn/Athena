@@ -1,5 +1,8 @@
 ﻿namespace Athena.DataModel.Core
 {
+    /// <summary>
+    /// The default implementation of the <see cref="ICompatibilityService"/>.
+    /// </summary>
     public class DefaultCompatibilityService : ICompatibilityService
     {
         private readonly Dictionary<Type, List<VersionPatch>> _patches;

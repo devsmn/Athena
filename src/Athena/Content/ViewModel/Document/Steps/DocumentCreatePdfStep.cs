@@ -3,12 +3,14 @@ using System.Text;
 using Athena.DataModel;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
-using BitMiracle.LibTiff.Classic;
 using TesseractOcrMaui.Enums;
 using TesseractOcrMaui.Results;
 
 namespace Athena.UI
 {
+    /// <summary>
+    /// Implements the PDF creation step when adding a new document.
+    /// </summary>
     internal class DocumentCreatePdfStep : IViewStep<DocumentEditorViewModel>
     {
         private DocumentEditorViewModel _vm;
@@ -77,7 +79,6 @@ namespace Athena.UI
 
             _vm.ParentFolder.AddDocument(_vm.Document);
             _vm.ParentFolder.Save(context, FolderSaveOptions.Documents);
-            //_vm.Document.Document.Save(context);
 
             if (_vm.DetectText)
             {
@@ -88,6 +89,7 @@ namespace Athena.UI
 
                 foreach (var document in _vm.Images)
                 {
+                    // Text in PDFs is already detected when loading the PDF. No need for OCR.
                     if (document.IsPdf)
                         continue;
 

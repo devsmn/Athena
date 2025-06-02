@@ -2,6 +2,9 @@
 
 namespace Athena.UI
 {
+    /// <summary>
+    /// Provides common functionality for downloading external resources.
+    /// </summary>
     public interface IDownloadService : IDisposable
     {
         /// <summary>

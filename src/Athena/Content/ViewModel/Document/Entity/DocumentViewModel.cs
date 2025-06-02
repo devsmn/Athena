@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using Athena.DataModel;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -7,18 +8,26 @@ using Microsoft.Maui.Graphics.Platform;
 
 namespace Athena.UI
 {
-    using Athena.DataModel;
-
+    /// <summary>
+    /// Provides the viewmodel for a <see cref="Athena.DataModel.Document"/>.
+    /// </summary>
     public class DocumentViewModel : ObservableObject, IVisualModel<Document>
     {
         private readonly Document _document;
         private string _imageLocation;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="DocumentViewModel"/>.
+        /// </summary>
         public DocumentViewModel()
         {
             Tags = new();
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="DocumentViewModel"/>.
+        /// </summary>
+        /// <param name="document"></param>
         public DocumentViewModel(Document document)
         {
             _document = document;
@@ -27,15 +36,12 @@ namespace Athena.UI
 
 
         [Display(AutoGenerateField = false)]
-        public IntegerEntityKey Key
-        {
-            get { return _document.Key; }
-        }
+        public IntegerEntityKey Key => _document.Key;
 
         [Display(AutoGenerateField = false)]
         public bool IsPinned
         {
-            get { return _document.IsPinned; }
+            get => _document.IsPinned;
             set
             {
                 _document.IsPinned = value;
@@ -46,21 +52,15 @@ namespace Athena.UI
         [Display(AutoGenerateField = false)]
         public string ImageLocation
         {
-            get { return _imageLocation; }
-            set { _imageLocation = value; }
+            get => _imageLocation;
+            set => _imageLocation = value;
         }
 
         [Display(AutoGenerateField = false)]
-        public Document Document
-        {
-            get { return _document; }
-        }
+        public Document Document => _document;
 
         [Display(AutoGenerateField = false)]
-        public int Id
-        {
-            get { return _document.Key.Id; }
-        }
+        public int Id => _document.Key.Id;
 
         public void Edit(Document entity)
         {
@@ -135,21 +135,15 @@ namespace Athena.UI
         }
 
         [Display(AutoGenerateField = false)]
-        public DateTime ModDate
-        {
-            get { return _document.ModDate; }
-        }
+        public DateTime ModDate => _document.ModDate;
 
         [Display(AutoGenerateField = false)]
-        public DateTime CreationDate
-        {
-            get { return _document.CreationDate; }
-        }
+        public DateTime CreationDate => _document.CreationDate;
 
         [Display(AutoGenerateField = false)]
         public byte[] Pdf
         {
-            get { return _document.Pdf; }
+            get => _document.Pdf;
             set
             {
                 _document.Pdf = value;
@@ -160,7 +154,7 @@ namespace Athena.UI
         [Display(AutoGenerateField = false)]
         public byte[] Thumbnail
         {
-            get { return _document.Thumbnail; }
+            get => _document.Thumbnail;
             set
             {
                 using (MemoryStream ms = new MemoryStream(value))

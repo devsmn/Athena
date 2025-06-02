@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\version.props" />
   <PropertyGroup>
     <TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -98,21 +98,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AndroidResource Remove="Content\NewFolder\**" />
     <AndroidResource Remove="Content\ViewModel\Settings\NewFolder\**" />
     <AndroidResource Remove="Content\Views\Folder\Steps\**" />
     <AndroidSkipResourceProcessing Remove="Content\Views\Folder\Steps\**" />
+    <Compile Remove="Content\NewFolder\**" />
     <Compile Remove="Content\ViewModel\Settings\NewFolder\**" />
     <Compile Remove="Content\Views\Folder\Steps\**" />
     <Compile Remove="Content\Views\Page\**" />
+    <EmbeddedResource Remove="Content\NewFolder\**" />
     <EmbeddedResource Remove="Content\ViewModel\Settings\NewFolder\**" />
     <EmbeddedResource Remove="Content\Views\Folder\Steps\**" />
     <EmbeddedResource Remove="Content\Views\Page\**" />
+    <MauiCss Remove="Content\NewFolder\**" />
     <MauiCss Remove="Content\ViewModel\Settings\NewFolder\**" />
     <MauiCss Remove="Content\Views\Folder\Steps\**" />
     <MauiCss Remove="Content\Views\Page\**" />
+    <MauiXaml Remove="Content\NewFolder\**" />
     <MauiXaml Remove="Content\ViewModel\Settings\NewFolder\**" />
     <MauiXaml Remove="Content\Views\Folder\Steps\**" />
     <MauiXaml Remove="Content\Views\Page\**" />
+    <None Remove="Content\NewFolder\**" />
     <None Remove="Content\ViewModel\Settings\NewFolder\**" />
     <None Remove="Content\Views\Folder\Steps\**" />
     <None Remove="Content\Views\Page\**" />
@@ -396,10 +402,6 @@
     <None Update="Content\Views\Settings\OcrLanguageSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Content\NewFolder\" />
   </ItemGroup>
 
 </Project>

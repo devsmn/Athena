@@ -2,6 +2,9 @@
 
 namespace Athena.DataModel.Core
 {
+    /// <summary>
+    /// The default implementation of the <see cref="ICompressionService"/>.
+    /// </summary>
     public class DefaultCompressionService : ICompressionService
     {
         private readonly ICompressor _compressor;

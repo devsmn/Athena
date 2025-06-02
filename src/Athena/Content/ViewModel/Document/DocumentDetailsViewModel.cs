@@ -1,17 +1,14 @@
 ﻿using System.Collections.ObjectModel;
+using Athena.DataModel;
+using Athena.DataModel.Core;
 using Athena.Resources.Localization;
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-
 namespace Athena.UI
 {
-    using DataModel;
-    using CommunityToolkit.Maui.Alerts;
-    using Athena.DataModel.Core;
-    using AndroidX.Startup;
-
     public partial class DocumentDetailsViewModel : ContextViewModel
     {
         private readonly Chapter _chapter;
@@ -45,8 +42,6 @@ namespace Athena.UI
         [ObservableProperty]
         private byte[] _pdf;
 
-        private bool _initialized;
-
         private readonly Folder _parentFolder;
 
         public DocumentDetailsViewModel(Folder parentFolder, Document document)
@@ -54,7 +49,6 @@ namespace Athena.UI
             Document = document;
             _parentFolder = parentFolder;
             SelectedTags = new ObservableCollection<TagViewModel>();
-
         }
 
         public DocumentDetailsViewModel(Chapter chapter)

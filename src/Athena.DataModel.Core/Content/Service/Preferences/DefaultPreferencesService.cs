@@ -1,5 +1,8 @@
 ﻿namespace Athena.DataModel.Core
 {
+    /// <summary>
+    /// The default implementation of the <see cref="IPreferencesService"/>.
+    /// </summary>
     public class DefaultPreferencesService : IPreferencesService
     {
         private const string FirstUsageKey = "FirstUsage";

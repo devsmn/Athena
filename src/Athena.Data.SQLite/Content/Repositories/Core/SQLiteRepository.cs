@@ -3,12 +3,15 @@ using SQLite;
 
 namespace Athena.Data.SQLite
 {
+    /// <summary>
+    /// Provides common sqlite specific functionality. 
+    /// </summary>
     internal class SqliteRepository
     {
-        private readonly Lazy<SQLiteAsyncConnection> _databaseDeferrer
+        private readonly Lazy<SQLiteAsyncConnection> _dbFactory
             = new(() => new SQLiteAsyncConnection(Defines.DatabasePath, Defines.Flags));
 
-        protected SQLiteAsyncConnection Database => _databaseDeferrer.Value;
+        protected SQLiteAsyncConnection Database => _dbFactory.Value;
 
         /// <summary>
         /// Runs the given <paramref name="script"/>.
@@ -57,6 +60,17 @@ namespace Athena.Data.SQLite
             return default;
         }
 
+        /// <summary>
+        /// Executes the given <paramref name="action"/> for the provided <paramref name="commandText"/> while
+        /// observing exceptions.
+        /// <para>
+        /// The transaction is managed by this method, i.e. it is rolled-back automatically on errors.</para>
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="context"></param>
+        /// <param name="commandText"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
         protected TResult Audit<TResult>(IContext context, string commandText, Func<SQLiteCommand, TResult> action)
         {
             if (string.IsNullOrEmpty(commandText))

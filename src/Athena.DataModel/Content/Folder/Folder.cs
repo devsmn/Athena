@@ -13,6 +13,10 @@ namespace Athena.DataModel
         private List<Document> _documents;
         private List<Folder> _folders;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="Folder"/>.
+        /// </summary>
+        /// <param name="key"></param>
         public Folder(IntegerEntityKey key)
             : base(key)
         {
@@ -20,11 +24,18 @@ namespace Athena.DataModel
             _documents = new List<Document>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="Folder"/>.
+        /// </summary>
+        /// <param name="key"></param>
         public Folder(int key)
             : this(new IntegerEntityKey(key))
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="Folder"/>.
+        /// </summary>
         public Folder()
             : this(IntegerEntityKey.TemporaryId)
         {
@@ -54,10 +65,21 @@ namespace Athena.DataModel
 
         public string Comment { get; set; }
 
+        /// <summary>
+        /// Gets the folders that were already loaded from the repository.
+        /// </summary>
         public IEnumerable<Folder> LoadedFolders => _foldersLoaded ? Folders : Enumerable.Empty<Folder>();
 
+        /// <summary>
+        /// Gets the documents that were already loaded from the repository.
+        /// </summary>
         public IEnumerable<Document> LoadedDocuments => _documentsLoaded ? Documents : Enumerable.Empty<Document>();
 
+        /// <summary>
+        /// Gets all folders.
+        /// Loading folders is deferred until the first usage. If folders are requested for the firs time, getting them
+        /// may take a short moment.
+        /// </summary>
         public List<Folder> Folders
         {
             get
@@ -74,7 +96,11 @@ namespace Athena.DataModel
             set => _folders = value;
         }
 
-
+        /// <summary>
+        /// Gets all documents.
+        /// Loading documents is deferred until the first usage. If documents are requested for the firs time, getting them
+        /// may take a short moment.
+        /// </summary>
         public List<Document> Documents
         {
             get

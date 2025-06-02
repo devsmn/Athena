@@ -10,7 +10,6 @@ namespace Athena.UI
 {
     public class DefaultOcrService : IOcrService
     {
-        private TessEngine _engine;
         private OcrError _error;
         private string _installedLanguages;
         private string _dataDirectory;
@@ -23,6 +22,7 @@ namespace Athena.UI
                 EnsureDataValidated();
                 return _error;
             }
+
             private set => _error = value;
         }
 
@@ -35,7 +35,11 @@ namespace Athena.UI
             _error = OcrError.None;
 
             if (!Directory.Exists(_dataDirectory))
+            {
                 Directory.CreateDirectory(_dataDirectory);
+                Error = OcrError.TrainedDataDirectoryEmpty;
+                return;
+            }
 
             string[] files = Directory.GetFiles(_dataDirectory);
             StringBuilder languages = new();
@@ -75,7 +79,6 @@ namespace Athena.UI
 
         public void Reset()
         {
-            _engine = null;
             _dataValidated = false;
         }
 
@@ -178,8 +181,8 @@ namespace Athena.UI
 
         private RecognizionResult Recognize(Pix pix)
         {
-            string? text = null;
-            float confidence = -1f;
+            string? text;
+            float confidence;
 
             
             try

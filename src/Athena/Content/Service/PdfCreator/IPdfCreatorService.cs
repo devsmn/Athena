@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Athena.DataModel;
+﻿using System.Text;
 using Athena.DataModel.Core;
-using Athena.UI;
 
 namespace Athena.UI
 {
     internal interface IPdfCreatorService
     {
+        /// <summary>
+        /// Creates a PDF with the given parameters.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="summary"></param>
+        /// <param name="name"></param>
+        /// <param name="images"></param>
+        /// <param name="detectText"></param>
+        /// <param name="pdfText"></param>
+        /// <returns></returns>
         Task<byte[]> CreateAsync(
             IContext context,
             PdfCreationSummary summary,
