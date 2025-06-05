@@ -7,7 +7,6 @@
              xmlns:tree="clr-namespace:Syncfusion.Maui.TreeView;assembly=Syncfusion.Maui.TreeView"
              x:Class="Athena.UI.DocumentEditorSavingStep">
 
-
     <ContentView.Resources>
         <ResourceDictionary>
             <ui:IssueLevelToImageConverter x:Key="IssueLevelToImageConverter"/>
@@ -41,23 +40,27 @@
                 <tree:SfTreeView.ItemTemplate>
                     <DataTemplate>
                         <Grid VerticalOptions="Center">
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <ffimageloading:CachedImage LoadingPlaceholder="image_placeholder.png"
-                                                        x:Name="levelImage"
-                                                        FadeAnimationForCachedImages="False"
-                                                        FadeAnimationEnabled="False"
-                                                        HeightRequest="24"
-                                                        Margin="3"
-                                                        VerticalOptions="Center"
-                                                        WidthRequest="24"
-                                                        IsVisible="{Binding Source={x:Reference levelImage}, Path=Source, Converter={x:StaticResource StringLengthToVisConv}}"
-                                                        Source="{Binding Level, Converter={x:StaticResource IssueLevelToImageConverter}}"/>
+
+                            <ffimageloading:CachedImage
+                                LoadingPlaceholder="image_placeholder.png"
+                                x:Name="levelImage"
+                                FadeAnimationForCachedImages="False"
+                                FadeAnimationEnabled="False"
+                                HeightRequest="24"
+                                Margin="3"
+                                VerticalOptions="Center"
+                                WidthRequest="24"
+                                IsVisible="{Binding Source={x:Reference levelImage}, Path=Source, Converter={x:StaticResource StringLengthToVisConv}}"
+                                Source="{Binding Level, Converter={x:StaticResource IssueLevelToImageConverter}}"/>
 
                             <Label Text="{Binding Message}"
                                    Grid.Column="1"
@@ -66,14 +69,9 @@
                                    VerticalTextAlignment="Center"/>
 
                         </Grid>
-
                     </DataTemplate>
                 </tree:SfTreeView.ItemTemplate>
             </tree:SfTreeView>
-
         </VerticalStackLayout>
-
-
     </Grid>
-
 </ContentView>

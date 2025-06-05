@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Athena.DataModel;
 using Athena.DataModel.Core;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Athena.UI
 {

@@ -53,5 +53,4 @@ namespace Athena.UI
             await Toast.Make("Successfully changed the language").Show();
         }
     }
-
 }

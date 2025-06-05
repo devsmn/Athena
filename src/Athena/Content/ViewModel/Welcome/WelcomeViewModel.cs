@@ -50,13 +50,12 @@ namespace Athena.UI
         [ObservableProperty]
         private bool _isConfirmChecked;
 
+        private readonly ViewStepHandler<WelcomeViewModel> _stepHandler;
+
         public ILanguageService LanguageService { get; private set; }
         public IGreetingService GreetingService { get; private set; }
         public IPreferencesService PrefService { get; private set; }
         public ICompatibilityService CompatService { get; private set; }
-
-        private readonly ViewStepHandler<WelcomeViewModel> _stepHandler;
-
         public ViewStepHandler<WelcomeViewModel> StepHandler => _stepHandler;
 
         public WelcomeViewModel()

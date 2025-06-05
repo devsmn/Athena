@@ -56,6 +56,7 @@ namespace Athena.Data.SQLite
                 });
         }
 
+        [Obsolete]
         public void Save(IContext context, Tag tag)
         {
             Audit(context, () =>

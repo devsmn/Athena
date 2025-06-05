@@ -1,6 +1,6 @@
-﻿using SQLite;
-using Athena.DataModel;
+﻿using Athena.DataModel;
 using Athena.DataModel.Core;
+using SQLite;
 
 
 namespace Athena.Data.SQLite

@@ -47,8 +47,6 @@
                     </Border>
                 </DataTemplate>
             </sf:SfListView.ItemTemplate>
-
         </sf:SfListView>
-
     </Grid>
 </ContentPage>

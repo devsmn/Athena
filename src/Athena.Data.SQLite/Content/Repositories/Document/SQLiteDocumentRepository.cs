@@ -27,7 +27,6 @@ namespace Athena.Data.SQLite
         private string _countAllSql;
         private string _patchPdfSql;
 
-
         public async Task<bool> InitializeAsync(IContext context)
         {
             context.Log("Initializing document repository");
@@ -183,6 +182,7 @@ namespace Athena.Data.SQLite
         }
 
         /// <inheritdoc />  
+        [Obsolete]
         public IEnumerable<SearchResult> Search(IContext context, string documentName, IEnumerable<Tag> tags, bool useFts)
         {
             documentName = string.IsNullOrEmpty(documentName) ? string.Empty : $"%{documentName}%";

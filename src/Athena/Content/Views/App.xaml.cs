@@ -1,11 +1,9 @@
 ﻿using System.Globalization;
+
 #if ANDROID
 using AndroidX.AppCompat.App;
-using AndroidX.Room;
-
 #endif
-using Athena.Data.SQLite.Proxy;
-using Athena.DataModel;
+
 using Athena.DataModel.Core;
 namespace Athena.UI
 {
@@ -15,7 +13,7 @@ namespace Athena.UI
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(
                 "MzgyMTA3MUAzMjM5MmUzMDJlMzAzYjMyMzkzYlFZSU9ScDVmeUJ5a1JHT0puWittU0VBWnE3S2tXblNMVzlDRy9kVitWWTA9");
-            
+
             Current.UserAppTheme = AppTheme.Light;
 #if ANDROID
             AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;

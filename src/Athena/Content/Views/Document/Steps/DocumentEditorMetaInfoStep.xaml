@@ -9,7 +9,6 @@
              x:Class="Athena.UI.DocumentEditorMetaInfoStep">
 
     <Grid>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="0.6*" />
@@ -37,49 +36,49 @@
             </sf:SfDataForm.TextInputLayoutSettings>
         </sf:SfDataForm>
 
-
         <HorizontalStackLayout Grid.Row="2">
 
-            <Label Text="{x:Static loc:Localization.DocumentEditorSelectTags}"
-                   FontSize="Title"
-                   FontAttributes="Bold"/>
+            <Label
+                Text="{x:Static loc:Localization.DocumentEditorSelectTags}"
+                FontSize="Title"
+                FontAttributes="Bold"/>
 
-
-            <sfb:SfButton Margin="3,0,0,0"
-                          Clicked="TagsInfoClicked"
-                          HorizontalTextAlignment="Start"
-                          BackgroundImageSource="info.png"
-                          ImageSource="info.png"
-                          Background="Transparent"
-                          HeightRequest="25"
-                          WidthRequest="25"
-                          VerticalTextAlignment="Center"
-                          HorizontalOptions="Center"
-                          ImageAlignment="Default"
-                          StrokeThickness="0"/>
+            <sfb:SfButton
+                Margin="3,0,0,0"
+                Clicked="TagsInfoClicked"
+                HorizontalTextAlignment="Start"
+                BackgroundImageSource="info.png"
+                ImageSource="info.png"
+                Background="Transparent"
+                HeightRequest="25"
+                WidthRequest="25"
+                VerticalTextAlignment="Center"
+                HorizontalOptions="Center"
+                ImageAlignment="Default"
+                StrokeThickness="0"/>
 
         </HorizontalStackLayout>
-
-
-        
 
         <Label Grid.Row="3" 
                Margin="5"
                TextColor="Gray"
-               
                Text="{x:Static loc:Localization.DocumentEditorNoTags}" 
                VerticalTextAlignment="Center"
-                HorizontalOptions="Center"
+               HorizontalOptions="Center"
                IsVisible="{Binding TagsAvailable, Converter={toolkit:InvertedBoolConverter}}"/> 
 
+        <ScrollView
+            Grid.Row="3"
+            Margin="3"
+            IsVisible="{Binding TagsAvailable}">
 
-        <ScrollView Grid.Row="3" Margin="3" IsVisible="{Binding TagsAvailable}">
             <chip:SfChipGroup 
-            ItemsSource="{Binding Tags}" 
-            SelectedItem="{Binding SelectedTags}"
-            DisplayMemberPath="Name" 
-            ChipPadding="3,3,0,0"
-            ChipType="Filter" >
+                ItemsSource="{Binding Tags}" 
+                SelectedItem="{Binding SelectedTags}"
+                DisplayMemberPath="Name" 
+                ChipPadding="3,3,0,0"
+                ChipType="Filter">
+
                 <chip:SfChipGroup.ChipLayout>
                     <FlexLayout 
                         HorizontalOptions="Start" 

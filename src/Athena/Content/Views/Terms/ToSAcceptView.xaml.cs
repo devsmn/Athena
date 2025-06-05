@@ -4,10 +4,10 @@ namespace Athena.UI;
 
 public partial class ToSAcceptView : ContentView
 {
-	public ToSAcceptView()
-	{
-		InitializeComponent();
-	}
+    public ToSAcceptView()
+    {
+        InitializeComponent();
+    }
 
     private async void OnPrivacyPolicyClicked(object sender, EventArgs e)
     {

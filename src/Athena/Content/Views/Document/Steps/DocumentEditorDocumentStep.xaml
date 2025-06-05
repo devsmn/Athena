@@ -11,7 +11,6 @@
              x:Class="Athena.UI.DocumentEditorDocumentStep">
     <ContentView.Resources>
         <ResourceDictionary>
-            <!--<toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />-->
             <ui:ByteArrayToSafeImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
             <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
         </ResourceDictionary>
@@ -256,10 +255,7 @@
                    LineBreakMode="WordWrap"
                    FontSize="12"
                    IsVisible="{Binding DetectTextPossible, Converter={x:StaticResource InverseBooleanConverter}}"
-                   Text="{Binding DetectTextInfo}"
-            />
+                   Text="{Binding DetectTextInfo}"/>
         </Grid>
-
-
     </VerticalStackLayout>
 </ContentView>

@@ -38,8 +38,6 @@ namespace Athena.UI
         private readonly IInterstitialAdService _interstitialAdService;
         private readonly ViewStepHandler<DocumentEditorViewModel> _stepHandler;
 
-        public ViewStepHandler<DocumentEditorViewModel> StepHandler => _stepHandler;
-
         [ObservableProperty]
         private ObservableCollection<PdfCreationSummaryStep> _documentReports;
 
@@ -84,7 +82,6 @@ namespace Athena.UI
         [ObservableProperty]
         private ObservableCollection<TagViewModel> _selectedTags;
 
-
         public Folder ParentFolder => _parentFolder;
 
         private readonly Folder _parentFolder;
@@ -99,6 +96,8 @@ namespace Athena.UI
                 OnPropertyChanged();
             }
         }
+
+        public ViewStepHandler<DocumentEditorViewModel> StepHandler => _stepHandler;
 
         public DocumentEditorViewModel(Folder parentFolder, Document document)
         {
@@ -333,10 +332,10 @@ namespace Athena.UI
                         using MemoryStream byteStream = new();
                         await stream.CopyToAsync(byteStream);
 
-                        DocumentImageViewModel imageVm = new DocumentImageViewModel();
-                        imageVm.IsPdf = true;
-                        imageVm.ImagePath = result.FullPath;
-                        imageVm.FileName = result.FileName;
+                        DocumentImageViewModel imageVm = new DocumentImageViewModel
+                        {
+                            IsPdf = true, ImagePath = result.FullPath, FileName = result.FileName
+                        };
 
                         Images.Add(imageVm);
 
@@ -400,8 +399,7 @@ namespace Athena.UI
                 Document.Thumbnail = e.Buffer;
             }
 
-            DocumentImageViewModel imageVm = new DocumentImageViewModel();
-            imageVm.Image = e.Buffer;
+            DocumentImageViewModel imageVm = new DocumentImageViewModel { Image = e.Buffer };
 
             string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Guid.NewGuid() + ".jpg");
             await File.WriteAllBytesAsync(fileName, e.Buffer);

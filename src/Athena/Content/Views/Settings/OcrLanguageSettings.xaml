@@ -6,12 +6,10 @@
                     x:Name="page"
                     xmlns:loc="clr-namespace:Athena.Resources.Localization"
                     xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
-                    xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
                     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                     xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
                     x:Class="Athena.UI.OcrLanguageSettings"
                     Title="OcrLanguageSettings">
-  
     <ContentPage.Resources>
         <ResourceDictionary>
             <ui:LanguageSizeToMbConverter x:Key="LanguageSizeToMbConverter"/>
@@ -48,18 +46,12 @@
             </p:SfPopup.ContentTemplate>
         </p:SfPopup>
 
-
         <HorizontalStackLayout Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
-
-
             <Label Text="{x:Static loc:Localization.SettingsOcrTitle}"
-                   Grid.Row="0"
                    Margin="5,20,5,2"
                    FontAttributes="Bold"
                    HorizontalTextAlignment="Center"
                    FontSize="32"/>
-
-
 
             <sfb:SfButton Margin="3,20,0,2"
                           Clicked="OnInfoClicked"
@@ -73,7 +65,6 @@
                           HorizontalOptions="Center"
                           ImageAlignment="Default"
                           StrokeThickness="0"/>
-
         </HorizontalStackLayout>
 
         <editors:SfAutocomplete ItemsSource="{Binding AllSupportedLanguages}"
@@ -99,11 +90,10 @@
             </editors:SfAutocomplete.Behaviors>
 
         </editors:SfAutocomplete>
-         
+
         <Grid Grid.Row="3"
               Background="White" 
-                VerticalOptions="End"
-              >
+              VerticalOptions="End">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto "/>
@@ -153,12 +143,7 @@
                           Style="{StaticResource SecondaryButtonFlat}"
                           Grid.Row="2"
                           Grid.Column="0"
-                          Command="{Binding DeleteLocalFilesCommand}"
-                          />
-
-
+                          Command="{Binding DeleteLocalFilesCommand}"/>
         </Grid>
-
     </Grid>
-
 </ui:DefaultContentPage>

@@ -1,9 +1,8 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Syncfusion.Maui.ImageEditor;
 
 namespace Athena.UI
 {
-
     public partial class DocumentEditorDocumentCropView : ContentPage
     {
         private readonly string[] _hideItems = new[] {
@@ -13,6 +12,8 @@ namespace Athena.UI
             "Rectangle",
             "Circle", "Arrow", "Effects", "Hue", "Saturation", "Brightness", "Contrast", "Blur", "Sharpen", "Pen", "Browse"
         };
+
+        public EventHandler<ImageSavedEventArgs> ImageSaved;
 
         public DocumentEditorDocumentCropView(byte[] image)
         {
@@ -37,15 +38,6 @@ namespace Athena.UI
             }
         }
 
-
-        public EventHandler<ImageSavedEventArgs> ImageSaved;
-
-
-        private void OnSavePickerOpening(object sender, CancelEventArgs e)
-        {
-            e.Cancel = true;
-        }
-
         private byte[] GetImageStreamAsBytes(Stream input)
         {
             var buffer = new byte[16 * 1024];
@@ -61,7 +53,6 @@ namespace Athena.UI
 
                 return ms.ToArray();
             }
-
         }
 
         private async void ImageEditor_OnToolbarItemSelected(object sender, ToolbarItemSelectedEventArgs e)

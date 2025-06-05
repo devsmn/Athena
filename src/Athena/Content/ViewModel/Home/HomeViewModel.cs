@@ -61,7 +61,7 @@ namespace Athena.UI
             }
         }
 
-        protected override Task OnAppInitialized()
+        protected override void OnAppInitialized()
         {
             var context = RetrieveContext();
 
@@ -71,10 +71,7 @@ namespace Athena.UI
                 Document.ReadRecent(context, MAX_RECENT_DOCUMENTS).Select(x => new DocumentViewModel(x)));
 
             Application.Current.Dispatcher.StartTimer(TimeSpan.FromMinutes(5), UpdateCounterStats);
-
-            return Task.CompletedTask;
         }
-
 
         [RelayCommand]
         public async Task ItemClicked()
@@ -234,7 +231,7 @@ namespace Athena.UI
         {
             IsBusy = true;
             IContext context = RetrieveReportContext();
-            
+
             await Task.Run(async () =>
             {
                 await Task.Delay(200);
@@ -278,7 +275,5 @@ namespace Athena.UI
             Folder.CreateRoot(context);
             return Folder.Read(context, IntegerEntityKey.Root);
         }
-
-
     }
 }

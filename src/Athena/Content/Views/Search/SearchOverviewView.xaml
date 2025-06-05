@@ -48,7 +48,6 @@
                Grid.ColumnSpan="2"
                FontSize="12"/>
 
-
         <Border Grid.Column="0" 
                  Grid.Row="3" 
                  Margin="3"
@@ -76,9 +75,9 @@
                                   Source="filter.png"/>
 
                         <Label Text="{x:Static loc:Localization.SearchFilter}" 
-                        Grid.Row="1"
-                        VerticalTextAlignment="Center"
-                        Grid.Column="1"/>
+                                Grid.Row="1"
+                                VerticalTextAlignment="Center"
+                                Grid.Column="1"/>
 
                     </Grid>
                 </syncfusion:SfExpander.Header>
@@ -123,16 +122,9 @@
                        ItemsSource="{Binding Tags}"
                        SelectedItem="{Binding SelectedTags}">
                             <chip:SfChipGroup.ChipLayout>
-                                <FlexLayout HorizontalOptions="Start"  Wrap="Wrap" />
+                                <FlexLayout HorizontalOptions="Start"
+                                            Wrap="Wrap" />
                             </chip:SfChipGroup.ChipLayout>
-                            <!--<chip:SfChipGroup.ItemTemplate>
-                         <DataTemplate>
-                             <Label Text="{Binding Name}" 
-                                    Margin="12,5,12,5" 
-                                    VerticalTextAlignment="Center" 
-                                    HorizontalTextAlignment="Center" />
-                         </DataTemplate>
-                     </chip:SfChipGroup.ItemTemplate>-->
                         </chip:SfChipGroup>
 
                     </Grid>

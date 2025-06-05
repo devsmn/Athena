@@ -96,7 +96,5 @@ namespace Athena.UI
                     break;
             }
         }
-
     }
-
 }

@@ -4,7 +4,6 @@
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="Athena.Content.Views.WebViewPage"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
-
              Title="WebViewPage">
     <Grid>
         <Grid.RowDefinitions>
@@ -42,7 +41,5 @@
                 StrokeThickness="0" />
 
         </HorizontalStackLayout>
-
-
     </Grid>
 </ContentPage>

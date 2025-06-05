@@ -20,12 +20,12 @@ namespace Athena.UI
             Services.GetService<IDataBrokerService>().AppInitialized += OnDataBrokerAppInitialized;
         }
 
-        private async void OnDataBrokerAppInitialized(object sender, EventArgs e)
+        private void OnDataBrokerAppInitialized(object sender, EventArgs e)
         {
-            await OnAppInitialized();
+            OnAppInitialized();
         }
 
-        protected virtual async Task OnAppInitialized()
+        protected virtual void OnAppInitialized()
         {
             // Nothing to do.
         }
@@ -131,7 +131,7 @@ namespace Athena.UI
 
         protected async Task ExecuteAsyncBackgroundAction(Func<IContext, Task> action)
         {
-            await MainThread.InvokeOnMainThreadAsync(() => IsBusy = true); 
+            await MainThread.InvokeOnMainThreadAsync(() => IsBusy = true);
 
             await Task.Run(async () =>
             {

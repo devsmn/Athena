@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Athena.Resources.Localization;
+﻿using Athena.Resources.Localization;
 
 namespace Athena.UI;
 

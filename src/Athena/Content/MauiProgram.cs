@@ -1,11 +1,9 @@
 ﻿using Athena.DataModel.Core;
-using Athena.UI;
 using CommunityToolkit.Maui;
 using FFImageLoading.Maui;
 using Plugin.AdMob;
 using Plugin.AdMob.Configuration;
 using Syncfusion.Maui.Core.Hosting;
-using TesseractOcrMaui;
 
 namespace Athena.UI;
 
@@ -13,7 +11,6 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
@@ -36,8 +33,6 @@ public static class MauiProgram
         AdConfig.AddTestDevice("B3EEABB8EE11C2BE770B684D95219ECB");
 #else
         AdConfig.UseTestAdUnitIds = false;
-        //AdConfig.DefaultInterstitialAdUnitId = "ca-app-pub-7134624676592827/8601607180";
-        //AdConfig.DefaultBannerAdUnitId = "ca-app-pub-7134624676592827/4690515785";
         AdConfig.DisableConsentCheck = true;
 #endif
         builder.Services.AddSingleton<IDataBrokerService, DefaultDataBrokerService>();
@@ -53,7 +48,6 @@ public static class MauiProgram
         builder.Services.AddSingleton<INetworkService, DefaultNetworkService>();
 
         var app = builder.Build();
-
         Services.Register(app.Services);
 
         return app;

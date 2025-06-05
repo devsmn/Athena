@@ -6,22 +6,20 @@
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
-             
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
              x:Class="Athena.UI.HomeView"
              Style="{StaticResource ContentPageStyle}"
              Title="HomeView">
+
     <ContentPage.Resources>
         <ResourceDictionary>
-            <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
             <ui:StringLengthToVisibilityConverter x:Key="StringLengthToVisibilityConverter" />
-
             <ui:HexToBrushConverter x:Key="HexToBrushConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
+
     <ContentPage.BindingContext>
         <ui:HomeViewModel />
     </ContentPage.BindingContext>
@@ -36,7 +34,6 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
 
         <admob:BannerAd Grid.Row="0"
                         AdSize="SmartBanner"

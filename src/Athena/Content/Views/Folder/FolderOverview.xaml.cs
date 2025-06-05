@@ -19,7 +19,6 @@ public partial class FolderOverview : ContentPage
 
         _viewModel = BindingContext as FolderOverviewViewModel;
         _viewModel.LoadData();
-        _viewModel.View = this;
     }
 
     private void ListView_OnItemLongPress(object sender, ItemLongPressEventArgs e)
@@ -45,10 +44,4 @@ public partial class FolderOverview : ContentPage
     {
         _viewModel.ShowMenuPopup = false;
     }
-
-    public void RefreshListViewGrouping()
-    {
-        //listView.RefreshView();
-    }
-
 }

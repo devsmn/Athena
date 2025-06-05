@@ -2,11 +2,10 @@
 using Athena.DataModel.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Athena.DataModel;
 
 namespace Athena.UI
 {
-    using DataModel;
-
     internal partial class FolderEditorViewModel : ContextViewModel
     {
         private readonly Folder _parentFolder;

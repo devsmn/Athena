@@ -6,10 +6,9 @@ public partial class DefaultContentPage : ContentPage
 {
     private bool _initialized;
 
-	public DefaultContentPage()
-	{
-		InitializeComponent();
-
+    public DefaultContentPage()
+    {
+        InitializeComponent();
         NavigatedTo += OnNavigatedTo;
     }
 
@@ -23,12 +22,11 @@ public partial class DefaultContentPage : ContentPage
 
     public void ShowInfoPopup(string caption, string text)
     {
-        SfPopup popup = new();
-        popup.HeaderTitle = caption;
-        popup.AcceptButtonText = "Ok";
-        popup.ShowFooter = true;
-        popup.ShowCloseButton = true;
-        popup.AutoSizeMode = PopupAutoSizeMode.Height;
+        SfPopup popup = new()
+        {
+            HeaderTitle = caption, AcceptButtonText = "Ok", ShowFooter = true, ShowCloseButton = true,
+            AutoSizeMode = PopupAutoSizeMode.Height
+        };
 
         DataTemplate template = new(() =>
         {
@@ -36,15 +34,16 @@ public partial class DefaultContentPage : ContentPage
             grid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
             grid.RowDefinitions.Add(new RowDefinition(GridLength.Star));
 
-            Label label = new();
-            label.Text = text;
-            label.Margin = new Thickness(5);
-            label.HorizontalOptions= LayoutOptions.Fill;
-            label.VerticalOptions = LayoutOptions.Fill;
-            label.LineBreakMode = LineBreakMode.WordWrap;
+            Label label = new()
+            {
+                Text = text,
+                Margin = new Thickness(5),
+                HorizontalOptions = LayoutOptions.Fill,
+                VerticalOptions = LayoutOptions.Fill,
+                LineBreakMode = LineBreakMode.WordWrap
+            };
 
             grid.Add(label);
-
             return grid;
         });
 

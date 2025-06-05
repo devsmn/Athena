@@ -2,7 +2,6 @@
 
 namespace Athena.UI;
 
-
 public partial class DocumentEditorMetaInfoStep : ContentView
 {
     public DocumentEditorMetaInfoStep()
@@ -14,10 +13,6 @@ public partial class DocumentEditorMetaInfoStep : ContentView
     {
         DefaultContentPage page = this.GetParent<DefaultContentPage>();
 
-        if (page == null)
-            return;
-
-        page.ShowInfoPopup(Localization.Tags, Localization.DocumentEditorTagsInfo);
+        page?.ShowInfoPopup(Localization.Tags, Localization.DocumentEditorTagsInfo);
     }
-
 }

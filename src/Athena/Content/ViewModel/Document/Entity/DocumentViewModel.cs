@@ -177,6 +177,5 @@ namespace Athena.UI
         {
             return document._document;
         }
-
     }
 }

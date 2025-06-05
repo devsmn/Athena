@@ -2,18 +2,15 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Syncfusion.TreeView.Engine;
+using Athena.DataModel.Core;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using Athena.DataModel;
 
 namespace Athena.UI
 {
-    using DataModel;
-    using CommunityToolkit.Maui.Alerts;
-    using CommunityToolkit.Maui.Core;
-    using Athena.DataModel.Core;
-
     public partial class FolderOverviewViewModel : ContextViewModel
     {
-        public FolderOverview View { get; set; }
-
         [ObservableProperty]
         private FolderViewModel _selectedMoveDestination;
 
@@ -267,8 +264,6 @@ namespace Athena.UI
                     UpdateType.Edit,
                     ParentFolder.Key);
             }
-
-            View.RefreshListViewGrouping();
         }
 
         [RelayCommand]
@@ -301,8 +296,6 @@ namespace Athena.UI
             if (item.IsFolder)
             {
                 item.Folder.Folder.Delete(context);
-
-
 
                 Services.GetService<IDataBrokerService>().Publish<Folder>(
                     context,

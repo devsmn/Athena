@@ -278,7 +278,6 @@ namespace Athena.UI
             }
         }
 
-
         [RelayCommand]
         private async Task EditDocument()
         {

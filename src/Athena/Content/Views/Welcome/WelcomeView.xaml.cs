@@ -2,14 +2,17 @@
 
 public partial class WelcomeView : ContentPage
 {
+    private readonly WelcomeViewModel _vm;
+
     public WelcomeView()
     {
         InitializeComponent();
+        _vm = BindingContext as WelcomeViewModel;
     }
 
     protected override bool OnBackButtonPressed()
     {
-        (BindingContext as WelcomeViewModel).BackButton();
+        _vm.BackButton();
         return true;
     }
 }

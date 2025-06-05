@@ -1,13 +1,11 @@
 ﻿using Syncfusion.Maui.Popup;
+using Athena.DataModel;
 
 namespace Athena.UI
 {
-    using DataModel;
-
-
     public partial class DocumentDetailsView : DefaultContentPage
     {
-        private DocumentDetailsViewModel _vm;
+        private readonly DocumentDetailsViewModel _vm;
 
         public DocumentDetailsView(Folder parentFolder, Document document)
         {

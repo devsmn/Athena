@@ -2,7 +2,6 @@
 
 namespace Athena.UI;
 
-
 public partial class TagsOverview : DefaultContentPage
 {
     public TagsOverview()

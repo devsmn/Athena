@@ -8,9 +8,11 @@
              x:Name="page"
              x:Class="Athena.UI.DocumentEditorView"
              Title="New document">
+
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackButtonCommand}"/>
     </Shell.BackButtonBehavior>
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
@@ -111,8 +113,5 @@
                 </Style>
             </Button.Style>
         </Button>
-
-
-
     </Grid>
 </local:DefaultContentPage>

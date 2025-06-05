@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Athena.DataModel.Core;
+﻿using Athena.DataModel.Core;
 
 namespace Athena.UI;
 

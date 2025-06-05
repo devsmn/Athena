@@ -1,14 +1,13 @@
-﻿using Athena.Resources.Localization;
+﻿using Athena.DataModel;
+using Athena.DataModel.Core;
+using Athena.Resources.Localization;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Athena.UI
 {
-    using DataModel;
-    using CommunityToolkit.Maui.Alerts;
-    using CommunityToolkit.Maui.Core;
-    using Athena.DataModel.Core;
-
     public partial class FolderDetailsViewModel : ContextViewModel
     {
         [ObservableProperty]
@@ -23,18 +22,8 @@ namespace Athena.UI
         [ObservableProperty]
         private bool _showPageMenuPopup;
 
-        private readonly Folder _dummyFolder;
-
         [ObservableProperty]
         private bool _isBusy;
-
-        private readonly IEnumerable<FolderViewModel> _allFolders;
-
-        public FolderDetailsViewModel(Folder folder, IEnumerable<FolderViewModel> allFolders)
-        {
-            _allFolders = allFolders;
-            _dummyFolder = folder;
-        }
 
         protected override void OnDataPublished(DataPublishedEventArgs e)
         {

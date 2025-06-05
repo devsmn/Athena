@@ -47,7 +47,6 @@ namespace Athena.UI
             {
                 context.Log(Localization.OcrRetrievingInstalledLanguages);
 
-
                 Dictionary<string, OcrLanguage> tmpList = new();
 
                 await Task.Run(() =>
@@ -388,5 +387,4 @@ namespace Athena.UI
             return true;
         }
     }
-
 }

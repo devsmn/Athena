@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Athena.UI;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Athena.UI
@@ -16,7 +10,6 @@ namespace Athena.UI
 
         public ToSChangedViewModel()
         {
-
         }
 
         partial void OnIsConfirmCheckedChanged(bool value)

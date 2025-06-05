@@ -2,9 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ui="clr-namespace:Athena.UI"
-             xmlns:inputs="http://schemas.syncfusion.com/maui"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="Athena.UI.WelcomeView"
              x:Name="page"
@@ -14,10 +11,6 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Resources>
-        <ResourceDictionary>
-            <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
-        </ResourceDictionary>
-
         <ControlTemplate x:Key="LanguageStep">
             <ui:WelcomeViewLanguageStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
         </ControlTemplate>
@@ -33,7 +26,6 @@
         <ControlTemplate x:Key="ToSAcceptViewStep">
             <ui:ToSAcceptView  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
         </ControlTemplate>
-
     </ContentPage.Resources>
 
     <Grid>

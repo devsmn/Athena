@@ -184,7 +184,7 @@ namespace Athena.UI
             string? text;
             float confidence;
 
-            
+
             try
             {
                 using (TessEngine engine = CreateNewEngine())

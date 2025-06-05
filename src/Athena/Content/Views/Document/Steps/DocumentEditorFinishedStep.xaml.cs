@@ -1,5 +1,4 @@
-namespace Athena.UI;
-
+﻿namespace Athena.UI;
 
 public partial class DocumentEditorFinishedStep : ContentView
 {

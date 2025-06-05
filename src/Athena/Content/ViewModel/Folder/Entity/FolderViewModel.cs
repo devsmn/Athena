@@ -1,12 +1,11 @@
-﻿using Athena.DataModel.Core;
+﻿using System.ComponentModel.DataAnnotations;
+using Athena.DataModel;
+using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Athena.UI
 {
-    using Athena.DataModel;
-    using System.ComponentModel.DataAnnotations;
-
     public partial class FolderViewModel : ObservableObject, IVisualModel<Folder>
     {
         private readonly Folder _folder;
@@ -71,7 +70,6 @@ namespace Athena.UI
             Comment = entity.Comment;
             IsPinned = entity.IsPinned;
         }
-
 
         [Display(AutoGenerateField = false)]
         public bool IsPinned

@@ -137,7 +137,6 @@
     <None Remove="Resources\Images\delete_negative.png" />
     <None Remove="Resources\Images\document.png" />
     <None Remove="Resources\Images\document_color.png" />
-    <None Remove="Resources\Images\dotnet_bot.svg" />
     <None Remove="Resources\Images\edit.png" />
     <None Remove="Resources\Images\empty.png" />
     <None Remove="Resources\Images\empty_folder.png" />
@@ -194,7 +193,6 @@
     <MauiImage Include="Resources\Images\delete_negative.png" />
     <MauiImage Include="Resources\Images\document.png" />
     <MauiImage Include="Resources\Images\document_color.png" />
-    <MauiImage Include="Resources\Images\dotnet_bot.svg" />
     <MauiImage Include="Resources\Images\edit.png" />
     <MauiImage Include="Resources\Images\empty.png" />
     <MauiImage Include="Resources\Images\empty_folder.png" />

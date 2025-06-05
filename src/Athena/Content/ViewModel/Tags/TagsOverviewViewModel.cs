@@ -36,8 +36,8 @@ namespace Athena.UI
         [ObservableProperty]
         private TagViewModel _selectedTag;
 
-        private static int BlackIndex = 0;
-        private static int WhiteIndex = 1;
+        private static readonly int BlackIndex = 0;
+        private static readonly int WhiteIndex = 1;
 
         public TagsOverviewViewModel()
         {

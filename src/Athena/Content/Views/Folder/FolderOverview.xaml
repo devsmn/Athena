@@ -16,9 +16,10 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              Title="{Binding ParentFolder.Name}"
              x:Class="Athena.UI.FolderOverview">
+
     <ContentPage.Resources>
         <DataTemplate x:Key="FolderTemplate">
-            <Grid >
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -102,20 +103,13 @@
                             FadeAnimationEnabled="False"
                             LoadingPlaceholder="image_placeholder.png"
                             FadeAnimationForCachedImages="False"/>
-
-                        <!--<BoxView 
-                    Grid.Row="2"
-                    Grid.ColumnSpan="4"
-                    Color="LightGray"
-                    HeightRequest="0.5"
-                    HorizontalOptions="Fill"/>-->
                     </Grid>
                 </Border>
             </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="DocumentTemplate">
-            <Grid >
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -218,16 +212,6 @@
                                     AlignItems="Start"/>
                             </chip:SfChipGroup.ChipLayout>
                             <chip:SfChipGroup.ItemTemplate>
-                                <!--<DataTemplate>
-                            <StackLayout BackgroundColor="{Binding BackgroundColor}" >
-                                <Label   Text="{Binding Name}" 
-                                         TextColor="{Binding TextColor}"
-                                         VerticalTextAlignment="Center"
-                                         HorizontalTextAlignment="Center"
-                                         Margin="14,5,14,5"
-                                         VerticalOptions="Center" />
-                            </StackLayout>
-                        </DataTemplate>-->
                                 <DataTemplate>
                                     <HorizontalStackLayout>
                                         <chip:SfChip HeightRequest="30"  
@@ -240,13 +224,6 @@
                                 </DataTemplate>
                             </chip:SfChipGroup.ItemTemplate>
                         </chip:SfChipGroup>
-
-                        <!--<BoxView 
-                    Grid.Row="3"
-                    Grid.ColumnSpan="4"
-                    Color="LightGray"
-                    HeightRequest="0.5"
-                    HorizontalOptions="Fill"/>-->
                     </Grid>
                 </Border>
             </Grid>
@@ -264,9 +241,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid >
-
-
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
@@ -390,7 +365,6 @@
                 </DataTemplate>
             </p:SfPopup.ContentTemplate>
         </p:SfPopup>
-
 
         <admob:BannerAd Grid.Row="0"
                         AdSize="SmartBanner"
