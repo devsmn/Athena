@@ -8,5 +8,7 @@ namespace Athena.Data.SQLite.Proxy
         {
             get; set;
         }
+
+        public string Cipher { get; set; }
     }
 }

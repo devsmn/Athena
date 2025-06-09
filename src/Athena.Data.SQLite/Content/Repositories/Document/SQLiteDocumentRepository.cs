@@ -27,8 +27,13 @@ namespace Athena.Data.SQLite
         private string _countAllSql;
         private string _patchPdfSql;
 
+        public SqliteDocumentRepository(string cipher) : base(cipher)
+        {
+        }
+
         public async Task<bool> InitializeAsync(IContext context)
         {
+            await ValidateConnection();
             context.Log("Initializing document repository");
 
             _insertDocumentSql = await ReadResourceAsync("DOCUMENT_INSERT.sql");

@@ -1,4 +1,5 @@
 ﻿using Athena.DataModel.Core;
+using Athena.DataModel.Core.Platforms.Android;
 using CommunityToolkit.Maui;
 using FFImageLoading.Maui;
 using Plugin.AdMob;
@@ -46,6 +47,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<IOcrService, DefaultOcrService>();
         builder.Services.AddTransient<IDownloadService, DefaultDownloadService>();
         builder.Services.AddSingleton<INetworkService, DefaultNetworkService>();
+        builder.Services.AddSingleton<ISecureStorageService, DefaultSecureStorageService>();
+        builder.Services.AddSingleton<IBiometricKeyService, AndroidBiometricKeyService>();
+        builder.Services.AddSingleton<IDataEncryptionService, DefaultDataEncryptionService>();
 
         var app = builder.Build();
         Services.Register(app.Services);

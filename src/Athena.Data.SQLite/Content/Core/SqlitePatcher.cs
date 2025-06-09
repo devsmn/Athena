@@ -1,0 +1,81 @@
+﻿using System.Diagnostics;
+using Athena.Data.Core;
+using Athena.DataModel.Core;
+using SQLite;
+
+namespace Athena.Data.SQLite
+{
+    internal class SqlitePatcher : IDataProviderPatcher
+    {
+        public void RegisterPatches(ICompatibilityService compatService)
+        {
+            VersionPatch encryptDatabase = new(162, ExecuteEncryptDatabasePatch);
+            compatService.RegisterPatch<SqlitePatcher>(encryptDatabase);
+        }
+
+        public async Task ExecutePatchesAsync(IContext context, ICompatibilityService service)
+        {
+            foreach (VersionPatch patch in service.GetPatches<SqlitePatcher>())
+            {
+                await patch.PatchAsync(context);
+            }
+        }
+
+        private async Task ExecuteEncryptDatabasePatch(IContext context)
+        {
+            SQLiteAsyncConnection encryptedDb = null;
+
+            try
+            {
+                bool copyData = File.Exists(Defines.UnsafeDatabasePath);
+
+                ISecureStorageService secureService = Services.GetService<ISecureStorageService>();
+                IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
+
+                // Prepare the android key store to store the sql cipher key.
+                context?.Log("Preparing secure android key storage");
+                encryptionService.InitializeDatabaseCipher();
+
+                // Get the sql cipher key.
+                context?.Log("Generating safe encryption key");
+                string sqlCipherKey = secureService.Generate256BitKey();
+
+                // Encrypt the key and store it.
+                context?.Log("Storing encryption key");
+                await encryptionService.SaveDatabaseCipher(sqlCipherKey, "1234");
+
+                // Create the encrypted database.
+                context?.Log("Connecting to encrypted database");
+                var encryptedOptions = new SQLiteConnectionString(Defines.DatabasePath, true, key: sqlCipherKey);
+                encryptedDb = new SQLiteAsyncConnection(encryptedOptions);
+
+                if (copyData)
+                {
+                    // Copy the old database to the new one.
+                    context?.Log("Copying old data to new safe database");
+                    await encryptedDb.ExecuteAsync("ATTACH DATABASE '$?' AS plaintext KEY '';", Defines.UnsafeDatabasePath);
+                    await encryptedDb.ExecuteAsync("SELECT sqlcipher_export('main');");
+                    await encryptedDb.ExecuteAsync("DETACH DATABASE plaintext;");
+
+                    // Finally, delete the old database.
+                    context?.Log("Removing old database");
+                    //File.Delete(Defines.UnsafeDatabasePath);
+                }
+
+                context?.Log("Successfully secured data");
+            }
+            catch (Exception ex)
+            {
+                context?.Log("An error occurred while patching the global data storage");
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                if (encryptedDb != null)
+                {
+                    await encryptedDb.CloseAsync();
+                }
+            }
+        }
+    }
+}

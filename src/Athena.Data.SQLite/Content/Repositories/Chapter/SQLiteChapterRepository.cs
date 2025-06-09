@@ -12,8 +12,13 @@
         private string _readChapterSql;
         private string _deleteChapterSql;
 
+        public SqliteChapterRepository(string cipher) : base(cipher)
+        {
+        }
+
         public async Task<bool> InitializeAsync(IContext context)
         {
+            await ValidateConnection();
             context.Log("Initializing search repository");
 
             _insertChapterSql = await ReadResourceAsync("CHAPTER_INSERT.sql");

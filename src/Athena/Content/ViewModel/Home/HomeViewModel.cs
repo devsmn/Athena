@@ -1,4 +1,6 @@
-﻿using Athena.Data.SQLite.Proxy;
+﻿using System.Diagnostics;
+using Athena.Data.Core;
+using Athena.Data.SQLite.Proxy;
 using Athena.DataModel;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
@@ -235,25 +237,47 @@ namespace Athena.UI
             await Task.Run(async () =>
             {
                 await Task.Delay(200);
+
+                ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
+
+                SqliteProxy sqlProxy = new();
                 SqLiteProxyParameter parameter = new SqLiteProxyParameter { MinimumVersion = new Version(0, 1) };
 
                 Services.GetService<IDataBrokerService>().PrepareForLoading();
 
                 DataStore.Clear();
-                DataStore.Register(SqLiteProxy.Request<IFolderRepository>(parameter));
-                DataStore.Register(SqLiteProxy.Request<IDocumentRepository>(parameter));
-                DataStore.Register(SqLiteProxy.Request<IChapterRepository>(parameter));
-                DataStore.Register(SqLiteProxy.Request<ITagRepository>(parameter));
-                await DataStore.InitializeAsync(context);
+
+                // First, register available patches.
+                IDataProviderPatcher sqlPatcher = sqlProxy.RequestPatcher();
+                sqlPatcher.RegisterPatches(compatService);
+
+                // Execute the patches before initializing the repositories.
+                await sqlPatcher.ExecutePatchesAsync(context, compatService);
+
+                // Unlock access to the database. Needs to be done before initializing the repositories.
+                IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
+                bool primarySucceeded = await encryptionService.ReadDatabaseCipherPrimary(key => parameter.Cipher = key, _ => { });
+
+                if (!primarySucceeded)
+                {
+                    await encryptionService.ReadDatabaseCipherFallback("12345", key => parameter.Cipher = key, _ => { });
+                }
+
+                // Register the repositories.
+                DataStore.Register(sqlProxy.Request<IFolderRepository>(parameter));
+                DataStore.Register(sqlProxy.Request<IDocumentRepository>(parameter));
+                DataStore.Register(sqlProxy.Request<IChapterRepository>(parameter));
+                DataStore.Register(sqlProxy.Request<ITagRepository>(parameter));
+
+                await DataStore.InitializeAsync(context, () => Debug.WriteLine("Invalid cipher"));
 
                 // Data will be initialized via the welcome view.
                 if (Services.GetService<IPreferencesService>().IsFirstUsage())
                     return;
 
-                Services.GetService<ICompatibilityService>().UpdateLastUsedVersion();
+                compatService.UpdateLastUsedVersion();
 
                 IDataBrokerService service = Services.GetService<IDataBrokerService>();
-
                 Folder rootFolder = GetRootFolder(context);
 
                 service.SetRootFolder(rootFolder);

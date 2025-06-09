@@ -11,8 +11,13 @@ namespace Athena.Data.SQLite
         private string _updateTagSql;
         private string _deleteTagSql;
 
+        public SqliteTagRepository(string cipher) : base(cipher)
+        {
+        }
+
         public async Task<bool> InitializeAsync(IContext context)
         {
+            await ValidateConnection();
             context.Log("Initializing tag repository");
 
             _readTagSql = await ReadResourceAsync("TAG_READ.sql");

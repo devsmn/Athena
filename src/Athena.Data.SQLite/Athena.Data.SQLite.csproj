@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -28,9 +28,8 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
-	  <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-	  <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
-	  <PackageReference Include="SQLitePCLRaw.provider.dynamic_cdecl" Version="2.1.4" />
+	  <PackageReference Include="sqlite-net-sqlcipher" Version="1.9.172" />
+	  <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.11" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -40,6 +39,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiAsset Include="Content\Core\sql\CREATE_TABLE_META.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+	  </MauiAsset>
 	  <MauiAsset Include="Content\Repositories\Chapter\sql\CHAPTER_DELETE.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	    <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
@@ -201,12 +204,18 @@
     <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
   </ItemGroup>-->
   <ItemGroup>
+    <AndroidResource Remove="Content\NewFolder\**" />
     <AndroidResource Remove="Content\Repositories\Document\sql\NewFolder\**" />
     <AndroidSkipResourceProcessing Remove="Content\Repositories\Document\sql\NewFolder\**" />
+    <Compile Remove="Content\NewFolder\**" />
     <Compile Remove="Content\Repositories\Document\sql\NewFolder\**" />
+    <EmbeddedResource Remove="Content\NewFolder\**" />
     <EmbeddedResource Remove="Content\Repositories\Document\sql\NewFolder\**" />
+    <MauiCss Remove="Content\NewFolder\**" />
     <MauiCss Remove="Content\Repositories\Document\sql\NewFolder\**" />
+    <MauiXaml Remove="Content\NewFolder\**" />
     <MauiXaml Remove="Content\Repositories\Document\sql\NewFolder\**" />
+    <None Remove="Content\NewFolder\**" />
     <None Remove="Content\Repositories\Document\sql\NewFolder\**" />
   </ItemGroup>
 	<ItemGroup>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -36,6 +36,8 @@
 	<ItemGroup>
 	  <PackageReference Include="EasyCompressor.LZ4" Version="2.1.0" />
 	  <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
+	  <PackageReference Include="Xamarin.AndroidX.Biometric" Version="1.1.0.28" />
+	  <PackageReference Include="Xamarin.AndroidX.Collection.Jvm" Version="1.5.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>

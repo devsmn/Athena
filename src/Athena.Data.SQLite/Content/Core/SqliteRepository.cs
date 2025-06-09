@@ -1,4 +1,5 @@
-﻿using Athena.DataModel.Core;
+﻿using Android.Runtime;
+using Athena.DataModel.Core;
 using SQLite;
 
 namespace Athena.Data.SQLite
@@ -8,10 +9,46 @@ namespace Athena.Data.SQLite
     /// </summary>
     internal class SqliteRepository
     {
-        private readonly Lazy<SQLiteAsyncConnection> _dbFactory
-            = new(() => new SQLiteAsyncConnection(Defines.DatabasePath, Defines.Flags));
+        public bool IsValid { get; private set; }
 
-        protected SQLiteAsyncConnection Database => _dbFactory.Value;
+        private readonly SQLiteAsyncConnection _database;
+
+        protected SQLiteAsyncConnection Database
+        {
+            get
+            {
+                if (!IsValid)
+                    throw new InvalidCipherException();
+
+                return _database;
+            }
+        }
+
+        public SqliteRepository(string cipher)
+        {
+            SQLiteConnectionString connectionString = new SQLiteConnectionString(Defines.DatabasePath, Defines.Flags, true, key: cipher);
+            _database = new SQLiteAsyncConnection(connectionString);
+        }
+
+        protected async Task ValidateConnection()
+        {
+            try
+            {
+                string createMetaTableSql = await ReadResourceAsync("CREATE_TABLE_META.sql");
+                await _database.ExecuteAsync(createMetaTableSql);
+
+                // TODO: Return correct?
+                var tables = await _database.QueryAsync<List<string>>("SELECT name FROM sqlite_master WHERE type='table';");
+                IsValid = tables.Count > 0;
+            }
+            catch (Exception ex)
+            {
+                IsValid = false;
+            }
+
+            if (!IsValid)
+                throw new InvalidCipherException();
+        }
 
         /// <summary>
         /// Runs the given <paramref name="script"/>.

@@ -21,8 +21,13 @@ namespace Athena.Data.SQLite
         private string _createRootFolderSql;
         private string _countAllSql;
 
+        public SqliteFolderRepository(string cipher) : base(cipher)
+        {
+        }
+
         public async Task<bool> InitializeAsync(IContext context)
         {
+            await ValidateConnection();
             context.Log("Initializing folder repository");
 
             _insertFolderSql = await ReadResourceAsync("FOLDER_INSERT.sql");
