@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
+using AndroidX.Core.Content;
 
 namespace Athena.DataModel.Core
 {
@@ -20,18 +21,18 @@ namespace Athena.DataModel.Core
             _secureStorageService = Services.GetService<ISecureStorageService>();
         }
 
-        public void InitializeDatabaseCipher()
+        public void InitializeDatabaseCipher(IContext context)
         {
-            _biometricKeyService.PrepareDatabaseCipher();
+            _biometricKeyService.PrepareDatabaseCipher(context);
         }
 
-        public async Task SaveDatabaseCipher(string key, string fallbackPin)
+        public async Task SaveDatabaseCipher(IContext context, string key, string fallbackPin)
         {
-            await _biometricKeyService.SaveDatabaseEncryptionKeyAsync(key);
+            await _biometricKeyService.SaveDatabaseEncryptionKeyAsync(context, key);
             await StoreEncryptedPinKeyAsync(key, fallbackPin);
         }
 
-        public async Task<bool> ReadDatabaseCipherPrimary(Action<string> onSuccess, Action<string> onError)
+        public async Task<bool> ReadDatabaseCipherPrimary(IContext context, Action<string> onSuccess, Action<string> onError)
         {
             string encryptedKeyBase64 = await _secureStorageService.GetAsync(DatabaseEncryptionFallbackKeyAlias);
             bool success = true;
@@ -40,6 +41,7 @@ namespace Athena.DataModel.Core
             // asynchronous.
             // Therefore, the fallback has to be called explicitly if false is returned.
             _biometricKeyService.GetDatabaseEncryptionKey(
+                context,
                 encryptedKeyBase64,
                 onSuccess,
                 error =>
@@ -51,7 +53,7 @@ namespace Athena.DataModel.Core
             return success;
         }
 
-        public async Task ReadDatabaseCipherFallback(string pin, Action<string> onSuccess, Action<string> onError)
+        public async Task ReadDatabaseCipherFallback(IContext context, string pin, Action<string> onSuccess, Action<string> onError)
         {
             string encodedKey = await RetrieveKeyWithPinAsync(pin);
 

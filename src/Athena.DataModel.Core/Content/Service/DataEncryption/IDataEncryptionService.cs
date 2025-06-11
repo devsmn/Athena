@@ -11,7 +11,7 @@ namespace Athena.DataModel.Core
         /// <summary>
         /// Initializes the database cipher. This only has to be done for the first time.
         /// </summary>
-        void InitializeDatabaseCipher();
+        void InitializeDatabaseCipher(IContext context);
 
         /// <summary>
         /// Saves the given database cipher.
@@ -19,7 +19,7 @@ namespace Athena.DataModel.Core
         /// <param name="key"></param>
         /// <param name="fallbackPin"></param>
         /// <returns></returns>
-        Task SaveDatabaseCipher(string key, string fallbackPin);
+        Task SaveDatabaseCipher(IContext context, string key, string fallbackPin);
 
         /// <summary>
         /// Reads the database cipher while authorizing against the primary source (biometrics).
@@ -27,7 +27,7 @@ namespace Athena.DataModel.Core
         /// <param name="onSuccess"></param>
         /// <param name="onError"></param>
         /// <returns></returns>
-        Task<bool> ReadDatabaseCipherPrimary(Action<string> onSuccess, Action<string> onError);
+        Task<bool> ReadDatabaseCipherPrimary(IContext context, Action<string> onSuccess, Action<string> onError);
 
         /// <summary>
         /// Reads the database cipher while validating against the fallback source (PIN).
@@ -36,6 +36,6 @@ namespace Athena.DataModel.Core
         /// <param name="onSuccess"></param>
         /// <param name="onError"></param>
         /// <returns></returns>
-        Task ReadDatabaseCipherFallback(string pin ,Action<string> onSuccess, Action<string> onError);
+        Task ReadDatabaseCipherFallback(IContext context, string pin ,Action<string> onSuccess, Action<string> onError);
     }
 }

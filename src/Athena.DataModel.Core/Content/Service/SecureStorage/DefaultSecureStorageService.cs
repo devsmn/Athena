@@ -25,7 +25,7 @@ namespace Athena.DataModel.Core
             return null;
         }
 
-        public string Generate256BitKey()
+        public string GenerateRandomKey()
         {
             return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
         }

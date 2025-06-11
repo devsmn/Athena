@@ -34,12 +34,9 @@ namespace Athena.Data.SQLite
         {
             try
             {
-                string createMetaTableSql = await ReadResourceAsync("CREATE_TABLE_META.sql");
-                await _database.ExecuteAsync(createMetaTableSql);
-
                 // TODO: Return correct?
-                var tables = await _database.QueryAsync<List<string>>("SELECT name FROM sqlite_master WHERE type='table';");
-                IsValid = tables.Count > 0;
+                string table = await _database.ExecuteScalarAsync<string>("SELECT name FROM sqlite_master WHERE type='table' and name='META';");
+                IsValid = !string.IsNullOrEmpty(table);
             }
             catch (Exception ex)
             {
@@ -71,7 +68,7 @@ namespace Athena.Data.SQLite
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        protected static async Task<string> ReadResourceAsync(string file)
+        public static async Task<string> ReadResourceAsync(string file)
         {
             await using (Stream fs = await FileSystem.Current.OpenAppPackageFileAsync(file))
             {

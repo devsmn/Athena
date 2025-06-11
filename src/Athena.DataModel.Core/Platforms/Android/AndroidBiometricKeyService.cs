@@ -56,8 +56,9 @@ namespace Athena.DataModel.Core.Platforms.Android
 
         private bool? _biometricsAvailable;
 
-        public void PrepareDatabaseCipher()
+        public void PrepareDatabaseCipher(IContext context)
         {
+            context?.Log("Preparing database cipher");
             GenerateKeyEntry(DatabaseEncryptionBiometricKeyAlias);
         }
 
@@ -112,7 +113,7 @@ namespace Athena.DataModel.Core.Platforms.Android
             }
         }
 
-        public void GetDatabaseEncryptionKey(string encryptedKeyBase64, Action<string> onSuccess, Action<string> onError)
+        public void GetDatabaseEncryptionKey(IContext context, string encryptedKeyBase64, Action<string> onSuccess, Action<string> onError)
         {
             if (!BiometricsAvailable())
             {
@@ -120,6 +121,7 @@ namespace Athena.DataModel.Core.Platforms.Android
                 return;
             }
 
+            context?.Log("Authenticating and decrypting database cipher");
             AuthenticateAndDecryptKey(encryptedKeyBase64, onSuccess, onError);
         }
 
@@ -178,11 +180,12 @@ namespace Athena.DataModel.Core.Platforms.Android
             biometricPrompt.Authenticate(promptInfo, new BiometricPrompt.CryptoObject(cipher));
         }
 
-        public async Task SaveDatabaseEncryptionKeyAsync(string key)
+        public async Task SaveDatabaseEncryptionKeyAsync(IContext context, string key)
         {
             if (!BiometricsAvailable())
                 return;
 
+            context?.Log("Storing key");
             await SaveKeyValue(DatabaseEncryptionBiometricKeyAlias, key);
         }
 

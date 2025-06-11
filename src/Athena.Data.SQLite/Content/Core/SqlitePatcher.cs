@@ -34,20 +34,24 @@ namespace Athena.Data.SQLite
 
                 // Prepare the android key store to store the sql cipher key.
                 context?.Log("Preparing secure android key storage");
-                encryptionService.InitializeDatabaseCipher();
+                encryptionService.InitializeDatabaseCipher(context);
 
                 // Get the sql cipher key.
                 context?.Log("Generating safe encryption key");
-                string sqlCipherKey = secureService.Generate256BitKey();
+                string sqlCipherKey = secureService.GenerateRandomKey();
 
                 // Encrypt the key and store it.
                 context?.Log("Storing encryption key");
-                await encryptionService.SaveDatabaseCipher(sqlCipherKey, "1234");
+                await encryptionService.SaveDatabaseCipher(context, sqlCipherKey, "1234");
 
                 // Create the encrypted database.
                 context?.Log("Connecting to encrypted database");
                 var encryptedOptions = new SQLiteConnectionString(Defines.DatabasePath, true, key: sqlCipherKey);
                 encryptedDb = new SQLiteAsyncConnection(encryptedOptions);
+
+                // Insert a dummy table to trigger the encryption.
+                string dummyInsert = await SqliteRepository.ReadResourceAsync("CREATE_TABLE_META.sql");
+                await encryptedDb.ExecuteAsync(dummyInsert);
 
                 if (copyData)
                 {
@@ -59,7 +63,7 @@ namespace Athena.Data.SQLite
 
                     // Finally, delete the old database.
                     context?.Log("Removing old database");
-                    //File.Delete(Defines.UnsafeDatabasePath);
+                    File.Delete(Defines.UnsafeDatabasePath);
                 }
 
                 context?.Log("Successfully secured data");

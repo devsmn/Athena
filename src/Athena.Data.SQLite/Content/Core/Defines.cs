@@ -6,11 +6,11 @@ namespace Athena.Data.SQLite
     {
         public static string Key { get; set; }
         public const string UnsafeDatabaseFileName = "athena_rc8.db3";
-        public const string DatabaseFileName = "athena_enc.db3";
+        public const string DatabaseFileName = "athena_encr.db3";
 
         public const SQLiteOpenFlags Flags =
             SQLiteOpenFlags.ReadWrite |
-            SQLiteOpenFlags.Create |
+            SQLiteOpenFlags.Create | 
             SQLiteOpenFlags.SharedCache;
 
         /// <summary>

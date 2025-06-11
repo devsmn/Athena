@@ -35,12 +35,6 @@ namespace Athena.UI
         private DocumentViewModel _selectedItem;
 
         [ObservableProperty]
-        private bool _isBusy;
-
-        [ObservableProperty]
-        private string _busyText;
-
-        [ObservableProperty]
         private VisualCollection<DocumentViewModel, Document> _recentDocuments;
 
         public HomeViewModel()
@@ -256,11 +250,11 @@ namespace Athena.UI
 
                 // Unlock access to the database. Needs to be done before initializing the repositories.
                 IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
-                bool primarySucceeded = await encryptionService.ReadDatabaseCipherPrimary(key => parameter.Cipher = key, _ => { });
+                bool primarySucceeded = await encryptionService.ReadDatabaseCipherPrimary(context, key => parameter.Cipher = key, _ => { });
 
                 if (!primarySucceeded)
                 {
-                    await encryptionService.ReadDatabaseCipherFallback("12345", key => parameter.Cipher = key, _ => { });
+                    await encryptionService.ReadDatabaseCipherFallback(context, "1234", key => parameter.Cipher = key, _ => { });
                 }
 
                 // Register the repositories.

@@ -11,6 +11,6 @@ namespace Athena.DataModel.Core
         Task SaveAsync(string alias, string key);
         Task<string> GetAsync(string alias);
         Task<string> GetDatabaseEncryptionKey(string pin);
-        string Generate256BitKey();
+        string GenerateRandomKey();
     }
 }
