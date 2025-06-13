@@ -1,5 +1,4 @@
-﻿using Android.Runtime;
-using Athena.DataModel.Core;
+﻿using Athena.DataModel.Core;
 using SQLite;
 
 namespace Athena.Data.SQLite
@@ -34,7 +33,7 @@ namespace Athena.Data.SQLite
         {
             try
             {
-                // TODO: Return correct?
+                // The only way to validate whether the cipher was correct is to execute a statement.
                 string table = await _database.ExecuteScalarAsync<string>("SELECT name FROM sqlite_master WHERE type='table' and name='META';");
                 IsValid = !string.IsNullOrEmpty(table);
             }

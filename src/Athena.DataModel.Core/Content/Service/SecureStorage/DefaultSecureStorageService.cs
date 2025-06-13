@@ -12,17 +12,7 @@ namespace Athena.DataModel.Core
 
         public async Task<string> GetAsync(string alias)
         {
-            try
-            {
-                Debug.WriteLine("Getting key: " + alias);
-                return await SecureStorage.GetAsync(alias);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-            }
-
-            return null;
+            return await SecureStorage.GetAsync(alias);
         }
 
         public string GenerateRandomKey()

@@ -8,6 +8,11 @@ namespace Athena.DataModel.Core
 {
     public static class ByteArrayExtensions
     {
+        public static bool IsNullOrEmpty(this byte[] array)
+        {
+            return array == null || array.Length == 0;
+        }
+
         public static byte[] With(this byte[] first, params byte[][] other)
         {
             int totalLength = first.Length + other.Sum(x => x.Length);
@@ -23,19 +28,6 @@ namespace Athena.DataModel.Core
             }
 
             return combined;
-        }
-
-        public static bool ConstantTimeIsEqualTo(this byte[] source, byte[] to)
-        {
-            if (source == null || to == null || source.Length != to.Length)
-                return false;
-
-            int result = 0;
-            for (int i = 0; i < source.Length; i++)
-            {
-                result |= source[i] ^ to[i];
-            }
-            return result == 0;
         }
     }
 }

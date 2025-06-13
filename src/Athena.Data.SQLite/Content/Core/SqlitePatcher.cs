@@ -33,16 +33,16 @@ namespace Athena.Data.SQLite
                 IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
 
                 // Prepare the android key store to store the sql cipher key.
-                context?.Log("Preparing secure android key storage");
-                encryptionService.InitializeDatabaseCipher(context);
+                context?.Log("Preparing database encryption");
+                encryptionService.Initialize(context, IDataEncryptionService.DatabaseAlias);
 
                 // Get the sql cipher key.
-                context?.Log("Generating safe encryption key");
+                context?.Log("Generating encryption key");
                 string sqlCipherKey = secureService.GenerateRandomKey();
 
                 // Encrypt the key and store it.
                 context?.Log("Storing encryption key");
-                await encryptionService.SaveDatabaseCipher(context, sqlCipherKey, "1234");
+                await encryptionService.SaveAsync(context, IDataEncryptionService.DatabaseAlias, sqlCipherKey, "1234");
 
                 // Create the encrypted database.
                 context?.Log("Connecting to encrypted database");
@@ -66,7 +66,7 @@ namespace Athena.Data.SQLite
                     File.Delete(Defines.UnsafeDatabasePath);
                 }
 
-                context?.Log("Successfully secured data");
+                context?.Log("Successfully created secured data storage");
             }
             catch (Exception ex)
             {

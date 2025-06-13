@@ -1,19 +1,68 @@
-﻿using System.Diagnostics;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using AndroidX.Core.Content;
+using Android.AdServices.AdSelection;
 
 namespace Athena.DataModel.Core
 {
+    public class EncryptionContext
+    {
+        public string Alias { get; }
+        public Dictionary<string, byte[]> Data { get; }
+
+        public EncryptionContext(string alias)
+        {
+            Alias = alias;
+            Data = new();
+        }
+
+        public async Task StoreAsync(IContext context)
+        {
+            IDataEncryptionService service = Services.GetService<IDataEncryptionService>();
+            await service.StoreEncryption(context, this);
+        }
+
+        public async Task GetAsync(IContext context)
+        {
+            ISecureStorageService service = Services.GetService<ISecureStorageService>();
+
+            string metaInfo = await service.GetAsync(Alias + "_META");
+            var keys = metaInfo.Split(";", StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var dataKey in keys)
+            {
+                byte[] data = Convert.FromBase64String(await service.GetAsync(Alias + dataKey));
+                Data.Add(dataKey, data);
+            }
+        }
+
+        public void Add(string name, byte[] data)
+        {
+            Data.Add(name, data);
+        }
+
+        public bool IsIntegrityValid(IContext context)
+        {
+            byte[] storedHmac = Data[Alias + "_HMAC"];
+            IBiometricKeyService service = Services.GetService<IBiometricKeyService>();
+
+            byte[] calculatedHmac = service.ComputeHmac(context, Alias, GetHmacData());
+            return CryptographicOperations.FixedTimeEquals(storedHmac, calculatedHmac);
+        }
+
+        public byte[][] GetHmacData()
+        {
+            // Salt should not be included in the HMAC hash.
+            return Data
+                .Where(x => x.Key != "_SALT")
+                .Select(x => x.Value)
+                .ToArray();
+        }
+    }
+
     public class DefaultDataEncryptionService : IDataEncryptionService
     {
         private readonly IBiometricKeyService _biometricKeyService;
         private readonly ISecureStorageService _secureStorageService;
-
-        private const string DatabaseEncryptionFallbackSaltAlias = "fallback_dbencr_salt";
-        private const string DatabaseEncryptionFallbackIvAlias = "fallback_dbencr_iv";
-        private const string DatabaseEncryptionFallbackKeyAlias = "fallback_dbencr_key";
-        private const string DatabaseEncryptionFallbackHmacHashAlias = "fallback_dbencr_hmac_hash";
 
         public DefaultDataEncryptionService()
         {
@@ -21,28 +70,31 @@ namespace Athena.DataModel.Core
             _secureStorageService = Services.GetService<ISecureStorageService>();
         }
 
-        public void InitializeDatabaseCipher(IContext context)
+        public void Initialize(IContext context, string alias)
         {
-            _biometricKeyService.PrepareDatabaseCipher(context);
+            _biometricKeyService.Initialize(context, alias);
         }
 
-        public async Task SaveDatabaseCipher(IContext context, string key, string fallbackPin)
+        public async Task SaveAsync(IContext context, string alias, string value, string fallbackPin)
         {
-            await _biometricKeyService.SaveDatabaseEncryptionKeyAsync(context, key);
-            await StoreEncryptedPinKeyAsync(key, fallbackPin);
+            await _biometricKeyService.SaveAsync(context, alias, value);
+            await StoreFallbackKeyAsync(context, alias, value, fallbackPin);
         }
 
-        public async Task<bool> ReadDatabaseCipherPrimary(IContext context, Action<string> onSuccess, Action<string> onError)
+        public async Task<bool> ReadPrimaryAsync(IContext context, string alias, Action<string> onSuccess, Action<string> onError)
         {
-            string encryptedKeyBase64 = await _secureStorageService.GetAsync(DatabaseEncryptionFallbackKeyAlias);
+            EncryptionContext encryptionContext = new(alias);
+            await encryptionContext.GetAsync(context);
             bool success = true;
 
             // Unfortunately, due to the java RT bindings, we cannot make the onSuccess and onError callbacks
             // asynchronous.
             // Therefore, the fallback has to be called explicitly if false is returned.
-            _biometricKeyService.GetDatabaseEncryptionKey(
+            await _biometricKeyService.GetAsync(
                 context,
-                encryptedKeyBase64,
+                alias,
+                encryptionContext.Data["_KEY"],
+                encryptionContext.Data["_IV"],
                 onSuccess,
                 error =>
                 {
@@ -53,9 +105,10 @@ namespace Athena.DataModel.Core
             return success;
         }
 
-        public async Task ReadDatabaseCipherFallback(IContext context, string pin, Action<string> onSuccess, Action<string> onError)
+        public async Task ReadFallbackAsync(IContext context, string alias, string pin, Action<string> onSuccess, Action<string> onError)
         {
-            string encodedKey = await RetrieveKeyWithPinAsync(pin);
+            string fallbackAlias = alias + "_FALLBACK";
+            string encodedKey = await RetrieveKeyWithPinAsync(context, fallbackAlias, pin);
 
             if (string.IsNullOrEmpty(encodedKey))
             {
@@ -66,8 +119,9 @@ namespace Athena.DataModel.Core
             onSuccess(encodedKey);
         }
 
-        private async Task StoreEncryptedPinKeyAsync(string plainKey, string pin)
+        private async Task StoreFallbackKeyAsync(IContext context, string alias, string plainKey, string pin)
         {
+            context?.Log("Generating fallback authentication");
             byte[] salt = RandomNumberGenerator.GetBytes(16);
             var derivedKey = DeriveKeyFromPin(pin, salt);
 
@@ -78,51 +132,54 @@ namespace Athena.DataModel.Core
             var iv = aes.IV;
 
             using var encryptor = aes.CreateEncryptor();
-            var encrypted = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
+            var encryptedKey = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
 
-            byte[] hmacData = salt.With(iv, encrypted);
-            var hmac = new HMACSHA256(derivedKey);
-            var hmacHash = hmac.ComputeHash(hmacData);
+            string fallbackAlias = alias + "_FALLBACK";
 
-            await _secureStorageService.SaveAsync(DatabaseEncryptionFallbackSaltAlias, Convert.ToBase64String(salt));
-            await _secureStorageService.SaveAsync(DatabaseEncryptionFallbackIvAlias, Convert.ToBase64String(iv));
-            await _secureStorageService.SaveAsync(DatabaseEncryptionFallbackKeyAlias, Convert.ToBase64String(encrypted));
-            await _secureStorageService.SaveAsync(DatabaseEncryptionFallbackHmacHashAlias, Convert.ToBase64String(hmacHash));
+            EncryptionContext encryptionContext = new(fallbackAlias);
+            encryptionContext.Add("_SALT", salt);
+            encryptionContext.Add("_IV", iv);
+            encryptionContext.Add("_KEY", encryptedKey);
+            await encryptionContext.StoreAsync(context);
         }
 
-        private async Task<string> RetrieveKeyWithPinAsync(string pin)
+        public async Task StoreEncryption(IContext context, EncryptionContext encryptionContext)
         {
-            string saltBase64 = await _secureStorageService.GetAsync(DatabaseEncryptionFallbackSaltAlias);
-            string ivBase64 = await _secureStorageService.GetAsync(DatabaseEncryptionFallbackIvAlias);
-            string encryptedBase64 = await _secureStorageService.GetAsync(DatabaseEncryptionFallbackKeyAlias);
-            string hmacHashBase64 = await _secureStorageService.GetAsync(DatabaseEncryptionFallbackHmacHashAlias);
+            context?.Log("Storing encrypted context");
+            string metaInfo = string.Empty;
 
-            if (string.IsNullOrEmpty(hmacHashBase64) || string.IsNullOrEmpty(saltBase64) || string.IsNullOrEmpty(ivBase64) || string.IsNullOrEmpty(encryptedBase64))
+            foreach (var toStore in encryptionContext.Data)
+            {
+                metaInfo += $"{toStore.Key};";
+                await _secureStorageService.SaveAsync(encryptionContext.Alias + toStore.Key, Convert.ToBase64String(toStore.Value));
+            }
+
+            await _secureStorageService.SaveAsync(encryptionContext.Alias + "_META", metaInfo);
+            await _biometricKeyService.StoreHmacAsync(context, encryptionContext.Alias, encryptionContext.GetHmacData());
+        }
+
+        private async Task<string> RetrieveKeyWithPinAsync(IContext context, string alias, string pin)
+        {
+            EncryptionContext encryptionContext = new(alias);
+            await encryptionContext.GetAsync(context);
+
+            byte[] salt = encryptionContext.Data[alias + "_SALT"];
+            byte[] iv = encryptionContext.Data[alias + "_IV"];
+            byte[] encryptedKey = encryptionContext.Data[alias + "_KEY"];
+            byte[] hmacHash = encryptionContext.Data[alias + "_HMAC"];
+
+            if (salt.IsNullOrEmpty() || iv.IsNullOrEmpty() || encryptedKey.IsNullOrEmpty() || hmacHash.IsNullOrEmpty())
                 return null;
 
-            var salt = Convert.FromBase64String(saltBase64);
-            var iv = Convert.FromBase64String(ivBase64);
-            var encryptedKey = Convert.FromBase64String(encryptedBase64);
-            var storedHmacHash = Convert.FromBase64String(hmacHashBase64);
-
-            var derivedKey = DeriveKeyFromPin(pin, salt);
-
-            // First, validate the integrity of the data.
-            var hmac = new HMACSHA256(derivedKey);
-            var hmacData = salt.With(iv, encryptedKey);
-            var expectedHmacHash = hmac.ComputeHash(hmacData);
-
-            bool integrityValid = expectedHmacHash.ConstantTimeIsEqualTo(storedHmacHash);
-
-            if (!integrityValid)
+            if (!encryptionContext.IsIntegrityValid(context))
             {
-                // Integrity could not be validated. Either the PIN is incorrect, or the data is corrupted.
                 return null;
             }
 
+            var derivedKey = DeriveKeyFromPin(pin, salt);
+            
             try
             {
-
                 using var aes = Aes.Create();
                 aes.Key = derivedKey;
                 aes.IV = iv;
@@ -130,7 +187,7 @@ namespace Athena.DataModel.Core
                 using var decryptor = aes.CreateDecryptor();
 
                 var decrypted = decryptor.TransformFinalBlock(encryptedKey, 0, encryptedKey.Length);
-                return Encoding.UTF8.GetString(decrypted);
+                return Convert.ToBase64String(decrypted);
             }
             catch (Exception ex)
             {

@@ -248,13 +248,15 @@ namespace Athena.UI
                 // Execute the patches before initializing the repositories.
                 await sqlPatcher.ExecutePatchesAsync(context, compatService);
 
+                context.Log("Requesting biometric access to database");
                 // Unlock access to the database. Needs to be done before initializing the repositories.
                 IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
-                bool primarySucceeded = await encryptionService.ReadDatabaseCipherPrimary(context, key => parameter.Cipher = key, _ => { });
+                bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, key => parameter.Cipher = key, _ => { });
 
                 if (!primarySucceeded)
                 {
-                    await encryptionService.ReadDatabaseCipherFallback(context, "1234", key => parameter.Cipher = key, _ => { });
+                    context.Log("Requesting fallback access to database");
+                    await encryptionService.ReadFallbackAsync(context, IDataEncryptionService.DatabaseAlias, "1234", key => parameter.Cipher = key, _ => { });
                 }
 
                 // Register the repositories.
@@ -263,6 +265,7 @@ namespace Athena.UI
                 DataStore.Register(sqlProxy.Request<IChapterRepository>(parameter));
                 DataStore.Register(sqlProxy.Request<ITagRepository>(parameter));
 
+                context.Log("Initializing repositories");
                 await DataStore.InitializeAsync(context, () => Debug.WriteLine("Invalid cipher"));
 
                 // Data will be initialized via the welcome view.
