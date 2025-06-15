@@ -1,9 +1,8 @@
 ﻿#if ANDROID
 using System.Security.Cryptography;
-using System.Text;
+using Android.App;
 using Android.Content;
 using Android.Security.Keystore;
-using Android.Views.TextService;
 using AndroidX.Core.Content;
 using Java.Lang;
 using Java.Security;
@@ -18,14 +17,14 @@ using Exception = System.Exception;
 
 namespace Athena.DataModel.Core.Platforms.Android
 {
-    public class BiometricAuthCallback : BiometricPrompt.AuthenticationCallback
+    public class BiometricAuthCallback : AuthenticationCallback
     {
-        private readonly Action<BiometricPrompt.AuthenticationResult> _onSuccess;
+        private readonly Action<AuthenticationResult> _onSuccess;
         private readonly Action<string> _onError;
         private readonly Action _onFailed;
 
         public BiometricAuthCallback(
-            Action<BiometricPrompt.AuthenticationResult> onSuccess,
+            Action<AuthenticationResult> onSuccess,
             Action<string> onError,
             Action onFailed)
         {
@@ -34,7 +33,7 @@ namespace Athena.DataModel.Core.Platforms.Android
             _onFailed = onFailed;
         }
 
-        public override void OnAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result)
+        public override void OnAuthenticationSucceeded(AuthenticationResult result)
         {
             base.OnAuthenticationSucceeded(result);
             _onSuccess?.Invoke(result);
@@ -53,10 +52,12 @@ namespace Athena.DataModel.Core.Platforms.Android
         }
     }
 
-    public class AndroidBiometricKeyService : IBiometricKeyService
+    /// <summary>
+    /// Provides the android specific implementation of the <see cref="IHardwareKeyStoreService"/>.
+    /// </summary>
+    public class AndroidIHardwareKeyStoreService : IHardwareKeyStoreService
     {
         private const string AndroidKeyStore = "AndroidKeyStore";
-
         private bool? _biometricsAvailable;
 
         private bool BiometricsAvailable()
@@ -64,7 +65,7 @@ namespace Athena.DataModel.Core.Platforms.Android
             if (_biometricsAvailable != null)
                 return _biometricsAvailable.Value;
 
-            var context = Platform.CurrentActivity;
+            Activity context = Platform.CurrentActivity;
 
             if (context == null)
             {
@@ -72,7 +73,7 @@ namespace Athena.DataModel.Core.Platforms.Android
             }
             else
             {
-                var result = BiometricManager.From(context).CanAuthenticate(BiometricManager.Authenticators.BiometricStrong);
+                int result = BiometricManager.From(context).CanAuthenticate(BiometricManager.Authenticators.BiometricStrong);
                 _biometricsAvailable = result == BiometricManager.BiometricSuccess;
             }
 
@@ -91,14 +92,14 @@ namespace Athena.DataModel.Core.Platforms.Android
             if (!BiometricsAvailable())
                 return;
 
-            var keyStore = KeyStore.GetInstance(AndroidKeyStore);
+            KeyStore keyStore = KeyStore.GetInstance(AndroidKeyStore);
             keyStore.Load(null);
 
             if (!keyStore.ContainsAlias(alias))
             {
-                var keyGenerator = KeyGenerator.GetInstance(KeyProperties.KeyAlgorithmAes, AndroidKeyStore);
+                KeyGenerator keyGenerator = KeyGenerator.GetInstance(KeyProperties.KeyAlgorithmAes, AndroidKeyStore);
 
-                var builder = new KeyGenParameterSpec.Builder(
+                KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(
                         alias,
                         KeyStorePurpose.Encrypt | KeyStorePurpose.Decrypt)
                     .SetBlockModes(KeyProperties.BlockModeCbc)
@@ -108,7 +109,6 @@ namespace Athena.DataModel.Core.Platforms.Android
                     .SetUserAuthenticationParameters(300, (int)(KeyPropertiesAuthType.BiometricStrong | KeyPropertiesAuthType.DeviceCredential))
                     .SetUserAuthenticationValidityDurationSeconds(-1); 
 
-
                 keyGenerator.Init(builder.Build());
                 keyGenerator.GenerateKey();
             }
@@ -116,14 +116,14 @@ namespace Athena.DataModel.Core.Platforms.Android
 
         public void GenerateHmacKey(string alias)
         {
-            var keyStore = KeyStore.GetInstance(AndroidKeyStore);
+            KeyStore keyStore = KeyStore.GetInstance(AndroidKeyStore);
             keyStore.Load(null);
 
             if (!keyStore.ContainsAlias(alias))
             {
-                var keyGenerator = KeyGenerator.GetInstance(KeyProperties.KeyAlgorithmHmacSha256, AndroidKeyStore);
+                KeyGenerator keyGenerator = KeyGenerator.GetInstance(KeyProperties.KeyAlgorithmHmacSha256, AndroidKeyStore);
 
-                var builder = new KeyGenParameterSpec.Builder(
+                KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(
                         alias,
                         KeyStorePurpose.Sign | KeyStorePurpose.Verify)
                     .SetDigests(KeyProperties.DigestSha256)
@@ -146,11 +146,11 @@ namespace Athena.DataModel.Core.Platforms.Android
         public byte[] ComputeHmac(IContext context, string alias, params byte[][] data)
         {
             context?.Log("Computing HMAC");
-            var keyStore = KeyStore.GetInstance(AndroidKeyStore);
+            KeyStore keyStore = KeyStore.GetInstance(AndroidKeyStore);
             keyStore.Load(null);
-            var hmacKey = keyStore.GetKey(alias + "_HMAC", null);
+            IKey hmacKey = keyStore.GetKey(alias + "_HMAC", null);
 
-            var mac = Mac.GetInstance("HmacSHA256");
+            Mac mac = Mac.GetInstance("HmacSHA256");
             mac.Init(hmacKey);
 
             byte[] hmacData = Array.Empty<byte>().With(data);
@@ -158,16 +158,41 @@ namespace Athena.DataModel.Core.Platforms.Android
             return encryptedHmac;
         }
 
-        public async Task GetAsync(IContext context, string alias, byte[] encryptedKey, byte[] iv, Action<string> onSuccess, Action<string> onError)
+        public async Task<byte[]> GetAsync(
+            IContext context,
+            string alias,
+            EncryptionContext encryptionContext,
+            Action<string> onError)
         {
             if (!BiometricsAvailable())
             {
                 onError("No biometrics available");
-                return;
+                return null;
             }
 
+            byte[] iv = encryptionContext.Data["_IV"];
+            byte[] encryptedKey = encryptionContext.Data["_KEY"];
+
             context?.Log("Authenticating and decrypting database cipher");
-            await AuthenticateAndDecryptKey(alias, encryptedKey, iv, onSuccess, onError);
+            KeyStore keyStore = KeyStore.GetInstance(AndroidKeyStore);
+            keyStore.Load(null);
+            IKey secretKey = keyStore.GetKey(alias, null);
+
+            Cipher cipher = Cipher.GetInstance("AES/CBC/PKCS7Padding");
+            cipher.Init(CipherMode.DecryptMode, secretKey, new IvParameterSpec(iv));
+
+            PromptInfo promptInfo = new PromptInfo.Builder()
+                .SetTitle("Biometric authentication required")
+                .SetSubtitle("Use fingerprint or face to unlock your data")
+                .SetNegativeButtonText("Cancel")
+                .Build();
+
+            if (!encryptionContext.IsIntegrityValid(context))
+            {
+                return null;
+            }
+
+            return await RequestCipherExecution(promptInfo, cipher, encryptedKey);
         }
 
         public async Task SaveAsync(IContext context, string alias, string value)
@@ -182,7 +207,7 @@ namespace Athena.DataModel.Core.Platforms.Android
         private async Task SaveKeyValue(IContext context, string alias, string value)
         {
             context?.Log("Saving key against biometric data");
-            var keyStore = KeyStore.GetInstance(AndroidKeyStore);
+            KeyStore keyStore = KeyStore.GetInstance(AndroidKeyStore);
             keyStore.Load(null);
 
             if (!keyStore.ContainsAlias(alias))
@@ -190,12 +215,18 @@ namespace Athena.DataModel.Core.Platforms.Android
                 return;
             }
 
-            var secretKey = keyStore.GetKey(alias, null);
+            IKey secretKey = keyStore.GetKey(alias, null);
 
-            var cipher = Cipher.GetInstance("AES/CBC/PKCS7Padding");
+            Cipher cipher = Cipher.GetInstance("AES/CBC/PKCS7Padding");
             cipher.Init(CipherMode.EncryptMode, secretKey);
 
-            byte[] encryptedKey = await PerformEncryptionWithAuth(cipher, value, alias);
+            PromptInfo info = new PromptInfo.Builder()
+                .SetTitle("Biometric authentication required")
+                .SetSubtitle("Use fingerprint or face to unlock your data")
+                .SetNegativeButtonText("Cancel")
+                .Build();
+
+            byte[] encryptedKey = await RequestCipherExecution(info, cipher, Convert.FromBase64String(value));
             byte[] iv = cipher.GetIV();
 
             EncryptionContext encryptionContext = new(alias);
@@ -205,119 +236,47 @@ namespace Athena.DataModel.Core.Platforms.Android
             await encryptionContext.StoreAsync(context);
         }
 
-        private async Task AuthenticateAndDecryptKey(
-            string alias,
-            byte[] encryptedKey,
-            byte[] iv,
-            Action<string> onSuccess,
-            Action<string> onError)
+        private static async Task<byte[]> RequestCipherExecution(
+            PromptInfo promptInfo,
+            Cipher cipher,
+            byte[] value) // TODO: merge with AuthenticateAndDecryptKey
         {
-            Context context = Platform.CurrentActivity;
-            var executor = ContextCompat.GetMainExecutor(Platform.CurrentActivity);
-            var tcs = new TaskCompletionSource<bool>();
+            TaskCompletionSource<byte[]> tcs = new TaskCompletionSource<byte[]>();
 
-            var biometricPrompt = new BiometricPrompt(
-                (AndroidX.Fragment.App.FragmentActivity)context,
-                executor,
-                new BiometricAuthCallback(
-                    onSuccess: result =>
-                    {
-                        try
-                        {
-                            var cipher = result.CryptoObject.Cipher;
-                            var decryptedKeyBytes = cipher.DoFinal(encryptedKey);
-                            var decryptedKey = Convert.ToBase64String(decryptedKeyBytes);
-                            onSuccess(decryptedKey);
-                            tcs.SetResult(true);
-                        }
-                        catch (Exception ex)
-                        {
-                            onError(ex.Message);
-                            tcs.SetException(ex);
-                        }
-                    },
-                    onError: msg =>
-                    {
-                        onError($"Auth error: {msg}");
-                        tcs.SetException(new Exception(msg));
-                    },
-                    onFailed: () =>
-                    {
-                        onError("Authentication failed.");
-                        tcs.SetException(new Exception());
-                    }
-                )
-            );
-
-            var keyStore = KeyStore.GetInstance(AndroidKeyStore);
-            keyStore.Load(null);
-            var secretKey = keyStore.GetKey(alias, null);
-
-            var cipher = Cipher.GetInstance("AES/CBC/PKCS7Padding");
-            cipher.Init(CipherMode.DecryptMode, secretKey, new IvParameterSpec(iv));
-
-            var promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .SetTitle("Biometric authentication required")
-                .SetSubtitle("Use fingerprint or face to unlock your data")
-                .SetNegativeButtonText("Cancel")
-                .Build();
-
-            await MainThread.InvokeOnMainThreadAsync(() =>
-                biometricPrompt.Authenticate(promptInfo, new BiometricPrompt.CryptoObject(cipher)));
-
-            await tcs.Task;
-
-            // TODO: HMAC
-        }
-
-        private async Task<byte[]> PerformEncryptionWithAuth(Cipher cipher, string value, string alias) // TODO: merge with AuthenticateAndDecryptKey
-        {
-            byte[] encryptedKeyResult = null;
-            var tcs = new TaskCompletionSource<bool>();
-
-            var callback = new BiometricAuthCallback(
+            BiometricAuthCallback callback = new BiometricAuthCallback(
                 onSuccess: result =>
                 {
                     try
                     {
-                        var authCipher = result.CryptoObject.Cipher;
-                        encryptedKeyResult = authCipher.DoFinal(Convert.FromBase64String(value));
+                        Cipher authCipher = result.CryptoObject.Cipher;
+                        tcs.SetResult(authCipher.DoFinal(value));
                         // Save to secure storage
 
                         //ISecureStorageService service = Services.GetService<ISecureStorageService>();
                         //SecureStorage.Default.SetAsync(alias, encryptedKey);
-                        tcs.SetResult(true);
+                        
                     }
                     catch (Exception ex)
                     {
                         tcs.SetException(ex);
                     }
                 },
-                onError: (error) => tcs.SetException(new Exception(error)),
-                onFailed: (() => { }));
+                onError: error => tcs.SetException(new Exception(error)),
+                onFailed: (() => tcs.SetResult(null)));
 
             Context context = Platform.CurrentActivity;
-            var executor = ContextCompat.GetMainExecutor(Platform.CurrentActivity);
+            IExecutor executor = ContextCompat.GetMainExecutor(Platform.CurrentActivity);
 
-            var prompt = new BiometricPrompt(
+            BiometricPrompt prompt = new BiometricPrompt(
                 (AndroidX.Fragment.App.FragmentActivity)context,
                 executor,
                 callback);
 
-            var promptInfo = new PromptInfo.Builder()
-                .SetTitle("Authenticate Encryption")
-                .SetSubtitle("Confirm biometrics to secure your key")
-                .SetNegativeButtonText("Cancel")
-                .Build();
-
             await MainThread.InvokeOnMainThreadAsync(() =>
-                prompt.Authenticate(promptInfo, new BiometricPrompt.CryptoObject(cipher)));
+                prompt.Authenticate(promptInfo, new CryptoObject(cipher)));
 
-            await tcs.Task;
-            return encryptedKeyResult;
+            return await tcs.Task;
         }
-
-
     }
 }
 

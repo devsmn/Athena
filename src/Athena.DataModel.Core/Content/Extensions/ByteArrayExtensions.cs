@@ -21,7 +21,7 @@ namespace Athena.DataModel.Core
             Buffer.BlockCopy(first, 0, combined, 0, first.Length);
             int offset = first.Length;
 
-            foreach (var array in other)
+            foreach (byte[] array in other)
             {
                 Buffer.BlockCopy(array, 0, combined, offset, array.Length);
                 offset += array.Length;

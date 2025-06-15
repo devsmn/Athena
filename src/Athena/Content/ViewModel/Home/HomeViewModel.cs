@@ -45,7 +45,7 @@ namespace Athena.UI
 
         private void UpdateGreeting()
         {
-            var greeting = Services.GetService<IGreetingService>();
+            IGreetingService greeting = Services.GetService<IGreetingService>();
             Greeting = greeting.Get();
 
             string name = Services.GetService<IPreferencesService>().GetName();
@@ -59,7 +59,7 @@ namespace Athena.UI
 
         protected override void OnAppInitialized()
         {
-            var context = RetrieveContext();
+            IContext context = RetrieveContext();
 
             UpdateCounterStats();
 
@@ -105,7 +105,7 @@ namespace Athena.UI
             {
                 if (e.Documents.Count > 0)
                 {
-                    foreach (var update in e.Documents)
+                    foreach (RequestUpdate<Document> update in e.Documents)
                     {
                         if (update.Type == UpdateType.Add)
                         {
@@ -125,12 +125,12 @@ namespace Athena.UI
                         }
                         else if (update.Type == UpdateType.Delete)
                         {
-                            var rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
+                            FolderViewModel rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
                             Stack<Folder> folders = new Stack<Folder>();
 
                             bool stop = false;
 
-                            foreach (var folder in rootFolder.LoadedFolders)
+                            foreach (Folder folder in rootFolder.LoadedFolders)
                             {
                                 folders.Push(folder);
                             }
@@ -141,7 +141,7 @@ namespace Athena.UI
                             {
                                 Folder currentFolder = folders.Pop();
 
-                                foreach (var folderDoc in currentFolder.LoadedDocuments)
+                                foreach (Document folderDoc in currentFolder.LoadedDocuments)
                                 {
                                     if (folderDoc.Key.Id == update.Entity.Id)
                                     {
@@ -167,18 +167,18 @@ namespace Athena.UI
 
                 if (e.Tags.Count > 0)
                 {
-                    var deletedTagIds = e.Tags
+                    HashSet<int> deletedTagIds = e.Tags
                         .Where(x => x.Type == UpdateType.Delete)
                         .Select(x => x.Entity.Id)
                         .ToHashSet();
 
-                    foreach (var document in RecentDocuments)
+                    foreach (DocumentViewModel document in RecentDocuments)
                     {
-                        var validTags = document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
+                        List<Tag> validTags = document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
 
                         document.Tags.Clear();
 
-                        foreach (var tag in validTags)
+                        foreach (Tag tag in validTags)
                         {
                             document.Tags.Add(tag);
                         }
@@ -190,7 +190,7 @@ namespace Athena.UI
         [RelayCommand]
         public async Task OpenFolderOverview()
         {
-            var rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
+            FolderViewModel rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
             await PushAsync(new FolderOverview(rootFolder));
         }
 
@@ -288,7 +288,7 @@ namespace Athena.UI
 
         private static Folder GetRootFolder(IContext context)
         {
-            var rootFolder = Folder.Read(context, IntegerEntityKey.Root);
+            Folder rootFolder = Folder.Read(context, IntegerEntityKey.Root);
 
             if (rootFolder != null)
                 return rootFolder;

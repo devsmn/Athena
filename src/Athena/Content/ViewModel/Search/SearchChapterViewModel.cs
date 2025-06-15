@@ -46,7 +46,7 @@ namespace Athena.UI
 
             Application.Current.Dispatcher.Dispatch(() =>
             {
-                foreach (var tagUpdate in e.Tags)
+                foreach (RequestUpdate<Tag> tagUpdate in e.Tags)
                 {
                     Tags.Process(tagUpdate);
 
@@ -65,7 +65,7 @@ namespace Athena.UI
         {
             await ExecuteBackgroundAction(context =>
             {
-                var tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
+                IEnumerable<TagViewModel> tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
                 Tags = new(tags);
             });
 
@@ -92,7 +92,7 @@ namespace Athena.UI
 
             await ExecuteBackgroundAction(context =>
             {
-                var results = Document.Search(context, text, SelectedTags.Select(x => x.Tag), IsFullTextSearch);
+                IEnumerable<SearchResult> results = Document.Search(context, text, SelectedTags.Select(x => x.Tag), IsFullTextSearch);
                 MainThread.InvokeOnMainThreadAsync(() =>
                 {
                     SearchResult = new ObservableCollection<SearchResult>(results);

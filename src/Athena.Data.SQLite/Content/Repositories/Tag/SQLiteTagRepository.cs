@@ -41,9 +41,9 @@ namespace Athena.Data.SQLite
 
         public async Task ExecutePatches(IContext context, ICompatibilityService compatService)
         {
-            var patches = compatService.GetPatches<SqliteTagRepository>();
+            IEnumerable<VersionPatch> patches = compatService.GetPatches<SqliteTagRepository>();
 
-            foreach (var pat in patches)
+            foreach (VersionPatch pat in patches)
             {
                 await pat.PatchAsync(context);
             }
@@ -79,7 +79,7 @@ namespace Athena.Data.SQLite
 
         private void UpdateCore(IContext context, Tag tag)
         {
-            var connection = Database.GetConnection();
+            SQLiteConnectionWithLock connection = Database.GetConnection();
 
             SQLiteCommand command = connection.CreateCommand(_updateTagSql);
 
@@ -94,7 +94,7 @@ namespace Athena.Data.SQLite
 
         private void InsertCore(IContext context, Tag tag)
         {
-            var connection = Database.GetConnection();
+            SQLiteConnectionWithLock connection = Database.GetConnection();
 
             SQLiteCommand command = connection.CreateCommand(_insertTagSql);
 

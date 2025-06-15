@@ -14,12 +14,12 @@
 
         public IEnumerable<VersionPatch> GetPatches<TFor>()
         {
-            if (!_patches.TryGetValue(typeof(TFor), out var list))
+            if (!_patches.TryGetValue(typeof(TFor), out List<VersionPatch> list))
                 yield break;
 
             int fromVersion = GetLastUsedVersion();
 
-            foreach (var patch in list)
+            foreach (VersionPatch patch in list)
             {
                 if (fromVersion < patch.Version)
                     yield return patch;
@@ -36,7 +36,7 @@
 
         public int GetLastUsedVersion()
         {
-            var prefService = Services.GetService<IPreferencesService>();
+            IPreferencesService prefService = Services.GetService<IPreferencesService>();
             return prefService.GetLastUsedVersion();
         }
 

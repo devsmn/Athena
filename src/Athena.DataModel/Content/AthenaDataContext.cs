@@ -23,7 +23,7 @@ namespace Athena.DataModel
 
         public override void Log(AggregateException aggregateException)
         {
-            foreach (var exception in aggregateException.InnerExceptions)
+            foreach (Exception exception in aggregateException.InnerExceptions)
             {
                 Log(exception);
             }

@@ -212,7 +212,7 @@ namespace Athena.UI
             {
                 if (!IsNew)
                 {
-                    var context = RetrieveContext();
+                    IContext context = RetrieveContext();
 
                     List<TagViewModel> newTags
                         = SelectedTags
@@ -225,13 +225,13 @@ namespace Athena.UI
                             .Select(tag => (TagViewModel)tag)
                             .ToList();
 
-                    foreach (var newTag in newTags)
+                    foreach (TagViewModel newTag in newTags)
                     {
                         Document.AddTag(context, newTag);
                         //Document.Document.AddTag(context, newTag);
                     }
 
-                    foreach (var deletedTag in deletedTags)
+                    foreach (TagViewModel deletedTag in deletedTags)
                     {
                         Document.DeleteTag(context, deletedTag);
                         //Document.Document.DeleteTag(context, deletedTag);
@@ -268,7 +268,7 @@ namespace Athena.UI
             {
                 if (MediaPicker.Default.IsCaptureSupported)
                 {
-                    var context = RetrieveContext();
+                    IContext context = RetrieveContext();
 
                     context.Log("Taking picture");
 
@@ -289,7 +289,7 @@ namespace Athena.UI
 
                         await Task.Delay(100);
 
-                        var view = new DocumentEditorDocumentCropView(bytes);
+                        DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
 
                         IsPopupOpen = false;
 
@@ -300,7 +300,7 @@ namespace Athena.UI
             }
             catch (Exception ex)
             {
-                var context = RetrieveContext();
+                IContext context = RetrieveContext();
                 context.Log(ex);
 
                 if (ex is PermissionException pex)
@@ -324,10 +324,10 @@ namespace Athena.UI
                     FileTypes = FilePickerFileType.Pdf
                 };
 
-                var result = await FilePicker.Default.PickAsync(options);
+                FileResult result = await FilePicker.Default.PickAsync(options);
                 if (result != null)
                 {
-                    await using (var stream = await result.OpenReadAsync())
+                    await using (Stream stream = await result.OpenReadAsync())
                     {
                         using MemoryStream byteStream = new();
                         await stream.CopyToAsync(byteStream);
@@ -346,7 +346,7 @@ namespace Athena.UI
             }
             catch (Exception ex)
             {
-                var context = RetrieveContext();
+                IContext context = RetrieveContext();
                 context.Log(ex);
                 await Toast.Make("An error occurred").Show();
             }
@@ -357,7 +357,7 @@ namespace Athena.UI
         {
             try
             {
-                var image = await MediaPicker.PickPhotoAsync();
+                FileResult image = await MediaPicker.PickPhotoAsync();
 
                 if (image != null)
                 {
@@ -375,7 +375,7 @@ namespace Athena.UI
                     await Task.Delay(100);
 
 
-                    var view = new DocumentEditorDocumentCropView(bytes);
+                    DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
 
                     IsPopupOpen = false;
 
@@ -386,7 +386,7 @@ namespace Athena.UI
             }
             catch (Exception ex)
             {
-                var context = RetrieveContext();
+                IContext context = RetrieveContext();
                 context.Log(ex);
                 await Toast.Make("An error occurred").Show();
             }

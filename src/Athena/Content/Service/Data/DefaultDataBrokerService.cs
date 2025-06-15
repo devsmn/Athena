@@ -59,7 +59,7 @@ namespace Athena.UI
         /// <inheritdoc />  
         public void Publish<TEntity>(IContext context, IEnumerable<TEntity> entities, UpdateType type, IntegerEntityKey parentReference) where TEntity : Entity
         {
-            var syncContext = TaskScheduler.Current;
+            TaskScheduler syncContext = TaskScheduler.Current;
 
             Task.Run(() =>
             {
@@ -94,7 +94,7 @@ namespace Athena.UI
         {
             DataPublishedEventArgs args = new DataPublishedEventArgs();
 
-            foreach (var update in updates)
+            foreach (RequestUpdate<TEntity> update in updates)
             {
                 switch (update.Entity)
                 {
@@ -125,7 +125,7 @@ namespace Athena.UI
             // That way, when e.g. moving a document, we can let the related view model handle the action, if available.
             // Otherwise, the chance is high that we traverse the documents of the root item and all subfolders
             // of the loaded folders until we find the correct document.
-            var subs = Published.GetInvocationList().ToList();
+            List<Delegate> subs = Published.GetInvocationList().ToList();
             subs.Reverse();
 
             foreach (EventHandler<DataPublishedEventArgs> handler in subs)

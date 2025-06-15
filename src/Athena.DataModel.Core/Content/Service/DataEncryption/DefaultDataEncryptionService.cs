@@ -1,6 +1,5 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using Android.AdServices.AdSelection;
 
 namespace Athena.DataModel.Core
 {
@@ -26,9 +25,9 @@ namespace Athena.DataModel.Core
             ISecureStorageService service = Services.GetService<ISecureStorageService>();
 
             string metaInfo = await service.GetAsync(Alias + "_META");
-            var keys = metaInfo.Split(";", StringSplitOptions.RemoveEmptyEntries);
+            string[] keys = metaInfo.Split(";", StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (var dataKey in keys)
+            foreach (string dataKey in keys)
             {
                 byte[] data = Convert.FromBase64String(await service.GetAsync(Alias + dataKey));
                 Data.Add(dataKey, data);
@@ -43,9 +42,9 @@ namespace Athena.DataModel.Core
         public bool IsIntegrityValid(IContext context)
         {
             byte[] storedHmac = Data[Alias + "_HMAC"];
-            IBiometricKeyService service = Services.GetService<IBiometricKeyService>();
+            IHardwareKeyStoreService storeService = Services.GetService<IHardwareKeyStoreService>();
 
-            byte[] calculatedHmac = service.ComputeHmac(context, Alias, GetHmacData());
+            byte[] calculatedHmac = storeService.ComputeHmac(context, Alias, GetHmacData());
             return CryptographicOperations.FixedTimeEquals(storedHmac, calculatedHmac);
         }
 
@@ -61,27 +60,31 @@ namespace Athena.DataModel.Core
 
     public class DefaultDataEncryptionService : IDataEncryptionService
     {
-        private readonly IBiometricKeyService _biometricKeyService;
+        private readonly IHardwareKeyStoreService _iHardwareKeyStoreService;
         private readonly ISecureStorageService _secureStorageService;
 
         public DefaultDataEncryptionService()
         {
-            _biometricKeyService = Services.GetService<IBiometricKeyService>();
+            _iHardwareKeyStoreService = Services.GetService<IHardwareKeyStoreService>();
             _secureStorageService = Services.GetService<ISecureStorageService>();
         }
 
         public void Initialize(IContext context, string alias)
         {
-            _biometricKeyService.Initialize(context, alias);
+            _iHardwareKeyStoreService.Initialize(context, alias);
         }
 
         public async Task SaveAsync(IContext context, string alias, string value, string fallbackPin)
         {
-            await _biometricKeyService.SaveAsync(context, alias, value);
+            await _iHardwareKeyStoreService.SaveAsync(context, alias, value);
             await StoreFallbackKeyAsync(context, alias, value, fallbackPin);
         }
 
-        public async Task<bool> ReadPrimaryAsync(IContext context, string alias, Action<string> onSuccess, Action<string> onError)
+        public async Task<bool> ReadPrimaryAsync(
+            IContext context,
+            string alias,
+            Action<string> onSuccess,
+            Action<string> onError)
         {
             EncryptionContext encryptionContext = new(alias);
             await encryptionContext.GetAsync(context);
@@ -90,22 +93,30 @@ namespace Athena.DataModel.Core
             // Unfortunately, due to the java RT bindings, we cannot make the onSuccess and onError callbacks
             // asynchronous.
             // Therefore, the fallback has to be called explicitly if false is returned.
-            await _biometricKeyService.GetAsync(
+            byte[] decryptedKey = await _iHardwareKeyStoreService.GetAsync(
                 context,
                 alias,
-                encryptionContext.Data["_KEY"],
-                encryptionContext.Data["_IV"],
-                onSuccess,
+                encryptionContext,
                 error =>
                 {
                     onError(error);
                     success = false;
                 });
 
+            if (decryptedKey != null)
+            {
+                onSuccess(Convert.ToBase64String(decryptedKey));
+            }
+
             return success;
         }
 
-        public async Task ReadFallbackAsync(IContext context, string alias, string pin, Action<string> onSuccess, Action<string> onError)
+        public async Task ReadFallbackAsync(
+            IContext context,
+            string alias,
+            string pin,
+            Action<string> onSuccess,
+            Action<string> onError)
         {
             string fallbackAlias = alias + "_FALLBACK";
             string encodedKey = await RetrieveKeyWithPinAsync(context, fallbackAlias, pin);
@@ -123,16 +134,16 @@ namespace Athena.DataModel.Core
         {
             context?.Log("Generating fallback authentication");
             byte[] salt = RandomNumberGenerator.GetBytes(16);
-            var derivedKey = DeriveKeyFromPin(pin, salt);
+            byte[] derivedKey = DeriveKeyFromPin(pin, salt);
 
-            using var aes = Aes.Create();
+            using Aes aes = Aes.Create();
             aes.Key = derivedKey;
             aes.Padding = PaddingMode.PKCS7;
             aes.GenerateIV();
-            var iv = aes.IV;
+            byte[] iv = aes.IV;
 
-            using var encryptor = aes.CreateEncryptor();
-            var encryptedKey = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
+            using ICryptoTransform encryptor = aes.CreateEncryptor();
+            byte[] encryptedKey = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
 
             string fallbackAlias = alias + "_FALLBACK";
 
@@ -148,14 +159,14 @@ namespace Athena.DataModel.Core
             context?.Log("Storing encrypted context");
             string metaInfo = string.Empty;
 
-            foreach (var toStore in encryptionContext.Data)
+            foreach (KeyValuePair<string, byte[]> toStore in encryptionContext.Data)
             {
                 metaInfo += $"{toStore.Key};";
                 await _secureStorageService.SaveAsync(encryptionContext.Alias + toStore.Key, Convert.ToBase64String(toStore.Value));
             }
 
             await _secureStorageService.SaveAsync(encryptionContext.Alias + "_META", metaInfo);
-            await _biometricKeyService.StoreHmacAsync(context, encryptionContext.Alias, encryptionContext.GetHmacData());
+            await _iHardwareKeyStoreService.StoreHmacAsync(context, encryptionContext.Alias, encryptionContext.GetHmacData());
         }
 
         private async Task<string> RetrieveKeyWithPinAsync(IContext context, string alias, string pin)
@@ -176,17 +187,17 @@ namespace Athena.DataModel.Core
                 return null;
             }
 
-            var derivedKey = DeriveKeyFromPin(pin, salt);
+            byte[] derivedKey = DeriveKeyFromPin(pin, salt);
             
             try
             {
-                using var aes = Aes.Create();
+                using Aes aes = Aes.Create();
                 aes.Key = derivedKey;
                 aes.IV = iv;
                 aes.Padding = PaddingMode.PKCS7;
-                using var decryptor = aes.CreateDecryptor();
+                using ICryptoTransform decryptor = aes.CreateDecryptor();
 
-                var decrypted = decryptor.TransformFinalBlock(encryptedKey, 0, encryptedKey.Length);
+                byte[] decrypted = decryptor.TransformFinalBlock(encryptedKey, 0, encryptedKey.Length);
                 return Convert.ToBase64String(decrypted);
             }
             catch (Exception ex)
@@ -199,7 +210,7 @@ namespace Athena.DataModel.Core
 
         private byte[] DeriveKeyFromPin(string pin, byte[] salt, int iterations = 10000, int keyLen = 32)
         {
-            var pbkdf2 = new Rfc2898DeriveBytes(pin, salt, iterations, HashAlgorithmName.SHA256);
+            Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(pin, salt, iterations, HashAlgorithmName.SHA256);
             return pbkdf2.GetBytes(keyLen);
         }
 

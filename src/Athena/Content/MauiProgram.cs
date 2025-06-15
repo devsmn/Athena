@@ -12,7 +12,7 @@ public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
-        var builder = MauiApp.CreateBuilder();
+        MauiAppBuilder builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
@@ -48,10 +48,10 @@ public static class MauiProgram
         builder.Services.AddTransient<IDownloadService, DefaultDownloadService>();
         builder.Services.AddSingleton<INetworkService, DefaultNetworkService>();
         builder.Services.AddSingleton<ISecureStorageService, DefaultSecureStorageService>();
-        builder.Services.AddSingleton<IBiometricKeyService, AndroidBiometricKeyService>();
+        builder.Services.AddSingleton<IHardwareKeyStoreService, AndroidIHardwareKeyStoreService>();
         builder.Services.AddSingleton<IDataEncryptionService, DefaultDataEncryptionService>();
 
-        var app = builder.Build();
+        MauiApp app = builder.Build();
         Services.Register(app.Services);
 
         return app;

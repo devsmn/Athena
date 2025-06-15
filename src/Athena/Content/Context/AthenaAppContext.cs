@@ -41,7 +41,7 @@ namespace Athena.UI
 
             sb.Append(GetLogPrefix(true) + aggregateException.Message);
 
-            foreach (var ex in aggregateException.InnerExceptions)
+            foreach (Exception ex in aggregateException.InnerExceptions)
             {
                 sb.Append(ex);
             }

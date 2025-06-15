@@ -17,7 +17,7 @@ namespace Athena.UI
 
         public DocumentEditorDocumentCropView(byte[] image)
         {
-            var vm = new DocumentEditCropViewModel(image);
+            DocumentEditCropViewModel vm = new DocumentEditCropViewModel(image);
 
             vm.ImageSaved += (s, e) =>
             {
@@ -32,7 +32,7 @@ namespace Athena.UI
 
         private void HideToolbarItems()
         {
-            foreach (var item in _hideItems)
+            foreach (string item in _hideItems)
             {
                 ImageEditor.SetToolbarItemVisibility(item, false);
             }
@@ -40,7 +40,7 @@ namespace Athena.UI
 
         private byte[] GetImageStreamAsBytes(Stream input)
         {
-            var buffer = new byte[16 * 1024];
+            byte[] buffer = new byte[16 * 1024];
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -60,8 +60,8 @@ namespace Athena.UI
             if (e.ToolbarItem != null && e.ToolbarItem.Name == "Save")
             {
                 e.Cancel = true;
-                var imageStream = await ImageEditor.GetImageStream();
-                var bytes = GetImageStreamAsBytes(imageStream);
+                Stream imageStream = await ImageEditor.GetImageStream();
+                byte[] bytes = GetImageStreamAsBytes(imageStream);
 
                 (BindingContext as DocumentEditCropViewModel).SavingImageCommand(new ImageSavedEventArgs(bytes));
             }

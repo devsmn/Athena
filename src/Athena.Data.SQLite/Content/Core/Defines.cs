@@ -20,7 +20,7 @@ namespace Athena.Data.SQLite
         {
             get
             {
-                var basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 return Path.Combine(basePath, UnsafeDatabaseFileName);
             }
         }
@@ -32,7 +32,7 @@ namespace Athena.Data.SQLite
         {
             get
             {
-                var basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 return Path.Combine(basePath, DatabaseFileName);
             }
         }

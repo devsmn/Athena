@@ -84,8 +84,8 @@ namespace Athena.UI
 
             Task.Run(() =>
             {
-                var folders = ParentFolder.Folders.Select(x => new RootItemViewModel(x));
-                var documents = ParentFolder.Documents.Select(x => new RootItemViewModel(x));
+                IEnumerable<RootItemViewModel> folders = ParentFolder.Folders.Select(x => new RootItemViewModel(x));
+                IEnumerable<RootItemViewModel> documents = ParentFolder.Documents.Select(x => new RootItemViewModel(x));
 
                 Application.Current.Dispatcher.Dispatch(() =>
                 {
@@ -127,7 +127,7 @@ namespace Athena.UI
             }
             else
             {
-                foreach (var folder in folders)
+                foreach (RequestUpdate<Folder> folder in folders)
                 {
                     if (folder.ParentReference?.Id == ParentFolder.Id)
                     {
@@ -140,18 +140,18 @@ namespace Athena.UI
 
         private void ProcessTagsUpdate(IList<RequestUpdate<Tag>> tags)
         {
-            var deletedTagIds = tags
+            HashSet<int> deletedTagIds = tags
                 .Where(x => x.Type == UpdateType.Delete)
                 .Select(x => x.Entity.Id)
                 .ToHashSet();
 
-            foreach (var document in RootSource.Where(x => !x.IsFolder))
+            foreach (RootItemViewModel document in RootSource.Where(x => !x.IsFolder))
             {
-                var validTags = document.Document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
+                List<Tag> validTags = document.Document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
 
                 document.Document.Tags.Clear();
 
-                foreach (var tag in validTags)
+                foreach (Tag tag in validTags)
                 {
                     document.Document.Tags.Add(tag);
                 }
@@ -166,7 +166,7 @@ namespace Athena.UI
             }
             else
             {
-                foreach (var document in documents)
+                foreach (RequestUpdate<Document> document in documents)
                 {
                     if (document.Handled)
                         continue;
@@ -181,7 +181,7 @@ namespace Athena.UI
                         {
                             Stack<Folder> folders = new Stack<Folder>();
 
-                            foreach (var folder in ParentFolder.LoadedFolders)
+                            foreach (Folder folder in ParentFolder.LoadedFolders)
                             {
                                 folders.Push(folder);
                             }
@@ -291,7 +291,7 @@ namespace Athena.UI
             if (!result)
                 return;
 
-            var context = RetrieveContext();
+            IContext context = RetrieveContext();
 
             if (item.IsFolder)
             {
@@ -392,8 +392,8 @@ namespace Athena.UI
                 return;
             }
 
-            var documentViewModel = SelectedItem.Document;
-            var context = RetrieveContext();
+            DocumentViewModel documentViewModel = SelectedItem.Document;
+            IContext context = RetrieveContext();
 
             documentViewModel.Document.MoveTo(context, ParentFolder.Folder, SelectedMoveDestination.Folder);
 

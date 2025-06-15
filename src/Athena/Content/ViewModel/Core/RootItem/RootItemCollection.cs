@@ -54,7 +54,7 @@ namespace Athena.UI
 
         public void Delete(Folder folder, FolderViewModel parentFolder)
         {
-            var toDelete = Items.FirstOrDefault(x => x.IsFolder && x.Id == folder.Id);
+            RootItemViewModel toDelete = Items.FirstOrDefault(x => x.IsFolder && x.Id == folder.Id);
 
             if (toDelete == null)
             {
@@ -67,7 +67,7 @@ namespace Athena.UI
 
         public void Delete(Document document, FolderViewModel parentFolder)
         {
-            var toDelete = Items.FirstOrDefault(x => !x.IsFolder && x.Id == document.Id);
+            RootItemViewModel toDelete = Items.FirstOrDefault(x => !x.IsFolder && x.Id == document.Id);
 
             if (toDelete == null)
             {
@@ -80,7 +80,7 @@ namespace Athena.UI
 
         public void Edit(Folder folder)
         {
-            var toEdit = Items.FirstOrDefault(x => x.IsFolder && x.Id == folder.Id);
+            RootItemViewModel toEdit = Items.FirstOrDefault(x => x.IsFolder && x.Id == folder.Id);
 
             if (toEdit == null)
                 return;
@@ -92,7 +92,7 @@ namespace Athena.UI
 
         public void Edit(Document document)
         {
-            var toEdit = Items.FirstOrDefault(x => !x.IsFolder && x.Id == document.Id);
+            RootItemViewModel toEdit = Items.FirstOrDefault(x => !x.IsFolder && x.Id == document.Id);
 
             if (toEdit == null)
                 return;
@@ -101,7 +101,7 @@ namespace Athena.UI
             toEdit.Comment = document.Comment;
             toEdit.Document.Tags.Clear();
 
-            foreach (var tag in document.Tags)
+            foreach (Tag tag in document.Tags)
             {
                 toEdit.Document.Tags.Add(tag);
             }

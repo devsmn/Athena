@@ -72,7 +72,7 @@ namespace Athena.UI
         {
             Report("Saving tags...");
 
-            foreach (var tag in _vm.SelectedTags)
+            foreach (TagViewModel tag in _vm.SelectedTags)
             {
                 _vm.Document.AddTag(context, tag);
             }
@@ -82,12 +82,12 @@ namespace Athena.UI
 
             if (_vm.DetectText)
             {
-                var ocrService = Services.GetService<IOcrService>();
+                IOcrService ocrService = Services.GetService<IOcrService>();
                 int docIdx = 0;
 
                 StringBuilder sb = new StringBuilder();
 
-                foreach (var document in _vm.Images)
+                foreach (DocumentImageViewModel document in _vm.Images)
                 {
                     // Text in PDFs is already detected when loading the PDF. No need for OCR.
                     if (document.IsPdf)
@@ -95,7 +95,7 @@ namespace Athena.UI
 
                     Report(string.Format(Localization.PdfCreationDetectingTextInDocument, ++docIdx));
 
-                    var result = await ocrService.RecognizeTextAsync(document.ImagePath);
+                    RecognizionResult result = await ocrService.RecognizeTextAsync(document.ImagePath);
 
                     if (!result.FinishedWithSuccess())
                     {

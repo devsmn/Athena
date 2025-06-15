@@ -60,9 +60,9 @@ namespace Athena.Data.SQLite
 
         public async Task ExecutePatches(IContext context, ICompatibilityService compatService)
         {
-            var patches = compatService.GetPatches<SqliteFolderRepository>();
+            IEnumerable<VersionPatch> patches = compatService.GetPatches<SqliteFolderRepository>();
 
-            foreach (var pat in patches)
+            foreach (VersionPatch pat in patches)
             {
                 await pat.PatchAsync(context);
             }
@@ -82,7 +82,7 @@ namespace Athena.Data.SQLite
                     // TODO
                 }
 
-                var connection = Database.GetConnection();
+                SQLiteConnectionWithLock connection = Database.GetConnection();
 
                 SQLiteCommand command = connection.CreateCommand(_insertFolderDocumentSql);
 
@@ -111,7 +111,7 @@ namespace Athena.Data.SQLite
                     return; // TODO
                 }
 
-                var connection = Database.GetConnection();
+                SQLiteConnectionWithLock connection = Database.GetConnection();
 
                 SQLiteCommand command = connection.CreateCommand(_insertFolderFolderSql);
 
@@ -158,8 +158,8 @@ namespace Athena.Data.SQLite
                     return Enumerable.Empty<Folder>();
                 }
 
-                var connection = Database.GetConnection();
-                var command = connection.CreateCommand(_readFolderFolderSql);
+                SQLiteConnectionWithLock connection = Database.GetConnection();
+                SQLiteCommand command = connection.CreateCommand(_readFolderFolderSql);
 
                 command.Bind("@FD_refParent", folder.Key.Id);
 
@@ -209,12 +209,12 @@ namespace Athena.Data.SQLite
                     command.ExecuteNonQuery();
 
                     // We currently can't resolve this via CASCADE because the Chapters of the documents are not referenced directly (FTS5).
-                    foreach (var subFolder in folder.Folders)
+                    foreach (Folder subFolder in folder.Folders)
                     {
                         subFolder.Delete(context);
                     }
 
-                    foreach (var document in folder.Documents)
+                    foreach (Document document in folder.Documents)
                     {
                         document.Delete(context);
                     }
@@ -230,7 +230,7 @@ namespace Athena.Data.SQLite
                 {
                     command.Bind("@FD_ref", key.Id);
 
-                    var folders = command.ExecuteQuery<Folder>();
+                    List<Folder> folders = command.ExecuteQuery<Folder>();
 
                     if (folders != null && folders.Count > 0)
                         return folders[0];
@@ -257,7 +257,7 @@ namespace Athena.Data.SQLite
 
                     if (saveOptions.HasFlag(FolderSaveOptions.All) || saveOptions.HasFlag(FolderSaveOptions.SubFolders))
                     {
-                        foreach (var subFolder in folder.Folders)
+                        foreach (Folder subFolder in folder.Folders)
                         {
                             AddFolder(context, folder, subFolder);
                         }
@@ -265,7 +265,7 @@ namespace Athena.Data.SQLite
 
                     if (saveOptions.HasFlag(FolderSaveOptions.All) || saveOptions.HasFlag(FolderSaveOptions.Documents))
                     {
-                        foreach (var document in folder.Documents)
+                        foreach (Document document in folder.Documents)
                         {
                             AddDocument(context, folder, document);
                         }
@@ -277,7 +277,7 @@ namespace Athena.Data.SQLite
         {
             try
             {
-                var connection = Database.GetConnection();
+                SQLiteConnectionWithLock connection = Database.GetConnection();
 
                 SQLiteCommand command = connection.CreateCommand(_insertFolderSql);
 
@@ -290,7 +290,7 @@ namespace Athena.Data.SQLite
 
                 folder.Key = new IntegerEntityKey((int)SQLite3.LastInsertRowid(connection.Handle));
 
-                foreach (var subFolder in folder.Folders)
+                foreach (Folder subFolder in folder.Folders)
                 {
                     AddFolder(context, folder, subFolder);
                 }

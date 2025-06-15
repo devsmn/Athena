@@ -30,7 +30,7 @@
         /// <returns></returns>
         public async Task PatchAsync(IContext context)
         {
-            foreach (var patch in _patches)
+            foreach (Func<IContext, Task> patch in _patches)
                 await patch(context);
         }
     }

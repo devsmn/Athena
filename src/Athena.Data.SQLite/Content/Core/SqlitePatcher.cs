@@ -46,7 +46,7 @@ namespace Athena.Data.SQLite
 
                 // Create the encrypted database.
                 context?.Log("Connecting to encrypted database");
-                var encryptedOptions = new SQLiteConnectionString(Defines.DatabasePath, true, key: sqlCipherKey);
+                SQLiteConnectionString encryptedOptions = new SQLiteConnectionString(Defines.DatabasePath, true, key: sqlCipherKey);
                 encryptedDb = new SQLiteAsyncConnection(encryptedOptions);
 
                 // Insert a dummy table to trigger the encryption.

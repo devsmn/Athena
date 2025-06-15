@@ -5,6 +5,7 @@ using Microsoft.Maui.Graphics.Platform;
 using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Parsing;
+using SizeF = Syncfusion.Drawing.SizeF;
 
 namespace Athena.UI
 {
@@ -31,7 +32,7 @@ namespace Athena.UI
 
             int docIdx = 0;
 
-            foreach (var document in images)
+            foreach (DocumentImageViewModel document in images)
             {
                 summary.Add(document);
 
@@ -85,12 +86,12 @@ namespace Athena.UI
 
                     PdfBitmap image = new PdfBitmap(ms);
                     PdfUnitConverter converter = new PdfUnitConverter();
-                    var size = converter.ConvertFromPixels(image.PhysicalDimension, PdfGraphicsUnit.Pixel);
+                    SizeF size = converter.ConvertFromPixels(image.PhysicalDimension, PdfGraphicsUnit.Pixel);
                     PdfSection section = doc.Sections.Add();
 
                     section.PageSettings.Size = size;
                     section.PageSettings.Margins.All = 0;
-                    var page = section.Pages.Add();
+                    PdfPage page = section.Pages.Add();
 
                     page.Graphics.DrawImage(image, 0, 0, size.Width, size.Height);
                     summary.Report(document.Id, Localization.PdfCreationImageCompressed, ReportIssueLevel.Success);

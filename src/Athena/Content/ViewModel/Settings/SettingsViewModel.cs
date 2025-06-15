@@ -29,7 +29,7 @@ namespace Athena.UI
             Languages = new ObservableCollection<LanguageViewModel>(_languageService.GetSupportedLanguages());
 
             string lan = _languageService.GetLanguage();
-            var vm = Languages.FirstOrDefault(x => x.Id == lan);
+            LanguageViewModel vm = Languages.FirstOrDefault(x => x.Id == lan);
             SelectedLanguage = vm ?? Languages[0];
         }
 

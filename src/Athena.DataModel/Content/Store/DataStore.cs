@@ -45,7 +45,7 @@ namespace Athena.DataModel
         {
             ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
 
-            foreach (var instance in Stores.Values)
+            foreach (IAthenaRepository instance in Stores.Values)
             {
                 try
                 {
@@ -78,7 +78,7 @@ namespace Athena.DataModel
         internal static TRepository Resolve<TRepository>()
             where TRepository : IAthenaRepository
         {
-            foreach (var store in Stores)
+            foreach (KeyValuePair<Type, IAthenaRepository> store in Stores)
             {
                 if (store.Value is TRepository value)
                     return value;

@@ -36,7 +36,7 @@ namespace Athena.UI
         /// <param name="items"></param>
         public void AddRange(IEnumerable<TViewModel> items)
         {
-            foreach (var item in items)
+            foreach (TViewModel item in items)
             {
                 Items.Add(item);
             }
@@ -52,7 +52,7 @@ namespace Athena.UI
         /// <param name="entity"></param>
         public void Edit(TEntity entity)
         {
-            var toEdit = Find(entity.Id);
+            TViewModel toEdit = Find(entity.Id);
             toEdit?.Edit(entity);
         }
 
@@ -62,7 +62,7 @@ namespace Athena.UI
         /// <param name="entity"></param>
         public void Delete(TEntity entity)
         {
-            var toDelete = Find(entity.Id);
+            TViewModel toDelete = Find(entity.Id);
 
             if (toDelete != null)
             {
