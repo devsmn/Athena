@@ -9,28 +9,35 @@ namespace Athena.UI
             TaskCompletionSource<string> tcs = new();
 
             INavigationService navService = Services.GetService<INavigationService>();
-            await navService.PushModalAsync(new PinView(tcs, true));
+            await navService.PushModalAsync(new PinView(tcs));
 
-            string pin = await tcs.Task;
+            string pw = await tcs.Task;
 
-            if (!string.IsNullOrEmpty(pin))
+            if (!string.IsNullOrEmpty(pw))
             {
-                onNewPasswordEntered(pin);
+                onNewPasswordEntered(pw);
             }
         }
 
         public async Task Prompt(IContext context, Action<string> passwordEntered)
         {
-            TaskCompletionSource<string> tcs = new();
-
             INavigationService navService = Services.GetService<INavigationService>();
-            await navService.PushModalAsync(new PinView(tcs));
 
-            string pin = await tcs.Task;
+            string pw = string.Empty;
 
-            if (!string.IsNullOrEmpty(pin))
+            await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                passwordEntered(pin);
+                pw = await navService.DisplayPrompt(
+                    "Enter password",
+                    "Unlock access to your data by entering your password",
+                    "Unlock",
+                    "Close",
+                    Keyboard.Password);
+            });
+
+            if (!string.IsNullOrEmpty(pw))
+            {
+                passwordEntered(pw);
             }
         }
     }

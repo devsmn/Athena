@@ -16,6 +16,12 @@
             return await currentPage.DisplayPromptAsync(title, message, ok, cancel);
         }
 
+        public async Task<string> DisplayPrompt(string title, string message, string ok, string cancel, Keyboard keyboard)
+        {
+            Page currentPage = _pages.Peek();
+            return await currentPage.DisplayPromptAsync(title, message, ok, cancel, keyboard: keyboard);
+        }
+
         public async Task PushAsync(Page page)
         {
             Page currentPage = _pages.Peek();

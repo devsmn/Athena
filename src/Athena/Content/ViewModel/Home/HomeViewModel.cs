@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Android.Runtime;
 using Athena.Data.Core;
 using Athena.Data.SQLite.Proxy;
 using Athena.DataModel;
@@ -253,6 +254,8 @@ namespace Athena.UI
                 IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
                 bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, key => parameter.Cipher = key, _ => { });
 
+                primarySucceeded = false;
+
                 if (!primarySucceeded)
                 {
                     context.Log("Requesting fallback access to database");
@@ -261,7 +264,11 @@ namespace Athena.UI
                     string pin = string.Empty;
                     await iPasswordService.Prompt(context, (str) => pin = str);
 
-                    await encryptionService.ReadFallbackAsync(context, IDataEncryptionService.DatabaseAlias, pin, key => parameter.Cipher = key, _ => { });
+                    await encryptionService.ReadFallbackAsync(
+                        context,
+                        IDataEncryptionService.DatabaseAlias,
+                        pin, key => parameter.Cipher = key,
+                        _ => throw new Exception());
                 }
 
                 // Register the repositories.

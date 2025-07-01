@@ -16,7 +16,7 @@ namespace Athena.UI
 
         private readonly TaskCompletionSource<string> _tcs;
 
-        public PinViewModel(TaskCompletionSource<string> tcs, bool newPassword = false)
+        public PinViewModel(TaskCompletionSource<string> tcs)
         {
             _tcs = tcs;
             NextCommand.NotifyCanExecuteChanged();

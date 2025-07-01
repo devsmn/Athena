@@ -2,9 +2,9 @@
 
 public partial class PinView : ContentPage
 {
-	public PinView(TaskCompletionSource<string> tcs, bool newPassword = false)
+	public PinView(TaskCompletionSource<string> tcs)
     {
-        BindingContext = new PinViewModel(tcs, newPassword);
+        BindingContext = new PinViewModel(tcs);
 		InitializeComponent();
 	}
 }

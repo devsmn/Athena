@@ -49,6 +49,17 @@
         Task<string> DisplayPrompt(string title, string message, string ok, string cancel);
 
         /// <summary>
+        /// Displays a prompt.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="ok"></param>
+        /// <param name="cancel"></param>
+        /// <param name="keyboard"></param>
+        /// <returns></returns>
+        Task<string> DisplayPrompt(string title, string message, string ok, string cancel, Keyboard keyboard);
+
+        /// <summary>
         /// Displays an action sheet.
         /// </summary>
         /// <param name="title"></param>
