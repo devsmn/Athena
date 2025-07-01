@@ -113,6 +113,13 @@
         </Setter>
     </Style>
 
+    <Style TargetType="Label" x:Key="HeaderLabel">
+        <Setter Property="Margin" Value="5,20,5,2" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="32" />
+    </Style>
+
     <Style TargetType="Border" x:Key="ListViewItem">
         <Setter Property="BackgroundColor" Value="White" />
         <Setter Property="StrokeThickness" Value="0" />

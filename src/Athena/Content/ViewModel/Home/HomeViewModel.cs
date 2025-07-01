@@ -256,7 +256,12 @@ namespace Athena.UI
                 if (!primarySucceeded)
                 {
                     context.Log("Requesting fallback access to database");
-                    await encryptionService.ReadFallbackAsync(context, IDataEncryptionService.DatabaseAlias, "1234", key => parameter.Cipher = key, _ => { });
+
+                    IPasswordService iPasswordService = Services.GetService<IPasswordService>();
+                    string pin = string.Empty;
+                    await iPasswordService.Prompt(context, (str) => pin = str);
+
+                    await encryptionService.ReadFallbackAsync(context, IDataEncryptionService.DatabaseAlias, pin, key => parameter.Cipher = key, _ => { });
                 }
 
                 // Register the repositories.

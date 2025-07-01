@@ -42,7 +42,15 @@ namespace Athena.Data.SQLite
 
                 // Encrypt the key and store it.
                 context?.Log("Storing encryption key");
-                await encryptionService.SaveAsync(context, IDataEncryptionService.DatabaseAlias, sqlCipherKey, "1234");
+
+                // We need a fallback password in case biometrics do not work anymore or are not available at all.
+                string fallbackPassword = string.Empty;
+
+                IPasswordService passwordService = Services.GetService<IPasswordService>();
+                await passwordService.New(context, newPassword => { fallbackPassword = newPassword; });
+
+                // Save the key secured via the fallback password and the biometrics, if available.
+                await encryptionService.SaveAsync(context, IDataEncryptionService.DatabaseAlias, sqlCipherKey, fallbackPassword);
 
                 // Create the encrypted database.
                 context?.Log("Connecting to encrypted database");

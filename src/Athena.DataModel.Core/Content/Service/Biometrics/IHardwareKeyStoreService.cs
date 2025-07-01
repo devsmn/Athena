@@ -35,7 +35,7 @@ namespace Athena.DataModel.Core
         /// <param name="alias"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        Task StoreHmacAsync(IContext context, string alias, params byte[][] data);
+        Task<byte[]> StoreHmacAsync(IContext context, string alias, params byte[][] data);
 
         /// <summary>
         /// Encrypts the given <paramref name="value"/> with the AES key stored in the android key store and

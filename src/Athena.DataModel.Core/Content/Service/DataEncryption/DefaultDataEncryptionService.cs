@@ -41,7 +41,7 @@ namespace Athena.DataModel.Core
 
         public bool IsIntegrityValid(IContext context)
         {
-            byte[] storedHmac = Data[Alias + "_HMAC"];
+            byte[] storedHmac = Data["_HMAC"];
             IHardwareKeyStoreService storeService = Services.GetService<IHardwareKeyStoreService>();
 
             byte[] calculatedHmac = storeService.ComputeHmac(context, Alias, GetHmacData());
@@ -165,8 +165,9 @@ namespace Athena.DataModel.Core
                 await _secureStorageService.SaveAsync(encryptionContext.Alias + toStore.Key, Convert.ToBase64String(toStore.Value));
             }
 
-            await _secureStorageService.SaveAsync(encryptionContext.Alias + "_META", metaInfo);
             await _iHardwareKeyStoreService.StoreHmacAsync(context, encryptionContext.Alias, encryptionContext.GetHmacData());
+            metaInfo += "_HMAC";
+            await _secureStorageService.SaveAsync(encryptionContext.Alias + "_META", metaInfo);
         }
 
         private async Task<string> RetrieveKeyWithPinAsync(IContext context, string alias, string pin)
@@ -174,10 +175,10 @@ namespace Athena.DataModel.Core
             EncryptionContext encryptionContext = new(alias);
             await encryptionContext.GetAsync(context);
 
-            byte[] salt = encryptionContext.Data[alias + "_SALT"];
-            byte[] iv = encryptionContext.Data[alias + "_IV"];
-            byte[] encryptedKey = encryptionContext.Data[alias + "_KEY"];
-            byte[] hmacHash = encryptionContext.Data[alias + "_HMAC"];
+            byte[] salt = encryptionContext.Data["_SALT"];
+            byte[] iv = encryptionContext.Data["_IV"];
+            byte[] encryptedKey = encryptionContext.Data["_KEY"];
+            byte[] hmacHash = encryptionContext.Data["_HMAC"];
 
             if (salt.IsNullOrEmpty() || iv.IsNullOrEmpty() || encryptedKey.IsNullOrEmpty() || hmacHash.IsNullOrEmpty())
                 return null;
@@ -188,7 +189,7 @@ namespace Athena.DataModel.Core
             }
 
             byte[] derivedKey = DeriveKeyFromPin(pin, salt);
-            
+
             try
             {
                 using Aes aes = Aes.Create();

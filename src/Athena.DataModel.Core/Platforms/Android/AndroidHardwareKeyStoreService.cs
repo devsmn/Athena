@@ -55,7 +55,7 @@ namespace Athena.DataModel.Core.Platforms.Android
     /// <summary>
     /// Provides the android specific implementation of the <see cref="IHardwareKeyStoreService"/>.
     /// </summary>
-    public class AndroidIHardwareKeyStoreService : IHardwareKeyStoreService
+    public class AndroidHardwareKeyStoreService : IHardwareKeyStoreService
     {
         private const string AndroidKeyStore = "AndroidKeyStore";
         private bool? _biometricsAvailable;
@@ -134,13 +134,14 @@ namespace Athena.DataModel.Core.Platforms.Android
             }
         }
 
-        public async Task StoreHmacAsync(IContext context, string alias, params byte[][] data)
+        public async Task<byte[]> StoreHmacAsync(IContext context, string alias, params byte[][] data)
         {
             byte[] hmac = ComputeHmac(context, alias, data);
 
             context?.Log("Storing HMAC");
             ISecureStorageService service = Services.GetService<ISecureStorageService>();
             await service.SaveAsync(alias + "_HMAC", Convert.ToBase64String(hmac));
+            return hmac;
         }
 
         public byte[] ComputeHmac(IContext context, string alias, params byte[][] data)

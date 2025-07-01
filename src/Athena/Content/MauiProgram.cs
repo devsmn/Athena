@@ -48,8 +48,9 @@ public static class MauiProgram
         builder.Services.AddTransient<IDownloadService, DefaultDownloadService>();
         builder.Services.AddSingleton<INetworkService, DefaultNetworkService>();
         builder.Services.AddSingleton<ISecureStorageService, DefaultSecureStorageService>();
-        builder.Services.AddSingleton<IHardwareKeyStoreService, AndroidIHardwareKeyStoreService>();
+        builder.Services.AddSingleton<IHardwareKeyStoreService, AndroidHardwareKeyStoreService>();
         builder.Services.AddSingleton<IDataEncryptionService, DefaultDataEncryptionService>();
+        builder.Services.AddSingleton<IPasswordService, DefaultIPasswordService>();
 
         MauiApp app = builder.Build();
         Services.Register(app.Services);
