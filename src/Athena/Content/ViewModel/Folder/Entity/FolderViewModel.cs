@@ -116,7 +116,7 @@ namespace Athena.UI
 
         public void DeleteFolder(Folder toDelete)
         {
-            var delete = Folder.Folders.FirstOrDefault(x => x.Key.Id == toDelete.Id);
+            Folder delete = Folder.Folders.FirstOrDefault(x => x.Key.Id == toDelete.Id);
 
             if (delete == null)
                 return;
@@ -126,7 +126,7 @@ namespace Athena.UI
 
         public void DeleteDocument(Document toDelete)
         {
-            var delete = Folder.Documents.FirstOrDefault(x => x.Key.Id == toDelete.Id);
+            Document delete = Folder.Documents.FirstOrDefault(x => x.Key.Id == toDelete.Id);
 
             if (delete == null)
                 return;

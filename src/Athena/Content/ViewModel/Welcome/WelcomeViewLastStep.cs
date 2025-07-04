@@ -6,7 +6,6 @@ namespace Athena.UI
     {
         public async Task ExecuteAsync(IContext context, WelcomeViewModel vm)
         {
-            vm.CompatService.UpdateLastUsedVersion();
             vm.PrefService.SetFirstUsage();
             vm.PrefService.SetName(vm.Name);
             vm.LanguageService.SetLanguage(context, vm.SelectedLanguage.Id, true);

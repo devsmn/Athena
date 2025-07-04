@@ -189,7 +189,7 @@ namespace Athena.UI
             {
                 using (TessEngine engine = CreateNewEngine())
                 {
-                    using (var page = engine.ProcessImage(pix))
+                    using (TessPage page = engine.ProcessImage(pix))
                     {
                         // SegMode can't be OsdOnly in here.
                         confidence = page.GetConfidence();

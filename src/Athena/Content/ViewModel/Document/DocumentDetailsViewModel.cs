@@ -65,10 +65,10 @@ namespace Athena.UI
             {
                 byte[] pdf = Document.Pdf;
 
-                var allTags = new List<TagViewModel>(Tag.ReadAll(context).Select(x => new TagViewModel(x)));
-                var selectedTags = new List<TagViewModel>();
+                List<TagViewModel> allTags = new List<TagViewModel>(Tag.ReadAll(context).Select(x => new TagViewModel(x)));
+                List<TagViewModel> selectedTags = new List<TagViewModel>();
 
-                foreach (var tag in allTags)
+                foreach (TagViewModel tag in allTags)
                 {
                     if (Document.Tags.Any(x => x.Id == tag.Id))
                         selectedTags.Add(tag);
@@ -87,7 +87,7 @@ namespace Athena.UI
         {
             if (e.Documents.Any())
             {
-                var updateDoc = e.Documents.FirstOrDefault(x => x.Entity.Id == Document.Document.Id);
+                RequestUpdate<Document> updateDoc = e.Documents.FirstOrDefault(x => x.Entity.Id == Document.Document.Id);
 
                 if (updateDoc != null)
                 {
@@ -100,7 +100,7 @@ namespace Athena.UI
 
             if (e.Tags.Any())
             {
-                foreach (var update in e.Tags)
+                foreach (RequestUpdate<Tag> update in e.Tags)
                 {
                     AllTags.Process(update);
                 }
@@ -110,19 +110,19 @@ namespace Athena.UI
         [RelayCommand]
         private async Task SaveTags()
         {
-            var context = RetrieveContext();
+            IContext context = RetrieveContext();
 
-            var newTags = SelectedTags.Where(x => !Document.Tags.Any(z => z.Id == x.Id));
+            IEnumerable<TagViewModel> newTags = SelectedTags.Where(x => !Document.Tags.Any(z => z.Id == x.Id));
 
-            foreach (var tag in newTags)
+            foreach (TagViewModel tag in newTags)
             {
                 Document.Document.Tags.Add(tag);
                 Document.Document.AddTag(context, tag);
             }
 
-            var deletedTags = Document.Tags.Where(x => !SelectedTags.Any(z => z.Id == x.Id)).ToList();
+            List<Tag> deletedTags = Document.Tags.Where(x => !SelectedTags.Any(z => z.Id == x.Id)).ToList();
 
-            foreach (var tag in deletedTags)
+            foreach (Tag tag in deletedTags)
             {
                 Document.Document.Tags.Remove(tag);
                 Document.Document.DeleteTag(context, tag);
@@ -145,7 +145,7 @@ namespace Athena.UI
             if (!delete)
                 return;
 
-            var context = RetrieveContext();
+            IContext context = RetrieveContext();
 
             Document.Document.Delete(context);
 
@@ -172,7 +172,7 @@ namespace Athena.UI
             }
             catch (Exception ex)
             {
-                var context = RetrieveContext();
+                IContext context = RetrieveContext();
                 context.Log(ex);
             }
         }
@@ -242,7 +242,7 @@ namespace Athena.UI
             }
             catch (Exception ex)
             {
-                var context = RetrieveContext();
+                IContext context = RetrieveContext();
                 context.Log(ex);
             }
 
@@ -255,7 +255,7 @@ namespace Athena.UI
 
             string name = Document.Name;
 
-            var result = await DisplayAlert(
+            bool result = await DisplayAlert(
                 Localization.DeleteDocument,
                 string.Format(Localization.DeleteDocumentConfirm, name),
                 Localization.Yes,
@@ -263,7 +263,7 @@ namespace Athena.UI
 
             if (result)
             {
-                var context = RetrieveContext();
+                IContext context = RetrieveContext();
                 Document.Document.Delete(context);
 
                 await Toast.Make(string.Format(Localization.DocumentDeleted, name), ToastDuration.Long).Show();
@@ -305,7 +305,7 @@ namespace Athena.UI
             }
             catch (Exception ex)
             {
-                var context = RetrieveContext();
+                IContext context = RetrieveContext();
                 context.Log(ex);
             }
         }

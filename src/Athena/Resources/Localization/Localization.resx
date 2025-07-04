@@ -633,4 +633,10 @@ Make sure that the desired languages have been selected in the settings under Te
   <data name="DocumentEditorTagsInfo" xml:space="preserve">
     <value>Documents can be assigned to different categories to make them easier and more intuitive to manage.</value>
   </data>
+  <data name="PasswordDescription" xml:space="preserve">
+    <value>The password is required and used to encrypt your data. Please make sure you do not forget your password. Once encrypted, your data can only be accessed with your password. If you forget your password, your data is lost and cannot be recovered. </value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
 </root>

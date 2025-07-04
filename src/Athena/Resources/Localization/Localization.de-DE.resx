@@ -642,4 +642,11 @@ Stelle sicher, dass die gewünschten Sprachen in den Einstellungen unter Texterk
   <data name="DocumentEditorTagsInfo" xml:space="preserve">
     <value>Dokumente können verschiedenen Kategorien zugewiesen werden, um sie leichter und intuitiver zu verwalten.</value>
   </data>
+  <data name="PasswordDescription" xml:space="preserve">
+    <value>Das Passwort wird benuzt, um deine Daten zu verschlüsseln. Bitte stelle sicher, dass du dein Passwort nicht vergisst. Sobald die Daten verschlüsselt sind, können sie nur noch mit dem Passwort entschlüsselt werden. Wenn du dein Passwort vergisst, sind die Daten verloren und können nicht wiederhergestellt werden.</value>
+    <comment>The PIN is required and used to encrypt your data. Please make sure you do not forget the PIN. Once encrypted, your data can only be accessed with your PIN. If you forget your PIN, your data is lost and cannot be recovered.</comment>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
 </root>

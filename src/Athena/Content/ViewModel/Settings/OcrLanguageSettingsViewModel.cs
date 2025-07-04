@@ -178,13 +178,13 @@ namespace Athena.UI
                     tmpList.Add("yor", new("yor", "Yoruba", 100));
 
                     IOcrService service = Services.GetService<IOcrService>();
-                    var languages = service.GetInstalledLanguages(context);
+                    string[] languages = service.GetInstalledLanguages(context);
 
                     if (languages != null)
                     {
                         foreach (string lan in languages)
                         {
-                            if (tmpList.TryGetValue(lan, out var item))
+                            if (tmpList.TryGetValue(lan, out OcrLanguage item))
                             {
                                 EstimatedLocalSize += item.Size;
                                 item.IsInstalled = true;
@@ -227,7 +227,7 @@ namespace Athena.UI
             IOcrService ocrService = Services.GetService<IOcrService>();
             IContext context = RetrieveReportContext();
 
-            var toDelete = AllSupportedLanguages.Where(x => x.IsInstalled).ToList();
+            List<OcrLanguage> toDelete = AllSupportedLanguages.Where(x => x.IsInstalled).ToList();
 
             bool yes = await DisplayAlert(
                 Localization.OcrDeleteInstalledLanguagesConfirmTitle,
@@ -263,11 +263,11 @@ namespace Athena.UI
         [RelayCommand(CanExecute = nameof(CanExecuteSave))]
         private async Task UpdateLanguages()
         {
-            var filesToDownload = SelectedSupportedLanguages
+            List<OcrLanguage> filesToDownload = SelectedSupportedLanguages
                 .Where(x => !x.IsInstalled)
                 .ToList();
 
-            var filesToDelete = AllSupportedLanguages
+            List<OcrLanguage> filesToDelete = AllSupportedLanguages
                 .Where(x => x.IsInstalled)
                 .Except(SelectedSupportedLanguages)
                 .ToList();

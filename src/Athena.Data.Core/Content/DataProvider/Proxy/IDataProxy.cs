@@ -7,7 +7,8 @@ namespace Athena.Data.Core
     /// </summary>
     public interface IDataProxy
     {
-        static Type Request<TRepository>(IDataProxyParameter parameter)
-            where TRepository : IAthenaRepository => null;
+        TRepository Request<TRepository>(IDataProxyParameter parameter) where TRepository : class, IAthenaRepository;
+        IDataProviderPatcher RequestPatcher();
+        IDataProviderAuthenticator RequestAuthenticator();
     }
 }

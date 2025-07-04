@@ -12,8 +12,13 @@
         private string _readChapterSql;
         private string _deleteChapterSql;
 
+        public SqliteChapterRepository(string cipher) : base(cipher)
+        {
+        }
+
         public async Task<bool> InitializeAsync(IContext context)
         {
+            await ValidateConnection();
             context.Log("Initializing search repository");
 
             _insertChapterSql = await ReadResourceAsync("CHAPTER_INSERT.sql");
@@ -36,9 +41,9 @@
 
         public async Task ExecutePatches(IContext context, ICompatibilityService compatService)
         {
-            var patches = compatService.GetPatches<SqliteChapterRepository>();
+            IEnumerable<VersionPatch> patches = compatService.GetPatches<SqliteChapterRepository>();
 
-            foreach (var pat in patches)
+            foreach (VersionPatch pat in patches)
             {
                 await pat.PatchAsync(context);
             }
@@ -54,9 +59,9 @@
                 {
                     command.Bind("@CHP_text", pattern);
 
-                    var chapters = command.ExecuteQuery<Chapter>();
+                    List<Chapter> chapters = command.ExecuteQuery<Chapter>();
 
-                    foreach (var chapter in chapters)
+                    foreach (Chapter chapter in chapters)
                     {
                         chapter.ReadDocument(context);
                         chapter.ReadFolder(context);

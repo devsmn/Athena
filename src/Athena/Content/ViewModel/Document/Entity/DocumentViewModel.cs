@@ -5,6 +5,7 @@ using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Maui.Graphics.Platform;
+using IImage = Microsoft.Maui.Graphics.IImage;
 
 namespace Athena.UI
 {
@@ -69,7 +70,7 @@ namespace Athena.UI
             IsPinned = entity.IsPinned;
 
             Tags.Clear();
-            foreach (var tag in entity.Tags)
+            foreach (Tag tag in entity.Tags)
             {
                 Tags.Add(tag);
             }
@@ -159,8 +160,8 @@ namespace Athena.UI
             {
                 using (MemoryStream ms = new MemoryStream(value))
                 {
-                    var img = PlatformImage.FromStream(ms);
-                    var newImage = img.Resize(512, 512);
+                    IImage img = PlatformImage.FromStream(ms);
+                    IImage newImage = img.Resize(512, 512);
                     _document.Thumbnail = newImage.AsBytes();
                 }
 

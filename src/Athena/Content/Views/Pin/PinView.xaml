@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Athena.UI.PinView"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:ui="clr-namespace:Athena.UI"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             Style="{StaticResource ContentPageStyle}"
+             Title="PinView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+
+        <Label
+            Style="{x:StaticResource HeaderLabel}"
+            Text="{x:Static loc:Localization.Password}" />
+
+        <Label HorizontalTextAlignment="Center"
+               LineBreakMode="WordWrap"
+               Margin="10,10,10,10"
+               Grid.Row="1"
+               Text="{x:Static loc:Localization.PasswordDescription}"/>
+
+        <inputLayout:SfTextInputLayout
+                Grid.Row="2"
+                Hint="Password"
+                HelperText="Enter your new password"
+                ContainerType="Outlined"
+                Margin="10"
+                HeightRequest="80"
+                EnablePasswordVisibilityToggle="True"
+                HasError="{Binding PasswordValid, Converter={x:StaticResource InverseBooleanConverter}}"
+                ErrorText="Your passwords do not match">
+
+            <Entry Text="{Binding Password}">
+                <Entry.Behaviors>
+                    <toolkit:EventToCommandBehavior
+                        EventName="TextChanged"
+                        Command="{Binding PasswordChangedCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
+        </inputLayout:SfTextInputLayout>
+
+        <inputLayout:SfTextInputLayout
+                Hint="Confirm password"
+                Grid.Row="3"
+                HelperText="Confirm your new password"
+                ContainerType="Outlined"
+                Margin="10"
+                HeightRequest="80"
+                EnablePasswordVisibilityToggle="True"
+                HasError="{Binding PasswordValid, Converter={x:StaticResource InverseBooleanConverter}}"
+                ErrorText="Your passwords do not match">
+
+            <Entry Text="{Binding ConfirmPassword}">
+                <Entry.Behaviors>
+                    <toolkit:EventToCommandBehavior
+                        EventName="TextChanged"
+                        Command="{Binding PasswordChangedCommand}"/>
+                </Entry.Behaviors>
+            </Entry>
+        </inputLayout:SfTextInputLayout>
+
+        <sfb:SfButton Text="{x:Static  loc:Localization.Next}"
+                      Margin="5,5,5,20"
+                      Grid.Row="4"
+                      WidthRequest="200"
+                      VerticalOptions="End"
+                      Command="{Binding NextCommand}"
+                      Style="{x:StaticResource PrimaryButtonFlat}" />
+
+
+    </Grid>
+</ContentPage>

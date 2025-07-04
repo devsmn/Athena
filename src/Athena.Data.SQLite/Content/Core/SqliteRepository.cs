@@ -8,10 +8,43 @@ namespace Athena.Data.SQLite
     /// </summary>
     internal class SqliteRepository
     {
-        private readonly Lazy<SQLiteAsyncConnection> _dbFactory
-            = new(() => new SQLiteAsyncConnection(Defines.DatabasePath, Defines.Flags));
+        public bool IsValid { get; private set; }
 
-        protected SQLiteAsyncConnection Database => _dbFactory.Value;
+        private readonly SQLiteAsyncConnection _database;
+
+        protected SQLiteAsyncConnection Database
+        {
+            get
+            {
+                if (!IsValid)
+                    throw new InvalidCipherException();
+
+                return _database;
+            }
+        }
+
+        public SqliteRepository(string cipher)
+        {
+            SQLiteConnectionString connectionString = new SQLiteConnectionString(Defines.DatabasePath, Defines.Flags, true, key: cipher);
+            _database = new SQLiteAsyncConnection(connectionString);
+        }
+
+        public async Task ValidateConnection()
+        {
+            try
+            {
+                // The only way to validate whether the cipher was correct is to execute a statement.
+                string table = await _database.ExecuteScalarAsync<string>("SELECT name FROM sqlite_master WHERE type='table' and name='META';");
+                IsValid = !string.IsNullOrEmpty(table);
+            }
+            catch (Exception ex)
+            {
+                IsValid = false;
+            }
+
+            if (!IsValid)
+                throw new InvalidCipherException();
+        }
 
         /// <summary>
         /// Runs the given <paramref name="script"/>.
@@ -34,7 +67,7 @@ namespace Athena.Data.SQLite
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        protected static async Task<string> ReadResourceAsync(string file)
+        public static async Task<string> ReadResourceAsync(string file)
         {
             await using (Stream fs = await FileSystem.Current.OpenAppPackageFileAsync(file))
             {
@@ -79,12 +112,14 @@ namespace Athena.Data.SQLite
                 return default;
             }
 
-
-            SQLiteConnection connection = Database.GetConnection();
-            bool ownTransaction = !connection.IsInTransaction;
+            bool ownTransaction = false;
+            SQLiteConnection connection = null;
 
             try
             {
+                connection = Database.GetConnection();
+                ownTransaction = !connection.IsInTransaction;
+
                 if (ownTransaction)
                 {
                     connection.BeginTransaction();
@@ -134,11 +169,14 @@ namespace Athena.Data.SQLite
         /// <param name="action"></param>
         protected void Audit(IContext context, string commandText, Action<SQLiteCommand> action)
         {
-            SQLiteConnection connection = Database.GetConnection();
-            bool ownTransaction = !connection.IsInTransaction;
+            bool ownTransaction = false;
+            SQLiteConnection connection = null;
 
             try
             {
+                connection = Database.GetConnection();
+                ownTransaction = !connection.IsInTransaction;
+
                 if (ownTransaction)
                 {
                     connection.BeginTransaction();

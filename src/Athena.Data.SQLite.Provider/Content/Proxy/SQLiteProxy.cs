@@ -5,26 +5,32 @@ using Athena.DataModel.Core;
 
 namespace Athena.Data.SQLite.Proxy
 {
-    public class SqLiteProxy : IDataProxy
+    public class SqliteProxy : IDataProxy
     {
-        public static IAthenaRepository Request<TRepository>(IDataProxyParameter parameter)
-            where TRepository : IAthenaRepository
+        private SqliteManager _manager;
+        private SqliteManager Manager => _manager ??= new SqliteManager();
+
+        public TRepository Request<TRepository>(IDataProxyParameter parameter)
+            where TRepository : class, IAthenaRepository
         {
             try
             {
+                IAthenaRepository instance = null;
+                SqLiteProxyParameter sqlParameter = (SqLiteProxyParameter)parameter;
+
                 if (typeof(TRepository) == typeof(IDocumentRepository))
-                    return new SqliteDocumentRepository();
+                    instance = new SqliteDocumentRepository(sqlParameter.Cipher);
 
                 if (typeof(TRepository) == typeof(IFolderRepository))
-                    return new SqliteFolderRepository();
+                    instance = new SqliteFolderRepository(sqlParameter.Cipher);
 
                 if (typeof(TRepository) == typeof(IChapterRepository))
-                    return new SqliteChapterRepository();
+                    instance = new SqliteChapterRepository(sqlParameter.Cipher);
 
                 if (typeof(TRepository) == typeof(ITagRepository))
-                    return new SqliteTagRepository();
+                    instance = new SqliteTagRepository(sqlParameter.Cipher);
 
-                throw new ArgumentOutOfRangeException();
+                return instance as TRepository;
             }
             catch (Exception ex)
             {
@@ -33,6 +39,16 @@ namespace Athena.Data.SQLite.Proxy
             }
 
             return null;
+        }
+
+        public IDataProviderPatcher RequestPatcher()
+        {
+            return Manager;
+        }
+
+        public IDataProviderAuthenticator RequestAuthenticator()
+        {
+            return Manager;
         }
     }
 }

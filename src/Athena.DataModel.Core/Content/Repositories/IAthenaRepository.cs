@@ -5,6 +5,8 @@
     /// </summary>
     public interface IAthenaRepository
     {
+        bool IsValid { get; }
+
         /// <summary>
         /// Asynchronously initializes the repository.
         /// <para>

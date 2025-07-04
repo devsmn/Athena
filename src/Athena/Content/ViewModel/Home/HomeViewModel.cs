@@ -1,4 +1,7 @@
-﻿using Athena.Data.SQLite.Proxy;
+﻿using System.Diagnostics;
+using Android.Runtime;
+using Athena.Data.Core;
+using Athena.Data.SQLite.Proxy;
 using Athena.DataModel;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
@@ -33,12 +36,6 @@ namespace Athena.UI
         private DocumentViewModel _selectedItem;
 
         [ObservableProperty]
-        private bool _isBusy;
-
-        [ObservableProperty]
-        private string _busyText;
-
-        [ObservableProperty]
         private VisualCollection<DocumentViewModel, Document> _recentDocuments;
 
         public HomeViewModel()
@@ -49,7 +46,7 @@ namespace Athena.UI
 
         private void UpdateGreeting()
         {
-            var greeting = Services.GetService<IGreetingService>();
+            IGreetingService greeting = Services.GetService<IGreetingService>();
             Greeting = greeting.Get();
 
             string name = Services.GetService<IPreferencesService>().GetName();
@@ -63,7 +60,7 @@ namespace Athena.UI
 
         protected override void OnAppInitialized()
         {
-            var context = RetrieveContext();
+            IContext context = RetrieveContext();
 
             UpdateCounterStats();
 
@@ -109,7 +106,7 @@ namespace Athena.UI
             {
                 if (e.Documents.Count > 0)
                 {
-                    foreach (var update in e.Documents)
+                    foreach (RequestUpdate<Document> update in e.Documents)
                     {
                         if (update.Type == UpdateType.Add)
                         {
@@ -129,12 +126,12 @@ namespace Athena.UI
                         }
                         else if (update.Type == UpdateType.Delete)
                         {
-                            var rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
+                            FolderViewModel rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
                             Stack<Folder> folders = new Stack<Folder>();
 
                             bool stop = false;
 
-                            foreach (var folder in rootFolder.LoadedFolders)
+                            foreach (Folder folder in rootFolder.LoadedFolders)
                             {
                                 folders.Push(folder);
                             }
@@ -145,7 +142,7 @@ namespace Athena.UI
                             {
                                 Folder currentFolder = folders.Pop();
 
-                                foreach (var folderDoc in currentFolder.LoadedDocuments)
+                                foreach (Document folderDoc in currentFolder.LoadedDocuments)
                                 {
                                     if (folderDoc.Key.Id == update.Entity.Id)
                                     {
@@ -171,18 +168,18 @@ namespace Athena.UI
 
                 if (e.Tags.Count > 0)
                 {
-                    var deletedTagIds = e.Tags
+                    HashSet<int> deletedTagIds = e.Tags
                         .Where(x => x.Type == UpdateType.Delete)
                         .Select(x => x.Entity.Id)
                         .ToHashSet();
 
-                    foreach (var document in RecentDocuments)
+                    foreach (DocumentViewModel document in RecentDocuments)
                     {
-                        var validTags = document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
+                        List<Tag> validTags = document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
 
                         document.Tags.Clear();
 
-                        foreach (var tag in validTags)
+                        foreach (Tag tag in validTags)
                         {
                             document.Tags.Add(tag);
                         }
@@ -194,7 +191,7 @@ namespace Athena.UI
         [RelayCommand]
         public async Task OpenFolderOverview()
         {
-            var rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
+            FolderViewModel rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
             await PushAsync(new FolderOverview(rootFolder));
         }
 
@@ -229,37 +226,89 @@ namespace Athena.UI
 
         public async Task InitializeAsync()
         {
+            ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
+
+            // Data will be initialized via the welcome view because it creates the home view again.
+            if (Services.GetService<IPreferencesService>().IsFirstUsage())
+                return;
+
             IsBusy = true;
             IContext context = RetrieveReportContext();
 
             await Task.Run(async () =>
             {
                 await Task.Delay(200);
+
+                SqliteProxy sqlProxy = new();
                 SqLiteProxyParameter parameter = new SqLiteProxyParameter { MinimumVersion = new Version(0, 1) };
 
                 Services.GetService<IDataBrokerService>().PrepareForLoading();
 
                 DataStore.Clear();
-                DataStore.Register(SqLiteProxy.Request<IFolderRepository>(parameter));
-                DataStore.Register(SqLiteProxy.Request<IDocumentRepository>(parameter));
-                DataStore.Register(SqLiteProxy.Request<IChapterRepository>(parameter));
-                DataStore.Register(SqLiteProxy.Request<ITagRepository>(parameter));
-                await DataStore.InitializeAsync(context);
 
-                // Data will be initialized via the welcome view.
-                if (Services.GetService<IPreferencesService>().IsFirstUsage())
-                    return;
+                IDataProviderPatcher sqlPatcher = sqlProxy.RequestPatcher();
+                IDataProviderAuthenticator sqlAuth = sqlProxy.RequestAuthenticator();
 
-                Services.GetService<ICompatibilityService>().UpdateLastUsedVersion();
+                // First, register available patches.
+                sqlPatcher.RegisterPatches(compatService);
+
+                // Execute the patches before initializing the repositories.
+                await sqlPatcher.ExecutePatchesAsync(context, compatService);
+
+                context.Log("Requesting biometric access to database");
+                // Unlock access to the database. Needs to be done before initializing the repositories.
+                IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
+                bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, key => parameter.Cipher = key, _ => { });
+
+                if (!primarySucceeded)
+                {
+                    IPasswordService passwordService = Services.GetService<IPasswordService>();
+
+                    bool firstTry = true;
+
+                    do
+                    {
+                        context.Log("Requesting fallback access to database");
+                        string pin = string.Empty;
+                        await passwordService.Prompt(context, !firstTry, (str) => pin = str);
+
+                        await encryptionService.ReadFallbackAsync(
+                            context,
+                            IDataEncryptionService.DatabaseAlias,
+                            pin, key => parameter.Cipher = key,
+                            error =>
+                            {
+                                //INavigationService navService = Services.GetService<INavigationService>();
+                                //MainThread.BeginInvokeOnMainThread(async () =>
+                                //    await navService.DisplayAlert("Error", $"The data could not be decrypted: {error}",
+                                //        "Ok", "Close"));
+                            });
+
+                        firstTry = false;
+
+                    } while (await sqlAuth.AuthenticateAsync(parameter.Cipher) == false);
+                }
+
+                // Register the repositories.
+                DataStore.Register(sqlProxy.Request<IFolderRepository>(parameter));
+                DataStore.Register(sqlProxy.Request<IDocumentRepository>(parameter));
+                DataStore.Register(sqlProxy.Request<IChapterRepository>(parameter));
+                DataStore.Register(sqlProxy.Request<ITagRepository>(parameter));
+
+                context.Log("Initializing repositories");
+                await DataStore.InitializeAsync(context, () => Debug.WriteLine("Invalid cipher"));
 
                 IDataBrokerService service = Services.GetService<IDataBrokerService>();
-
                 Folder rootFolder = GetRootFolder(context);
 
                 service.SetRootFolder(rootFolder);
                 service.Publish(context, rootFolder.Folders, UpdateType.Initialize);
                 service.Publish(context, rootFolder.Documents, UpdateType.Initialize);
                 service.RaiseAppInitialized();
+
+                // Last used version is updated here and not in HomeViewModel in case it's the first usage.
+                // Otherwise, the patches (e.g. encrypting the database) would not be executed.
+                compatService.UpdateLastUsedVersion();
             });
 
             IsBusy = false;
@@ -267,7 +316,7 @@ namespace Athena.UI
 
         private static Folder GetRootFolder(IContext context)
         {
-            var rootFolder = Folder.Read(context, IntegerEntityKey.Root);
+            Folder rootFolder = Folder.Read(context, IntegerEntityKey.Root);
 
             if (rootFolder != null)
                 return rootFolder;

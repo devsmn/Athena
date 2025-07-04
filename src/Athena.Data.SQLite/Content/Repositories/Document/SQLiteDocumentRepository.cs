@@ -27,8 +27,13 @@ namespace Athena.Data.SQLite
         private string _countAllSql;
         private string _patchPdfSql;
 
+        public SqliteDocumentRepository(string cipher) : base(cipher)
+        {
+        }
+
         public async Task<bool> InitializeAsync(IContext context)
         {
+            await ValidateConnection();
             context.Log("Initializing document repository");
 
             _insertDocumentSql = await ReadResourceAsync("DOCUMENT_INSERT.sql");
@@ -59,9 +64,9 @@ namespace Athena.Data.SQLite
 
         public async Task ExecutePatches(IContext context, ICompatibilityService compatService)
         {
-            var patches = compatService.GetPatches<SqliteDocumentRepository>();
+            IEnumerable<VersionPatch> patches = compatService.GetPatches<SqliteDocumentRepository>();
 
-            foreach (var pat in patches)
+            foreach (VersionPatch pat in patches)
             {
                 await pat.PatchAsync(context);
             }
@@ -86,11 +91,11 @@ namespace Athena.Data.SQLite
                 {
                     context.Log("Patch #55: compressing PDFs");
                     command.Bind("@DOC_ref", -1);
-                    var documents = command.ExecuteQuery<Document>();
+                    List<Document> documents = command.ExecuteQuery<Document>();
 
                     ICompressionService compressionService = Services.GetService<ICompressionService>();
 
-                    foreach (var document in documents)
+                    foreach (Document document in documents)
                     {
                         context.Log($"Path #55: Patching PDF for document {document.Id}");
                         document.ReadPdf(context);
@@ -200,7 +205,7 @@ namespace Athena.Data.SQLite
                     results = SearchNoTags(documentName, useFts);
                 }
 
-                foreach (var result in results)
+                foreach (SearchResult result in results)
                 {
                     result.Fill();
                 }
@@ -227,7 +232,7 @@ namespace Athena.Data.SQLite
 
         private IEnumerable<SearchResult> SearchNoTags(string documentName, bool useFts)
         {
-            var connection = Database.GetConnection();
+            SQLiteConnectionWithLock connection = Database.GetConnection();
             SQLiteCommand command = connection.CreateCommand(_searchDocNoTagSql);
 
             command.Bind("@DOC_name", documentName);
@@ -241,7 +246,7 @@ namespace Athena.Data.SQLite
             string ids = string.Join(",", tags.Select(x => x.Id));
             string sql = _searchDocWithTagSql.Replace("<<__replace__>>", ids);
 
-            var connection = Database.GetConnection();
+            SQLiteConnectionWithLock connection = Database.GetConnection();
             SQLiteCommand command = connection.CreateCommand(sql);
 
             command.Bind("@DOC_name", documentName);
@@ -298,7 +303,7 @@ namespace Athena.Data.SQLite
 
         private void InsertDocumentCore(IContext context, Document document)
         {
-            var connection = Database.GetConnection();
+            SQLiteConnectionWithLock connection = Database.GetConnection();
             SQLiteCommand command = connection.CreateCommand(_insertDocumentSql);
 
             ICompressionService compress = Services.GetService<ICompressionService>();
@@ -316,7 +321,7 @@ namespace Athena.Data.SQLite
 
             document.Key = new IntegerEntityKey((int)SQLite3.LastInsertRowid(connection.Handle));
 
-            foreach (var tag in document.Tags)
+            foreach (Tag tag in document.Tags)
             {
                 AddTag(context, document, tag);
             }

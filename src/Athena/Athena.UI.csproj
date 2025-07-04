@@ -61,11 +61,11 @@
     <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
     <AndroidUseAapt2>True</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-    <AndroidPackageFormat>aab</AndroidPackageFormat>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidUseAapt2>True</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
     <DebugSymbols>False</DebugSymbols>
@@ -99,28 +99,46 @@
 
   <ItemGroup>
     <AndroidResource Remove="Content\NewFolder\**" />
+    <AndroidResource Remove="Content\Service\NewFolder\**" />
+    <AndroidResource Remove="Content\ViewModel\NewFolder\**" />
     <AndroidResource Remove="Content\ViewModel\Settings\NewFolder\**" />
     <AndroidResource Remove="Content\Views\Folder\Steps\**" />
+    <AndroidResource Remove="Content\Views\NewFolder\**" />
     <AndroidSkipResourceProcessing Remove="Content\Views\Folder\Steps\**" />
     <Compile Remove="Content\NewFolder\**" />
+    <Compile Remove="Content\Service\NewFolder\**" />
+    <Compile Remove="Content\ViewModel\NewFolder\**" />
     <Compile Remove="Content\ViewModel\Settings\NewFolder\**" />
     <Compile Remove="Content\Views\Folder\Steps\**" />
+    <Compile Remove="Content\Views\NewFolder\**" />
     <Compile Remove="Content\Views\Page\**" />
     <EmbeddedResource Remove="Content\NewFolder\**" />
+    <EmbeddedResource Remove="Content\Service\NewFolder\**" />
+    <EmbeddedResource Remove="Content\ViewModel\NewFolder\**" />
     <EmbeddedResource Remove="Content\ViewModel\Settings\NewFolder\**" />
     <EmbeddedResource Remove="Content\Views\Folder\Steps\**" />
+    <EmbeddedResource Remove="Content\Views\NewFolder\**" />
     <EmbeddedResource Remove="Content\Views\Page\**" />
     <MauiCss Remove="Content\NewFolder\**" />
+    <MauiCss Remove="Content\Service\NewFolder\**" />
+    <MauiCss Remove="Content\ViewModel\NewFolder\**" />
     <MauiCss Remove="Content\ViewModel\Settings\NewFolder\**" />
     <MauiCss Remove="Content\Views\Folder\Steps\**" />
+    <MauiCss Remove="Content\Views\NewFolder\**" />
     <MauiCss Remove="Content\Views\Page\**" />
     <MauiXaml Remove="Content\NewFolder\**" />
+    <MauiXaml Remove="Content\Service\NewFolder\**" />
+    <MauiXaml Remove="Content\ViewModel\NewFolder\**" />
     <MauiXaml Remove="Content\ViewModel\Settings\NewFolder\**" />
     <MauiXaml Remove="Content\Views\Folder\Steps\**" />
+    <MauiXaml Remove="Content\Views\NewFolder\**" />
     <MauiXaml Remove="Content\Views\Page\**" />
     <None Remove="Content\NewFolder\**" />
+    <None Remove="Content\Service\NewFolder\**" />
+    <None Remove="Content\ViewModel\NewFolder\**" />
     <None Remove="Content\ViewModel\Settings\NewFolder\**" />
     <None Remove="Content\Views\Folder\Steps\**" />
+    <None Remove="Content\Views\NewFolder\**" />
     <None Remove="Content\Views\Page\**" />
   </ItemGroup>
 
@@ -160,6 +178,7 @@
     <None Remove="Resources\Images\next_inverted.png" />
     <None Remove="Resources\Images\ocr.png" />
     <None Remove="Resources\Images\page.png" />
+    <None Remove="Resources\Images\password_eye.png" />
     <None Remove="Resources\Images\pdf.png" />
     <None Remove="Resources\Images\plus.png" />
     <None Remove="Resources\Images\privacy.png" />
@@ -214,6 +233,7 @@
     <MauiImage Include="Resources\Images\next.png" />
     <MauiImage Include="Resources\Images\next_inverted.png" />
     <MauiImage Include="Resources\Images\page.png" />
+    <MauiImage Include="Resources\Images\password_eye.png" />
     <MauiImage Include="Resources\Images\pdf.png" />
     <MauiImage Include="Resources\Images\plus.png" />
     <MauiImage Include="Resources\Images\privacy.png" />
@@ -294,6 +314,9 @@
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Content\Views\Home\HomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Content\Views\Pin\PinView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Content\Views\Search\SearchChapterView.xaml">

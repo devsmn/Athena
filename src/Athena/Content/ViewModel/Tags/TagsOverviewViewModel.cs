@@ -56,7 +56,7 @@ namespace Athena.UI
         {
             await ExecuteBackgroundAction(context =>
             {
-                var tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
+                IEnumerable<TagViewModel> tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
                 Tags = new(tags);
             });
         }
@@ -68,7 +68,7 @@ namespace Athena.UI
 
             Application.Current.Dispatcher.Dispatch(() =>
             {
-                foreach (var tag in e.Tags)
+                foreach (RequestUpdate<Tag> tag in e.Tags)
                 {
                     if (tag.Type == UpdateType.Edit)
                     {
@@ -98,12 +98,12 @@ namespace Athena.UI
             AppearanceMode = PopupButtonAppearanceMode.TwoButton;
             SelectedTag = tag;
 
-            var bgColor = PredefinedColors.FirstOrDefault(
+            ColorViewModel bgColor = PredefinedColors.FirstOrDefault(
                 x => x.Hex.Equals(SelectedTag.BackgroundColor, StringComparison.OrdinalIgnoreCase));
 
             bgColor ??= PredefinedColors[WhiteIndex];
 
-            var textColor = PredefinedColors.FirstOrDefault(
+            ColorViewModel textColor = PredefinedColors.FirstOrDefault(
                 x => x.Hex.Equals(SelectedTag.TextColor, StringComparison.OrdinalIgnoreCase));
 
             textColor ??= PredefinedColors[BlackIndex];
@@ -136,7 +136,7 @@ namespace Athena.UI
 
             bool isNew = SelectedTag.Id == IntegerEntityKey.TemporaryId;
 
-            var context = RetrieveContext();
+            IContext context = RetrieveContext();
 
             SelectedTag.Name = SelectedTagName;
             SelectedTag.BackgroundColor = SelectedBackgroundColor.Hex;
@@ -165,7 +165,7 @@ namespace Athena.UI
                     Localization.Yes,
                     Localization.No);
 
-            var context = RetrieveContext();
+            IContext context = RetrieveContext();
 
             if (delete)
             {

@@ -8,7 +8,7 @@ namespace Athena.DataModel
     /// </summary>
     public static class DataStore
     {
-        private static readonly Dictionary<Type, IAthenaRepository> _stores = new();
+        private static readonly Dictionary<Type, IAthenaRepository> Stores = new();
 
         /// <summary>
         /// Registers the given <paramref name="repository"/>.
@@ -20,7 +20,7 @@ namespace Athena.DataModel
         {
             try
             {
-                _stores.Add(repository.GetType(), repository);
+                Stores.Add(repository.GetType(), repository);
             }
             catch (Exception ex)
             {
@@ -33,7 +33,7 @@ namespace Athena.DataModel
         /// </summary>
         public static void Clear()
         {
-            _stores.Clear();
+            Stores.Clear();
         }
 
         /// <summary>
@@ -41,11 +41,11 @@ namespace Athena.DataModel
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public static async Task InitializeAsync(IContext context)
+        public static async Task<bool> InitializeAsync(IContext context, Action onCipherInvalid)
         {
             ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
 
-            foreach (var instance in _stores.Values)
+            foreach (IAthenaRepository instance in Stores.Values)
             {
                 try
                 {
@@ -54,12 +54,19 @@ namespace Athena.DataModel
                     instance.RegisterPatches(context, compatService);
                     await instance.ExecutePatches(context, compatService);
                 }
+                catch (InvalidCipherException)
+                {
+                    onCipherInvalid();
+                    return false;
+                }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.ToString());
-                    Debug.Assert(false);
+                    return false;
                 }
             }
+
+            return true;
         }
 
         /// <summary>
@@ -71,7 +78,7 @@ namespace Athena.DataModel
         internal static TRepository Resolve<TRepository>()
             where TRepository : IAthenaRepository
         {
-            foreach (var store in _stores)
+            foreach (KeyValuePair<Type, IAthenaRepository> store in Stores)
             {
                 if (store.Value is TRepository value)
                     return value;

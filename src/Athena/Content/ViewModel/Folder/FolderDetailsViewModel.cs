@@ -27,7 +27,7 @@ namespace Athena.UI
 
         protected override void OnDataPublished(DataPublishedEventArgs e)
         {
-            var folderUpdate = e.Folders.FirstOrDefault(x => x.Entity == Folder.Folder);
+            RequestUpdate<Folder> folderUpdate = e.Folders.FirstOrDefault(x => x.Entity == Folder.Folder);
 
             if (folderUpdate == null)
                 return;
@@ -60,7 +60,7 @@ namespace Athena.UI
             if (!result)
                 return;
 
-            var context = RetrieveContext();
+            IContext context = RetrieveContext();
             Folder.Folder.Delete(context);
             Services.GetService<IDataBrokerService>().Publish<Folder>(context, Folder, UpdateType.Delete);
             await Toast.Make(string.Format(Localization.FolderDeleted, Folder.Name), ToastDuration.Long).Show();
