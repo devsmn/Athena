@@ -226,14 +226,18 @@ namespace Athena.UI
 
         public async Task InitializeAsync()
         {
+            ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
+
+            // Data will be initialized via the welcome view because it creates the home view again.
+            if (Services.GetService<IPreferencesService>().IsFirstUsage())
+                return;
+
             IsBusy = true;
             IContext context = RetrieveReportContext();
 
             await Task.Run(async () =>
             {
                 await Task.Delay(200);
-
-                ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
 
                 SqliteProxy sqlProxy = new();
                 SqLiteProxyParameter parameter = new SqLiteProxyParameter { MinimumVersion = new Version(0, 1) };
@@ -254,21 +258,23 @@ namespace Athena.UI
                 IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
                 bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, key => parameter.Cipher = key, _ => { });
 
-                primarySucceeded = false;
-
                 if (!primarySucceeded)
                 {
                     context.Log("Requesting fallback access to database");
 
-                    IPasswordService iPasswordService = Services.GetService<IPasswordService>();
+                    IPasswordService passwordService = Services.GetService<IPasswordService>();
                     string pin = string.Empty;
-                    await iPasswordService.Prompt(context, (str) => pin = str);
+                    await passwordService.Prompt(context, (str) => pin = str);
 
                     await encryptionService.ReadFallbackAsync(
                         context,
                         IDataEncryptionService.DatabaseAlias,
                         pin, key => parameter.Cipher = key,
-                        _ => throw new Exception());
+                        error =>
+                        {
+                            INavigationService navService = Services.GetService<INavigationService>();
+                            MainThread.BeginInvokeOnMainThread(async () => await navService.DisplayAlert("Error", $"The data could not be decrypted: {error}", "Ok", "Close"));
+                        });
                 }
 
                 // Register the repositories.
@@ -280,12 +286,6 @@ namespace Athena.UI
                 context.Log("Initializing repositories");
                 await DataStore.InitializeAsync(context, () => Debug.WriteLine("Invalid cipher"));
 
-                // Data will be initialized via the welcome view.
-                if (Services.GetService<IPreferencesService>().IsFirstUsage())
-                    return;
-
-                compatService.UpdateLastUsedVersion();
-
                 IDataBrokerService service = Services.GetService<IDataBrokerService>();
                 Folder rootFolder = GetRootFolder(context);
 
@@ -293,6 +293,10 @@ namespace Athena.UI
                 service.Publish(context, rootFolder.Folders, UpdateType.Initialize);
                 service.Publish(context, rootFolder.Documents, UpdateType.Initialize);
                 service.RaiseAppInitialized();
+
+                // Last used version is updated here and not in HomeViewModel in case it's the first usage.
+                // Otherwise, the patches (e.g. encrypting the database) would not be executed.
+                compatService.UpdateLastUsedVersion();
             });
 
             IsBusy = false;

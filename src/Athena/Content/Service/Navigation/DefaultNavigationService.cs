@@ -2,60 +2,63 @@
 {
     internal class DefaultNavigationService : INavigationService
     {
-        private readonly Stack<Page> _pages = new();
+        private Page _root;
+        private bool _setIsBusy;
 
         public async Task<bool> DisplayAlert(string title, string message, string accept, string cancel)
         {
-            Page currentPage = _pages.Peek();
-            return await currentPage.DisplayAlert(title, message, accept, cancel);
+            return await _root.DisplayAlert(title, message, accept, cancel);
         }
 
         public async Task<string> DisplayPrompt(string title, string message, string ok, string cancel)
         {
-            Page currentPage = _pages.Peek();
-            return await currentPage.DisplayPromptAsync(title, message, ok, cancel);
+            return await _root.DisplayPromptAsync(title, message, ok, cancel);
         }
 
         public async Task<string> DisplayPrompt(string title, string message, string ok, string cancel, Keyboard keyboard)
         {
-            Page currentPage = _pages.Peek();
-            return await currentPage.DisplayPromptAsync(title, message, ok, cancel, keyboard: keyboard);
+            return await _root.DisplayPromptAsync(title, message, ok, cancel, keyboard: keyboard);
         }
 
         public async Task PushAsync(Page page)
         {
-            Page currentPage = _pages.Peek();
-            await currentPage.Navigation.PushAsync(page);
+            await _root.Navigation.PushAsync(page);
         }
 
         public async Task PopAsync()
         {
-            Page currentPage = _pages.Peek();
-            await currentPage.Navigation.PopAsync();
+            await _root.Navigation.PopAsync();
         }
 
         public async Task PushModalAsync(Page page)
         {
-            Page currentPage = _pages.Peek();
-            await currentPage.Navigation.PushModalAsync(page);
+            ContextViewModel vm = _root.BindingContext as ContextViewModel;
+            _setIsBusy = vm?.IsBusy ?? false;
+            await _root.Navigation.PushModalAsync(page);
         }
 
         public async Task PopModalAsync()
         {
-            Page currentPage = _pages.Peek();
-            await currentPage.Navigation.PopModalAsync();
+            await _root.Navigation.PopModalAsync();
+
+            if (_setIsBusy && _root.BindingContext is ContextViewModel vm)
+            {
+                vm.IsBusy = false;
+                await Task.Delay(10);
+                vm.IsBusy = true;
+            }
+
+            _setIsBusy = false;
         }
 
         public void AsRoot(Page page)
         {
-            _pages.Push(page);
+            _root = page;
         }
 
         public async Task<string> DisplayActionSheet(string title, string cancel, string destruction, params string[] buttons)
         {
-            Page currentPage = _pages.Peek();
-
-            return await currentPage.DisplayActionSheet(
+            return await _root.DisplayActionSheet(
                 title,
                 cancel,
                 destruction,

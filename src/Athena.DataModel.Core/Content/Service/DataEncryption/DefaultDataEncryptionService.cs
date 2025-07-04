@@ -23,8 +23,11 @@ namespace Athena.DataModel.Core
         public async Task GetAsync(IContext context)
         {
             ISecureStorageService service = Services.GetService<ISecureStorageService>();
-
             string metaInfo = await service.GetAsync(Alias + "_META");
+
+            if (string.IsNullOrEmpty(metaInfo))
+                return;
+
             string[] keys = metaInfo.Split(";", StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string dataKey in keys)
@@ -52,7 +55,7 @@ namespace Athena.DataModel.Core
         {
             // Salt should not be included in the HMAC hash.
             return Data
-                .Where(x => x.Key != "_SALT")
+                .Where(x => x.Key != "_SALT" && x.Key != "_HMAC")
                 .Select(x => x.Value)
                 .ToArray();
         }
@@ -60,23 +63,23 @@ namespace Athena.DataModel.Core
 
     public class DefaultDataEncryptionService : IDataEncryptionService
     {
-        private readonly IHardwareKeyStoreService _iHardwareKeyStoreService;
+        private readonly IHardwareKeyStoreService _hardwareKeyStoreService;
         private readonly ISecureStorageService _secureStorageService;
 
         public DefaultDataEncryptionService()
         {
-            _iHardwareKeyStoreService = Services.GetService<IHardwareKeyStoreService>();
+            _hardwareKeyStoreService = Services.GetService<IHardwareKeyStoreService>();
             _secureStorageService = Services.GetService<ISecureStorageService>();
         }
 
         public void Initialize(IContext context, string alias)
         {
-            _iHardwareKeyStoreService.Initialize(context, alias);
+            _hardwareKeyStoreService.Initialize(context, alias);
         }
 
         public async Task SaveAsync(IContext context, string alias, string value, string fallbackPin)
         {
-            await _iHardwareKeyStoreService.SaveAsync(context, alias, value);
+            await _hardwareKeyStoreService.SaveAsync(context, alias, value);
             await StoreFallbackKeyAsync(context, alias, value, fallbackPin);
         }
 
@@ -93,7 +96,7 @@ namespace Athena.DataModel.Core
             // Unfortunately, due to the java RT bindings, we cannot make the onSuccess and onError callbacks
             // asynchronous.
             // Therefore, the fallback has to be called explicitly if false is returned.
-            byte[] decryptedKey = await _iHardwareKeyStoreService.GetAsync(
+            byte[] decryptedKey = await _hardwareKeyStoreService.GetAsync(
                 context,
                 alias,
                 encryptionContext,
@@ -165,7 +168,7 @@ namespace Athena.DataModel.Core
                 await _secureStorageService.SaveAsync(encryptionContext.Alias + toStore.Key, Convert.ToBase64String(toStore.Value));
             }
 
-            await _iHardwareKeyStoreService.StoreHmacAsync(context, encryptionContext.Alias, encryptionContext.GetHmacData());
+            await _hardwareKeyStoreService.StoreHmacAsync(context, encryptionContext.Alias, encryptionContext.GetHmacData());
             metaInfo += "_HMAC";
             await _secureStorageService.SaveAsync(encryptionContext.Alias + "_META", metaInfo);
         }
@@ -199,7 +202,7 @@ namespace Athena.DataModel.Core
                 using ICryptoTransform decryptor = aes.CreateDecryptor();
 
                 byte[] decrypted = decryptor.TransformFinalBlock(encryptedKey, 0, encryptedKey.Length);
-                return Convert.ToBase64String(decrypted);
+                return Encoding.UTF8.GetString(decrypted);
             }
             catch (Exception ex)
             {
