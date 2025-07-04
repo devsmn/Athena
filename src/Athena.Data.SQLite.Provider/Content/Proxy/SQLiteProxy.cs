@@ -7,6 +7,9 @@ namespace Athena.Data.SQLite.Proxy
 {
     public class SqliteProxy : IDataProxy
     {
+        private SqliteManager _manager;
+        private SqliteManager Manager => _manager ??= new SqliteManager();
+
         public TRepository Request<TRepository>(IDataProxyParameter parameter)
             where TRepository : class, IAthenaRepository
         {
@@ -40,7 +43,12 @@ namespace Athena.Data.SQLite.Proxy
 
         public IDataProviderPatcher RequestPatcher()
         {
-            return new SqlitePatcher();
+            return Manager;
+        }
+
+        public IDataProviderAuthenticator RequestAuthenticator()
+        {
+            return Manager;
         }
     }
 }

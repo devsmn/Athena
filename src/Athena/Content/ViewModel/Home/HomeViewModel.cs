@@ -246,8 +246,10 @@ namespace Athena.UI
 
                 DataStore.Clear();
 
-                // First, register available patches.
                 IDataProviderPatcher sqlPatcher = sqlProxy.RequestPatcher();
+                IDataProviderAuthenticator sqlAuth = sqlProxy.RequestAuthenticator();
+
+                // First, register available patches.
                 sqlPatcher.RegisterPatches(compatService);
 
                 // Execute the patches before initializing the repositories.
@@ -260,21 +262,31 @@ namespace Athena.UI
 
                 if (!primarySucceeded)
                 {
-                    context.Log("Requesting fallback access to database");
-
                     IPasswordService passwordService = Services.GetService<IPasswordService>();
-                    string pin = string.Empty;
-                    await passwordService.Prompt(context, (str) => pin = str);
 
-                    await encryptionService.ReadFallbackAsync(
-                        context,
-                        IDataEncryptionService.DatabaseAlias,
-                        pin, key => parameter.Cipher = key,
-                        error =>
-                        {
-                            INavigationService navService = Services.GetService<INavigationService>();
-                            MainThread.BeginInvokeOnMainThread(async () => await navService.DisplayAlert("Error", $"The data could not be decrypted: {error}", "Ok", "Close"));
-                        });
+                    bool firstTry = true;
+
+                    do
+                    {
+                        context.Log("Requesting fallback access to database");
+                        string pin = string.Empty;
+                        await passwordService.Prompt(context, !firstTry, (str) => pin = str);
+
+                        await encryptionService.ReadFallbackAsync(
+                            context,
+                            IDataEncryptionService.DatabaseAlias,
+                            pin, key => parameter.Cipher = key,
+                            error =>
+                            {
+                                //INavigationService navService = Services.GetService<INavigationService>();
+                                //MainThread.BeginInvokeOnMainThread(async () =>
+                                //    await navService.DisplayAlert("Error", $"The data could not be decrypted: {error}",
+                                //        "Ok", "Close"));
+                            });
+
+                        firstTry = false;
+
+                    } while (await sqlAuth.AuthenticateAsync(parameter.Cipher) == false);
                 }
 
                 // Register the repositories.

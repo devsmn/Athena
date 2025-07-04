@@ -29,7 +29,7 @@ namespace Athena.Data.SQLite
             _database = new SQLiteAsyncConnection(connectionString);
         }
 
-        protected async Task ValidateConnection()
+        public async Task ValidateConnection()
         {
             try
             {
@@ -112,12 +112,14 @@ namespace Athena.Data.SQLite
                 return default;
             }
 
-
-            SQLiteConnection connection = Database.GetConnection();
-            bool ownTransaction = !connection.IsInTransaction;
+            bool ownTransaction = false;
+            SQLiteConnection connection = null;
 
             try
             {
+                connection = Database.GetConnection();
+                ownTransaction = !connection.IsInTransaction;
+
                 if (ownTransaction)
                 {
                     connection.BeginTransaction();
@@ -167,11 +169,14 @@ namespace Athena.Data.SQLite
         /// <param name="action"></param>
         protected void Audit(IContext context, string commandText, Action<SQLiteCommand> action)
         {
-            SQLiteConnection connection = Database.GetConnection();
-            bool ownTransaction = !connection.IsInTransaction;
+            bool ownTransaction = false;
+            SQLiteConnection connection = null;
 
             try
             {
+                connection = Database.GetConnection();
+                ownTransaction = !connection.IsInTransaction;
+
                 if (ownTransaction)
                 {
                     connection.BeginTransaction();

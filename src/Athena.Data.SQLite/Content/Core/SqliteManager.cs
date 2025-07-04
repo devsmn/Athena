@@ -5,17 +5,17 @@ using SQLite;
 
 namespace Athena.Data.SQLite
 {
-    internal class SqlitePatcher : IDataProviderPatcher
+    internal class SqliteManager : IDataProviderPatcher, IDataProviderAuthenticator
     {
         public void RegisterPatches(ICompatibilityService compatService)
         {
             VersionPatch encryptDatabase = new(162, ExecuteEncryptDatabasePatch);
-            compatService.RegisterPatch<SqlitePatcher>(encryptDatabase);
+            compatService.RegisterPatch<SqliteManager>(encryptDatabase);
         }
 
         public async Task ExecutePatchesAsync(IContext context, ICompatibilityService service)
         {
-            foreach (VersionPatch patch in service.GetPatches<SqlitePatcher>())
+            foreach (VersionPatch patch in service.GetPatches<SqliteManager>())
             {
                 await patch.PatchAsync(context);
             }
@@ -88,6 +88,23 @@ namespace Athena.Data.SQLite
                     await encryptedDb.CloseAsync();
                 }
             }
+        }
+
+        public async Task<bool> AuthenticateAsync(string cipher)
+        {
+            try
+            {
+                SqliteRepository repo = new SqliteRepository(cipher);
+                await repo.ValidateConnection();
+
+                return repo.IsValid;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return false;
         }
     }
 }

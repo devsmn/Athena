@@ -9,5 +9,6 @@ namespace Athena.Data.Core
     {
         TRepository Request<TRepository>(IDataProxyParameter parameter) where TRepository : class, IAthenaRepository;
         IDataProviderPatcher RequestPatcher();
+        IDataProviderAuthenticator RequestAuthenticator();
     }
 }

@@ -20,8 +20,9 @@ namespace Athena.DataModel.Core
         /// Prompts the user to enter a password.
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="isRetry"></param>
         /// <param name="passwordEntered"></param>
         /// <returns></returns>
-        Task Prompt(IContext context, Action<string> passwordEntered);
+        Task Prompt(IContext context, bool isRetry, Action<string> passwordEntered);
     }
 }
