@@ -24,15 +24,7 @@
   <!--<ItemGroup>
     <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
   </ItemGroup>-->
-	<ItemGroup>
-	  <AndroidResource Remove="Content\Entities\Keys\Core\**" />
-	  <Compile Remove="Content\Entities\Keys\Core\**" />
-	  <EmbeddedResource Remove="Content\Entities\Keys\Core\**" />
-	  <MauiCss Remove="Content\Entities\Keys\Core\**" />
-	  <MauiXaml Remove="Content\Entities\Keys\Core\**" />
-	  <None Remove="Content\Entities\Keys\Core\**" />
-	</ItemGroup>
-
+  
 	<ItemGroup>
 	  <PackageReference Include="EasyCompressor.LZ4" Version="2.1.0" />
 	  <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />

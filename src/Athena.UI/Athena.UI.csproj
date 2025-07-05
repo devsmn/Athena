@@ -77,10 +77,6 @@
     <NoWarn>1701;1702;CA1416</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
-    <AndroidLibrary Include="Dependencies\user-messaging-platform-2.0.0.aar" Bind="false" />
-  </ItemGroup>
-
   <ItemGroup>
     <!-- App Icon -->
     <!--<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />-->
@@ -98,108 +94,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AndroidResource Remove="Content\NewFolder\**" />
-    <AndroidResource Remove="Content\Service\NewFolder\**" />
-    <AndroidResource Remove="Content\ViewModel\NewFolder\**" />
-    <AndroidResource Remove="Content\ViewModel\Settings\NewFolder\**" />
-    <AndroidResource Remove="Content\Views\Folder\Steps\**" />
-    <AndroidResource Remove="Content\Views\NewFolder\**" />
-    <AndroidSkipResourceProcessing Remove="Content\Views\Folder\Steps\**" />
-    <Compile Remove="Content\NewFolder\**" />
-    <Compile Remove="Content\Service\NewFolder\**" />
-    <Compile Remove="Content\ViewModel\NewFolder\**" />
-    <Compile Remove="Content\ViewModel\Settings\NewFolder\**" />
-    <Compile Remove="Content\Views\Folder\Steps\**" />
-    <Compile Remove="Content\Views\NewFolder\**" />
-    <Compile Remove="Content\Views\Page\**" />
-    <EmbeddedResource Remove="Content\NewFolder\**" />
-    <EmbeddedResource Remove="Content\Service\NewFolder\**" />
-    <EmbeddedResource Remove="Content\ViewModel\NewFolder\**" />
-    <EmbeddedResource Remove="Content\ViewModel\Settings\NewFolder\**" />
-    <EmbeddedResource Remove="Content\Views\Folder\Steps\**" />
-    <EmbeddedResource Remove="Content\Views\NewFolder\**" />
-    <EmbeddedResource Remove="Content\Views\Page\**" />
-    <MauiCss Remove="Content\NewFolder\**" />
-    <MauiCss Remove="Content\Service\NewFolder\**" />
-    <MauiCss Remove="Content\ViewModel\NewFolder\**" />
-    <MauiCss Remove="Content\ViewModel\Settings\NewFolder\**" />
-    <MauiCss Remove="Content\Views\Folder\Steps\**" />
-    <MauiCss Remove="Content\Views\NewFolder\**" />
-    <MauiCss Remove="Content\Views\Page\**" />
-    <MauiXaml Remove="Content\NewFolder\**" />
-    <MauiXaml Remove="Content\Service\NewFolder\**" />
-    <MauiXaml Remove="Content\ViewModel\NewFolder\**" />
-    <MauiXaml Remove="Content\ViewModel\Settings\NewFolder\**" />
-    <MauiXaml Remove="Content\Views\Folder\Steps\**" />
-    <MauiXaml Remove="Content\Views\NewFolder\**" />
-    <MauiXaml Remove="Content\Views\Page\**" />
-    <None Remove="Content\NewFolder\**" />
-    <None Remove="Content\Service\NewFolder\**" />
-    <None Remove="Content\ViewModel\NewFolder\**" />
-    <None Remove="Content\ViewModel\Settings\NewFolder\**" />
-    <None Remove="Content\Views\Folder\Steps\**" />
-    <None Remove="Content\Views\NewFolder\**" />
-    <None Remove="Content\Views\Page\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Resources\AppIcon\athena_icon.png" />
-    <None Remove="Resources\AppIcon\athena_splash_circle.png" />
-    <None Remove="Resources\Images\add_document.png" />
-    <None Remove="Resources\Images\add_document_negative.png" />
-    <None Remove="Resources\Images\add_folder.png" />
-    <None Remove="Resources\Images\camera.png" />
-    <None Remove="Resources\Images\copyright.png" />
-    <None Remove="Resources\Images\delete.png" />
-    <None Remove="Resources\Images\delete_inverse.png" />
-    <None Remove="Resources\Images\delete_negative.png" />
-    <None Remove="Resources\Images\document.png" />
-    <None Remove="Resources\Images\document_color.png" />
-    <None Remove="Resources\Images\edit.png" />
-    <None Remove="Resources\Images\empty.png" />
-    <None Remove="Resources\Images\empty_folder.png" />
-    <None Remove="Resources\Images\error_color.png" />
-    <None Remove="Resources\Images\favorite.png" />
-    <None Remove="Resources\Images\favorite_negative.png" />
-    <None Remove="Resources\Images\feedback.png" />
-    <None Remove="Resources\Images\filter.png" />
-    <None Remove="Resources\Images\folder.png" />
-    <None Remove="Resources\Images\folder_color.png" />
-    <None Remove="Resources\Images\gallery.png" />
-    <None Remove="Resources\Images\help.png" />
-    <None Remove="Resources\Images\home.png" />
-    <None Remove="Resources\Images\image_placeholder.png" />
-    <None Remove="Resources\Images\info.png" />
-    <None Remove="Resources\Images\menu.png" />
-    <None Remove="Resources\Images\menu_filled.png" />
-    <None Remove="Resources\Images\move.png" />
-    <None Remove="Resources\Images\news.png" />
-    <None Remove="Resources\Images\next.png" />
-    <None Remove="Resources\Images\next_inverted.png" />
-    <None Remove="Resources\Images\ocr.png" />
-    <None Remove="Resources\Images\page.png" />
-    <None Remove="Resources\Images\password_eye.png" />
-    <None Remove="Resources\Images\pdf.png" />
-    <None Remove="Resources\Images\plus.png" />
-    <None Remove="Resources\Images\privacy.png" />
-    <None Remove="Resources\Images\save.png" />
-    <None Remove="Resources\Images\search.png" />
-    <None Remove="Resources\Images\settings.png" />
-    <None Remove="Resources\Images\share.png" />
-    <None Remove="Resources\Images\success_color.png" />
-    <None Remove="Resources\Images\tag.png" />
-    <None Remove="Resources\Images\terms_and_conditions.png" />
-    <None Remove="Resources\Images\text_search.png" />
-    <None Remove="Resources\Images\text_search_disabled.png" />
-    <None Remove="Resources\Images\tut_step1.jpg" />
-    <None Remove="Resources\Images\view_externally.png" />
-    <None Remove="Resources\Images\warning_color.png" />
-    <None Remove="Resources\Splash\athena_splash.png" />
-    <None Remove="Resources\Splash\athena_splash_circle.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <MauiImage Include="Resources\Images\ocr.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -232,6 +126,7 @@
     <MauiImage Include="Resources\Images\news.png" />
     <MauiImage Include="Resources\Images\next.png" />
     <MauiImage Include="Resources\Images\next_inverted.png" />
+    <MauiImage Include="Resources\Images\ocr.png" />
     <MauiImage Include="Resources\Images\page.png" />
     <MauiImage Include="Resources\Images\password_eye.png" />
     <MauiImage Include="Resources\Images\pdf.png" />
@@ -364,18 +259,6 @@
     <MauiXaml Update="Content\Views\Welcome\Steps\WelcomeViewLanguageStep.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
-    <PackageReference Include="ImageCropper.Maui">
-      <Version>1.0.3</Version>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android33.0'">
-    <PackageReference Include="ImageCropper.Maui">
-      <Version>1.0.3</Version>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">

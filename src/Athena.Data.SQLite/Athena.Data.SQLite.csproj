@@ -203,21 +203,7 @@
   <!--<ItemGroup>
     <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
   </ItemGroup>-->
-  <ItemGroup>
-    <AndroidResource Remove="Content\NewFolder\**" />
-    <AndroidResource Remove="Content\Repositories\Document\sql\NewFolder\**" />
-    <AndroidSkipResourceProcessing Remove="Content\Repositories\Document\sql\NewFolder\**" />
-    <Compile Remove="Content\NewFolder\**" />
-    <Compile Remove="Content\Repositories\Document\sql\NewFolder\**" />
-    <EmbeddedResource Remove="Content\NewFolder\**" />
-    <EmbeddedResource Remove="Content\Repositories\Document\sql\NewFolder\**" />
-    <MauiCss Remove="Content\NewFolder\**" />
-    <MauiCss Remove="Content\Repositories\Document\sql\NewFolder\**" />
-    <MauiXaml Remove="Content\NewFolder\**" />
-    <MauiXaml Remove="Content\Repositories\Document\sql\NewFolder\**" />
-    <None Remove="Content\NewFolder\**" />
-    <None Remove="Content\Repositories\Document\sql\NewFolder\**" />
-  </ItemGroup>
+  
 	<ItemGroup>
 	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
 	</ItemGroup>
