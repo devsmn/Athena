@@ -19,10 +19,5 @@ namespace Athena.DataModel.Core
         {
             return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
         }
-
-        public Task<string> GetDatabaseEncryptionKey(string pin)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

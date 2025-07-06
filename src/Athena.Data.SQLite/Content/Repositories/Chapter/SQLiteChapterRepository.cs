@@ -12,7 +12,8 @@
         private string _readChapterSql;
         private string _deleteChapterSql;
 
-        public SqliteChapterRepository(string cipher) : base(cipher)
+        public SqliteChapterRepository(string cipher)
+            : base(cipher)
         {
         }
 

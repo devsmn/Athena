@@ -29,6 +29,11 @@ namespace Athena.Data.SQLite
             _database = new SQLiteAsyncConnection(connectionString);
         }
 
+        /// <summary>
+        /// Validates the connection to the database.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="InvalidCipherException"></exception>
         public async Task ValidateConnection()
         {
             try

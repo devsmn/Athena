@@ -1,6 +1,5 @@
 ﻿namespace Athena.DataModel.Core
 {
-
     public class ReportContext : AthenaContext
     {
         private readonly Action<string> _report;

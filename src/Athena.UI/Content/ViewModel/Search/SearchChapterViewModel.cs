@@ -68,7 +68,6 @@ namespace Athena.UI
                 IEnumerable<TagViewModel> tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
                 Tags = new(tags);
             });
-
         }
 
         [RelayCommand]

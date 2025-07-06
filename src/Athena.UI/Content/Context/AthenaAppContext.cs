@@ -24,7 +24,7 @@ namespace Athena.UI
 
         public override void Log(string message)
         {
-            // TODO log to play console
+            // TODO: Log to play console
             string logMsg = $"{GetLogPrefix(false)}{message}";
             Debug.WriteLine(logMsg);
         }

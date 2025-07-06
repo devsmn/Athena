@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace Athena.UI
 {
-    public partial class PinViewModel : ContextViewModel
+    public partial class PasswordViewModel : ContextViewModel
     {
         [ObservableProperty]
         private bool _passwordValid;
@@ -16,7 +16,7 @@ namespace Athena.UI
 
         private readonly TaskCompletionSource<string> _tcs;
 
-        public PinViewModel(TaskCompletionSource<string> tcs)
+        public PasswordViewModel(TaskCompletionSource<string> tcs)
         {
             _tcs = tcs;
             NextCommand.NotifyCanExecuteChanged();

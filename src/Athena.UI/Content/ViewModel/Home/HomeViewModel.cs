@@ -224,7 +224,7 @@ namespace Athena.UI
             }
         }
 
-        public async Task InitializeAsync()
+        public new async Task InitializeAsync()
         {
             ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
 

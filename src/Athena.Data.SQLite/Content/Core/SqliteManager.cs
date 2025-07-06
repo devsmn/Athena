@@ -40,7 +40,6 @@ namespace Athena.Data.SQLite
                 context?.Log("Generating encryption key");
                 string sqlCipherKey = secureService.GenerateRandomKey();
 
-                // Encrypt the key and store it.
                 context?.Log("Storing encryption key");
 
                 // We need a fallback password in case biometrics do not work anymore or are not available at all.

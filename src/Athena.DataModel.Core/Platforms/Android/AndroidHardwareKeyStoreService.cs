@@ -184,7 +184,7 @@ namespace Athena.DataModel.Core.Platforms.Android
 
             PromptInfo promptInfo = new PromptInfo.Builder()
                 .SetTitle("Biometric authentication required")
-                .SetSubtitle("Use fingerprint or face to unlock your data")
+                .SetSubtitle("Authenticate to unlock your data")
                 .SetNegativeButtonText("Cancel")
                 .Build();
 
@@ -223,7 +223,7 @@ namespace Athena.DataModel.Core.Platforms.Android
 
             PromptInfo info = new PromptInfo.Builder()
                 .SetTitle("Biometric authentication required")
-                .SetSubtitle("Use fingerprint or face to unlock your data")
+                .SetSubtitle("Authenticate to save your data")
                 .SetNegativeButtonText("Cancel")
                 .Build();
 
@@ -240,7 +240,7 @@ namespace Athena.DataModel.Core.Platforms.Android
         private static async Task<byte[]> RequestCipherExecution(
             PromptInfo promptInfo,
             Cipher cipher,
-            byte[] value) // TODO: merge with AuthenticateAndDecryptKey
+            byte[] value) 
         {
             TaskCompletionSource<byte[]> tcs = new TaskCompletionSource<byte[]>();
 
@@ -251,11 +251,6 @@ namespace Athena.DataModel.Core.Platforms.Android
                     {
                         Cipher authCipher = result.CryptoObject.Cipher;
                         tcs.SetResult(authCipher.DoFinal(value));
-                        // Save to secure storage
-
-                        //ISecureStorageService service = Services.GetService<ISecureStorageService>();
-                        //SecureStorage.Default.SetAsync(alias, encryptedKey);
-                        
                     }
                     catch (Exception ex)
                     {
