@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Athena.DataModel;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
+using Com.Spflaum.Documentscanner;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -375,12 +376,14 @@ namespace Athena.UI
                     await Task.Delay(100);
 
 
-                    DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
+                    DocumentScannerWrapper scanner = new DocumentScannerWrapper(Platform.CurrentActivity);
+                    scanner.LaunchScanner(1234);
+                    //DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
 
                     IsPopupOpen = false;
 
-                    await PushModalAsync(view);
-                    view.ImageSaved += OnImageSaved;
+                    //await PushModalAsync(view);
+                    //view.ImageSaved += OnImageSaved;
 
                 }
             }
