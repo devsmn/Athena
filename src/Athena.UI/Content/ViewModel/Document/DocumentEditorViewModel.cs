@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using Android.Runtime;
 using Athena.DataModel;
 using Athena.DataModel.Core;
+using Athena.Platforms.Android;
 using Athena.Resources.Localization;
 using Com.Spflaum.Documentscanner;
 using CommunityToolkit.Maui.Alerts;
@@ -267,37 +269,58 @@ namespace Athena.UI
         {
             try
             {
-                if (MediaPicker.Default.IsCaptureSupported)
-                {
-                    IContext context = RetrieveContext();
+                // First, try google mlkit.
 
-                    context.Log("Taking picture");
-
-                    FileResult image = await MediaPicker.Default.CapturePhotoAsync();
-
-                    if (image != null)
+                DocumentScannerCallback callback = new(
+                    exception =>
                     {
-                        await using Stream sourceStream = await image.OpenReadAsync();
+                        Debug.WriteLine(exception.ToString());
+                    },
+                    jpegs =>
+                    {
+                        foreach (var jpeg in jpegs)
+                        {
+                            Debug.WriteLine(jpeg);
+                        }
+                    });
 
-                        using MemoryStream byteStream = new();
-                        await sourceStream.CopyToAsync(byteStream);
-                        byte[] bytes = byteStream.ToArray();
+                var activity = Platform.CurrentActivity.JavaCast<AndroidX.Activity.ComponentActivity>();
 
-                        // https://github.com/dotnet/maui/issues/11259
+                DocumentScannerWrapper scanner = new DocumentScannerWrapper(activity, callback);
+                scanner.LaunchScanner();
 
-                        IsPopupOpen = true;
-                        PopupText = "Loading cropping tool...";
 
-                        await Task.Delay(100);
+                //if (MediaPicker.Default.IsCaptureSupported)
+                //{
+                //    IContext context = RetrieveContext();
 
-                        DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
+                //    context.Log("Taking picture");
 
-                        IsPopupOpen = false;
+                //    FileResult image = await MediaPicker.Default.CapturePhotoAsync();
 
-                        await PushModalAsync(view);
-                        view.ImageSaved += OnImageSaved;
-                    }
-                }
+                //    if (image != null)
+                //    {
+                //        await using Stream sourceStream = await image.OpenReadAsync();
+
+                //        using MemoryStream byteStream = new();
+                //        await sourceStream.CopyToAsync(byteStream);
+                //        byte[] bytes = byteStream.ToArray();
+
+                //        // https://github.com/dotnet/maui/issues/11259
+
+                //        IsPopupOpen = true;
+                //        PopupText = "Loading cropping tool...";
+
+                //        await Task.Delay(100);
+
+                //        DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
+
+                //        IsPopupOpen = false;
+
+                //        await PushModalAsync(view);
+                //        view.ImageSaved += OnImageSaved;
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -375,14 +398,12 @@ namespace Athena.UI
 
                     await Task.Delay(100);
 
-                    DocumentScannerWrapper scanner = new DocumentScannerWrapper(Platform.CurrentActivity);
-                    scanner.LaunchScanner(1234);
-                    //DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
-
+                    DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
+                    
                     IsPopupOpen = false;
 
-                    //await PushModalAsync(view);
-                    //view.ImageSaved += OnImageSaved;
+                    await PushModalAsync(view);
+                    view.ImageSaved += OnImageSaved;
 
                 }
             }

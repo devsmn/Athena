@@ -96,6 +96,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AndroidResource Remove="Platforms\Android\NewFolder\**" />
+    <Compile Remove="Platforms\Android\NewFolder\**" />
+    <EmbeddedResource Remove="Platforms\Android\NewFolder\**" />
+    <MauiCss Remove="Platforms\Android\NewFolder\**" />
+    <MauiXaml Remove="Platforms\Android\NewFolder\**" />
+    <None Remove="Platforms\Android\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <MauiFont Remove="C:\Users\pflau\.nuget\packages\syncfusion.maui.core\29.1.38\buildTransitive\..\buildTransitive\Resources\Fonts\MauiMaterialAssets.ttf" />
     <MauiFont Remove="C:\Users\pflau\.nuget\packages\syncfusion.maui.imageeditor\29.1.38\buildTransitive\..\buildTransitive\Resources\Fonts\Boogaloo.ttf" />
     <MauiFont Remove="C:\Users\pflau\.nuget\packages\syncfusion.maui.imageeditor\29.1.38\buildTransitive\..\buildTransitive\Resources\Fonts\Handlee.ttf" />
@@ -330,6 +339,10 @@
     <None Update="Content\Views\Settings\OcrLanguageSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Content\Service\DocumentScanner\" />
   </ItemGroup>
 
 </Project>
