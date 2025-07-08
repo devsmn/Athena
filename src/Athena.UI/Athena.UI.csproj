@@ -175,16 +175,24 @@
     <PackageReference Include="Syncfusion.Maui.TreeView" Version="29.1.38" />
     <PackageReference Include="Syncfusion.Pdf.NET" Version="29.1.38" />
     <PackageReference Include="TesseractOcrMaui" Version="1.2.0" />
+    <PackageReference Include="Xamarin.AndroidX.Activity" Version="1.10.1.2" />
+    <PackageReference Include="Xamarin.Firebase.Components" Version="118.0.1.4" />
+    <PackageReference Include="Xamarin.Firebase.Encoders" Version="117.0.0.22" />
+    <PackageReference Include="Xamarin.Firebase.Encoders.JSON" Version="118.0.1.14" />
+    <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportApi" Version="4.0.0.4" />
+    <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportBackendCct" Version="4.0.0.4" />
+    <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportRuntime" Version="4.0.0.4" />
+    <PackageReference Include="Xamarin.Google.MLKit.Common" Version="118.11.0.4" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Base" Version="118.7.0.2" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Basement" Version="118.7.0.2" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Tasks" Version="118.3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Athena.Data.SQLite.Provider\Athena.Data.SQLite.Proxy.csproj" />
     <ProjectReference Include="..\Athena.DataModel\Athena.DataModel.csproj" />
     <ProjectReference Include="..\Athena.JavaBinding.DocumentScanner\Athena.JavaBinding.DocumentScanner.csproj" />
-    <AndroidMavenLibrary Include="com.google.android.gms:play-services-mlkit-document-scanner"
-                         Version="16.0.0-beta1"
-                         Bind="false"
-                         Repository="Google"/>
+    <AndroidMavenLibrary Include="com.google.android.gms:play-services-mlkit-document-scanner" Version="16.0.0-beta1" Bind="false" Repository="Google" />
   </ItemGroup>
 
   <ItemGroup>

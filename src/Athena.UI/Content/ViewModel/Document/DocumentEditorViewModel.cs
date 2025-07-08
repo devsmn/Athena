@@ -375,7 +375,6 @@ namespace Athena.UI
 
                     await Task.Delay(100);
 
-
                     DocumentScannerWrapper scanner = new DocumentScannerWrapper(Platform.CurrentActivity);
                     scanner.LaunchScanner(1234);
                     //DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
