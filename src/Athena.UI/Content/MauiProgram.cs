@@ -2,6 +2,7 @@
 using Athena.DataModel.Core.Platforms.Android;
 using CommunityToolkit.Maui;
 using FFImageLoading.Maui;
+using Org.W3c.Dom;
 using Plugin.AdMob;
 using Plugin.AdMob.Configuration;
 using Syncfusion.Maui.Core.Hosting;
@@ -51,6 +52,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IHardwareKeyStoreService, AndroidHardwareKeyStoreService>();
         builder.Services.AddSingleton<IDataEncryptionService, DefaultDataEncryptionService>();
         builder.Services.AddSingleton<IPasswordService, DefaultIPasswordService>();
+        builder.Services.AddSingleton<IDocumentScannerService>(DefaultDocumentScannerService.Instance);
 
         MauiApp app = builder.Build();
         Services.Register(app.Services);

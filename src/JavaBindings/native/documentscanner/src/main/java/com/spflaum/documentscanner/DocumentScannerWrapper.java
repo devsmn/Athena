@@ -15,20 +15,19 @@ import java.util.List;
 
 public class DocumentScannerWrapper {
 
-
-    private final ComponentActivity activity;
+    private ComponentActivity activity;
     private final IScanCallback callback;
-    private final ActivityResultLauncher<IntentSenderRequest> launcher;
+    private ActivityResultLauncher<IntentSenderRequest> launcher;
 	
-	public DocumentScannerWrapper(Activity activity, IScanCallback callback) {
-		this((ComponentActivity) activity, callback);
-	}
-
-    public DocumentScannerWrapper(ComponentActivity activity, IScanCallback callback) {
-        this.activity = activity;
+    public DocumentScannerWrapper(IScanCallback callback) {
         this.callback = callback;
-
-        this.launcher = activity.registerForActivityResult(
+    }
+	
+	public void Initialize(Activity activity)
+	{
+		this.activity = (ComponentActivity)activity;
+		
+		this.launcher = this.activity.registerForActivityResult(
             new ActivityResultContracts.StartIntentSenderForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
@@ -55,7 +54,8 @@ public class DocumentScannerWrapper {
                 }
             }
         );
-    }
+	}
+
 
     public void launchScanner() {
         GmsDocumentScannerOptions options = new GmsDocumentScannerOptions.Builder()

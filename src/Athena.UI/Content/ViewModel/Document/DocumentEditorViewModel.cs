@@ -270,25 +270,28 @@ namespace Athena.UI
             try
             {
                 // First, try google mlkit.
-
-                DocumentScannerCallback callback = new(
-                    exception =>
+                IDocumentScannerService scanner = Services.GetService<IDocumentScannerService>();
+                scanner.Launch(
+                    imagePaths =>
                     {
-                        Debug.WriteLine(exception.ToString());
-                    },
-                    jpegs =>
-                    {
-                        foreach (var jpeg in jpegs)
+                        foreach (string path in imagePaths)
                         {
-                            Debug.WriteLine(jpeg);
+                            // TODO: Delete cache later
+                            string fixedPath = new Uri(path).LocalPath;
+
+                            byte[] buffer = File.ReadAllBytes(fixedPath);
+
+                            DocumentImageViewModel vm = new DocumentImageViewModel
+                            {
+                                ImagePath = fixedPath,
+                                FileName = Path.GetFileName(fixedPath),
+                                Image = buffer
+                            };
+                            Images.Add(vm);
                         }
+
+                        AreDocumentsEmpty = imagePaths.Length == 0;
                     });
-
-                var activity = Platform.CurrentActivity.JavaCast<AndroidX.Activity.ComponentActivity>();
-
-                DocumentScannerWrapper scanner = new DocumentScannerWrapper(activity, callback);
-                scanner.LaunchScanner();
-
 
                 //if (MediaPicker.Default.IsCaptureSupported)
                 //{
