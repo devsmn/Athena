@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\version.props" />
   <PropertyGroup>
     <TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -200,7 +200,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Athena.Data.SQLite.Provider\Athena.Data.SQLite.Proxy.csproj" />
     <ProjectReference Include="..\Athena.DataModel\Athena.DataModel.csproj" />
-    <ProjectReference Include="..\Athena.JavaBinding.DocumentScanner\Athena.JavaBinding.DocumentScanner.csproj" />
+    <ProjectReference Include="..\NativeLibraryInterop\documentscanner\dotnet\Athena.JavaBinding.DocumentScanner\Athena.JavaBinding.DocumentScanner.csproj" />
     <AndroidMavenLibrary Include="com.google.android.gms:play-services-mlkit-document-scanner" Version="16.0.0-beta1" Bind="false" Repository="Google" />
   </ItemGroup>
 

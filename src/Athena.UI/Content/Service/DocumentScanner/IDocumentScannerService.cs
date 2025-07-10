@@ -8,6 +8,6 @@ namespace Athena.UI
 {
     public interface IDocumentScannerService
     {
-        void Launch(Action<string[]> scannedImagesPaths);
+        void Launch(Action<string[]> scannedImagesPaths, Action<Exception> onError);
     }
 }

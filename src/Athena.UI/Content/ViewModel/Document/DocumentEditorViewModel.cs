@@ -291,6 +291,48 @@ namespace Athena.UI
                         }
 
                         AreDocumentsEmpty = imagePaths.Length == 0;
+                    },
+                    _ =>
+                    {
+                        MainThread.InvokeOnMainThreadAsync(async () =>
+                        {
+                            // Fall back to using the normal capture
+                            if (!MediaPicker.Default.IsCaptureSupported)
+                            {
+                                // TODO: Alert
+                                return;
+                            }
+
+                            IContext context = RetrieveContext();
+
+                            context.Log("Taking picture");
+
+                            // TODO: Black screen
+                            FileResult image = await MediaPicker.Default.CapturePhotoAsync();
+
+                            if (image != null)
+                            {
+                                using Stream sourceStream = await image.OpenReadAsync();
+
+                                using MemoryStream byteStream = new();
+                                sourceStream.CopyTo(byteStream);
+                                byte[] bytes = byteStream.ToArray();
+
+                                // https://github.com/dotnet/maui/issues/11259
+
+                                IsPopupOpen = true;
+                                PopupText = "Loading cropping tool...";
+
+                                await Task.Delay(100);
+
+                                DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
+
+                                IsPopupOpen = false;
+
+                                view.ImageSaved += OnImageSaved;
+                                await PushModalAsync(view);
+                            }
+                        });
                     });
 
                 //if (MediaPicker.Default.IsCaptureSupported)
@@ -361,7 +403,9 @@ namespace Athena.UI
 
                         DocumentImageViewModel imageVm = new DocumentImageViewModel
                         {
-                            IsPdf = true, ImagePath = result.FullPath, FileName = result.FileName
+                            IsPdf = true,
+                            ImagePath = result.FullPath,
+                            FileName = result.FileName
                         };
 
                         Images.Add(imageVm);
@@ -402,7 +446,7 @@ namespace Athena.UI
                     await Task.Delay(100);
 
                     DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
-                    
+
                     IsPopupOpen = false;
 
                     await PushModalAsync(view);

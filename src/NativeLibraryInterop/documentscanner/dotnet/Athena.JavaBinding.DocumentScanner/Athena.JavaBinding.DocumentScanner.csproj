@@ -22,12 +22,17 @@
   </ItemGroup>-->
 
   <ItemGroup>
-    <AndroidGradleProject Include="../../native/build.gradle.kts" >
+    <AndroidGradleProject Include="../../native/build.gradle.kts">
       <ModuleName>documentscanner</ModuleName>
        <!--Metadata applicable to @(AndroidLibrary) will be used if set, otherwise the following defaults will be used:
       <Bind>true</Bind>
       <Pack>true</Pack>-->
       
     </AndroidGradleProject>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\native\documentscanner\src\main\java\com\spflaum\documentscanner\DocumentScannerWrapper.java" Link="DocumentScannerWrapper.java" />
+    <None Include="..\..\native\documentscanner\src\main\java\com\spflaum\documentscanner\IScanCallback.java" Link="IScanCallback.java" />
   </ItemGroup>
 </Project>

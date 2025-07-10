@@ -59,7 +59,7 @@ public class DocumentScannerWrapper {
 
     public void launchScanner() {
         GmsDocumentScannerOptions options = new GmsDocumentScannerOptions.Builder()
-            .setGalleryImportAllowed(true) // change to false if you want camera-only
+            .setGalleryImportAllowed(true) 
             .setPageLimit(1)
             .setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_JPEG)
             .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_FULL)

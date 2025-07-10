@@ -13,6 +13,7 @@ namespace Athena.UI
         public static DefaultDocumentScannerService Instance => InstanceFactory.Value;
 
         private Action<string[]> _onScanned;
+        private Action<Exception> _onError;
         private readonly DocumentScannerWrapper _wrapper;
 
         public DefaultDocumentScannerService()
@@ -20,7 +21,7 @@ namespace Athena.UI
             DocumentScannerCallback callback = new(
                 exception =>
                 {
-                    Debug.WriteLine(exception.ToString());
+                    _onError?.Invoke(exception);
                 },
                 imagePaths =>
                 {
@@ -31,9 +32,10 @@ namespace Athena.UI
             _wrapper = new DocumentScannerWrapper(callback);
         }
 
-        public void Launch(Action<string[]> scannedImagesPaths)
+        public void Launch(Action<string[]> scannedImagesPaths, Action<Exception> onError)
         {
             _onScanned = scannedImagesPaths;
+            _onError = onError;
             _wrapper.LaunchScanner();
         }
 
