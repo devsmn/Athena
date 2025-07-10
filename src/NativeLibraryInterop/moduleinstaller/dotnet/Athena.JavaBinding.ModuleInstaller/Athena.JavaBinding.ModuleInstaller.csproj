@@ -14,20 +14,14 @@
       To learn more, see: https://learn.microsoft.com/dotnet/maui/migration/android-binding-projects
     -->
   </PropertyGroup>
-  <!--<ItemGroup>
-    <AndroidLibrary Update="documentscanner-release.aar">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </AndroidLibrary>
-
-  </ItemGroup>-->
 
   <ItemGroup>
-    <AndroidGradleProject Include="native/build.gradle.kts" >
-      <ModuleName>documentscanner</ModuleName>
-       <!--Metadata applicable to @(AndroidLibrary) will be used if set, otherwise the following defaults will be used:
+    <AndroidGradleProject Include="../../native/build.gradle.kts" >
+      <ModuleName>moduleinstaller</ModuleName>
+      <!--Metadata applicable to @(AndroidLibrary) will be used if set, otherwise the following defaults will be used:
       <Bind>true</Bind>
       <Pack>true</Pack>-->
-      
+
     </AndroidGradleProject>
   </ItemGroup>
 </Project>
