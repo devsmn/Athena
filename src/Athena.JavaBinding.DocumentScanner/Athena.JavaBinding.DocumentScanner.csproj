@@ -22,7 +22,7 @@
   </ItemGroup>-->
 
   <ItemGroup>
-    <AndroidGradleProject Include="../JavaBindings/native/build.gradle.kts" >
+    <AndroidGradleProject Include="native/build.gradle.kts" >
       <ModuleName>documentscanner</ModuleName>
        <!--Metadata applicable to @(AndroidLibrary) will be used if set, otherwise the following defaults will be used:
       <Bind>true</Bind>

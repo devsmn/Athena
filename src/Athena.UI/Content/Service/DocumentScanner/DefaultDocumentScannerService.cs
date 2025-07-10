@@ -1,0 +1,46 @@
+﻿using System.Diagnostics;
+using Android.OS.Strictmode;
+using AndroidX.Activity;
+using Athena.Platforms.Android;
+using Com.Spflaum.Documentscanner;
+using Java.Interop;
+
+namespace Athena.UI
+{
+    internal class DefaultDocumentScannerService : IDocumentScannerService
+    {
+        private static readonly Lazy<DefaultDocumentScannerService> InstanceFactory = new(() => new DefaultDocumentScannerService());
+        public static DefaultDocumentScannerService Instance => InstanceFactory.Value;
+
+        private Action<string[]> _onScanned;
+        private readonly DocumentScannerWrapper _wrapper;
+
+        public DefaultDocumentScannerService()
+        {
+            DocumentScannerCallback callback = new(
+                exception =>
+                {
+                    Debug.WriteLine(exception.ToString());
+                },
+                imagePaths =>
+                {
+                    _onScanned?.Invoke(imagePaths);
+                    _onScanned = null;
+                });
+
+            _wrapper = new DocumentScannerWrapper(callback);
+        }
+
+        public void Launch(Action<string[]> scannedImagesPaths)
+        {
+            _onScanned = scannedImagesPaths;
+            _wrapper.LaunchScanner();
+        }
+
+        public static void InitializeActivity(Android.App.Activity activity)
+        {
+            ComponentActivity compAct = activity.JavaCast<ComponentActivity>();
+            Instance._wrapper.Initialize(compAct);
+        }
+    }
+}
