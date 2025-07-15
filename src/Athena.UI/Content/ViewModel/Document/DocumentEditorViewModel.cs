@@ -269,6 +269,8 @@ namespace Athena.UI
         {
             try
             {
+                TaskCompletionSource<bool> tcs = new();
+
                 // First, try google mlkit.
                 IDocumentScannerService scanner = Services.GetService<IDocumentScannerService>();
                 scanner.Launch(
@@ -291,81 +293,55 @@ namespace Athena.UI
                         }
 
                         AreDocumentsEmpty = imagePaths.Length == 0;
+                        tcs.SetResult(true);
                     },
                     _ =>
                     {
-                        MainThread.InvokeOnMainThreadAsync(async () =>
-                        {
-                            // Fall back to using the normal capture
-                            if (!MediaPicker.Default.IsCaptureSupported)
-                            {
-                                // TODO: Alert
-                                return;
-                            }
+                        tcs.SetResult(false);
 
-                            IContext context = RetrieveContext();
-
-                            context.Log("Taking picture");
-
-                            // TODO: Black screen
-                            FileResult image = await MediaPicker.Default.CapturePhotoAsync();
-
-                            if (image != null)
-                            {
-                                using Stream sourceStream = await image.OpenReadAsync();
-
-                                using MemoryStream byteStream = new();
-                                sourceStream.CopyTo(byteStream);
-                                byte[] bytes = byteStream.ToArray();
-
-                                // https://github.com/dotnet/maui/issues/11259
-
-                                IsPopupOpen = true;
-                                PopupText = "Loading cropping tool...";
-
-                                await Task.Delay(100);
-
-                                DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
-
-                                IsPopupOpen = false;
-
-                                view.ImageSaved += OnImageSaved;
-                                await PushModalAsync(view);
-                            }
-                        });
                     });
 
-                //if (MediaPicker.Default.IsCaptureSupported)
-                //{
-                //    IContext context = RetrieveContext();
+                bool success = await tcs.Task;
 
-                //    context.Log("Taking picture");
+                if (!success)
+                {
+                    // Fallback to legacy
+                    if (MediaPicker.Default.IsCaptureSupported)
+                    {
+                        IContext context = RetrieveContext();
 
-                //    FileResult image = await MediaPicker.Default.CapturePhotoAsync();
+                        IsPopupOpen = true;
+                        PopupText = "Falling back to legacy capture, please wait";
+                        await Task.Delay(2500);
+                        IsPopupOpen = false;
+                        context.Log("Taking picture");
+                        FileResult image = await MediaPicker.Default.CapturePhotoAsync();
 
-                //    if (image != null)
-                //    {
-                //        await using Stream sourceStream = await image.OpenReadAsync();
+                        if (image != null)
+                        {
+                            await using Stream sourceStream = await image.OpenReadAsync();
 
-                //        using MemoryStream byteStream = new();
-                //        await sourceStream.CopyToAsync(byteStream);
-                //        byte[] bytes = byteStream.ToArray();
+                            using MemoryStream byteStream = new();
+                            await sourceStream.CopyToAsync(byteStream);
+                            byte[] bytes = byteStream.ToArray();
 
-                //        // https://github.com/dotnet/maui/issues/11259
+                            // https://github.com/dotnet/maui/issues/11259
 
-                //        IsPopupOpen = true;
-                //        PopupText = "Loading cropping tool...";
+                            IsPopupOpen = true;
+                            PopupText = "Loading cropping tool...";
 
-                //        await Task.Delay(100);
+                            await Task.Delay(100);
 
-                //        DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
+                            DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
 
-                //        IsPopupOpen = false;
+                            IsPopupOpen = false;
 
-                //        await PushModalAsync(view);
-                //        view.ImageSaved += OnImageSaved;
-                //    }
-                //}
+                            await PushModalAsync(view);
+                            view.ImageSaved += OnImageSaved;
+                        }
+                    }
+                }
+
             }
             catch (Exception ex)
             {

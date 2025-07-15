@@ -45,11 +45,29 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <popup:SfPopup x:Name="sfPopup"
+        <!--<popup:SfPopup x:Name="sfPopup"
                    HeaderTitle="Loading"
                    StaysOpen="True"
                    Message="{Binding PopupText}"
                    IsOpen="{Binding IsPopupOpen}">
+        </popup:SfPopup>-->
+
+        <popup:SfPopup x:Name="sfPopup"
+                       HeaderTitle="Loading"
+                       AutoSizeMode="Height"
+                       StaysOpen="True"
+                       IsOpen="{Binding IsPopupOpen}">
+            <popup:SfPopup.ContentTemplate>
+                <DataTemplate >
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="true" />
+                        <Label Text="{Binding PopupText}"
+                           Margin="10"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </popup:SfPopup.ContentTemplate>
         </popup:SfPopup>
 
         <ContentView Margin="5"
@@ -82,11 +100,11 @@
 
         <Button Text="{x:Static loc:Localization.Next}"
                 x:Name="nextButton"
-            Grid.Column="1"
-            Grid.Row="2"
-            WidthRequest="150"
-            Command="{Binding NextStepCommand}"
-            Margin="5,5,5,10">
+                Grid.Column="1"
+                Grid.Row="2"
+                WidthRequest="150"
+                Command="{Binding NextStepCommand}"
+                Margin="5,5,5,10">
             <Button.Style>
                 <Style TargetType="Button">
                     <Style.Triggers>
