@@ -39,6 +39,12 @@ namespace Athena.UI
             _wrapper.LaunchScanner();
         }
 
+        public void ValidateInstallation(Action<bool> onChecked, Action<Exception> onError)
+        {
+            DocumentScannerAvailabilityCallback callback = new(onChecked, onError);
+            _wrapper.IsScannerInstalled(callback);
+        }
+
         public static void InitializeActivity(Android.App.Activity activity)
         {
             ComponentActivity compAct = activity.JavaCast<ComponentActivity>();

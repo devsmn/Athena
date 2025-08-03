@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using Android.Database.Sqlite;
 using Android.Runtime;
 using Athena.DataModel;
 using Athena.DataModel.Core;
@@ -273,74 +274,86 @@ namespace Athena.UI
 
                 // First, try google mlkit.
                 IDocumentScannerService scanner = Services.GetService<IDocumentScannerService>();
-                scanner.Launch(
-                    imagePaths =>
-                    {
-                        foreach (string path in imagePaths)
-                        {
-                            // TODO: Delete cache later
-                            string fixedPath = new Uri(path).LocalPath;
 
-                            byte[] buffer = File.ReadAllBytes(fixedPath);
+                bool isInstalled = false;
 
-                            DocumentImageViewModel vm = new DocumentImageViewModel
-                            {
-                                ImagePath = fixedPath,
-                                FileName = Path.GetFileName(fixedPath),
-                                Image = buffer
-                            };
-                            Images.Add(vm);
-                        }
+                scanner.ValidateInstallation(
+                    installed => isInstalled = installed,
+                    ex => Debug.WriteLine(ex.ToString()));
 
-                        AreDocumentsEmpty = imagePaths.Length == 0;
-                        tcs.SetResult(true);
-                    },
-                    _ =>
-                    {
-                        tcs.SetResult(false);
-
-                    });
-
-                bool success = await tcs.Task;
-
-                if (!success)
+                if (!isInstalled)
                 {
-                    // Fallback to legacy
-                    if (MediaPicker.Default.IsCaptureSupported)
-                    {
-                        IContext context = RetrieveContext();
-
-                        IsPopupOpen = true;
-                        PopupText = "Falling back to legacy capture, please wait";
-                        await Task.Delay(2500);
-                        IsPopupOpen = false;
-                        context.Log("Taking picture");
-                        FileResult image = await MediaPicker.Default.CapturePhotoAsync();
-
-                        if (image != null)
-                        {
-                            await using Stream sourceStream = await image.OpenReadAsync();
-
-                            using MemoryStream byteStream = new();
-                            await sourceStream.CopyToAsync(byteStream);
-                            byte[] bytes = byteStream.ToArray();
-
-                            // https://github.com/dotnet/maui/issues/11259
-
-                            IsPopupOpen = true;
-                            PopupText = "Loading cropping tool...";
-
-                            await Task.Delay(100);
-
-                            DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
-
-                            IsPopupOpen = false;
-
-                            await PushModalAsync(view);
-                            view.ImageSaved += OnImageSaved;
-                        }
-                    }
+                    await PushModalAsync(new DocumentScannerTypeSettingsView());
                 }
+
+                //scanner.Launch(
+                //    imagePaths =>
+                //    {
+                //        foreach (string path in imagePaths)
+                //        {
+                //            // TODO: Delete cache later
+                //            string fixedPath = new Uri(path).LocalPath;
+
+                //            byte[] buffer = File.ReadAllBytes(fixedPath);
+
+                //            DocumentImageViewModel vm = new DocumentImageViewModel
+                //            {
+                //                ImagePath = fixedPath,
+                //                FileName = Path.GetFileName(fixedPath),
+                //                Image = buffer
+                //            };
+                //            Images.Add(vm);
+                //        }
+
+                //        AreDocumentsEmpty = imagePaths.Length == 0;
+                //        tcs.SetResult(true);
+                //    },
+                //    _ =>
+                //    {
+                //        tcs.SetResult(false);
+
+                //    });
+
+                //bool success = await tcs.Task;
+
+                //if (!success)
+                //{
+                //    // Fallback to legacy
+                //    if (MediaPicker.Default.IsCaptureSupported)
+                //    {
+                //        IContext context = RetrieveContext();
+
+                //        IsPopupOpen = true;
+                //        PopupText = "Falling back to legacy capture, please wait";
+                //        await Task.Delay(2500);
+                //        IsPopupOpen = false;
+                //        context.Log("Taking picture");
+                //        FileResult image = await MediaPicker.Default.CapturePhotoAsync();
+
+                //        if (image != null)
+                //        {
+                //            await using Stream sourceStream = await image.OpenReadAsync();
+
+                //            using MemoryStream byteStream = new();
+                //            await sourceStream.CopyToAsync(byteStream);
+                //            byte[] bytes = byteStream.ToArray();
+
+                //            // https://github.com/dotnet/maui/issues/11259
+
+                //            IsPopupOpen = true;
+                //            PopupText = "Loading cropping tool...";
+
+                //            await Task.Delay(100);
+
+                //            DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
+
+                //            IsPopupOpen = false;
+
+                //            await PushModalAsync(view);
+                //            view.ImageSaved += OnImageSaved;
+                //        }
+                //    }
+                //}
 
             }
             catch (Exception ex)

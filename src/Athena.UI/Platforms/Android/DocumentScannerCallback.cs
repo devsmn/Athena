@@ -15,7 +15,6 @@ namespace Athena.Platforms.Android
         private readonly Action<System.Exception> _errorCallback;
         private readonly Action<string[]> _scannedCallback;
 
-
         public DocumentScannerCallback(Action<System.Exception> onError, Action<string[]> onScanned)
         {
             _errorCallback = onError;

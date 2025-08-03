@@ -10,6 +10,11 @@ import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions;
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning;
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult;
 
+import com.google.android.gms.common.api.OptionalModuleApi;
+import com.google.android.gms.common.moduleinstall.ModuleInstall;
+import com.google.android.gms.common.moduleinstall.ModuleInstallClient;
+import com.google.android.gms.common.moduleinstall.ModuleAvailabilityResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +23,7 @@ public class DocumentScannerWrapper {
     private ComponentActivity activity;
     private final IScanCallback callback;
     private ActivityResultLauncher<IntentSenderRequest> launcher;
+    private GmsDocumentScannerOptions scanOptions;
 	
     public DocumentScannerWrapper(IScanCallback callback) {
         this.callback = callback;
@@ -56,14 +62,19 @@ public class DocumentScannerWrapper {
         );
 	}
 
+    public void isScannerInstalled(IAvailabilityCallback callback) {
+        OptionalModuleApi scanner = GmsDocumentScanning.getClient(retrieveOptions());
+
+        ModuleInstallClient mi = ModuleInstall.getClient(activity);
+        mi.areModulesAvailable(scanner)
+            .addOnSuccessListener((ModuleAvailabilityResponse resp) -> {
+                callback.onChecked(resp.areModulesAvailable());
+            })
+            .addOnFailureListener(callback::onError);
+        }
 
     public void launchScanner() {
-        GmsDocumentScannerOptions options = new GmsDocumentScannerOptions.Builder()
-            .setGalleryImportAllowed(true) 
-            .setPageLimit(1)
-            .setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_JPEG)
-            .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_FULL)
-            .build();
+        GmsDocumentScannerOptions options = retrieveOptions();
 
         GmsDocumentScanning.getClient(options)
             .getStartScanIntent(activity)
@@ -71,5 +82,18 @@ public class DocumentScannerWrapper {
                 launcher.launch(new IntentSenderRequest.Builder(intentSender).build());
             })
             .addOnFailureListener(callback::onError);
+    }
+
+    private GmsDocumentScannerOptions retrieveOptions(){
+        if (scanOptions == null) {
+            scanOptions = new GmsDocumentScannerOptions.Builder()
+                .setGalleryImportAllowed(true) 
+                .setPageLimit(1)
+                .setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_JPEG)
+                .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_FULL)
+                .build();
+        }
+
+        return scanOptions;
     }
 }

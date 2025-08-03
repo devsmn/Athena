@@ -2,6 +2,7 @@
 <ui:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:ui="clr-namespace:Athena.UI"
+                    Style="{StaticResource ContentPageStyle}"
                     xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
                     x:Name="page"
                     xmlns:loc="clr-namespace:Athena.Resources.Localization"

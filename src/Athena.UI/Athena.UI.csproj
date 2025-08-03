@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\version.props" />
   <PropertyGroup>
     <TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -253,6 +253,9 @@
     <MauiXaml Update="Content\Views\Search\SearchResultView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Content\Views\Settings\DocumentScannerTypeSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Content\Views\Settings\OcrLanguageSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -314,6 +317,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Content\Views\Settings\DocumentScannerTypeSettingsView.xaml.cs">
+      <DependentUpon>DocumentScannerTypeSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Localization\Localization.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
