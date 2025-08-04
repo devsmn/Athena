@@ -1,0 +1,16 @@
+version: 2
+registries:
+  nuget:
+    type: nuget-feed
+    url: https://api.nuget.org/v3/index.json
+updates:
+  - package-ecosystem: "NuGet"
+    directory: "/src" # Location of package manifests
+    registries:
+      - nuget
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 20
+    labels: 
+      - "area/housekeeping"
+      - "area/dependencies"
