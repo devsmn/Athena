@@ -8,7 +8,7 @@ public partial class SettingsView : ContentPage
     {
         BindingContext = new SettingsViewModel();
         InitializeComponent();
-        versionLabel.Text = $"{AppInfo.Current.Name} v{AppInfo.Current.VersionString}-{AppInfo.Current.BuildString}";
+        versionLabel.Text = $"{AppInfo.Current.Name} {AppInfo.Current.VersionString}-{AppInfo.Current.BuildString}";
     }
 
     private async void OnChangelogClicked(object sender, EventArgs e)
@@ -44,5 +44,10 @@ public partial class SettingsView : ContentPage
     private async void OnOcrLanguagesClicked(object sender, EventArgs e)
     {
         await Navigation.PushModalAsync(new OcrLanguageSettings());
+    }
+
+    private async void OnDocumentScannerClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new DocumentScannerTypeSettingsView());
     }
 }

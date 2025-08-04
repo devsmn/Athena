@@ -1,10 +1,10 @@
 ﻿namespace Athena.UI;
 
-public partial class DocumentScannerTypeSettingsView : ContentPage
+public partial class DocumentScannerTypeSettingsView : ContextContentPage
 {
-	public DocumentScannerTypeSettingsView()
+	public DocumentScannerTypeSettingsView(bool fromSettings = true)
     {
-        BindingContext = new DocumentScannerTypeSettingsViewModel();
+        BindingContext = new DocumentScannerTypeSettingsViewModel(fromSettings, DoneTcs);
 		InitializeComponent();
 	}
 }

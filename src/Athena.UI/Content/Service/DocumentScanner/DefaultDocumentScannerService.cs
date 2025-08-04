@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Android.OS.Strictmode;
 using AndroidX.Activity;
+using Athena.DataModel.Core;
 using Athena.Platforms.Android;
 using Com.Spflaum.Documentscanner;
 using Java.Interop;
@@ -43,6 +44,18 @@ namespace Athena.UI
         {
             DocumentScannerAvailabilityCallback callback = new(onChecked, onError);
             _wrapper.IsScannerInstalled(callback);
+        }
+
+        public bool FirstUsage()
+        {
+            IPreferencesService prefService = Services.GetService<IPreferencesService>();
+            return prefService.IsFirstScannerUsage();
+        }
+
+        public void SetFirstUsage()
+        {
+            IPreferencesService prefService = Services.GetService<IPreferencesService>();
+            prefService.SetFirstScannerUsage();
         }
 
         public static void InitializeActivity(Android.App.Activity activity)

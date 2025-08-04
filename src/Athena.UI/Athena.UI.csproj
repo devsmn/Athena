@@ -63,11 +63,11 @@
     <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
     <AndroidUseAapt2>True</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
     <AndroidUseAapt2>True</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
     <DebugSymbols>False</DebugSymbols>
@@ -117,6 +117,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\scan.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <MauiImage Include="Resources\Images\add_document.png" />
     <MauiImage Include="Resources\Images\add_document_negative.png" />
     <MauiImage Include="Resources\Images\add_folder.png" />
@@ -153,6 +157,7 @@
     <MauiImage Include="Resources\Images\plus.png" />
     <MauiImage Include="Resources\Images\privacy.png" />
     <MauiImage Include="Resources\Images\save.png" />
+    <MauiImage Include="Resources\Images\scan.png" />
     <MauiImage Include="Resources\Images\search.png" />
     <MauiImage Include="Resources\Images\settings.png" />
     <MauiImage Include="Resources\Images\share.png" />

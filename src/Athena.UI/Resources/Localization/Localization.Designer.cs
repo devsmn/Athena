@@ -417,15 +417,24 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Athena uses an advanced document scanner that supports features like automatic recognition and cropping of documents, intelligent visual enhancements and much more. 
-        ///For this to work additional resources have to be downloaded from the Google Play Service once for the first usage.
-        ///This will not install or modify any apps on your device. The scanner is downloaded on demand to reduce the initial installation time of Athena.
+        ///   Looks up a localized string similar to Athena uses an advanced document scanner with features like automatic document detection, smart cropping, and visual enhancements.
+        ///To enable these features, a small component is downloaded from Google Play Services the first time you use the scanner.
+        ///This does not install or modify any apps on your device.
         ///
-        ///You can opt-out from using the advanced scanner. In this case, the legacy scanner  [rest of string was truncated]&quot;;.
+        ///You can opt out of the advanced scanner and use the legacy scanner instead, which works without any downloads but offers fewer features..
         /// </summary>
         public static string DocumentScannerDesc {
             get {
                 return ResourceManager.GetString("DocumentScannerDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This option can be changed at any time in the settings..
+        /// </summary>
+        public static string DocumentScannerSettingsHint {
+            get {
+                return ResourceManager.GetString("DocumentScannerSettingsHint", resourceCulture);
             }
         }
         
@@ -1326,6 +1335,15 @@ namespace Athena.Resources.Localization {
         public static string SettingsCopyrightTitle {
             get {
                 return ResourceManager.GetString("SettingsCopyrightTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manager document scanner related settings.
+        /// </summary>
+        public static string SettingsDocumentScannerDesc {
+            get {
+                return ResourceManager.GetString("SettingsDocumentScannerDesc", resourceCulture);
             }
         }
         

@@ -11,6 +11,7 @@ using Com.Spflaum.Documentscanner;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Java.Util;
 using Plugin.AdMob.Services;
 
 namespace Athena.UI
@@ -40,6 +41,7 @@ namespace Athena.UI
     public partial class DocumentEditorViewModel : ContextViewModel
     {
         private readonly IInterstitialAdService _interstitialAdService;
+        private readonly IPreferencesService _prefService;
         private readonly ViewStepHandler<DocumentEditorViewModel> _stepHandler;
 
         [ObservableProperty]
@@ -78,6 +80,9 @@ namespace Athena.UI
         [ObservableProperty]
         private bool _tagsAvailable;
 
+        [ObservableProperty]
+        private bool _useAdvancedScanner;
+
         private DocumentViewModel _document;
 
         [ObservableProperty]
@@ -112,6 +117,7 @@ namespace Athena.UI
 
             DocumentReports = new();
             _interstitialAdService = Services.GetService<IInterstitialAdService>();
+            _prefService = Services.GetService<IPreferencesService>();
 
             IsNew = document == null;
 
@@ -161,6 +167,7 @@ namespace Athena.UI
             }
 
             DetectText = DetectTextPossible;
+            UseAdvancedScanner = _prefService.GetUseAdvancedScanner();
         }
 
         public void ShowAd()
@@ -173,9 +180,22 @@ namespace Athena.UI
             PopupText = "Preparing editor...";
             IsPopupOpen = true;
 
-
             await Task.Run(() => MainThread.BeginInvokeOnMainThread(() => _interstitialAdService.PrepareAd("ca-app-pub-7134624676592827/8601607180")));
             IsPopupOpen = false;
+        }
+
+        public override async Task InitializeAsync()
+        {
+            IDocumentScannerService service = Services.GetService<IDocumentScannerService>();
+
+            if (service.FirstUsage())
+            {
+                ContextContentPage view = new DocumentScannerTypeSettingsView(false);
+                await PushModalAsync(view);
+                await view.DoneTcs.Task;
+
+                UseAdvancedScanner = _prefService.GetUseAdvancedScanner();
+            }
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
@@ -266,94 +286,76 @@ namespace Athena.UI
         }
 
         [RelayCommand]
-        private async Task TakeImage()
+        private async Task Scan()
         {
             try
             {
-                TaskCompletionSource<bool> tcs = new();
-
-                // First, try google mlkit.
-                IDocumentScannerService scanner = Services.GetService<IDocumentScannerService>();
-
-                bool isInstalled = false;
-
-                scanner.ValidateInstallation(
-                    installed => isInstalled = installed,
-                    ex => Debug.WriteLine(ex.ToString()));
-
-                if (!isInstalled)
+                if (UseAdvancedScanner)
                 {
-                    await PushModalAsync(new DocumentScannerTypeSettingsView());
+                    TaskCompletionSource<bool> tcs = new();
+
+                    // First, try google mlkit.
+                    IDocumentScannerService scanner = Services.GetService<IDocumentScannerService>();
+                    bool isInstalled = false;
+
+                    scanner.ValidateInstallation(
+                        flag => isInstalled = flag,
+                        error => Debug.WriteLine(error.ToString()));
+
+                    if (!isInstalled)
+                    {
+                        bool canDownload = await DisplayAlert(
+                            "Document scanner",
+                            "The required document scanner resources will be downloaded from Google Play Services. " +
+                            "Refer to the Document Scanner section in the settings for more information.",
+                            "Ok",
+                            "Cancel");
+
+                        if (!canDownload)
+                            return;
+                    }
+
+                    scanner.Launch(
+                        imagePaths =>
+                        {
+                            foreach (string path in imagePaths)
+                            {
+                                // TODO: Delete cache later
+                                string fixedPath = new Uri(path).LocalPath;
+
+                                byte[] buffer = File.ReadAllBytes(fixedPath);
+
+                                DocumentImageViewModel vm = new DocumentImageViewModel
+                                {
+                                    ImagePath = fixedPath, FileName = Path.GetFileName(fixedPath), Image = buffer
+                                };
+                                Images.Add(vm);
+                            }
+
+                            AreDocumentsEmpty = imagePaths.Length == 0;
+                            tcs.SetResult(true);
+                        },
+                        _ =>
+                        {
+                            tcs.SetResult(false);
+
+                        });
+
+                    bool success = await tcs.Task;
+
+                    if (!success)
+                    {
+                        IsPopupOpen = true;
+                        PopupText = "Falling back to legacy capture, please wait";
+                        await Task.Delay(2500);
+                        IsPopupOpen = false;
+                        await ScanLegacyAsync();
+                    }
                 }
-
-                //scanner.Launch(
-                //    imagePaths =>
-                //    {
-                //        foreach (string path in imagePaths)
-                //        {
-                //            // TODO: Delete cache later
-                //            string fixedPath = new Uri(path).LocalPath;
-
-                //            byte[] buffer = File.ReadAllBytes(fixedPath);
-
-                //            DocumentImageViewModel vm = new DocumentImageViewModel
-                //            {
-                //                ImagePath = fixedPath,
-                //                FileName = Path.GetFileName(fixedPath),
-                //                Image = buffer
-                //            };
-                //            Images.Add(vm);
-                //        }
-
-                //        AreDocumentsEmpty = imagePaths.Length == 0;
-                //        tcs.SetResult(true);
-                //    },
-                //    _ =>
-                //    {
-                //        tcs.SetResult(false);
-
-                //    });
-
-                //bool success = await tcs.Task;
-
-                //if (!success)
-                //{
-                //    // Fallback to legacy
-                //    if (MediaPicker.Default.IsCaptureSupported)
-                //    {
-                //        IContext context = RetrieveContext();
-
-                //        IsPopupOpen = true;
-                //        PopupText = "Falling back to legacy capture, please wait";
-                //        await Task.Delay(2500);
-                //        IsPopupOpen = false;
-                //        context.Log("Taking picture");
-                //        FileResult image = await MediaPicker.Default.CapturePhotoAsync();
-
-                //        if (image != null)
-                //        {
-                //            await using Stream sourceStream = await image.OpenReadAsync();
-
-                //            using MemoryStream byteStream = new();
-                //            await sourceStream.CopyToAsync(byteStream);
-                //            byte[] bytes = byteStream.ToArray();
-
-                //            // https://github.com/dotnet/maui/issues/11259
-
-                //            IsPopupOpen = true;
-                //            PopupText = "Loading cropping tool...";
-
-                //            await Task.Delay(100);
-
-                //            DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
-
-                //            IsPopupOpen = false;
-
-                //            await PushModalAsync(view);
-                //            view.ImageSaved += OnImageSaved;
-                //        }
-                //    }
-                //}
+                else
+                {
+                    await ScanLegacyAsync();
+                }
 
             }
             catch (Exception ex)
@@ -368,6 +370,40 @@ namespace Athena.UI
                 else
                 {
                     await Toast.Make("An error occurred").Show();
+                }
+            }
+        }
+
+        private async Task ScanLegacyAsync()
+        {
+            if (MediaPicker.Default.IsCaptureSupported)
+            {
+                IContext context = RetrieveContext();
+
+                context.Log("Taking picture");
+                FileResult image = await MediaPicker.Default.CapturePhotoAsync();
+
+                if (image != null)
+                {
+                    await using Stream sourceStream = await image.OpenReadAsync();
+
+                    using MemoryStream byteStream = new();
+                    await sourceStream.CopyToAsync(byteStream);
+                    byte[] bytes = byteStream.ToArray();
+
+                    // https://github.com/dotnet/maui/issues/11259
+
+                    IsPopupOpen = true;
+                    PopupText = "Loading cropping tool...";
+
+                    await Task.Delay(100);
+
+                    DocumentEditorDocumentCropView view = new DocumentEditorDocumentCropView(bytes);
+
+                    IsPopupOpen = false;
+
+                    await PushModalAsync(view);
+                    view.ImageSaved += OnImageSaved;
                 }
             }
         }

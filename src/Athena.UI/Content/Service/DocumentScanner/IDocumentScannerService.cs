@@ -10,5 +10,7 @@ namespace Athena.UI
     {
         void Launch(Action<string[]> scannedImagesPaths, Action<Exception> onError);
         void ValidateInstallation(Action<bool> onChecked, Action<Exception> onError);
+        bool FirstUsage();
+        void SetFirstUsage();
     }
 }
