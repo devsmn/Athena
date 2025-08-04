@@ -4,7 +4,7 @@ registries:
     type: nuget-feed
     url: https://api.nuget.org/v3/index.json
 updates:
-  - package-ecosystem: "NuGet"
+  - package-ecosystem: "nuget"
     directory: "/src" # Location of package manifests
     registries:
       - nuget
