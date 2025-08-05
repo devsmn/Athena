@@ -23,6 +23,12 @@ A clear and concise description of what you expected to happen.
 **Screenshots or videos**
 If applicable, add screenshots or videos.
 
+**Log file**
+If possible, include the latest log file. It can be found at `android/data/com.spflaum.athena/files/logs/`.
+Upload the content to a site like pastebin.com or paste the relevant messages into the code section.
+```
+Relevant log messages
+```
 
 **Environment**
  - Device: [e.g. POCO X7 Pro]
