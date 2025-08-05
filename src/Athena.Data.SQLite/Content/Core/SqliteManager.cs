@@ -15,7 +15,7 @@ namespace Athena.Data.SQLite
 
         public async Task ExecutePatchesAsync(IContext context, ICompatibilityService service)
         {
-            foreach (VersionPatch patch in service.GetPatches<SqliteManager>())
+            foreach (VersionPatch patch in service.GetPatches<SqliteManager>(context))
             {
                 await patch.PatchAsync(context);
             }

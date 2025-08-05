@@ -224,17 +224,59 @@ namespace Athena.UI
             }
         }
 
+        private void LogMetaHeaderInfo(IContext context)
+        {
+            var deviceInfo = DeviceInfo.Current;
+            var displayInfo = DeviceDisplay.Current.MainDisplayInfo;
+
+            IPreferencesService prefService = Services.GetService<IPreferencesService>();
+
+            context.Log(
+                $"appVersion=[{AppInfo.Current.VersionString}-{AppInfo.Current.BuildString}], " +
+                $"model=[{deviceInfo.Model}], " +
+                $"idiom=[{deviceInfo.Idiom}], " +
+                $"manufacturer=[{deviceInfo.Manufacturer}], " +
+                $"name=[{deviceInfo.Name}], " +
+                $"version=[{deviceInfo.Version}], " +
+                $"versionString=[{deviceInfo.VersionString}]");
+
+            context.Log(Environment.NewLine);
+
+            context.Log(
+                $"density=[{displayInfo.Density}], " +
+                $"height=[{displayInfo.Height}], " +
+                $"r=[{displayInfo.Width}], " +
+                $"orientation=[{displayInfo.Orientation}], " +
+                $"refreshRate=[{displayInfo.RefreshRate}], " +
+                $"rotation=[{displayInfo.Rotation}]");
+
+            context.Log(Environment.NewLine);
+
+            context.Log(
+                $"IsFirstUsage=[{prefService.IsFirstUsage()}], " +
+                $"lan=[{prefService.GetLanguage()}], " +
+                $"lastTosVersion=[{prefService.GetLastTermsOfUseVersion()}], " +
+                $"lastVersion=[{prefService.GetLastUsedVersion()}], " +
+                $"name=[{prefService.GetName()}], " +
+                $"isFirstScannerUsage=[{prefService.IsFirstScannerUsage()}], " +
+                $"useAdvancedScanner=[{prefService.GetUseAdvancedScanner()}]");
+
+            context.Log(Environment.NewLine);
+
+        }
+
         public new async Task InitializeAsync()
         {
             ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
+
+            IContext context = RetrieveReportContext();
+            LogMetaHeaderInfo(context);
 
             // Data will be initialized via the welcome view because it creates the home view again.
             if (Services.GetService<IPreferencesService>().IsFirstUsage())
                 return;
 
             IsBusy = true;
-            IContext context = RetrieveReportContext();
-
             await Task.Run(async () =>
             {
                 await Task.Delay(200);
@@ -308,7 +350,7 @@ namespace Athena.UI
 
                 // Last used version is updated here and not in HomeViewModel in case it's the first usage.
                 // Otherwise, the patches (e.g. encrypting the database) would not be executed.
-                compatService.UpdateLastUsedVersion();
+                compatService.UpdateLastUsedVersion(context);
             });
 
             IsBusy = false;

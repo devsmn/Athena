@@ -1,17 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using Android.Database.Sqlite;
-using Android.Runtime;
 using Athena.DataModel;
 using Athena.DataModel.Core;
-using Athena.Platforms.Android;
 using Athena.Resources.Localization;
-using Com.Spflaum.Documentscanner;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Java.Util;
 using Plugin.AdMob.Services;
 
 namespace Athena.UI
@@ -84,6 +79,8 @@ namespace Athena.UI
         private bool _useAdvancedScanner;
 
         private DocumentViewModel _document;
+
+        private readonly List<string> _cleanupPaths;
 
         [ObservableProperty]
         private ObservableCollection<TagViewModel> _tags;
@@ -168,6 +165,7 @@ namespace Athena.UI
 
             DetectText = DetectTextPossible;
             UseAdvancedScanner = _prefService.GetUseAdvancedScanner();
+            _cleanupPaths = new();
         }
 
         public void ShowAd()
@@ -225,6 +223,18 @@ namespace Athena.UI
 
         internal async Task CloseAsync()
         {
+            foreach (string imagePath in _cleanupPaths)
+            {
+                try
+                {
+                    File.Delete(imagePath);
+                }
+                catch (Exception)
+                {
+                    // Omit.
+                }
+            }
+
             await PopModalAsync();
             _stepHandler.StepIndex = 0;
         }
@@ -290,6 +300,8 @@ namespace Athena.UI
         {
             try
             {
+                IContext context = RetrieveContext();
+
                 if (UseAdvancedScanner)
                 {
                     TaskCompletionSource<bool> tcs = new();
@@ -300,16 +312,15 @@ namespace Athena.UI
 
                     scanner.ValidateInstallation(
                         flag => isInstalled = flag,
-                        error => Debug.WriteLine(error.ToString()));
+                        error => context.Log(error));
 
                     if (!isInstalled)
                     {
                         bool canDownload = await DisplayAlert(
-                            "Document scanner",
-                            "The required document scanner resources will be downloaded from Google Play Services. " +
-                            "Refer to the Document Scanner section in the settings for more information.",
+                            Localization.DocumentScanner,
+                            Localization.DocumentScannerDownloadInfo,
                             "Ok",
-                            "Cancel");
+                            Localization.Cancel);
 
                         if (!canDownload)
                             return;
@@ -320,15 +331,17 @@ namespace Athena.UI
                         {
                             foreach (string path in imagePaths)
                             {
-                                // TODO: Delete cache later
                                 string fixedPath = new Uri(path).LocalPath;
 
                                 byte[] buffer = File.ReadAllBytes(fixedPath);
 
                                 DocumentImageViewModel vm = new DocumentImageViewModel
                                 {
-                                    ImagePath = fixedPath, FileName = Path.GetFileName(fixedPath), Image = buffer
+                                    ImagePath = fixedPath,
+                                    FileName = Path.GetFileName(fixedPath),
+                                    Image = buffer
                                 };
+
                                 Images.Add(vm);
                             }
 

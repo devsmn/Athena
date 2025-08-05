@@ -662,6 +662,12 @@ Du kannst dich gegen die Verwendung des fortschrittlichen Scanners entscheiden u
   <data name="DocumentScannerUseAdv" xml:space="preserve">
     <value>Benutze den fortschrittlichen Dokumentenscanner</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="DocumentScannerDownloadInfo" xml:space="preserve">
+    <value>Zusätzliche Ressourcen, die für den Dokumentenscanner erforderlich sind, werden von Google Play Services heruntergeladen. Weitere Informationen können im Abschnitt Dokumentenscanner in den Einstellungen gefunden werden.</value>
+  </data>
   <data name="DocumentScannerSettingsHint" xml:space="preserve">
     <value>Diese Option kann jederezeit in den Einstellungen geändert werden.</value>
   </data>

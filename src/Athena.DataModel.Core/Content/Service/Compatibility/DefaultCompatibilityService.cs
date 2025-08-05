@@ -12,17 +12,23 @@
             _patches = new();
         }
 
-        public IEnumerable<VersionPatch> GetPatches<TFor>()
+        public IEnumerable<VersionPatch> GetPatches<TFor>(IContext context)
         {
             if (!_patches.TryGetValue(typeof(TFor), out List<VersionPatch> list))
+            {
+                context.Log($"No patches available for type=[{typeof(TFor).FullName}]");
                 yield break;
+            }
 
             int fromVersion = GetLastUsedVersion();
 
             foreach (VersionPatch patch in list)
             {
                 if (fromVersion < patch.Version)
+                {
+                    context.Log($"Patch with version=[{patch.Version}] found, fromVersion=[{fromVersion}] for type=[{typeof(TFor).FullName}]");
                     yield return patch;
+                }
             }
         }
 
@@ -48,9 +54,12 @@
             return version;
         }
 
-        public void UpdateLastUsedVersion()
+        public void UpdateLastUsedVersion(IContext context)
         {
-            Services.GetService<IPreferencesService>().SetLastUsedVersion(GetCurrentVersion());
+            int version = GetCurrentVersion();
+            context.Log($"Setting last used version to [{version}]");
+
+            Services.GetService<IPreferencesService>().SetLastUsedVersion(version);
         }
     }
 }

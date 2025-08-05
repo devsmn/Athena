@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Android.OS.Strictmode;
-using AndroidX.Activity;
+﻿using AndroidX.Activity;
 using Athena.DataModel.Core;
 using Athena.Platforms.Android;
 using Com.Spflaum.Documentscanner;

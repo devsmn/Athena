@@ -652,6 +652,12 @@ You can opt out of the advanced scanner and use the legacy scanner instead, whic
   <data name="DocumentScannerUseAdv" xml:space="preserve">
     <value>Use the advanced document scanner</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DocumentScannerDownloadInfo" xml:space="preserve">
+    <value>Additional resources required for the document scanner will be downloaded from Google Play Services. Refer to the Document Scanner section in the settings for more information.</value>
+  </data>
   <data name="DocumentScannerSettingsHint" xml:space="preserve">
     <value>This option can be changed at any time in the settings.</value>
   </data>

@@ -60,7 +60,7 @@ namespace Athena.Data.SQLite
 
         public async Task ExecutePatches(IContext context, ICompatibilityService compatService)
         {
-            IEnumerable<VersionPatch> patches = compatService.GetPatches<SqliteFolderRepository>();
+            IEnumerable<VersionPatch> patches = compatService.GetPatches<SqliteFolderRepository>(context);
 
             foreach (VersionPatch pat in patches)
             {

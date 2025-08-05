@@ -1,5 +1,4 @@
 ﻿#if ANDROID
-using System.Security.Cryptography;
 using Android.App;
 using Android.Content;
 using Android.Security.Keystore;

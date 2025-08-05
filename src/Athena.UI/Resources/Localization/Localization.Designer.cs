@@ -115,6 +115,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you really want to change the language to {0}?.
         /// </summary>
         public static string ChangeLanguageConfirm {
@@ -426,6 +435,15 @@ namespace Athena.Resources.Localization {
         public static string DocumentScannerDesc {
             get {
                 return ResourceManager.GetString("DocumentScannerDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional resources required for the document scanner will be downloaded from Google Play Services. Refer to the Document Scanner section in the settings for more information..
+        /// </summary>
+        public static string DocumentScannerDownloadInfo {
+            get {
+                return ResourceManager.GetString("DocumentScannerDownloadInfo", resourceCulture);
             }
         }
         
