@@ -16,3 +16,6 @@ Websites:
 ## Build slim interop library via gradle
 Navigate to the `native` subfolder of the java module (e.g `./documentscanner/native/)` and run `.\gradlew.bat assembleRelease` to build the binaries. Run `.\gradlew.bat build --refresh-dependencies` to refresh dependencies.
 
+## Java source files
+Ensure that java source files are located in the related native folder. Adding them to the runtime binding project will place the files in the wrong directory. Instead, create them manually and add them as a **link** to the project.
+
