@@ -9,7 +9,7 @@ namespace Athena.Data.SQLite
     {
         public void RegisterPatches(ICompatibilityService compatService)
         {
-            VersionPatch encryptDatabase = new(162, ExecuteEncryptDatabasePatch);
+            VersionPatch encryptDatabase = new(163, ExecuteEncryptDatabasePatch);
             compatService.RegisterPatch<SqliteManager>(encryptDatabase);
         }
 
@@ -24,6 +24,7 @@ namespace Athena.Data.SQLite
         private async Task ExecuteEncryptDatabasePatch(IContext context)
         {
             SQLiteAsyncConnection encryptedDb = null;
+            SQLiteConnection plainTextDb = null;
 
             try
             {
@@ -53,6 +54,28 @@ namespace Athena.Data.SQLite
 
                 // Create the encrypted database.
                 context?.Log("Connecting to encrypted database");
+
+                if (copyData && System.Buffers.Text.Base64.IsValid(sqlCipherKey))
+                {
+                    // Copy the old database to the new one.
+                    // Encrypted db will be created with sqlcipher_export.
+                    context?.Log($"Copying old data from {Defines.UnsafeDatabasePath} to {Defines.DatabasePath}");
+
+                    var connectionString = new SQLiteConnectionString(Defines.UnsafeDatabasePath, true, key: "");
+                    plainTextDb = new SQLiteConnection(connectionString);
+
+                    plainTextDb.Execute($"ATTACH DATABASE '{Defines.DatabasePath}' AS encrypted KEY '{sqlCipherKey}';");
+                    plainTextDb.ExecuteScalar<string>("SELECT sqlcipher_export('encrypted');");
+                    plainTextDb.Execute("DETACH DATABASE encrypted;");
+
+                    plainTextDb.Close();
+                    plainTextDb = null;
+
+                    // Finally, delete the old database.
+                    context?.Log("Removing old database");
+                    File.Delete(Defines.UnsafeDatabasePath);
+                }
+
                 SQLiteConnectionString encryptedOptions = new SQLiteConnectionString(Defines.DatabasePath, true, key: sqlCipherKey);
                 encryptedDb = new SQLiteAsyncConnection(encryptedOptions);
 
@@ -60,25 +83,11 @@ namespace Athena.Data.SQLite
                 string dummyInsert = await SqliteRepository.ReadResourceAsync("CREATE_TABLE_META.sql");
                 await encryptedDb.ExecuteAsync(dummyInsert);
 
-                if (copyData)
-                {
-                    // Copy the old database to the new one.
-                    context?.Log("Copying old data to new safe database");
-                    await encryptedDb.ExecuteAsync("ATTACH DATABASE '$?' AS plaintext KEY '';", Defines.UnsafeDatabasePath);
-                    await encryptedDb.ExecuteAsync("SELECT sqlcipher_export('main');");
-                    await encryptedDb.ExecuteAsync("DETACH DATABASE plaintext;");
-
-                    // Finally, delete the old database.
-                    context?.Log("Removing old database");
-                    File.Delete(Defines.UnsafeDatabasePath);
-                }
-
                 context?.Log("Successfully created secured data storage");
             }
             catch (Exception ex)
             {
-                context?.Log("An error occurred while patching the global data storage");
-                Debug.WriteLine(ex);
+                context?.Log(ex);
             }
             finally
             {
@@ -86,6 +95,8 @@ namespace Athena.Data.SQLite
                 {
                     await encryptedDb.CloseAsync();
                 }
+
+                plainTextDb?.Close();
             }
         }
 

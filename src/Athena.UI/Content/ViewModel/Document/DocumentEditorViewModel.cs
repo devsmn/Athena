@@ -326,6 +326,8 @@ namespace Athena.UI
                             return;
                     }
 
+                    bool success = true;
+
                     scanner.Launch(
                         imagePaths =>
                         {
@@ -348,13 +350,13 @@ namespace Athena.UI
                             AreDocumentsEmpty = imagePaths.Length == 0;
                             tcs.SetResult(true);
                         },
-                        _ =>
+                        ex =>
                         {
+                            context.Log(ex);
                             tcs.SetResult(false);
-
                         });
 
-                    bool success = await tcs.Task;
+                    success = await tcs.Task;
 
                     if (!success)
                     {

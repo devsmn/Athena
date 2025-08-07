@@ -351,9 +351,8 @@ namespace Athena.UI
                 // Last used version is updated here and not in HomeViewModel in case it's the first usage.
                 // Otherwise, the patches (e.g. encrypting the database) would not be executed.
                 compatService.UpdateLastUsedVersion(context);
+                MainThread.BeginInvokeOnMainThread(() => IsBusy = false);
             });
-
-            IsBusy = false;
         }
 
         private static Folder GetRootFolder(IContext context)

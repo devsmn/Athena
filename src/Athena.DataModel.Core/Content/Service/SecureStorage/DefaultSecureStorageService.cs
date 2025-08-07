@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace Athena.DataModel.Core
 {
@@ -6,12 +7,15 @@ namespace Athena.DataModel.Core
     {
         public async Task SaveAsync(string alias, string key)
         {
+            Debug.WriteLine($"Storing alias {alias} = [{key}]");
             await SecureStorage.SetAsync(alias, key);
         }
 
         public async Task<string> GetAsync(string alias)
         {
-            return await SecureStorage.GetAsync(alias);
+            string val = await SecureStorage.GetAsync(alias);
+            Debug.WriteLine($"Retrieved alias {alias} = [{val}]");
+            return val;
         }
 
         public string GenerateRandomKey()

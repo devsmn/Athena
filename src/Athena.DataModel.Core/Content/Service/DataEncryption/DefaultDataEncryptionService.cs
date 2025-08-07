@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Athena.DataModel.Core
@@ -156,22 +157,27 @@ namespace Athena.DataModel.Core
             byte[] salt = RandomNumberGenerator.GetBytes(16);
             byte[] derivedKey = DeriveKeyFromPin(pin, salt);
 
-            using Aes aes = Aes.Create();
-            aes.Key = derivedKey;
-            aes.Padding = PaddingMode.PKCS7;
-            aes.GenerateIV();
-            byte[] iv = aes.IV;
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = derivedKey;
+                aes.Padding = PaddingMode.PKCS7;
+                aes.GenerateIV();
+                byte[] iv = aes.IV;
 
-            using ICryptoTransform encryptor = aes.CreateEncryptor();
-            byte[] encryptedKey = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
+                using (ICryptoTransform encryptor = aes.CreateEncryptor())
+                {
+                    byte[] encryptedKey = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
 
-            string fallbackAlias = alias + "_FALLBACK";
+                    string fallbackAlias = alias + "_FALLBACK";
 
-            EncryptionContext encryptionContext = new(fallbackAlias);
-            encryptionContext.Add(EncryptionContext.Salt, salt);
-            encryptionContext.Add(EncryptionContext.Iv, iv);
-            encryptionContext.Add(EncryptionContext.Key, encryptedKey);
-            await encryptionContext.StoreAsync(context);
+                    EncryptionContext encryptionContext = new(fallbackAlias);
+                    encryptionContext.Add(EncryptionContext.Salt, salt);
+                    encryptionContext.Add(EncryptionContext.Iv, iv);
+                    encryptionContext.Add(EncryptionContext.Key, encryptedKey);
+
+                    await encryptionContext.StoreAsync(context);
+                }
+            }
         }
 
         public async Task StoreEncryption(IContext context, EncryptionContext encryptionContext)
@@ -212,17 +218,21 @@ namespace Athena.DataModel.Core
 
             try
             {
-                using Aes aes = Aes.Create();
-                aes.Key = derivedKey;
-                aes.IV = iv;
-                aes.Padding = PaddingMode.PKCS7;
-                using ICryptoTransform decryptor = aes.CreateDecryptor();
-
-                byte[] decrypted = decryptor.TransformFinalBlock(encryptedKey, 0, encryptedKey.Length);
-                return Encoding.UTF8.GetString(decrypted);
+                using (Aes aes = Aes.Create())
+                {
+                    aes.Key = derivedKey;
+                    aes.IV = iv;
+                    aes.Padding = PaddingMode.PKCS7;
+                    using (ICryptoTransform decryptor = aes.CreateDecryptor())
+                    {
+                        byte[] decrypted = decryptor.TransformFinalBlock(encryptedKey, 0, encryptedKey.Length);
+                        return Encoding.UTF8.GetString(decrypted);
+                    }
+                }
             }
             catch (Exception ex)
             {
+                context.Log(ex);
                 return null;
             }
 
