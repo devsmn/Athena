@@ -1,17 +1,24 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Athena.DataModel.Core
 {
     public class EncryptionContext
     {
+        public const string Iv = "_IV";
+        public const string Meta = "_META";
+        public const string Hmac = "_HMAC";
+        public const string Salt = "_SALT";
+        public const string Key = "_KEY";
+
         public string Alias { get; }
-        public Dictionary<string, byte[]> Data { get; }
+        private readonly Dictionary<string, byte[]> _data;
 
         public EncryptionContext(string alias)
         {
             Alias = alias;
-            Data = new();
+            _data = new();
         }
 
         public async Task StoreAsync(IContext context)
@@ -23,7 +30,7 @@ namespace Athena.DataModel.Core
         public async Task GetAsync(IContext context)
         {
             ISecureStorageService service = Services.GetService<ISecureStorageService>();
-            string metaInfo = await service.GetAsync(Alias + "_META");
+            string metaInfo = await service.GetAsync(Alias + Meta);
 
             if (string.IsNullOrEmpty(metaInfo))
                 return;
@@ -33,18 +40,18 @@ namespace Athena.DataModel.Core
             foreach (string dataKey in keys)
             {
                 byte[] data = Convert.FromBase64String(await service.GetAsync(Alias + dataKey));
-                Data.Add(dataKey, data);
+                _data.Add(dataKey, data);
             }
         }
 
         public void Add(string name, byte[] data)
         {
-            Data.Add(name, data);
+            _data.Add(name, data);
         }
 
         public bool IsIntegrityValid(IContext context)
         {
-            byte[] storedHmac = Data["_HMAC"];
+            byte[] storedHmac = GetData(Hmac);
             IHardwareKeyStoreService storeService = Services.GetService<IHardwareKeyStoreService>();
 
             byte[] calculatedHmac = storeService.ComputeHmac(context, Alias, GetHmacData());
@@ -54,10 +61,21 @@ namespace Athena.DataModel.Core
         public byte[][] GetHmacData()
         {
             // Salt should not be included in the HMAC hash.
-            return Data
-                .Where(x => x.Key != "_SALT" && x.Key != "_HMAC")
+            return _data
+                .Where(x => x.Key != Salt && x.Key != Hmac)
                 .Select(x => x.Value)
                 .ToArray();
+        }
+
+        public byte[]? GetData(string key)
+        {
+            return _data.GetValueOrDefault(key);
+        }
+
+        public IEnumerable<KeyValuePair<string, byte[]>> EnumerateData()
+        {
+            foreach (var data in _data)
+                yield return data;
         }
     }
 
@@ -139,22 +157,27 @@ namespace Athena.DataModel.Core
             byte[] salt = RandomNumberGenerator.GetBytes(16);
             byte[] derivedKey = DeriveKeyFromPin(pin, salt);
 
-            using Aes aes = Aes.Create();
-            aes.Key = derivedKey;
-            aes.Padding = PaddingMode.PKCS7;
-            aes.GenerateIV();
-            byte[] iv = aes.IV;
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = derivedKey;
+                aes.Padding = PaddingMode.PKCS7;
+                aes.GenerateIV();
+                byte[] iv = aes.IV;
 
-            using ICryptoTransform encryptor = aes.CreateEncryptor();
-            byte[] encryptedKey = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
+                using (ICryptoTransform encryptor = aes.CreateEncryptor())
+                {
+                    byte[] encryptedKey = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
 
-            string fallbackAlias = alias + "_FALLBACK";
+                    string fallbackAlias = alias + "_FALLBACK";
 
-            EncryptionContext encryptionContext = new(fallbackAlias);
-            encryptionContext.Add("_SALT", salt);
-            encryptionContext.Add("_IV", iv);
-            encryptionContext.Add("_KEY", encryptedKey);
-            await encryptionContext.StoreAsync(context);
+                    EncryptionContext encryptionContext = new(fallbackAlias);
+                    encryptionContext.Add(EncryptionContext.Salt, salt);
+                    encryptionContext.Add(EncryptionContext.Iv, iv);
+                    encryptionContext.Add(EncryptionContext.Key, encryptedKey);
+
+                    await encryptionContext.StoreAsync(context);
+                }
+            }
         }
 
         public async Task StoreEncryption(IContext context, EncryptionContext encryptionContext)
@@ -162,15 +185,15 @@ namespace Athena.DataModel.Core
             context?.Log("Storing encrypted context");
             string metaInfo = string.Empty;
 
-            foreach (KeyValuePair<string, byte[]> toStore in encryptionContext.Data)
+            foreach (KeyValuePair<string, byte[]> toStore in encryptionContext.EnumerateData())
             {
                 metaInfo += $"{toStore.Key};";
                 await _secureStorageService.SaveAsync(encryptionContext.Alias + toStore.Key, Convert.ToBase64String(toStore.Value));
             }
 
             await _hardwareKeyStoreService.StoreHmacAsync(context, encryptionContext.Alias, encryptionContext.GetHmacData());
-            metaInfo += "_HMAC";
-            await _secureStorageService.SaveAsync(encryptionContext.Alias + "_META", metaInfo);
+            metaInfo += EncryptionContext.Hmac;
+            await _secureStorageService.SaveAsync(encryptionContext.Alias + EncryptionContext.Meta, metaInfo);
         }
 
         private async Task<string> RetrieveKeyWithPinAsync(IContext context, string alias, string pin)
@@ -178,10 +201,10 @@ namespace Athena.DataModel.Core
             EncryptionContext encryptionContext = new(alias);
             await encryptionContext.GetAsync(context);
 
-            byte[] salt = encryptionContext.Data["_SALT"];
-            byte[] iv = encryptionContext.Data["_IV"];
-            byte[] encryptedKey = encryptionContext.Data["_KEY"];
-            byte[] hmacHash = encryptionContext.Data["_HMAC"];
+            byte[] salt = encryptionContext.GetData(EncryptionContext.Salt);
+            byte[] iv = encryptionContext.GetData(EncryptionContext.Iv);
+            byte[] encryptedKey = encryptionContext.GetData(EncryptionContext.Key);
+            byte[] hmacHash = encryptionContext.GetData(EncryptionContext.Hmac);
 
             if (salt.IsNullOrEmpty() || iv.IsNullOrEmpty() || encryptedKey.IsNullOrEmpty() || hmacHash.IsNullOrEmpty())
                 return null;
@@ -195,17 +218,21 @@ namespace Athena.DataModel.Core
 
             try
             {
-                using Aes aes = Aes.Create();
-                aes.Key = derivedKey;
-                aes.IV = iv;
-                aes.Padding = PaddingMode.PKCS7;
-                using ICryptoTransform decryptor = aes.CreateDecryptor();
-
-                byte[] decrypted = decryptor.TransformFinalBlock(encryptedKey, 0, encryptedKey.Length);
-                return Encoding.UTF8.GetString(decrypted);
+                using (Aes aes = Aes.Create())
+                {
+                    aes.Key = derivedKey;
+                    aes.IV = iv;
+                    aes.Padding = PaddingMode.PKCS7;
+                    using (ICryptoTransform decryptor = aes.CreateDecryptor())
+                    {
+                        byte[] decrypted = decryptor.TransformFinalBlock(encryptedKey, 0, encryptedKey.Length);
+                        return Encoding.UTF8.GetString(decrypted);
+                    }
+                }
             }
             catch (Exception ex)
             {
+                context.Log(ex);
                 return null;
             }
 

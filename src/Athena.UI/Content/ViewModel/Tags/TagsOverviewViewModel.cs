@@ -56,8 +56,16 @@ namespace Athena.UI
         {
             await ExecuteBackgroundAction(context =>
             {
-                IEnumerable<TagViewModel> tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
-                Tags = new(tags);
+                var allTags = Tag.ReadAll(context).ToList();
+
+                if (allTags.Count == 0)
+                {
+                    Tags = new();
+                }
+                else
+                {
+                    Tags = new(allTags.Select(x => new TagViewModel(x)));
+                }
             });
         }
 

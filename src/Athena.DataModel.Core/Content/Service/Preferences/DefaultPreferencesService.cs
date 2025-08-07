@@ -11,6 +11,8 @@
         private const string DefaultLanguage = "en-US";
         private const string LastUsedVersion = "LastUsedVersion";
         private const string LastTermsVersion = "LastToSVersion";
+        private const string FirstScannerUsageKey = "FirstUsageScanner";
+        private const string UseAdvancedScannerKey = "UseAdvancedScanner";
 
         /// <inheritdoc />  
         public bool IsFirstUsage()
@@ -78,6 +80,26 @@
         public void SetLastTermsOfUseVersion(int version)
         {
             Set(LastTermsVersion, version);
+        }
+
+        public bool IsFirstScannerUsage()
+        {
+            return Get(FirstScannerUsageKey, true);
+        }
+
+        public void SetFirstScannerUsage()
+        {
+            Set(FirstScannerUsageKey, false);
+        }
+
+        public bool GetUseAdvancedScanner()
+        {
+            return Get(UseAdvancedScannerKey, false);
+        }
+
+        public void SetUseAdvancedScanner(bool use)
+        {
+            Set(UseAdvancedScannerKey, use);
         }
     }
 }

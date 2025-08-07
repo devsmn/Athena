@@ -1,6 +1,6 @@
 ﻿namespace Athena.DataModel.Core
 {
-    public class ReportContext : AthenaContext
+    public class ReportContext : AthenaAppContext
     {
         private readonly Action<string> _report;
 
@@ -11,15 +11,8 @@
 
         public override void Log(string message)
         {
+            base.Log(message);
             _report.Invoke(message);
-        }
-
-        public override void Log(Exception exception)
-        {
-        }
-
-        public override void Log(AggregateException aggregateException)
-        {
         }
     }
 }

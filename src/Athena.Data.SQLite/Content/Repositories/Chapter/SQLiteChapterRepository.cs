@@ -42,7 +42,7 @@
 
         public async Task ExecutePatches(IContext context, ICompatibilityService compatService)
         {
-            IEnumerable<VersionPatch> patches = compatService.GetPatches<SqliteChapterRepository>();
+            IEnumerable<VersionPatch> patches = compatService.GetPatches<SqliteChapterRepository>(context);
 
             foreach (VersionPatch pat in patches)
             {

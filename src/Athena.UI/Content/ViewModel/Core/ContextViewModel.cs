@@ -12,6 +12,8 @@ namespace Athena.UI
         [ObservableProperty]
         private string _busyText;
 
+        public TaskCompletionSource DoneTcs { get; protected set; }
+
         public ContextViewModel()
             : base()
         {
@@ -85,6 +87,7 @@ namespace Athena.UI
         protected async Task PopModalAsync()
         {
             await Services.GetService<INavigationService>().PopModalAsync();
+            DoneTcs?.SetResult(); // TODO (SPF): Only works if no other pages are pushed.
         }
 
         protected async Task<bool> DisplayAlert(string title, string message, string accept, string cancel)

@@ -639,4 +639,29 @@ Make sure that the desired languages have been selected in the settings under Te
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="DocumentScanner" xml:space="preserve">
+    <value>Document scanner</value>
+  </data>
+  <data name="DocumentScannerDesc" xml:space="preserve">
+    <value>Athena uses an advanced document scanner with features like automatic document detection, smart cropping, and visual enhancements.
+To enable these features, a small component is downloaded from Google Play Services the first time you use the scanner.
+This does not install or modify any apps on your device.
+
+You can opt out of the advanced scanner and use the legacy scanner instead, which works without any downloads but offers fewer features.</value>
+  </data>
+  <data name="DocumentScannerUseAdv" xml:space="preserve">
+    <value>Use the advanced document scanner</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DocumentScannerDownloadInfo" xml:space="preserve">
+    <value>Additional resources required for the document scanner will be downloaded from Google Play Services. Refer to the Document Scanner section in the settings for more information.</value>
+  </data>
+  <data name="DocumentScannerSettingsHint" xml:space="preserve">
+    <value>This option can be changed at any time in the settings.</value>
+  </data>
+  <data name="SettingsDocumentScannerDesc" xml:space="preserve">
+    <value>Manager document scanner related settings</value>
+  </data>
 </root>

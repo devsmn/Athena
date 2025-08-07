@@ -115,6 +115,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you really want to change the language to {0}?.
         /// </summary>
         public static string ChangeLanguageConfirm {
@@ -404,6 +413,55 @@ namespace Athena.Resources.Localization {
         public static string Documents {
             get {
                 return ResourceManager.GetString("Documents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document scanner.
+        /// </summary>
+        public static string DocumentScanner {
+            get {
+                return ResourceManager.GetString("DocumentScanner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Athena uses an advanced document scanner with features like automatic document detection, smart cropping, and visual enhancements.
+        ///To enable these features, a small component is downloaded from Google Play Services the first time you use the scanner.
+        ///This does not install or modify any apps on your device.
+        ///
+        ///You can opt out of the advanced scanner and use the legacy scanner instead, which works without any downloads but offers fewer features..
+        /// </summary>
+        public static string DocumentScannerDesc {
+            get {
+                return ResourceManager.GetString("DocumentScannerDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional resources required for the document scanner will be downloaded from Google Play Services. Refer to the Document Scanner section in the settings for more information..
+        /// </summary>
+        public static string DocumentScannerDownloadInfo {
+            get {
+                return ResourceManager.GetString("DocumentScannerDownloadInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This option can be changed at any time in the settings..
+        /// </summary>
+        public static string DocumentScannerSettingsHint {
+            get {
+                return ResourceManager.GetString("DocumentScannerSettingsHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use the advanced document scanner.
+        /// </summary>
+        public static string DocumentScannerUseAdv {
+            get {
+                return ResourceManager.GetString("DocumentScannerUseAdv", resourceCulture);
             }
         }
         
@@ -1295,6 +1353,15 @@ namespace Athena.Resources.Localization {
         public static string SettingsCopyrightTitle {
             get {
                 return ResourceManager.GetString("SettingsCopyrightTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manager document scanner related settings.
+        /// </summary>
+        public static string SettingsDocumentScannerDesc {
+            get {
+                return ResourceManager.GetString("SettingsDocumentScannerDesc", resourceCulture);
             }
         }
         

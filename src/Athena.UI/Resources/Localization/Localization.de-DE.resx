@@ -649,4 +649,29 @@ Stelle sicher, dass die gewünschten Sprachen in den Einstellungen unter Texterk
   <data name="Password" xml:space="preserve">
     <value>Passwort</value>
   </data>
+  <data name="DocumentScanner" xml:space="preserve">
+    <value>Dokumentenscanner</value>
+  </data>
+  <data name="DocumentScannerDesc" xml:space="preserve">
+    <value>Athena verwendet einen fortschrittlichen Dokumentenscanner mit Funktionen wie automatische Dokumenterkennung, intelligentes Zuschneiden und visuelle Verbesserungen.
+
+Um diese Funktionen zu aktivieren, werden zusätzliche Ressourcen von Google Play Services heruntergeladen, wenn der Scanner zum ersten Mal verwendet wird. Es werden keine Apps auf dem Gerät installiert oder verändert. 
+
+Du kannst dich gegen die Verwendung des fortschrittlichen Scanners entscheiden und stattdessen den Legacy Scanner verwenden, der ohne zusätzliche Ressourcen funktioniert, aber weniger Funktionien bietet.</value>
+  </data>
+  <data name="DocumentScannerUseAdv" xml:space="preserve">
+    <value>Benutze den fortschrittlichen Dokumentenscanner</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="DocumentScannerDownloadInfo" xml:space="preserve">
+    <value>Zusätzliche Ressourcen, die für den Dokumentenscanner erforderlich sind, werden von Google Play Services heruntergeladen. Weitere Informationen können im Abschnitt Dokumentenscanner in den Einstellungen gefunden werden.</value>
+  </data>
+  <data name="DocumentScannerSettingsHint" xml:space="preserve">
+    <value>Diese Option kann jederezeit in den Einstellungen geändert werden.</value>
+  </data>
+  <data name="SettingsDocumentScanner" xml:space="preserve">
+    <value>Verwalte den Dokumentenscanner</value>
+  </data>
 </root>

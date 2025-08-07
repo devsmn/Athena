@@ -10,7 +10,7 @@
         /// </summary>
         /// <typeparam name="TFor"></typeparam>
         /// <returns></returns>
-        IEnumerable<VersionPatch> GetPatches<TFor>();
+        IEnumerable<VersionPatch> GetPatches<TFor>(IContext context);
 
         /// <summary>
         /// Registers a <see cref="VersionPatch"/> for the given entity <typeparamref name="TFor"/>.
@@ -22,6 +22,6 @@
         /// <summary>
         /// Updates the last used version.
         /// </summary>
-        void UpdateLastUsedVersion();
+        void UpdateLastUsedVersion(IContext context);
     }
 }

@@ -1,11 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Text;
-using Athena.DataModel.Core;
+using Serilog;
 
-namespace Athena.UI
+namespace Athena.DataModel.Core
 {
     public class AthenaAppContext : AthenaContext
     {
+        private readonly ILogger _logger;
+
         /// <summary>
         /// Initializes a new instance of <see cref="AthenaAppContext"/>.
         /// </summary>
@@ -15,6 +17,7 @@ namespace Athena.UI
             CancellationToken = CancellationToken.None;
             CorrelationId = Guid.NewGuid();
             ThreadId = Thread.CurrentThread.ManagedThreadId;
+            _logger = Services.GetService<ILogger>();
         }
 
         public override string ToString()
@@ -24,29 +27,26 @@ namespace Athena.UI
 
         public override void Log(string message)
         {
-            // TODO: Log to play console
-            string logMsg = $"{GetLogPrefix(false)}{message}";
-            Debug.WriteLine(logMsg);
+            _logger.Information($"CorrelationId=[{CorrelationId}], ThreadId=[{ThreadId}] -> {message}");
         }
 
         public override void Log(Exception exception)
         {
-            string logMsg = $"{GetLogPrefix(true)}{exception}";
-            Debug.WriteLine(logMsg);
+            _logger.Error($"CorrelationId=[{CorrelationId}], ThreadId=[{ThreadId}] -> {exception}");
         }
 
         public override void Log(AggregateException aggregateException)
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.Append(GetLogPrefix(true) + aggregateException.Message);
+            sb.Append(aggregateException.Message);
 
             foreach (Exception ex in aggregateException.InnerExceptions)
             {
                 sb.Append(ex);
             }
 
-            Debug.WriteLine(sb);
+            _logger.Error($"CorrelationId=[{CorrelationId}], ThreadId=[{ThreadId}] -> {sb}");
         }
     }
 }

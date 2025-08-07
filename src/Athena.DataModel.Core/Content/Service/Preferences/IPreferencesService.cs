@@ -79,5 +79,11 @@
         /// </summary>
         /// <param name="version"></param>
         void SetLastTermsOfUseVersion(int version);
+
+        bool IsFirstScannerUsage();
+        void SetFirstScannerUsage();
+
+        bool GetUseAdvancedScanner();
+        void SetUseAdvancedScanner(bool use);
     }
 }

@@ -1,4 +1,5 @@
-using Athena.DataModel;
+﻿using Athena.DataModel;
+using Athena.DataModel.Core;
 using Syncfusion.Maui.ListView;
 
 namespace Athena.UI;

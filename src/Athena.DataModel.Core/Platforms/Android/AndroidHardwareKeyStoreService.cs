@@ -1,5 +1,4 @@
 ﻿#if ANDROID
-using System.Security.Cryptography;
 using Android.App;
 using Android.Content;
 using Android.Security.Keystore;
@@ -83,8 +82,8 @@ namespace Athena.DataModel.Core.Platforms.Android
         public void Initialize(IContext context, string alias)
         {
             GenerateKey(alias);
-            GenerateHmacKey(alias + "_HMAC");
-            GenerateHmacKey(alias + "_FALLBACK" + "_HMAC");
+            GenerateHmacKey(alias + EncryptionContext.Hmac);
+            GenerateHmacKey(alias + "_FALLBACK" + EncryptionContext.Hmac);
         }
 
         public void GenerateKey(string alias)
@@ -140,7 +139,7 @@ namespace Athena.DataModel.Core.Platforms.Android
 
             context?.Log("Storing HMAC");
             ISecureStorageService service = Services.GetService<ISecureStorageService>();
-            await service.SaveAsync(alias + "_HMAC", Convert.ToBase64String(hmac));
+            await service.SaveAsync(alias + EncryptionContext.Hmac, Convert.ToBase64String(hmac));
             return hmac;
         }
 
@@ -149,7 +148,7 @@ namespace Athena.DataModel.Core.Platforms.Android
             context?.Log("Computing HMAC");
             KeyStore keyStore = KeyStore.GetInstance(AndroidKeyStore);
             keyStore.Load(null);
-            IKey hmacKey = keyStore.GetKey(alias + "_HMAC", null);
+            IKey hmacKey = keyStore.GetKey(alias + EncryptionContext.Hmac, null);
 
             Mac mac = Mac.GetInstance("HmacSHA256");
             mac.Init(hmacKey);
@@ -171,8 +170,14 @@ namespace Athena.DataModel.Core.Platforms.Android
                 return null;
             }
 
-            byte[] iv = encryptionContext.Data["_IV"];
-            byte[] encryptedKey = encryptionContext.Data["_KEY"];
+            byte[] iv = encryptionContext.GetData(EncryptionContext.Iv);
+            byte[] encryptedKey = encryptionContext.GetData(EncryptionContext.Key);
+
+            if (iv.IsNullOrEmpty() || encryptedKey.IsNullOrEmpty())
+            {
+                onError("IV or key invalid");
+                return null;
+            }
 
             context?.Log("Authenticating and decrypting database cipher");
             KeyStore keyStore = KeyStore.GetInstance(AndroidKeyStore);
@@ -232,8 +237,8 @@ namespace Athena.DataModel.Core.Platforms.Android
 
             EncryptionContext encryptionContext = new(alias);
 
-            encryptionContext.Add("_IV", iv);
-            encryptionContext.Add("_KEY", encryptedKey);
+            encryptionContext.Add(EncryptionContext.Iv, iv);
+            encryptionContext.Add(EncryptionContext.Key, encryptedKey);
             await encryptionContext.StoreAsync(context);
         }
 

@@ -4,6 +4,7 @@ using CommunityToolkit.Maui;
 using FFImageLoading.Maui;
 using Plugin.AdMob;
 using Plugin.AdMob.Configuration;
+using Serilog;
 using Syncfusion.Maui.Core.Hosting;
 
 namespace Athena.UI;
@@ -13,6 +14,7 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         MauiAppBuilder builder = MauiApp.CreateBuilder();
+
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
@@ -34,8 +36,37 @@ public static class MauiProgram
         AdConfig.AddTestDevice("B3EEABB8EE11C2BE770B684D95219ECB");
 #else
         AdConfig.UseTestAdUnitIds = false;
-        AdConfig.DisableConsentCheck = true;
 #endif
+
+        string extDir = Android.App.Application.Context.GetExternalFilesDir(null)?.AbsolutePath;
+
+        if (string.IsNullOrEmpty(extDir))
+        {
+            extDir = $@"../{FileSystem.CacheDirectory}";
+            extDir += "/files/";
+        }
+
+        string logFolder = Path.Combine(extDir, "logs");
+        Directory.CreateDirectory(logFolder);
+
+        builder.Services.AddSerilog(
+            new LoggerConfiguration()
+                .WriteTo
+                    .File(
+                        Path.Combine(logFolder, "log_.txt"),
+                        rollingInterval: RollingInterval.Day,
+                        fileSizeLimitBytes: 20000000, // Cap at 20mb
+                        rollOnFileSizeLimit: true,
+                        shared: true,
+                        retainedFileCountLimit: 14,
+                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {SourceContext}: {Message}{NewLine}{Exception}")
+#if DEBUG
+                .WriteTo
+                    .Debug(
+                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {SourceContext}: {Message}{NewLine}{Exception}")
+#endif
+                .CreateLogger());
+
         builder.Services.AddSingleton<IDataBrokerService, DefaultDataBrokerService>();
         builder.Services.AddSingleton<INavigationService, DefaultNavigationService>();
         builder.Services.AddSingleton<IPreferencesService, DefaultPreferencesService>();
@@ -51,6 +82,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IHardwareKeyStoreService, AndroidHardwareKeyStoreService>();
         builder.Services.AddSingleton<IDataEncryptionService, DefaultDataEncryptionService>();
         builder.Services.AddSingleton<IPasswordService, DefaultIPasswordService>();
+        builder.Services.AddSingleton<IDocumentScannerService>(DefaultDocumentScannerService.Instance);
 
         MauiApp app = builder.Build();
         Services.Register(app.Services);

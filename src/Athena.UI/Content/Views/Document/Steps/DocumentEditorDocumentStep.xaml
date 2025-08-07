@@ -146,7 +146,7 @@
             <Border StrokeShape="RoundRectangle 5" BackgroundColor="White"  Margin="3">
 
                 <sfb:SfButton Text="{x:Static loc:Localization.Scan}" 
-                              Command="{Binding TakeImageCommand}"
+                              Command="{Binding ScanCommand}"
                               Background="White"
                               ImageAlignment="Top"
                               TextColor="Black"
@@ -158,6 +158,7 @@
 
             <Border BackgroundColor="White"
                     Margin="3"
+                    IsVisible="{Binding UseAdvancedScanner, Converter={x:StaticResource InverseBooleanConverter}}"
                     StrokeShape="RoundRectangle 5">
 
                 <sfb:SfButton Text="{x:Static loc:Localization.Gallery}" 

@@ -1,6 +1,4 @@
-﻿using Android.Content;
-
-namespace Athena.DataModel.Core
+﻿namespace Athena.DataModel.Core
 {
     /// <summary>
     /// Provides functionality to store crucial information protected by hardware-backed security.
