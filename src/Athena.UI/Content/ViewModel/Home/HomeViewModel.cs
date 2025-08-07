@@ -318,13 +318,7 @@ namespace Athena.UI
                             context,
                             IDataEncryptionService.DatabaseAlias,
                             pin, key => parameter.Cipher = key,
-                            error =>
-                            {
-                                //INavigationService navService = Services.GetService<INavigationService>();
-                                //MainThread.BeginInvokeOnMainThread(async () =>
-                                //    await navService.DisplayAlert("Error", $"The data could not be decrypted: {error}",
-                                //        "Ok", "Close"));
-                            });
+                            error => context.Log(error));
 
                         firstTry = false;
 

@@ -14,11 +14,18 @@ namespace Athena.Platforms.Android
     {
         private readonly Action<System.Exception> _errorCallback;
         private readonly Action<string[]> _scannedCallback;
+        private readonly Action _cancelledCallback;
 
-        public DocumentScannerCallback(Action<System.Exception> onError, Action<string[]> onScanned)
+        public DocumentScannerCallback(Action<System.Exception> onError, Action<string[]> onScanned, Action onCancelled)
         {
             _errorCallback = onError;
             _scannedCallback = onScanned;
+            _cancelledCallback = onCancelled;
+        }
+
+        public void OnCancelled()
+        {
+            _cancelledCallback();
         }
 
         public void OnError(Exception p0)

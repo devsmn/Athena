@@ -15,4 +15,5 @@ import java.util.List;
 public interface IScanCallback {
 	void onScanned(String[] pageUris);
 	void onError(Exception e);
+    void onCancelled();
 }

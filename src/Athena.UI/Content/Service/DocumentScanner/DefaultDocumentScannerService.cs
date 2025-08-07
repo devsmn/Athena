@@ -13,6 +13,7 @@ namespace Athena.UI
 
         private Action<string[]> _onScanned;
         private Action<Exception> _onError;
+        private Action _onCancelled;
         private readonly DocumentScannerWrapper _wrapper;
 
         public DefaultDocumentScannerService()
@@ -21,20 +22,27 @@ namespace Athena.UI
                 exception =>
                 {
                     _onError?.Invoke(exception);
+                    _onError = null;
                 },
                 imagePaths =>
                 {
                     _onScanned?.Invoke(imagePaths);
                     _onScanned = null;
+                },
+                () =>
+                {
+                    _onCancelled();
+                    _onCancelled = null;
                 });
 
             _wrapper = new DocumentScannerWrapper(callback);
         }
 
-        public void Launch(Action<string[]> scannedImagesPaths, Action<Exception> onError)
+        public void Launch(Action<string[]> scannedImagesPaths, Action<Exception> onError, Action onCancelled)
         {
             _onScanned = scannedImagesPaths;
             _onError = onError;
+            _onCancelled = onCancelled;
             _wrapper.LaunchScanner();
         }
 

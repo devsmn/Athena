@@ -308,11 +308,18 @@ namespace Athena.UI
 
                     // First, try google mlkit.
                     IDocumentScannerService scanner = Services.GetService<IDocumentScannerService>();
-                    bool isInstalled = false;
+
+                    TaskCompletionSource<bool> waitForScanner = new();
 
                     scanner.ValidateInstallation(
-                        flag => isInstalled = flag,
-                        error => context.Log(error));
+                        flag => waitForScanner.SetResult(flag),
+                        error =>
+                        {
+                            context.Log(error);
+                            waitForScanner.SetResult(false);
+                        });
+
+                    bool isInstalled = await waitForScanner.Task;
 
                     if (!isInstalled)
                     {
@@ -325,8 +332,6 @@ namespace Athena.UI
                         if (!canDownload)
                             return;
                     }
-
-                    bool success = true;
 
                     scanner.Launch(
                         imagePaths =>
@@ -354,9 +359,14 @@ namespace Athena.UI
                         {
                             context.Log(ex);
                             tcs.SetResult(false);
+                        },
+                        () =>
+                        {
+                            context.Log("User cancelled scanning");
+                            tcs.SetResult(true);
                         });
 
-                    success = await tcs.Task;
+                    bool success = await tcs.Task;
 
                     if (!success)
                     {

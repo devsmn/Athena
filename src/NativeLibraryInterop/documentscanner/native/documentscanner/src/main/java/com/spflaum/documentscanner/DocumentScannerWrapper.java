@@ -36,7 +36,9 @@ public class DocumentScannerWrapper {
 		this.launcher = this.activity.registerForActivityResult(
             new ActivityResultContracts.StartIntentSenderForResult(),
             result -> {
-                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                int resCode = result.getResultCode();
+
+                if (resCode == Activity.RESULT_OK && result.getData() != null) {
                     try {
                         GmsDocumentScanningResult res =
                             GmsDocumentScanningResult.fromActivityResultIntent(result.getData());
@@ -55,8 +57,11 @@ public class DocumentScannerWrapper {
                     } catch (Exception ex) {
                         callback.onError(ex);
                     }
-                } else {
-                    callback.onError(new RuntimeException("Scan canceled or failed."));
+                } else if (resCode == Activity.RESULT_CANCELED || result.getData() == null) {
+                    callback.onCancelled();
+                }
+                else {
+                    callback.onError(new RuntimeException("Scan failed, resCode: " + resCode));
                 }
             }
         );
@@ -71,7 +76,7 @@ public class DocumentScannerWrapper {
                 callback.onChecked(resp.areModulesAvailable());
             })
             .addOnFailureListener(callback::onError);
-        }
+    }
 
     public void launchScanner() {
         GmsDocumentScannerOptions options = retrieveOptions();
