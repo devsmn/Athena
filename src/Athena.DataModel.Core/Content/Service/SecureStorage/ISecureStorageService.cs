@@ -18,6 +18,13 @@
         Task<string> GetAsync(string alias);
 
         /// <summary>
+        /// Deletes the given alias.
+        /// </summary>
+        /// <param name="alias"></param>
+        /// <returns></returns>
+        void Delete(string alias);
+
+        /// <summary>
         /// Generates a secure, random key.
         /// </summary>
         /// <returns></returns>

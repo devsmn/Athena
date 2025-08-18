@@ -50,5 +50,10 @@ namespace Athena.Data.SQLite.Proxy
         {
             return Manager;
         }
+
+        public IDataIntegrityValidator RequestIntegrityValidator()
+        {
+            return Manager;
+        }
     }
 }

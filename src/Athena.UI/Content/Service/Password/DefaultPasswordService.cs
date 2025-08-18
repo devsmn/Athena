@@ -1,8 +1,9 @@
 ﻿using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 
 namespace Athena.UI
 {
-    internal class DefaultIPasswordService : IPasswordService
+    internal class DefaultPasswordService : IPasswordService
     {
         public async Task New(IContext context, Action<string> onNewPasswordEntered)
         {
@@ -19,7 +20,7 @@ namespace Athena.UI
             }
         }
 
-        public async Task Prompt(IContext context, bool isRetry, Action<string> passwordEntered)
+        public async Task Prompt(IContext context, bool isRetry, Action<string> passwordEntered, Action cancelled = null)
         {
             INavigationService navService = Services.GetService<INavigationService>();
 
@@ -33,14 +34,14 @@ namespace Athena.UI
                     "Enter password",
                     $"{preText}Enter your password to unlock your data",
                     "Unlock",
-                    "Close",
+                    Localization.Close,
                     Keyboard.Password);
             });
 
-            if (!string.IsNullOrEmpty(pw))
-            {
+            if (string.IsNullOrEmpty(pw))
+                cancelled?.Invoke();
+            else 
                 passwordEntered(pw);
-            }
         }
     }
 }

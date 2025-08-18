@@ -24,8 +24,13 @@ namespace Athena.Data.SQLite
         }
 
         public SqliteRepository(string cipher)
+            : this(cipher, Defines.DatabasePath)
         {
-            SQLiteConnectionString connectionString = new SQLiteConnectionString(Defines.DatabasePath, Defines.Flags, true, key: cipher);
+        }
+
+        internal SqliteRepository(string cipher, string db)
+        {
+            SQLiteConnectionString connectionString = new SQLiteConnectionString(db, SqlFlags.Flags, true, key: cipher);
             _database = new SQLiteAsyncConnection(connectionString);
         }
 
@@ -49,6 +54,23 @@ namespace Athena.Data.SQLite
 
             if (!IsValid)
                 throw new InvalidCipherException();
+        }
+
+        public async Task<bool> ValidateIntegrity(IContext context)
+        {
+            try
+            {
+                string result = await _database.ExecuteScalarAsync<string>("PRAGMA integrity_check;");
+                context.Log($"Database integrity check=[{result}]");
+
+                return string.Equals(result, "ok",  StringComparison.OrdinalIgnoreCase);
+            }
+            catch (Exception ex)
+            {
+                context.Log(ex);
+            }
+
+            return false;
         }
 
         /// <summary>

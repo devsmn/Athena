@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Style="{x:StaticResource ContentPageStyle}"
+             x:Class="Athena.UI.BackupSettingsView"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             Title="BackupSettingsView">
+
+    <VerticalStackLayout>
+        <sfb:SfButton
+            Text="Create backup"
+            Command="{Binding CreateBackupCommand}"
+            Style="{x:StaticResource PrimaryButtonFlat}"/>
+
+        <sfb:SfButton
+            Text="Restore backup"
+            Command="{Binding RestoreBackupCommand}"
+            Style="{x:StaticResource SecondaryButtonFlat}"/>
+    </VerticalStackLayout>
+</ContentPage>

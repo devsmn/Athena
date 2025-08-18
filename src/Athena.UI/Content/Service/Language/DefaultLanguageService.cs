@@ -20,7 +20,6 @@ namespace Athena.UI
                     return;
 
                 Application.Current.Windows[0].Page = new ContainerPage();
-                //App.InitializeData(); // TODO: fix
             }
             catch (Exception ex)
             {

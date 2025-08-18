@@ -8,5 +8,7 @@
         /// <param name="cipher"></param>
         /// <returns></returns>
         Task<bool> AuthenticateAsync(string cipher);
+
+        Task<bool> AuthenticateAsync(string cipher, string dbPath);
     }
 }

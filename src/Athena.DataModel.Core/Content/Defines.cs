@@ -1,17 +1,9 @@
-﻿using SQLite;
-
-namespace Athena.Data.SQLite
+﻿namespace Athena.DataModel.Core
 {
-    internal static class Defines
+    public static class Defines
     {
-        public static string Key { get; set; }
         public const string UnsafeDatabaseFileName = "athena_rc8.db3";
         public const string DatabaseFileName = "athena_encr.db3";
-
-        public const SQLiteOpenFlags Flags =
-            SQLiteOpenFlags.ReadWrite |
-            SQLiteOpenFlags.Create | 
-            SQLiteOpenFlags.SharedCache;
 
         /// <summary>
         /// Gets the path of the unencrypted, old database.

@@ -7,15 +7,17 @@ namespace Athena.DataModel.Core
     {
         public async Task SaveAsync(string alias, string key)
         {
-            Debug.WriteLine($"Storing alias {alias} = [{key}]");
             await SecureStorage.SetAsync(alias, key);
         }
 
         public async Task<string> GetAsync(string alias)
         {
-            string val = await SecureStorage.GetAsync(alias);
-            Debug.WriteLine($"Retrieved alias {alias} = [{val}]");
-            return val;
+            return await SecureStorage.GetAsync(alias);
+        }
+
+        public void Delete(string alias)
+        {
+            SecureStorage.Remove(alias);
         }
 
         public string GenerateRandomKey()

@@ -44,6 +44,22 @@ namespace Athena.DataModel.Core
             }
         }
 
+        public async Task DeleteAsync(IContext context)
+        {
+            ISecureStorageService service = Services.GetService<ISecureStorageService>();
+            string metaInfo = await service.GetAsync(Alias + Meta);
+
+            if (string.IsNullOrEmpty(metaInfo))
+                return;
+
+            string[] keys = metaInfo.Split(";", StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string dataKey in keys)
+            {
+                service.Delete(Alias + dataKey);
+            }
+        }
+
         public void Add(string name, byte[] data)
         {
             _data.Add(name, data);
@@ -99,6 +115,17 @@ namespace Athena.DataModel.Core
         {
             await _hardwareKeyStoreService.SaveAsync(context, alias, value);
             await StoreFallbackKeyAsync(context, alias, value, fallbackPin);
+        }
+
+        public async Task DeleteAsync(IContext context, string alias)
+        {
+            _hardwareKeyStoreService.Delete(context, alias);
+
+            EncryptionContext encryptionContext = new(alias);
+            await encryptionContext.DeleteAsync(context);
+
+            encryptionContext = new(alias + "_FALLBACK");
+            await encryptionContext.DeleteAsync(context);
         }
 
         public async Task<bool> ReadPrimaryAsync(

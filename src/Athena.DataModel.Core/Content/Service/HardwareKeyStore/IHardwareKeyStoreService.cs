@@ -1,4 +1,6 @@
-﻿namespace Athena.DataModel.Core
+﻿using Android.Graphics.Drawables;
+
+namespace Athena.DataModel.Core
 {
     /// <summary>
     /// Provides functionality to store crucial information protected by hardware-backed security.
@@ -17,6 +19,8 @@
         /// <param name="context"></param>
         /// <param name="alias"></param>
         void Initialize(IContext context, string alias);
+
+        void Delete(IContext context, string alias);
 
         /// <summary>
         /// Computes the HMAC for the given <paramref name="data"/>, using the hardware-backed provided AES key <paramref name="alias"/>.
