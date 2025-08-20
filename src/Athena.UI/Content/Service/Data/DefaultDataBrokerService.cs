@@ -1,15 +1,12 @@
 ﻿using System.Diagnostics;
 using Athena.DataModel;
 using Athena.DataModel.Core;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace Athena.UI
 {
     public class DefaultDataBrokerService : IDataBrokerService
     {
-        public event EventHandler<DataPublishedEventArgs> Published;
-        public event EventHandler AppInitialized;
-        public event EventHandler PublishStarted;
-
         private FolderViewModel _rootFolder;
 
         /// <inheritdoc />  
@@ -30,10 +27,15 @@ namespace Athena.UI
             RaisePublishStarted();
         }
 
+        private void RaisePublishStarted()
+        {
+            WeakReferenceMessenger.Default.Send<DataPublishStartedMessage>();
+        }
+
         /// <inheritdoc />  
         public void RaiseAppInitialized()
         {
-            AppInitialized?.Invoke(this, EventArgs.Empty);
+            WeakReferenceMessenger.Default.Send<AppInitializedMessage>();
         }
 
         /// <inheritdoc />  
@@ -84,15 +86,10 @@ namespace Athena.UI
                 syncContext);
         }
 
-        private void RaisePublishStarted()
-        {
-            PublishStarted?.Invoke(this, EventArgs.Empty);
-        }
-
         private void RaisePublished<TEntity>(IEnumerable<RequestUpdate<TEntity>> updates)
             where TEntity : Entity
         {
-            DataPublishedEventArgs args = new DataPublishedEventArgs();
+            DataPublishedArgs args = new DataPublishedArgs();
 
             foreach (RequestUpdate<TEntity> update in updates)
             {
@@ -113,25 +110,9 @@ namespace Athena.UI
                     default:
                         throw new InvalidOperationException();
                 }
-
             }
 
-            Debug.WriteLine($"Publishing to {Published?.GetInvocationList().Length} subscribers");
-
-            if (Published == null)
-                return;
-
-            // Reverse to start with the most recent sub.
-            // That way, when e.g. moving a document, we can let the related view model handle the action, if available.
-            // Otherwise, the chance is high that we traverse the documents of the root item and all subfolders
-            // of the loaded folders until we find the correct document.
-            List<Delegate> subs = Published.GetInvocationList().ToList();
-            subs.Reverse();
-
-            foreach (EventHandler<DataPublishedEventArgs> handler in subs)
-            {
-                handler.Invoke(this, args);
-            }
+            WeakReferenceMessenger.Default.Send(args);
         }
     }
 }

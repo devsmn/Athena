@@ -231,16 +231,6 @@
                                              AlignItems="Start"/>
                                     </chip:SfChipGroup.ChipLayout>
                                     <chip:SfChipGroup.ItemTemplate>
-                                        <!--<DataTemplate>
-                                    <StackLayout BackgroundColor="{Binding BackgroundColor}" >
-                                        <Label   Text="{Binding Name}" 
-                                                  TextColor="{Binding TextColor}"
-                                                  VerticalTextAlignment="Center"
-                                                  HorizontalTextAlignment="Center"
-                                                  Margin="14,5,14,5"
-                                                  VerticalOptions="Center" />
-                                    </StackLayout>
-                                </DataTemplate>-->
                                         <DataTemplate>
                                             <HorizontalStackLayout>
                                                 <chip:SfChip HeightRequest="30"  
@@ -253,13 +243,6 @@
                                         </DataTemplate>
                                     </chip:SfChipGroup.ItemTemplate>
                                 </chip:SfChipGroup>
-
-                                <!--<BoxView 
-                             Grid.Row="3"
-                             Grid.ColumnSpan="4"
-                             Color="LightGray"
-                             HeightRequest="0.5"
-                             HorizontalOptions="Fill"/>-->
                             </Grid>
                         </Border>
                     </Grid>

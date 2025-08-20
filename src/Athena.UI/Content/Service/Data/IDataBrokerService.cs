@@ -81,9 +81,5 @@ namespace Athena.UI
         /// </summary>
         /// <param name="folder"></param>
         void SetRootFolder(Folder folder);
-
-        event EventHandler PublishStarted;
-        event EventHandler<DataPublishedEventArgs> Published;
-        event EventHandler AppInitialized;
     }
 }

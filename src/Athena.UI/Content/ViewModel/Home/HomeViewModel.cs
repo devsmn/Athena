@@ -100,13 +100,13 @@ namespace Athena.UI
             return true;
         }
 
-        protected override void OnDataPublished(DataPublishedEventArgs e)
+        protected override void OnDataPublished(DataPublishedArgs data)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                if (e.Documents.Count > 0)
+                if (data.Documents.Count > 0)
                 {
-                    foreach (RequestUpdate<Document> update in e.Documents)
+                    foreach (RequestUpdate<Document> update in data.Documents)
                     {
                         if (update.Type == UpdateType.Add)
                         {
@@ -166,9 +166,9 @@ namespace Athena.UI
                     }
                 }
 
-                if (e.Tags.Count > 0)
+                if (data.Tags.Count > 0)
                 {
-                    HashSet<int> deletedTagIds = e.Tags
+                    HashSet<int> deletedTagIds = data.Tags
                         .Where(x => x.Type == UpdateType.Delete)
                         .Select(x => x.Entity.Id)
                         .ToHashSet();
@@ -262,7 +262,6 @@ namespace Athena.UI
                 $"useAdvancedScanner=[{prefService.GetUseAdvancedScanner()}]");
 
             context.Log(Environment.NewLine);
-
         }
 
         public new async Task InitializeAsync()
@@ -332,7 +331,7 @@ namespace Athena.UI
                 DataStore.Register(sqlProxy.Request<ITagRepository>(parameter));
 
                 context.Log("Initializing repositories");
-                await DataStore.InitializeAsync(context, () => Debug.WriteLine("Invalid cipher"));
+                await DataStore.InitializeAsync(context, () => context.Log("Invalid cipher"));
 
                 IDataBrokerService service = Services.GetService<IDataBrokerService>();
                 Folder rootFolder = GetRootFolder(context);

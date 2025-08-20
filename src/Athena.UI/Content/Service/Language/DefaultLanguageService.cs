@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
+using Application = Microsoft.Maui.Controls.Application;
+using Exception = System.Exception;
 
 namespace Athena.UI
 {

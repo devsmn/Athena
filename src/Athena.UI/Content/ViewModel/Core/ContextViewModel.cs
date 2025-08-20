@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics;
 using Athena.DataModel.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace Athena.UI
 {
-    public partial class ContextViewModel : ObservableObject, IDisposable
+    public partial class ContextViewModel : ObservableObject
     {
         [ObservableProperty]
         private bool _isBusy;
@@ -15,16 +16,10 @@ namespace Athena.UI
         public TaskCompletionSource DoneTcs { get; protected set; }
 
         public ContextViewModel()
-            : base()
         {
-            Services.GetService<IDataBrokerService>().Published += OnDataBrokerPublished;
-            Services.GetService<IDataBrokerService>().PublishStarted += OnDataBrokerPublishStarted;
-            Services.GetService<IDataBrokerService>().AppInitialized += OnDataBrokerAppInitialized;
-        }
-
-        private void OnDataBrokerAppInitialized(object sender, EventArgs e)
-        {
-            OnAppInitialized();
+            WeakReferenceMessenger.Default.Register<DataPublishedArgs>(this, (_, data) => OnDataPublished(data));
+            WeakReferenceMessenger.Default.Register<DataPublishStartedMessage>(this, (_, _) => OnPublishDataStarted());
+            WeakReferenceMessenger.Default.Register<AppInitializedMessage>(this, (_, _) => OnAppInitialized());
         }
 
         protected virtual void OnAppInitialized()
@@ -32,22 +27,12 @@ namespace Athena.UI
             // Nothing to do.
         }
 
-        private void OnDataBrokerPublishStarted(object sender, EventArgs e)
-        {
-            OnPublishDataStarted();
-        }
-
         protected virtual void OnPublishDataStarted()
         {
             // Nothing to do.
         }
 
-        private void OnDataBrokerPublished(object sender, DataPublishedEventArgs e)
-        {
-            OnDataPublished(e);
-        }
-
-        protected virtual void OnDataPublished(DataPublishedEventArgs e)
+        protected virtual void OnDataPublished(DataPublishedArgs data)
         {
             //  Nothing to do.
         }
@@ -115,21 +100,6 @@ namespace Athena.UI
                 cancel,
                 destruction,
                 buttons);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Services.GetService<IDataBrokerService>().Published -= OnDataBrokerPublished;
-                Services.GetService<IDataBrokerService>().PublishStarted -= OnDataBrokerPublishStarted;
-                Services.GetService<IDataBrokerService>().AppInitialized -= OnDataBrokerAppInitialized;
-            }
         }
 
         protected async Task ExecuteAsyncBackgroundAction(Func<IContext, Task> action)
