@@ -20,6 +20,11 @@ namespace Athena.DataModel.Core
         /// <param name="alias"></param>
         void Initialize(IContext context, string alias);
 
+        /// <summary>
+        /// Deletes the entries related to the given <paramref name="alias"/>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="alias"></param>
         void Delete(IContext context, string alias);
 
         /// <summary>

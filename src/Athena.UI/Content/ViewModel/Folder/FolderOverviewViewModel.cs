@@ -1,11 +1,11 @@
-﻿using Athena.Resources.Localization;
+﻿using Athena.DataModel;
+using Athena.DataModel.Core;
+using Athena.Resources.Localization;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Syncfusion.TreeView.Engine;
-using Athena.DataModel.Core;
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
-using Athena.DataModel;
 
 namespace Athena.UI
 {

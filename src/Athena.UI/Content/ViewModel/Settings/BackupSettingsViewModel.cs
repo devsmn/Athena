@@ -1,7 +1,6 @@
-﻿using Android.Telephony;
+﻿using Android.Views;
 using Athena.Data.Core;
 using Athena.Data.SQLite.Proxy;
-using Athena.DataModel;
 using Athena.DataModel.Core;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
@@ -19,7 +18,6 @@ namespace Athena.UI
         [RelayCommand]
         private async Task RestoreBackup()
         {
-            IContext context = RetrieveContext();
             IBackupService backupService = Services.GetService<IBackupService>();
 
             PickOptions options = new();
@@ -28,10 +26,21 @@ namespace Athena.UI
 
             if (result != null)
             {
-                BackupRestoreResult restoreResult = await backupService.Restore(
-                    context,
-                    result.FullPath,
-                    RequireUserConfirmation);
+                BackupRestoreResult restoreResult = null;
+
+                await ExecuteAsyncBackgroundAction(async context =>
+                {
+                    await Task.Delay(200);
+
+                    restoreResult = await backupService.Restore(
+                        context,
+                        result.FullPath,
+                        RequireUserConfirmation,
+                        (show) => MainThread.InvokeOnMainThreadAsync(() => IsBusy = show));
+                });
+                
+
+                IsBusy = false;
 
                 if (restoreResult.IsSuccess)
                 {

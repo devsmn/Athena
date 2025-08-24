@@ -674,4 +674,17 @@ Du kannst dich gegen die Verwendung des fortschrittlichen Scanners entscheiden u
   <data name="SettingsDocumentScanner" xml:space="preserve">
     <value>Verwalte den Dokumentenscanner</value>
   </data>
+  <data name="BackupDesc" xml:space="preserve">
+    <value>Ein Backup enthält alle deine relevanten Daten, einschließlich Dokumenten und deren Inhalt, Ordner und deren Struktur sowie Tags und deren Verknüpfung mit Dokumenten.
+Backups können jederzeit erstellt werden und später auf demselben oder einem anderen Gerät wiederhergestellt werden.</value>
+  </data>
+  <data name="BackupTitle" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Wiederherstellen</value>
+  </data>
 </root>
