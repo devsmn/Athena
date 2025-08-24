@@ -8,8 +8,8 @@ namespace Athena.UI
         {
             vm.PrefService.SetFirstUsage();
             vm.PrefService.SetName(vm.Name);
-            vm.LanguageService.SetLanguage(context, vm.SelectedLanguage.Id, true);
             vm.PrefService.SetLastTermsOfUseVersion(IPreferencesService.ToSVersion);
+            vm.LanguageService.SetLanguage(context, vm.SelectedLanguage.Id, true);
         }
     }
 }

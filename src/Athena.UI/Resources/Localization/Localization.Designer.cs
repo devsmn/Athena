@@ -115,6 +115,25 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A backup contains all of your essential data, including documents and their content, folders and their structure and tags and their associations with documents.
+        ///Backups can be created at any time and later restored on the same or on another device..
+        /// </summary>
+        public static string BackupDesc {
+            get {
+                return ResourceManager.GetString("BackupDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup.
+        /// </summary>
+        public static string BackupTitle {
+            get {
+                return ResourceManager.GetString("BackupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -147,6 +166,15 @@ namespace Athena.Resources.Localization {
         public static string Close {
             get {
                 return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Create {
+            get {
+                return ResourceManager.GetString("Create", resourceCulture);
             }
         }
         
@@ -1200,6 +1228,15 @@ namespace Athena.Resources.Localization {
         public static string RecentDocuments {
             get {
                 return ResourceManager.GetString("RecentDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore.
+        /// </summary>
+        public static string Restore {
+            get {
+                return ResourceManager.GetString("Restore", resourceCulture);
             }
         }
         

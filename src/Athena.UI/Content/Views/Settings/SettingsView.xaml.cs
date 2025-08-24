@@ -50,4 +50,9 @@ public partial class SettingsView : ContentPage
     {
         await Navigation.PushModalAsync(new DocumentScannerTypeSettingsView());
     }
+
+    private async void OnBackupClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushModalAsync(new BackupSettingsView());
+    }
 }

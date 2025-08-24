@@ -664,4 +664,17 @@ You can opt out of the advanced scanner and use the legacy scanner instead, whic
   <data name="SettingsDocumentScannerDesc" xml:space="preserve">
     <value>Manager document scanner related settings</value>
   </data>
+  <data name="BackupDesc" xml:space="preserve">
+    <value>A backup contains all of your essential data, including documents and their content, folders and their structure and tags and their associations with documents.
+Backups can be created at any time and later restored on the same or on another device.</value>
+  </data>
+  <data name="BackupTitle" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
 </root>

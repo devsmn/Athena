@@ -46,6 +46,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -336,6 +337,42 @@
                                        Margin="10,0,10,3"/>
 
                                 <Label Text="{x:Static loc:Localization.SettingsDocumentScannerDesc}"
+                                       FontSize="12"
+                                       Margin="10,0,10,5"/>
+
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </sfb:SfButton.Content>
+                </sfb:SfButton>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 5" 
+                    BackgroundColor="White" 
+                    Margin="5"
+                    Grid.Row="4"
+                    Grid.Column="0">
+                <sfb:SfButton Clicked="OnBackupClicked"
+                              HorizontalTextAlignment="Start"
+                              Background="Transparent"
+                              StrokeThickness="0">
+                    <sfb:SfButton.Content>
+                        <DataTemplate>
+                            <VerticalStackLayout>
+                                <ffimageloading:CachedImage 
+                                    LoadingPlaceholder="image_placeholder.png"
+                                    FadeAnimationForCachedImages="False"
+                                    HorizontalOptions="Start"
+                                    FadeAnimationEnabled="False"
+                                    HeightRequest="24"
+                                    Margin="10,5,5,5"
+                                    WidthRequest="24"
+                                    Source="scan.png"/>
+
+                                <Label Text="Backup" 
+                                       FontAttributes="Bold"
+                                       Margin="10,0,10,3"/>
+
+                                <Label Text="Create and restore backups"
                                        FontSize="12"
                                        Margin="10,0,10,5"/>
 

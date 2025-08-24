@@ -31,20 +31,11 @@ namespace Athena.UI
             languageService.SetLanguage(new AthenaAppContext(), lan, false);
 
             InitializeComponent();
-            Current.ModalPopped += CurrentOnModalPopped;
         }
 
         protected override Window CreateWindow(IActivationState activationState)
         {
             return new Window(new ContainerPage());
-        }
-
-        private void CurrentOnModalPopped(object sender, ModalPoppedEventArgs e)
-        {
-            if (e.Modal?.BindingContext is not ContextViewModel vm)
-                return;
-
-            vm.Dispose();
         }
     }
 }

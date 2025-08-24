@@ -16,7 +16,8 @@
         /// <param name="context"></param>
         /// <param name="isRetry"></param>
         /// <param name="passwordEntered"></param>
+        /// <param name="cancelled"></param>
         /// <returns></returns>
-        Task Prompt(IContext context, bool isRetry, Action<string> passwordEntered);
+        Task Prompt(IContext context, bool isRetry, Action<string> passwordEntered, Action cancelled = null);
     }
 }

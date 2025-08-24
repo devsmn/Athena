@@ -1,11 +1,11 @@
-﻿using Athena.Resources.Localization;
+﻿using Athena.DataModel;
+using Athena.DataModel.Core;
+using Athena.Resources.Localization;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Syncfusion.TreeView.Engine;
-using Athena.DataModel.Core;
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
-using Athena.DataModel;
 
 namespace Athena.UI
 {
@@ -102,18 +102,18 @@ namespace Athena.UI
             IsBusy = true;
         }
 
-        protected override void OnDataPublished(DataPublishedEventArgs e)
+        protected override void OnDataPublished(DataPublishedArgs data)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 IsBusy = true;
 
-                if (e.Folders.Count > 0)
-                    ProcessFolderUpdate(e.Folders);
-                if (e.Documents.Count > 0)
-                    ProcessDocumentUpdate(e.Documents);
-                if (e.Tags.Count > 0)
-                    ProcessTagsUpdate(e.Tags);
+                if (data.Folders.Count > 0)
+                    ProcessFolderUpdate(data.Folders);
+                if (data.Documents.Count > 0)
+                    ProcessDocumentUpdate(data.Documents);
+                if (data.Tags.Count > 0)
+                    ProcessTagsUpdate(data.Tags);
 
                 IsBusy = false;
             });

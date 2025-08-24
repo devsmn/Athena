@@ -1,4 +1,6 @@
-﻿namespace Athena.DataModel.Core
+﻿using Android.Graphics.Drawables;
+
+namespace Athena.DataModel.Core
 {
     public interface IDataEncryptionService
     {
@@ -38,13 +40,20 @@
         Task SaveAsync(IContext context, string alias, string value, string fallbackPin);
 
         /// <summary>
+        /// Deletes the given alias from the primary and fallback source.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="alias"></param>
+        /// <returns></returns>
+        Task DeleteAsync(IContext context, string alias);
+
+        /// <summary>
         /// Reads the database cipher while authorizing against the primary source (biometrics).
         /// </summary>
         /// <param name="onSuccess"></param>
         /// <param name="onError"></param>
         /// <returns></returns>
         Task<bool> ReadPrimaryAsync(IContext context, string alias, Action<string> onSuccess, Action<string> onError);
-
 
         /// <summary>
         /// Reads the database cipher while validating against the fallback source (PIN).

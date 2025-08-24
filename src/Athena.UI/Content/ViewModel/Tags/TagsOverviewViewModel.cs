@@ -69,14 +69,14 @@ namespace Athena.UI
             });
         }
 
-        protected override void OnDataPublished(DataPublishedEventArgs e)
+        protected override void OnDataPublished(DataPublishedArgs data)
         {
-            if (!e.Tags.Any() || _tags == null)
+            if (!data.Tags.Any() || _tags == null)
                 return;
 
             Application.Current.Dispatcher.Dispatch(() =>
             {
-                foreach (RequestUpdate<Tag> tag in e.Tags)
+                foreach (RequestUpdate<Tag> tag in data.Tags)
                 {
                     if (tag.Type == UpdateType.Edit)
                     {

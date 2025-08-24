@@ -6,13 +6,5 @@
         {
             InitializeComponent();
         }
-
-        private void NavigationPage_OnPopped(object sender, NavigationEventArgs e)
-        {
-            if (e.Page.BindingContext is not ContextViewModel vm)
-                return;
-
-            vm.Dispose();
-        }
     }
 }

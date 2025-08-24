@@ -39,14 +39,14 @@ namespace Athena.UI
 
         public ContentPage View { get; set; }
 
-        protected override void OnDataPublished(DataPublishedEventArgs e)
+        protected override void OnDataPublished(DataPublishedArgs data)
         {
-            if (!e.Tags.Any() || _tags == null)
+            if (!data.Tags.Any() || _tags == null)
                 return;
 
             Application.Current.Dispatcher.Dispatch(() =>
             {
-                foreach (RequestUpdate<Tag> tagUpdate in e.Tags)
+                foreach (RequestUpdate<Tag> tagUpdate in data.Tags)
                 {
                     Tags.Process(tagUpdate);
 

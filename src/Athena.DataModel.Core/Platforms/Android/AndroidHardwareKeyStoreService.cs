@@ -86,6 +86,33 @@ namespace Athena.DataModel.Core.Platforms.Android
             GenerateHmacKey(alias + "_FALLBACK" + EncryptionContext.Hmac);
         }
 
+        public void Delete(IContext context, string alias)
+        {
+            if (!BiometricsAvailable())
+                return;
+
+            try
+            {
+                KeyStore keyStore = KeyStore.GetInstance(AndroidKeyStore);
+                keyStore.Load(null);
+                DeleteEntryCore(keyStore, alias);
+                DeleteEntryCore(keyStore, alias + EncryptionContext.Hmac);
+                DeleteEntryCore(keyStore, alias + "_FALLBACK" + EncryptionContext.Hmac);
+            }
+            catch (Exception ex)
+            {
+                context.Log(ex);
+            }
+        }
+
+        private void DeleteEntryCore(KeyStore store, string alias)
+        {
+            if (!store.ContainsAlias(alias))
+                return;
+
+            store.DeleteEntry(alias);
+        }
+
         public void GenerateKey(string alias)
         {
             if (!BiometricsAvailable())

@@ -5,7 +5,7 @@ using SQLite;
 
 namespace Athena.Data.SQLite
 {
-    internal class SqliteManager : IDataProviderPatcher, IDataProviderAuthenticator
+    internal class SqliteManager : IDataProviderPatcher, IDataProviderAuthenticator, IDataIntegrityValidator
     {
         public void RegisterPatches(ICompatibilityService compatService)
         {
@@ -102,9 +102,14 @@ namespace Athena.Data.SQLite
 
         public async Task<bool> AuthenticateAsync(string cipher)
         {
+            return await AuthenticateAsync(cipher, Defines.DatabasePath);
+        }
+
+        public async Task<bool> AuthenticateAsync(string cipher, string dbPath)
+        {
             try
             {
-                SqliteRepository repo = new SqliteRepository(cipher);
+                SqliteRepository repo = new SqliteRepository(cipher, dbPath);
                 await repo.ValidateConnection();
 
                 return repo.IsValid;
@@ -112,6 +117,21 @@ namespace Athena.Data.SQLite
             catch (Exception ex)
             {
                 return false;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> ValidateAsync(IContext context, string cipher, string db)
+        {
+            try
+            {
+                SqliteRepository repo = new SqliteRepository(cipher, db);
+                return await repo.ValidateIntegrity(context);
+            }
+            catch (Exception ex)
+            {
+                context.Log(ex);
             }
 
             return false;

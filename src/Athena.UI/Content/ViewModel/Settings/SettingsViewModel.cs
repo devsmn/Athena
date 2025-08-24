@@ -49,7 +49,6 @@ namespace Athena.UI
             }
 
             _languageService.SetLanguage(RetrieveContext(), SelectedLanguage.Id, true);
-
             await Toast.Make("Successfully changed the language").Show();
         }
     }

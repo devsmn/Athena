@@ -8,9 +8,7 @@
             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
             android:TabbedPage.ToolbarPlacement="Bottom" >
     <NavigationPage Title="Home" 
-                    IconImageSource="home.png" 
-                    
-                    Popped="NavigationPage_OnPopped">
+                    IconImageSource="home.png">
         <x:Arguments>
             <local:HomeView NavigationPage.HasNavigationBar="False"  />
         </x:Arguments>

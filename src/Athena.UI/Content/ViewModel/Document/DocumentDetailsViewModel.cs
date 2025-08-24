@@ -83,11 +83,11 @@ namespace Athena.UI
             });
         }
 
-        protected override void OnDataPublished(DataPublishedEventArgs e)
+        protected override void OnDataPublished(DataPublishedArgs data)
         {
-            if (e.Documents.Any())
+            if (data.Documents.Any())
             {
-                RequestUpdate<Document> updateDoc = e.Documents.FirstOrDefault(x => x.Entity.Id == Document.Document.Id);
+                RequestUpdate<Document> updateDoc = data.Documents.FirstOrDefault(x => x.Entity.Id == Document.Document.Id);
 
                 if (updateDoc != null)
                 {
@@ -98,9 +98,9 @@ namespace Athena.UI
                 }
             }
 
-            if (e.Tags.Any())
+            if (data.Tags.Any())
             {
-                foreach (RequestUpdate<Tag> update in e.Tags)
+                foreach (RequestUpdate<Tag> update in data.Tags)
                 {
                     AllTags.Process(update);
                 }

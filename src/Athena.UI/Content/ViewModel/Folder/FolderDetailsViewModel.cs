@@ -25,9 +25,9 @@ namespace Athena.UI
         [ObservableProperty]
         private bool _isBusy;
 
-        protected override void OnDataPublished(DataPublishedEventArgs e)
+        protected override void OnDataPublished(DataPublishedArgs data)
         {
-            RequestUpdate<Folder> folderUpdate = e.Folders.FirstOrDefault(x => x.Entity == Folder.Folder);
+            RequestUpdate<Folder> folderUpdate = data.Folders.FirstOrDefault(x => x.Entity == Folder.Folder);
 
             if (folderUpdate == null)
                 return;

@@ -249,6 +249,9 @@
     <MauiXaml Update="Content\Views\Search\SearchResultView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Content\Views\Settings\BackupSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Content\Views\Settings\DocumentScannerTypeSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
