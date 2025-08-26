@@ -2,7 +2,7 @@
 name: Improvement
 about: Suggest an improvement for an existing feature
 title: ''
-labels: enhancement, needs-label
+labels: improvement, needs-label
 assignees: ''
 
 ---
