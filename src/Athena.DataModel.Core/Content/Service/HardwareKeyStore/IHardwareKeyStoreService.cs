@@ -56,5 +56,11 @@ namespace Athena.DataModel.Core
         /// </summary>
         /// <param name="onError"></param>
         Task<byte[]> GetAsync(IContext context, string alias, EncryptionContext encryptionContext, Action<string> onError);
+
+        /// <summary>
+        /// Determines whether biometric authentication is available on this device.
+        /// </summary>
+        /// <returns></returns>
+        bool BiometricsAvailable();
     }
 }

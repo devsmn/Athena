@@ -79,6 +79,14 @@
         <Setter Property="CornerRadius" Value="16" />
     </Style>
 
+    <Style TargetType="sfb:SfButton" x:Key="ListButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="ImageSource" Value="next.png" />
+        <Setter Property="ShowIcon" Value="true" />
+        <Setter Property="ImageAlignment" Value="End" />
+        <Setter Property="HorizontalTextAlignment" Value="Start" />
+    </Style>
+
     <Style TargetType="sfb:SfButton" x:Key="PrimaryButton"
            BasedOn="{StaticResource PrimaryButtonFlat}">
         <Setter Property="StrokeThickness" Value="0" />

@@ -10,49 +10,4 @@ public partial class SettingsView : ContentPage
         InitializeComponent();
         versionLabel.Text = $"{AppInfo.Current.Name} {AppInfo.Current.VersionString}-{AppInfo.Current.BuildString}";
     }
-
-    private async void OnChangelogClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/app_changelog/"));
-    }
-
-    private async void OnPrivacyPolicyClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/privacy/"));
-    }
-
-    private async void OnTermsOfUseClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/tos/"));
-    }
-
-    private async void OnCopyrightClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/copyright/"));
-    }
-
-    private async void OnHelpClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/app_help/"));
-    }
-
-    private async void OnFeedbackClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new WebViewPage("https://forms.gle/SDAERdx1JGny77EZ7"));
-    }
-
-    private async void OnOcrLanguagesClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new OcrLanguageSettings());
-    }
-
-    private async void OnDocumentScannerClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new DocumentScannerTypeSettingsView());
-    }
-
-    private async void OnBackupClicked(object sender, EventArgs e)
-    {
-        await Navigation.PushModalAsync(new BackupSettingsView());
-    }
 }

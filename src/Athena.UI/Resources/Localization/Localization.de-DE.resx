@@ -687,4 +687,19 @@ Backups können jederzeit erstellt werden und später auf demselben oder einem a
   <data name="Restore" xml:space="preserve">
     <value>Wiederherstellen</value>
   </data>
+  <data name="SettingsBackupDesc" xml:space="preserve">
+    <value>Backups erstellen und wiederherstellen</value>
+  </data>
+  <data name="SettingsBackupTitle" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="BiometricsNotAvailable" xml:space="preserve">
+    <value>Die biometrische Authentifizierung ist auf diesem Gerät nicht verfügbar</value>
+  </data>
+  <data name="SettingsSecurityDesc" xml:space="preserve">
+    <value>Verwalte dein Password und die biometrische Authentifizierung</value>
+  </data>
+  <data name="SettingsSecurityTitle" xml:space="preserve">
+    <value>Sicherheit</value>
+  </data>
 </root>

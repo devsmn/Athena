@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\version.props" />
   <PropertyGroup>
     <TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -93,6 +93,21 @@
 
     <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AndroidResource Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <AndroidResource Remove="Content\Views\Settings\NewFolder\**" />
+    <Compile Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <Compile Remove="Content\Views\Settings\NewFolder\**" />
+    <EmbeddedResource Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <EmbeddedResource Remove="Content\Views\Settings\NewFolder\**" />
+    <MauiCss Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <MauiCss Remove="Content\Views\Settings\NewFolder\**" />
+    <MauiXaml Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <MauiXaml Remove="Content\Views\Settings\NewFolder\**" />
+    <None Remove="Content\ViewModel\Settings\NewFolder\**" />
+    <None Remove="Content\Views\Settings\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -258,6 +273,9 @@
     <MauiXaml Update="Content\Views\Settings\OcrLanguageSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Content\Views\Settings\Security\SecuritySettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Content\Views\Settings\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -318,6 +336,9 @@
   <ItemGroup>
     <Compile Update="Content\Views\Settings\DocumentScannerTypeSettingsView.xaml.cs">
       <DependentUpon>DocumentScannerTypeSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Content\Views\Settings\Security\SecuritySettingsView.xaml.cs">
+      <DependentUpon>SecuritySettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Resources\Localization\Localization.Designer.cs">
       <DesignTime>True</DesignTime>

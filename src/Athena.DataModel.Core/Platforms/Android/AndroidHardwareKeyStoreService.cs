@@ -59,7 +59,7 @@ namespace Athena.DataModel.Core.Platforms.Android
         private const string AndroidKeyStore = "AndroidKeyStore";
         private bool? _biometricsAvailable;
 
-        private bool BiometricsAvailable()
+        public bool BiometricsAvailable()
         {
             if (_biometricsAvailable != null)
                 return _biometricsAvailable.Value;

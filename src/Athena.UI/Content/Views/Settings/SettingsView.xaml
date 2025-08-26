@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Athena.UI.SettingsView"
              Style="{StaticResource ContentPageStyle}"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -41,28 +42,22 @@
 
         <Grid Grid.Row="2"
               Grid.ColumnSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="0.5*"/>
-            </Grid.ColumnDefinitions>
+            <sf:SfListView
+                SelectionMode="Single"
+                AutoFitMode="DynamicHeight"
+                SelectionChangedCommand="{Binding ItemClickedCommand}"
+                SelectedItem="{Binding SelectedSetting}"
+                ItemsSource="{Binding SettingsItems}">
+                <sf:SfListView.ItemsLayout>
+                    <sf:GridLayout SpanCount="2" />
+                </sf:SfListView.ItemsLayout>
 
-            <Border StrokeShape="RoundRectangle 5" 
-                    BackgroundColor="White" 
-                    Margin="5">
-                <sfb:SfButton Clicked="OnPrivacyPolicyClicked"
-                              HorizontalTextAlignment="Start"
-                              Background="Transparent"
-                              StrokeThickness="0">
-                    <sfb:SfButton.Content>
-                        <DataTemplate>
+                <sf:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeShape="RoundRectangle 5" 
+                                BackgroundColor="White" 
+                                Margin="5">
                             <VerticalStackLayout>
                                 <ffimageloading:CachedImage 
                                     LoadingPlaceholder="image_placeholder.png"
@@ -72,315 +67,23 @@
                                     HeightRequest="24"
                                     Margin="10,5,5,5"
                                     WidthRequest="24"
-                                    Source="privacy.png"/>
+                                    Source="{Binding ImageSource}"/>
 
-                                <Label Text="{x:Static loc:Localization.SettingsPrivacyPolicyTitle}" 
+                                <Label Text="{Binding Title}" 
                                        FontAttributes="Bold"
                                        Margin="10,0,10,3"/>
 
-                                <Label Text="{x:Static loc:Localization.SettingsPrivacyPolicyDesc}"
+                                <Label Text="{Binding Description}" 
                                        FontSize="12"
                                        Margin="10,0,10,5"/>
 
 
                             </VerticalStackLayout>
-                        </DataTemplate>
-                    </sfb:SfButton.Content>
-                </sfb:SfButton>
-            </Border>
-
-            <Border StrokeShape="RoundRectangle 5" 
-                    BackgroundColor="White" 
-                    Margin="5"
-                    Grid.Row="0"
-                    Grid.Column="1">
-                <sfb:SfButton Clicked="OnTermsOfUseClicked"
-                              HorizontalTextAlignment="Start"
-                              Background="Transparent"
-                              StrokeThickness="0">
-                    <sfb:SfButton.Content>
-                        <DataTemplate>
-                            <VerticalStackLayout>
-                                <ffimageloading:CachedImage 
-                                    LoadingPlaceholder="image_placeholder.png"
-                                    FadeAnimationForCachedImages="False"
-                                    HorizontalOptions="Start"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="24"
-                                    Margin="10,5,5,5"
-                                    WidthRequest="24"
-                                    Source="terms_and_conditions.png"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsTermsOfUseTitle}" 
-                                       FontAttributes="Bold"
-                                       Margin="10,0,10,3"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsTermsOfUseDesc}"
-                                       FontSize="12"
-                                       Margin="10,0,10,5"/>
-
-
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </sfb:SfButton.Content>
-                </sfb:SfButton>
-            </Border>
-
-            <Border StrokeShape="RoundRectangle 5" 
-                    BackgroundColor="White" 
-                    Margin="5"
-                    Grid.Row="1"
-                    Grid.Column="0">
-                <sfb:SfButton Clicked="OnCopyrightClicked"
-                              HorizontalTextAlignment="Start"
-                              Background="Transparent"
-                              StrokeThickness="0">
-                    <sfb:SfButton.Content>
-                        <DataTemplate>
-                            <VerticalStackLayout>
-                                <ffimageloading:CachedImage 
-                                    LoadingPlaceholder="image_placeholder.png"
-                                    FadeAnimationForCachedImages="False"
-                                    HorizontalOptions="Start"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="24"
-                                    Margin="10,5,5,5"
-                                    WidthRequest="24"
-                                    Source="copyright.png"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsCopyrightTitle}" 
-                                       FontAttributes="Bold"
-                                       Margin="10,0,10,3"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsCopyrightDesc}"
-                                       FontSize="12"
-                                       Margin="10,0,10,5"/>
-
-
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </sfb:SfButton.Content>
-                </sfb:SfButton>
-            </Border>
-
-            <Border StrokeShape="RoundRectangle 5" 
-                    BackgroundColor="White" 
-                    Margin="5"
-                    Grid.Row="1"
-                    Grid.Column="1">
-                <sfb:SfButton Clicked="OnChangelogClicked"
-                              HorizontalTextAlignment="Start"
-                              Background="Transparent"
-                              StrokeThickness="0">
-                    <sfb:SfButton.Content>
-                        <DataTemplate>
-                            <VerticalStackLayout>
-                                <ffimageloading:CachedImage 
-                                    LoadingPlaceholder="image_placeholder.png"
-                                    FadeAnimationForCachedImages="False"
-                                    HorizontalOptions="Start"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="24"
-                                    Margin="10,5,5,5"
-                                    WidthRequest="24"
-                                    Source="news.png"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsNewsTitle}" 
-                                       FontAttributes="Bold"
-                                       Margin="10,0,10,3"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsNewsDesc}"
-                                       FontSize="12"
-                                       Margin="10,0,10,5"/>
-
-
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </sfb:SfButton.Content>
-                </sfb:SfButton>
-            </Border>
-
-            <Border StrokeShape="RoundRectangle 5" 
-                    BackgroundColor="White" 
-                    Margin="5"
-                    Grid.Row="2"
-                    Grid.Column="0">
-                <sfb:SfButton Clicked="OnHelpClicked"
-                              HorizontalTextAlignment="Start"
-                              Background="Transparent"
-                              StrokeThickness="0">
-                    <sfb:SfButton.Content>
-                        <DataTemplate>
-                            <VerticalStackLayout>
-                                <ffimageloading:CachedImage 
-                                    LoadingPlaceholder="image_placeholder.png"
-                                    FadeAnimationForCachedImages="False"
-                                    HorizontalOptions="Start"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="24"
-                                    Margin="10,5,5,5"
-                                    WidthRequest="24"
-                                    Source="help.png"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsHelpTitle}" 
-                                       FontAttributes="Bold"
-                                       Margin="10,0,10,3"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsHelpDesc}"
-                                       FontSize="12"
-                                       Margin="10,0,10,5"/>
-
-
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </sfb:SfButton.Content>
-                </sfb:SfButton>
-            </Border>
-
-            <Border StrokeShape="RoundRectangle 5" 
-                    BackgroundColor="White" 
-                    Margin="5"
-                    Grid.Row="2"
-                    Grid.Column="1">
-                <sfb:SfButton Clicked="OnFeedbackClicked"
-                              HorizontalTextAlignment="Start"
-                              Background="Transparent"
-                              StrokeThickness="0">
-                    <sfb:SfButton.Content>
-                        <DataTemplate>
-                            <VerticalStackLayout>
-                                <ffimageloading:CachedImage 
-                                    LoadingPlaceholder="image_placeholder.png"
-                                    FadeAnimationForCachedImages="False"
-                                    HorizontalOptions="Start"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="24"
-                                    Margin="10,5,5,5"
-                                    WidthRequest="24"
-                                    Source="feedback.png"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsFeedbackTitle}" 
-                                       FontAttributes="Bold"
-                                       Margin="10,0,10,3"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsFeedbackDesc}"
-                                       FontSize="12"
-                                       Margin="10,0,10,5"/>
-
-
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </sfb:SfButton.Content>
-                </sfb:SfButton>
-            </Border>
-
-            <Border StrokeShape="RoundRectangle 5" 
-                    BackgroundColor="White" 
-                    Margin="5"
-                    Grid.Row="3"
-                    Grid.Column="0">
-                <sfb:SfButton Clicked="OnOcrLanguagesClicked"
-                              HorizontalTextAlignment="Start"
-                              Background="Transparent"
-                              StrokeThickness="0">
-                    <sfb:SfButton.Content>
-                        <DataTemplate>
-                            <VerticalStackLayout>
-                                <ffimageloading:CachedImage 
-                                    LoadingPlaceholder="image_placeholder.png"
-                                    FadeAnimationForCachedImages="False"
-                                    HorizontalOptions="Start"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="24"
-                                    Margin="10,5,5,5"
-                                    WidthRequest="24"
-                                    Source="ocr.png"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsOcrTitle}" 
-                                       FontAttributes="Bold"
-                                       Margin="10,0,10,3"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsOcrDesc}"
-                                       FontSize="12"
-                                       Margin="10,0,10,5"/>
-
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </sfb:SfButton.Content>
-                </sfb:SfButton>
-            </Border>
-
-            <Border StrokeShape="RoundRectangle 5" 
-                    BackgroundColor="White" 
-                    Margin="5"
-                    Grid.Row="3"
-                    Grid.Column="1">
-                <sfb:SfButton Clicked="OnDocumentScannerClicked"
-                              HorizontalTextAlignment="Start"
-                              Background="Transparent"
-                              StrokeThickness="0">
-                    <sfb:SfButton.Content>
-                        <DataTemplate>
-                            <VerticalStackLayout>
-                                <ffimageloading:CachedImage 
-                                    LoadingPlaceholder="image_placeholder.png"
-                                    FadeAnimationForCachedImages="False"
-                                    HorizontalOptions="Start"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="24"
-                                    Margin="10,5,5,5"
-                                    WidthRequest="24"
-                                    Source="scan.png"/>
-
-                                <Label Text="{x:Static loc:Localization.DocumentScanner}" 
-                                       FontAttributes="Bold"
-                                       Margin="10,0,10,3"/>
-
-                                <Label Text="{x:Static loc:Localization.SettingsDocumentScannerDesc}"
-                                       FontSize="12"
-                                       Margin="10,0,10,5"/>
-
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </sfb:SfButton.Content>
-                </sfb:SfButton>
-            </Border>
-
-            <Border StrokeShape="RoundRectangle 5" 
-                    BackgroundColor="White" 
-                    Margin="5"
-                    Grid.Row="4"
-                    Grid.Column="0">
-                <sfb:SfButton Clicked="OnBackupClicked"
-                              HorizontalTextAlignment="Start"
-                              Background="Transparent"
-                              StrokeThickness="0">
-                    <sfb:SfButton.Content>
-                        <DataTemplate>
-                            <VerticalStackLayout>
-                                <ffimageloading:CachedImage 
-                                    LoadingPlaceholder="image_placeholder.png"
-                                    FadeAnimationForCachedImages="False"
-                                    HorizontalOptions="Start"
-                                    FadeAnimationEnabled="False"
-                                    HeightRequest="24"
-                                    Margin="10,5,5,5"
-                                    WidthRequest="24"
-                                    Source="scan.png"/>
-
-                                <Label Text="Backup" 
-                                       FontAttributes="Bold"
-                                       Margin="10,0,10,3"/>
-
-                                <Label Text="Create and restore backups"
-                                       FontSize="12"
-                                       Margin="10,0,10,5"/>
-
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </sfb:SfButton.Content>
-                </sfb:SfButton>
-            </Border>
+                                    
+                        </Border>
+                    </DataTemplate>
+                </sf:SfListView.ItemTemplate>
+            </sf:SfListView>
 
         </Grid>
 
