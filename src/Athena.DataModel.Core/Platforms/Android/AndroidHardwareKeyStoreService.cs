@@ -1,7 +1,6 @@
 ﻿#if ANDROID
 using Android.App;
 using Android.Content;
-using Android.Net.Wifi.Aware;
 using Android.Security.Keystore;
 using AndroidX.Core.Content;
 using Java.Lang;
