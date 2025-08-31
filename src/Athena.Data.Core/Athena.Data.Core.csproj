@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -17,6 +17,22 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
 		<WindowsPackageType>None</WindowsPackageType>
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+	  <AndroidLinkTool>r8</AndroidLinkTool>
+    <AndroidEnableProguard>true</AndroidEnableProguard>
+    <AndroidEnableR8>true</AndroidEnableR8>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <ProguardConfiguration Include="..\..\proguard.cfg" />
+  </ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\proguard.cfg" Link="proguard.cfg">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
   <!--<ItemGroup>
     <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
   </ItemGroup>-->

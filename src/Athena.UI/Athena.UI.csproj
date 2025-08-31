@@ -26,7 +26,7 @@
 
     <!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>-->
-    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">29.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">35.0</SupportedOSPlatformVersion>
     <!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
@@ -78,6 +78,16 @@
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
     <NoWarn>1701;1702;CA1416</NoWarn>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+    <AndroidLinkTool>r8</AndroidLinkTool>
+    <AndroidEnableProguard>true</AndroidEnableProguard>
+    <AndroidEnableR8>true</AndroidEnableR8>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProguardConfiguration Include="..\..\proguard.cfg" />
+  </ItemGroup>
 
   <ItemGroup>
     <!-- App Icon -->
@@ -319,6 +329,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\proguard.cfg" Link="proguard.cfg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="..\..\version.props" Link="version.props" />
   </ItemGroup>
 
@@ -354,6 +367,7 @@
     <None Update="Content\Views\Settings\OcrLanguageSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    
   </ItemGroup>
 
 </Project>
