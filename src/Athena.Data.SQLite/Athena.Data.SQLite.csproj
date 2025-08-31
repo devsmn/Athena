@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -21,6 +21,16 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
 	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+	  <AndroidLinkTool>r8</AndroidLinkTool>
+    <AndroidEnableProguard>true</AndroidEnableProguard>
+    <AndroidEnableR8>true</AndroidEnableR8>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <ProguardConfiguration Include="..\..\proguard.cfg" />
+  </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="Athena.Data.SQLite.Proxy" />
@@ -199,6 +209,12 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
 	  </MauiAsset>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\proguard.cfg" Link="proguard.cfg">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
   <!--<ItemGroup>
     <AndroidSkipResourceProcessing Include="*AnimalSniffer*" />
