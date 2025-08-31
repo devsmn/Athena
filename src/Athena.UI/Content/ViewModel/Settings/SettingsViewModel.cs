@@ -92,13 +92,13 @@ namespace Athena.UI
                 new(
                     Localization.SettingsBackupTitle,
                     Localization.SettingsBackupDesc,
-                    "scan.png",
+                    "backup.png",
                     () => OpenSettings<BackupSettingsView>()),
 
                 new(
                     Localization.SettingsSecurityTitle,
                     Localization.SettingsSecurityDesc,
-                    "scan.png",
+                    "security.png",
                     () => OpenSettings<SecuritySettingsView>()),
             };
         }

@@ -80,10 +80,39 @@
         /// <param name="version"></param>
         void SetLastTermsOfUseVersion(int version);
 
+        /// <summary>
+        /// Gets whether the advanced scanner is used for the first time.
+        /// </summary>
+        /// <returns></returns>
         bool IsFirstScannerUsage();
+
+        /// <summary>
+        /// Sets whether the advanced scanner is used for the first time.
+        /// </summary>
         void SetFirstScannerUsage();
 
+        /// <summary>
+        /// Gets whether the advanced scanner should be used.
+        /// </summary>
+        /// <returns></returns>
         bool GetUseAdvancedScanner();
+
+        /// <summary>
+        /// Sets whether the advanced scanner should be used.
+        /// </summary>
+        /// <param name="use"></param>
         void SetUseAdvancedScanner(bool use);
+
+        /// <summary>
+        /// Gets the <see cref="EncryptionMethod"/> that is used for de/encrypting data.
+        /// </summary>
+        /// <returns></returns>
+        EncryptionMethod GetEncryptionMethod();
+
+        /// <summary>
+        /// Sets the <see cref="EncryptionMethod"/> that is used for de/encrypting data.
+        /// </summary>
+        /// <param name="method"></param>
+        void SetEncryptionMethod(EncryptionMethod method);
     }
 }

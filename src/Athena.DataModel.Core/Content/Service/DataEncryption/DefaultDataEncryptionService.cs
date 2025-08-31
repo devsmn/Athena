@@ -124,7 +124,12 @@ namespace Athena.DataModel.Core
             EncryptionContext encryptionContext = new(alias);
             await encryptionContext.DeleteAsync(context);
 
-            encryptionContext = new(alias + "_FALLBACK");
+            await DeleteFallbackAsync(context, alias);
+        }
+
+        public async Task DeleteFallbackAsync(IContext context, string alias)
+        {
+            EncryptionContext encryptionContext = new(alias + "_FALLBACK");
             await encryptionContext.DeleteAsync(context);
         }
 
@@ -132,7 +137,8 @@ namespace Athena.DataModel.Core
             IContext context,
             string alias,
             Action<string> onSuccess,
-            Action<string> onError)
+            Action<string> onError,
+            Action onCancelled)
         {
             EncryptionContext encryptionContext = new(alias);
             await encryptionContext.GetAsync(context);
@@ -149,6 +155,11 @@ namespace Athena.DataModel.Core
                 {
                     onError(error);
                     success = false;
+                },
+                () =>
+                {
+                    success = false;
+                    onCancelled();
                 });
 
             if (decryptedKey != null)

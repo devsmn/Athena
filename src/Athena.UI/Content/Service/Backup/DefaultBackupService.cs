@@ -138,7 +138,7 @@ namespace Athena.UI
                 }
 
                 bool externalKeyRequired =  await MainThread.InvokeOnMainThreadAsync(async () => await requireUserConfirmation(
-                    "Did you create the backup on a different device or have you reinstalled Athena after creating the backup?",
+                    "Did you create the backup on a different device, have you reinstalled Athena or did you change the password after creating the backup?",
                     "Yes",
                     "No"));
 
@@ -171,7 +171,7 @@ namespace Athena.UI
                 else
                 {
                     // Try to open the database with the stored encryption key
-                    bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, (c) => cipher = c, _ => { });
+                    bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, (c) => cipher = c, context.Log, () => {});
 
                     if (!primarySucceeded || !await sqlAuth.AuthenticateAsync(cipher, dbPath))
                     {

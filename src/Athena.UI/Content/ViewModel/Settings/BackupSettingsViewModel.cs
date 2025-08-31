@@ -94,7 +94,7 @@ namespace Athena.UI
                 SqliteProxy sqlProxy = new();
                 IDataProviderAuthenticator sqlAuth = sqlProxy.RequestAuthenticator();
                 IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
-                bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, (c) => cipher = c, _ => { });
+                bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, (c) => cipher = c, context.Log, () => {});
 
                 if (!primarySucceeded || !await sqlAuth.AuthenticateAsync(cipher))
                 {

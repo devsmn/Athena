@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\version.props" />
   <PropertyGroup>
     <TargetFrameworks>net9.0-android</TargetFrameworks>
@@ -123,6 +123,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\backup.png" />
+    <None Remove="Resources\Images\security.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiImage Include="Resources\Images\backup.png" />
+    <MauiImage Include="Resources\Images\security.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <MauiImage Include="Resources\Images\add_document.png" />
     <MauiImage Include="Resources\Images\add_document_negative.png" />
     <MauiImage Include="Resources\Images\add_folder.png" />
@@ -173,6 +183,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FFImageLoading.Maui" Version="1.2.5" />
     <PackageReference Include="FFImageLoading.Maui" Version="1.2.5" />
     <PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />

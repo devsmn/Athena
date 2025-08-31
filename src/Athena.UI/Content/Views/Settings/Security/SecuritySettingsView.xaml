@@ -5,8 +5,9 @@
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="Athena.UI.SecuritySettingsView"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
-             xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="PasswordSettingsView">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -27,6 +28,26 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
+
+        <p:SfPopup x:Name="sfPopup"
+                   HeaderTitle="Loading"
+                   AutoSizeMode="Height"
+                   Grid.RowSpan="5"
+                   Grid.ColumnSpan="2"
+                   StaysOpen="True"
+                   IsOpen="{Binding IsBusy}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate >
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="true" />
+                        <Label Text="{Binding BusyText}"
+                               Margin="10"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
 
         <Label Text="{x:Static loc:Localization.SettingsSecurityTitle}"
                Style="{x:StaticResource HeaderLabel}"
@@ -55,9 +76,17 @@
 
         <sfb:SfSwitch
             Margin="5"
-            IsEnabled="{Binding BiometricsAvailable}"
+            IsEnabled="{Binding BiometricsAvailable}" 
+            IsOn="{Binding UseBiometrics}"
             Grid.Row="3"
-            Grid.Column="1"/>
+            Grid.Column="1">
+            <sfb:SfSwitch.Behaviors>
+                <toolkit:EventToCommandBehavior 
+                    EventName="StateChanged"
+                    Command="{Binding UseBiometricsChangedCommand}" />
+            </sfb:SfSwitch.Behaviors>
+        </sfb:SfSwitch>
+
 
         <Grid Margin="15, 0, 5, 0"
               Grid.Column="0"

@@ -297,14 +297,33 @@ namespace Athena.UI
                 await sqlPatcher.ExecutePatchesAsync(context, compatService);
 
                 context.Log("Requesting biometric access to database");
+
                 // Unlock access to the database. Needs to be done before initializing the repositories.
                 IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
-                bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, key => parameter.Cipher = key, _ => { });
+                IHardwareKeyStoreService keyService = Services.GetService<IHardwareKeyStoreService>();
+                IPreferencesService prefService = Services.GetService<IPreferencesService>();
+
+                EncryptionMethod method = prefService.GetEncryptionMethod();
+                if (method == EncryptionMethod.Undefined)
+                {
+                    // Method has not been set yet.
+                    prefService.SetEncryptionMethod(keyService.BiometricsAvailable()
+                        ? EncryptionMethod.Biometrics
+                        : EncryptionMethod.Password);
+
+                    method = prefService.GetEncryptionMethod();
+                }
+
+                bool primarySucceeded = false;
+
+                if (method == EncryptionMethod.Biometrics)
+                {
+                    primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, key => parameter.Cipher = key, context.Log, () => {});
+                }
 
                 if (!primarySucceeded)
                 {
                     IPasswordService passwordService = Services.GetService<IPasswordService>();
-
                     bool firstTry = true;
 
                     do
