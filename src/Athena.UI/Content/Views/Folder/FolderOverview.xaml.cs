@@ -14,7 +14,7 @@ public partial class FolderOverview : ContentPage
 
     public FolderOverview(FolderViewModel parentFolder)
     {
-        BindingContext = new FolderOverviewViewModel(parentFolder);
+        BindingContext =  new FolderOverviewViewModel(parentFolder);
         InitializeComponent();
 
         _viewModel = BindingContext as FolderOverviewViewModel;

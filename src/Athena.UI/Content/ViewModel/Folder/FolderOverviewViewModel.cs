@@ -171,13 +171,18 @@ namespace Athena.UI
                     if (document.Handled)
                         continue;
 
+                    // If the document is part of our folder, we can just update it.
                     if (document.ParentReference.Id == ParentFolder.Id)
                     {
                         RootSource.Process(document, ParentFolder);
                     }
                     else
                     {
-                        if (document.Type == UpdateType.Add || document.Type == UpdateType.Delete)
+                        // The document might be inside one of our subfolders.
+                        // Try to find it and ensure the documents are reloaded the next time the folder is opened.
+                        // This only applies to when documents are moved.
+                        // For other update types, the RootSource.Process will eventually be called on the right parent folder.
+                        if (document.Type == UpdateType.Move)
                         {
                             Stack<Folder> folders = new Stack<Folder>();
 
@@ -397,19 +402,18 @@ namespace Athena.UI
 
             documentViewModel.Document.MoveTo(context, ParentFolder.Folder, SelectedMoveDestination.Folder);
 
-            // TODO: fix adding and removing
             IDataBrokerService publishService = Services.GetService<IDataBrokerService>();
 
             publishService.Publish<Document>(
                 context,
                 documentViewModel,
-                UpdateType.Delete,
+                UpdateType.Delete, // Delete, handled by current folder
                 ParentFolder.Key);
 
             publishService.Publish<Document>(
                 context,
                 documentViewModel,
-                UpdateType.Add,
+                UpdateType.Move, // Do not use Add because the current folder is not the same as the one where the document is moved to
                 SelectedMoveDestination.Folder.Key);
 
             await Toast.Make(
