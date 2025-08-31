@@ -23,5 +23,7 @@
         /// Updates the last used version.
         /// </summary>
         void UpdateLastUsedVersion(IContext context);
+
+        int GetCurrentVersion();
     }
 }
