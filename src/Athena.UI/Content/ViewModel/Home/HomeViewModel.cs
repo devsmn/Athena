@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Android.Runtime;
+using Athena.Content.Views;
 using Athena.Data.Core;
 using Athena.Data.SQLite.Proxy;
 using Athena.DataModel;
@@ -355,13 +356,16 @@ namespace Athena.UI
                 IDataBrokerService service = Services.GetService<IDataBrokerService>();
                 Folder rootFolder = GetRootFolder(context);
 
+                if (prefService.GetLastUsedVersion() != compatService.GetCurrentVersion())
+                {
+                    await PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/app_latest_release/"));
+                }
+
                 service.SetRootFolder(rootFolder);
                 service.Publish(context, rootFolder.Folders, UpdateType.Initialize);
                 service.Publish(context, rootFolder.Documents, UpdateType.Initialize);
                 service.RaiseAppInitialized();
 
-                // Last used version is updated here and not in HomeViewModel in case it's the first usage.
-                // Otherwise, the patches (e.g. encrypting the database) would not be executed.
                 compatService.UpdateLastUsedVersion(context);
                 MainThread.BeginInvokeOnMainThread(() => IsBusy = false);
             });
