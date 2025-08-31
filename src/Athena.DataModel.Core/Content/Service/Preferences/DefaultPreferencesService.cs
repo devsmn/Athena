@@ -13,6 +13,7 @@
         private const string LastTermsVersion = "LastToSVersion";
         private const string FirstScannerUsageKey = "FirstUsageScanner";
         private const string UseAdvancedScannerKey = "UseAdvancedScanner";
+        private const string EncryptionMethodKey = "EncryptionMethod";
 
         /// <inheritdoc />  
         public bool IsFirstUsage()
@@ -100,6 +101,16 @@
         public void SetUseAdvancedScanner(bool use)
         {
             Set(UseAdvancedScannerKey, use);
+        }
+
+        public EncryptionMethod GetEncryptionMethod()
+        {
+            return (EncryptionMethod)Get(EncryptionMethodKey, (int)EncryptionMethod.Undefined);
+        }
+
+        public void SetEncryptionMethod(EncryptionMethod method)
+        {
+            Set(EncryptionMethodKey, (int)method);
         }
     }
 }

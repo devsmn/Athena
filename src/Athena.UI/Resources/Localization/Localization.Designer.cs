@@ -134,6 +134,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Biometric authentication is not available on this device.
+        /// </summary>
+        public static string BiometricsNotAvailable {
+            get {
+                return ResourceManager.GetString("BiometricsNotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -1376,6 +1385,24 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create and restore backups.
+        /// </summary>
+        public static string SettingsBackupDesc {
+            get {
+                return ResourceManager.GetString("SettingsBackupDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup.
+        /// </summary>
+        public static string SettingsBackupTitle {
+            get {
+                return ResourceManager.GetString("SettingsBackupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copyright related information about third-party resources.
         /// </summary>
         public static string SettingsCopyrightDesc {
@@ -1489,6 +1516,24 @@ namespace Athena.Resources.Localization {
         public static string SettingsPrivacyPolicyTitle {
             get {
                 return ResourceManager.GetString("SettingsPrivacyPolicyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage your password and biometric authentication.
+        /// </summary>
+        public static string SettingsSecurityDesc {
+            get {
+                return ResourceManager.GetString("SettingsSecurityDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Security.
+        /// </summary>
+        public static string SettingsSecurityTitle {
+            get {
+                return ResourceManager.GetString("SettingsSecurityTitle", resourceCulture);
             }
         }
         

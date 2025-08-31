@@ -48,12 +48,20 @@ namespace Athena.DataModel.Core
         Task DeleteAsync(IContext context, string alias);
 
         /// <summary>
+        /// Deletes the fallback for the given <paramref name="alias"/>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="alias"></param>
+        /// <returns></returns>
+        Task DeleteFallbackAsync(IContext context, string alias);
+
+        /// <summary>
         /// Reads the database cipher while authorizing against the primary source (biometrics).
         /// </summary>
         /// <param name="onSuccess"></param>
         /// <param name="onError"></param>
         /// <returns></returns>
-        Task<bool> ReadPrimaryAsync(IContext context, string alias, Action<string> onSuccess, Action<string> onError);
+        Task<bool> ReadPrimaryAsync(IContext context, string alias, Action<string> onSuccess, Action<string> onError, Action onCancelled);
 
         /// <summary>
         /// Reads the database cipher while validating against the fallback source (PIN).

@@ -95,6 +95,8 @@
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
+ 
+
   <ItemGroup>
     <MauiFont Remove="C:\Users\pflau\.nuget\packages\syncfusion.maui.core\29.1.38\buildTransitive\..\buildTransitive\Resources\Fonts\MauiMaterialAssets.ttf" />
     <MauiFont Remove="C:\Users\pflau\.nuget\packages\syncfusion.maui.imageeditor\29.1.38\buildTransitive\..\buildTransitive\Resources\Fonts\Boogaloo.ttf" />
@@ -108,6 +110,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MauiImage Include="Resources\Images\backup.png" />
+    <MauiImage Include="Resources\Images\security.png" />
     <MauiImage Include="Resources\Images\add_document.png" />
     <MauiImage Include="Resources\Images\add_document_negative.png" />
     <MauiImage Include="Resources\Images\add_folder.png" />
@@ -258,6 +262,9 @@
     <MauiXaml Update="Content\Views\Settings\OcrLanguageSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="Content\Views\Settings\Security\SecuritySettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="Content\Views\Settings\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -318,6 +325,9 @@
   <ItemGroup>
     <Compile Update="Content\Views\Settings\DocumentScannerTypeSettingsView.xaml.cs">
       <DependentUpon>DocumentScannerTypeSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Content\Views\Settings\Security\SecuritySettingsView.xaml.cs">
+      <DependentUpon>SecuritySettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Update="Resources\Localization\Localization.Designer.cs">
       <DesignTime>True</DesignTime>

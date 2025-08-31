@@ -677,4 +677,19 @@ Backups can be created at any time and later restored on the same or on another 
   <data name="Restore" xml:space="preserve">
     <value>Restore</value>
   </data>
+  <data name="SettingsBackupDesc" xml:space="preserve">
+    <value>Create and restore backups</value>
+  </data>
+  <data name="SettingsBackupTitle" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="BiometricsNotAvailable" xml:space="preserve">
+    <value>Biometric authentication is not available on this device</value>
+  </data>
+  <data name="SettingsSecurityDesc" xml:space="preserve">
+    <value>Manage your password and biometric authentication</value>
+  </data>
+  <data name="SettingsSecurityTitle" xml:space="preserve">
+    <value>Security</value>
+  </data>
 </root>

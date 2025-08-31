@@ -21,15 +21,18 @@ namespace Athena.DataModel.Core.Platforms.Android
         private readonly Action<AuthenticationResult> _onSuccess;
         private readonly Action<string> _onError;
         private readonly Action _onFailed;
+        private readonly Action _onCancelled;
 
         public BiometricAuthCallback(
             Action<AuthenticationResult> onSuccess,
             Action<string> onError,
-            Action onFailed)
+            Action onFailed,
+            Action onCancelled)
         {
             _onSuccess = onSuccess;
             _onError = onError;
             _onFailed = onFailed;
+            _onCancelled = onCancelled;
         }
 
         public override void OnAuthenticationSucceeded(AuthenticationResult result)
@@ -40,6 +43,14 @@ namespace Athena.DataModel.Core.Platforms.Android
 
         public override void OnAuthenticationError(int errorCode, ICharSequence errString)
         {
+            if (errorCode == BiometricPrompt.ErrorUserCanceled
+                || errorCode == BiometricPrompt.ErrorCanceled
+                || errorCode == BiometricPrompt.ErrorNegativeButton)
+            {
+                _onCancelled?.Invoke();
+                return;
+            }
+
             base.OnAuthenticationError(errorCode, errString);
             _onError?.Invoke(errString?.ToString());
         }
@@ -56,10 +67,18 @@ namespace Athena.DataModel.Core.Platforms.Android
     /// </summary>
     public class AndroidHardwareKeyStoreService : IHardwareKeyStoreService
     {
+        private class RequestCipherExecutionResult
+        {
+            public byte[] Data { get; set; }
+            public Exception Exception { get; set; }
+            public bool Cancelled { get; set; }
+            public bool Success => Exception == null && !Cancelled;
+        }
+
         private const string AndroidKeyStore = "AndroidKeyStore";
         private bool? _biometricsAvailable;
 
-        private bool BiometricsAvailable()
+        public bool BiometricsAvailable()
         {
             if (_biometricsAvailable != null)
                 return _biometricsAvailable.Value;
@@ -189,7 +208,8 @@ namespace Athena.DataModel.Core.Platforms.Android
             IContext context,
             string alias,
             EncryptionContext encryptionContext,
-            Action<string> onError)
+            Action<string> onError,
+            Action onCancelled)
         {
             if (!BiometricsAvailable())
             {
@@ -225,7 +245,24 @@ namespace Athena.DataModel.Core.Platforms.Android
                 return null;
             }
 
-            return await RequestCipherExecution(promptInfo, cipher, encryptedKey);
+            var res = await RequestCipherExecution(promptInfo, cipher, encryptedKey);
+
+            if (res.Success)
+                return res.Data;
+
+            if (res.Exception != null)
+            {
+                context?.Log(res.Exception);
+                return null;
+            }
+
+            if (res.Cancelled)
+            {
+                context?.Log("Cancelled by user");
+                onCancelled();
+            }
+
+            return null;
         }
 
         public async Task SaveAsync(IContext context, string alias, string value)
@@ -259,7 +296,24 @@ namespace Athena.DataModel.Core.Platforms.Android
                 .SetNegativeButtonText("Cancel")
                 .Build();
 
-            byte[] encryptedKey = await RequestCipherExecution(info, cipher, Convert.FromBase64String(value));
+            byte[] encryptedKey = null;
+            var res = await RequestCipherExecution(info, cipher, Convert.FromBase64String(value));
+
+            if (res.Success)
+                encryptedKey = res.Data;
+
+            if (res.Exception != null)
+            {
+                context?.Log(res.Exception);
+                return;
+            }
+
+            if (res.Cancelled)
+            {
+                context?.Log("Cancelled by user");
+                return;
+            }
+
             byte[] iv = cipher.GetIV();
 
             EncryptionContext encryptionContext = new(alias);
@@ -269,12 +323,13 @@ namespace Athena.DataModel.Core.Platforms.Android
             await encryptionContext.StoreAsync(context);
         }
 
-        private static async Task<byte[]> RequestCipherExecution(
+        private static async Task<RequestCipherExecutionResult> RequestCipherExecution(
             PromptInfo promptInfo,
             Cipher cipher,
-            byte[] value) 
+            byte[] value)
         {
-            TaskCompletionSource<byte[]> tcs = new TaskCompletionSource<byte[]>();
+            TaskCompletionSource<RequestCipherExecutionResult> tcs = new TaskCompletionSource<RequestCipherExecutionResult>();
+            RequestCipherExecutionResult cipherRes = new();
 
             BiometricAuthCallback callback = new BiometricAuthCallback(
                 onSuccess: result =>
@@ -282,15 +337,30 @@ namespace Athena.DataModel.Core.Platforms.Android
                     try
                     {
                         Cipher authCipher = result.CryptoObject.Cipher;
-                        tcs.SetResult(authCipher.DoFinal(value));
+                        cipherRes.Data = authCipher.DoFinal(value);
+                        tcs.SetResult(cipherRes);
                     }
                     catch (Exception ex)
                     {
-                        tcs.SetException(ex);
+                        cipherRes.Exception = ex;
+                        tcs.SetResult(cipherRes);
                     }
                 },
-                onError: error => tcs.SetException(new Exception(error)),
-                onFailed: (() => tcs.SetResult(null)));
+                onCancelled: (() =>
+                {
+                    cipherRes.Cancelled = true;
+                    tcs.SetResult(cipherRes);
+                }),
+                onError: error =>
+                {
+                    cipherRes.Exception = new Exception(error);
+                    tcs.SetResult(cipherRes);
+                },
+                onFailed: (() =>
+                {
+                    cipherRes.Exception = new Exception("Failed");
+                    tcs.SetResult(cipherRes);
+                }));
 
             Context context = Platform.CurrentActivity;
             IExecutor executor = ContextCompat.GetMainExecutor(Platform.CurrentActivity);

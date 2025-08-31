@@ -55,6 +55,12 @@ namespace Athena.DataModel.Core
         /// Retrieves the database encryption key from <see cref="ISecureStorageService"/> and decodes it with the stored AES key.
         /// </summary>
         /// <param name="onError"></param>
-        Task<byte[]> GetAsync(IContext context, string alias, EncryptionContext encryptionContext, Action<string> onError);
+        Task<byte[]> GetAsync(IContext context, string alias, EncryptionContext encryptionContext, Action<string> onError, Action onCancelled);
+
+        /// <summary>
+        /// Determines whether biometric authentication is available on this device.
+        /// </summary>
+        /// <returns></returns>
+        bool BiometricsAvailable();
     }
 }
