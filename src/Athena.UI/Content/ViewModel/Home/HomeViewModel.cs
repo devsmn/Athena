@@ -358,7 +358,7 @@ namespace Athena.UI
 
                 if (prefService.GetLastUsedVersion() != compatService.GetCurrentVersion())
                 {
-                    await PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/app_latest_release/"));
+                    await PushModalAsync(new WebViewPage("https://athena.devsmn.de/app_latest_release/"));
                 }
 
                 service.SetRootFolder(rootFolder);

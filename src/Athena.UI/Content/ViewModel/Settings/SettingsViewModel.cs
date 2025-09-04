@@ -45,31 +45,31 @@ namespace Athena.UI
                     Localization.SettingsPrivacyPolicyTitle,
                     Localization.SettingsPrivacyPolicyDesc,
                     "privacy.png",
-                    () => OpenSettings<WebViewPage>("https://devsmn.github.io/Athena-Public/privacy/")),
+                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/tos/")),
 
                 new(
                     Localization.SettingsTermsOfUseTitle,
                     Localization.SettingsTermsOfUseDesc,
                     "terms_and_conditions.png",
-                    () => OpenSettings<WebViewPage>("https://devsmn.github.io/Athena-Public/privacy/")),
+                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/privacy/")),
 
                 new(
                     Localization.SettingsCopyrightTitle,
                     Localization.SettingsCopyrightDesc,
                     "copyright.png",
-                    () => OpenSettings<WebViewPage>("https://devsmn.github.io/Athena-Public/copyright/")),
+                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/copyright/")),
 
                 new(
                     Localization.SettingsNewsDesc,
                     Localization.SettingsNewsTitle,
                     "news.png",
-                    () => OpenSettings<WebViewPage>("https://devsmn.github.io/Athena-Public/app_changelog/")),
+                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/app_changelog/")),
 
                 new(
                     Localization.SettingsHelpTitle,
                     Localization.SettingsHelpDesc,
                     "help.png",
-                    () => OpenSettings<WebViewPage>("https://devsmn.github.io/Athena-Public/app_help/")),
+                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/app_help/")),
 
                 new(
                     Localization.SettingsFeedbackTitle,

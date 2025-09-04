@@ -11,11 +11,11 @@ public partial class ToSAcceptView : ContentView
 
     private async void OnPrivacyPolicyClicked(object sender, EventArgs e)
     {
-        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/privacy/"));
+        await Navigation.PushModalAsync(new WebViewPage("https://athena.devsmn.de/privacy/"));
     }
 
     private async void OnTermsOfUseClicked(object sender, EventArgs e)
     {
-        await Navigation.PushModalAsync(new WebViewPage("https://devsmn.github.io/Athena-Public/tos/"));
+        await Navigation.PushModalAsync(new WebViewPage("https://athena.devsmn.de/tos/"));
     }
 }
