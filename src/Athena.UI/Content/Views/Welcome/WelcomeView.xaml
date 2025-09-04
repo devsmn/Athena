@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ui="clr-namespace:Athena.UI"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             x:Class="Athena.UI.WelcomeView"
+             x:Name="page"
+             Title="WelcomeView">
+    <ContentPage.BindingContext>
+        <ui:WelcomeViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ControlTemplate x:Key="LanguageStep">
+            <ui:WelcomeViewLanguageStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="NameStep">
+            <ui:WelcomeViewNameStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="TutorialStartStep">
+            <ui:WelcomeViewTutorialStartStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ToSAcceptViewStep">
+            <ui:ToSAcceptView  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ContentView Margin="5"
+                     HorizontalOptions="Center"
+                     VerticalOptions="Center">
+            <ContentView.Style>
+                <Style TargetType="ContentView">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="ContentView" 
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
+                                     Value="0">
+                            <Setter Property="ControlTemplate" Value="{StaticResource LanguageStep}" />
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="ContentView" 
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
+                                     Value="1">
+                            <Setter Property="ControlTemplate" Value="{StaticResource NameStep}" />
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="ContentView" 
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
+                                     Value="2">
+                            <Setter Property="ControlTemplate" Value="{StaticResource ToSAcceptViewStep}" />
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="ContentView" 
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
+                                     Value="3">
+                            <Setter Property="ControlTemplate" Value="{StaticResource TutorialStartStep}" />
+                        </DataTrigger>
+
+
+                    </Style.Triggers>
+                </Style>
+            </ContentView.Style>
+        </ContentView>
+
+        <sfb:SfButton 
+            Grid.Row="1"
+            Margin="10,10,10,50"
+            VerticalOptions="End"
+            ShowIcon="True"
+            Background="{x:StaticResource Primary}" 
+            ImageAlignment="End"
+            Command="{Binding NextStepCommand}"
+            TextColor="White"
+            WidthRequest="200"
+            Text="{Binding NextButtonText}"
+            StrokeThickness="0" />
+
+    </Grid>
+
+</ContentPage>

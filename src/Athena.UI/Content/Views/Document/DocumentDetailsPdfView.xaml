@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
+             x:Class="Athena.UI.DocumentDetailsPdfView"
+             Style="{StaticResource ContentPageStyle}"
+             Title="DocumentDetailsPdfView">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <syncfusion:SfPdfViewer x:Name="pdfViewer"
+                                Grid.Column="0"
+                                ShowScrollHead="True"
+                                Margin="5"
+                                BackgroundColor="LightGray" />
+    </Grid>
+</ContentPage>

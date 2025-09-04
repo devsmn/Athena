@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Athena.UI"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
+             x:Name="page"
+             x:Class="Athena.UI.DocumentEditorView"
+             Title="New document">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackButtonCommand}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+
+        <ControlTemplate x:Key="DocumentStep">
+            <local:DocumentEditorDocumentStep BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="MetaInfoStep">
+            <local:DocumentEditorMetaInfoStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="SavingStep">
+            <local:DocumentEditorSavingStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
+        </ControlTemplate>
+
+
+    </ContentPage.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--<popup:SfPopup x:Name="sfPopup"
+                   HeaderTitle="Loading"
+                   StaysOpen="True"
+                   Message="{Binding PopupText}"
+                   IsOpen="{Binding IsPopupOpen}">
+        </popup:SfPopup>-->
+
+        <popup:SfPopup x:Name="sfPopup"
+                       HeaderTitle="Loading"
+                       AutoSizeMode="Height"
+                       StaysOpen="True"
+                       IsOpen="{Binding IsPopupOpen}">
+            <popup:SfPopup.ContentTemplate>
+                <DataTemplate >
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="true" />
+                        <Label Text="{Binding PopupText}"
+                           Margin="10"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </popup:SfPopup.ContentTemplate>
+        </popup:SfPopup>
+
+        <ContentView Margin="5"
+             HorizontalOptions="Center">
+            <ContentView.Style>
+                <Style TargetType="ContentView">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="ContentView" 
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
+                                     Value="0">
+                            <Setter Property="ControlTemplate" Value="{StaticResource DocumentStep}" />
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="ContentView"
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
+                                     Value="1">
+                            <Setter Property="ControlTemplate" Value="{StaticResource MetaInfoStep}" />
+                        </DataTrigger>
+
+                        <DataTrigger TargetType="ContentView"
+                                     Binding="{Binding Path=StepHandler.StepIndex}"
+                                     Value="2">
+                            <Setter Property="ControlTemplate" Value="{StaticResource SavingStep}" />
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </ContentView.Style>
+        </ContentView>
+
+        <Button Text="{x:Static loc:Localization.Next}"
+                x:Name="nextButton"
+                Grid.Column="1"
+                Grid.Row="2"
+                WidthRequest="150"
+                Command="{Binding NextStepCommand}"
+                Margin="5,5,5,10">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=StepHandler.StepIndex}"
+                             TargetType="Button"
+                             Value="0">
+                            <Setter Property="Text" Value="{x:Static loc:Localization.Next}"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=StepHandler.StepIndex}"
+                             TargetType="Button"
+                             Value="1">
+                            <Setter Property="Text" Value="{x:Static loc:Localization.Save}"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=StepHandler.StepIndex}"
+                                     TargetType="Button"
+                                     Value="2">
+                            <Setter Property="Text" Value="{x:Static loc:Localization.Close}"/>
+                            <Setter Property="IsEnabled" Value="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"/>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </Grid>
+</local:DefaultContentPage>

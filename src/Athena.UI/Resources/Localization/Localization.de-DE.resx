@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Hinzufügen</value>
+  </data>
+  <data name="AddDocument" xml:space="preserve">
+    <value>Neues Dokument</value>
+  </data>
+  <data name="AddFolder" xml:space="preserve">
+    <value>Neuer Ordner</value>
+  </data>
+  <data name="AddNewTag" xml:space="preserve">
+    <value>Neuen Tag hinzufügen</value>
+  </data>
+  <data name="AddNewTagName" xml:space="preserve">
+    <value>Wähle einen Namen für den neuen Tag (max. 20 Zeichen)</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Hintergrundfarbe</value>
+  </data>
+  <data name="ChangeLanguageConfirm" xml:space="preserve">
+    <value>Möchtest du die Sprache wirklich zu {0} ändern?</value>
+  </data>
+  <data name="ChangeName" xml:space="preserve">
+    <value>Name ändern</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="DeleteDocument" xml:space="preserve">
+    <value>Dokument löschen</value>
+  </data>
+  <data name="DeleteDocumentConfirm" xml:space="preserve">
+    <value>Möchtest du das Dokument {0} wirklich löschen? 
+Das Dokument kann nicht wiederhergestellt werden!</value>
+  </data>
+  <data name="DeleteFolder" xml:space="preserve">
+    <value>Ordner löschen</value>
+  </data>
+  <data name="DeleteFolderConfirm" xml:space="preserve">
+    <value>Möchtest du den Ordner {0} wirklich löschen? 
+Der Ordner kann nicht wiederhergestellt werden!</value>
+  </data>
+  <data name="OcrDeleteInstalledLanguagesConfirmText" xml:space="preserve">
+    <value>Möchtest du wirklich {0} installierte Sprache(n) löschen? (ca.  {1} MB)</value>
+  </data>
+  <data name="DeleteInstalledLanguagesConfirmTitle" xml:space="preserve">
+    <value>Installierte Sprachen löschen</value>
+  </data>
+  <data name="OcrDeleteLanguageInfo" xml:space="preserve">
+    <value>{0} Sprache(n) zu löschen (ca. {1} MB)</value>
+  </data>
+  <data name="DeletePage" xml:space="preserve">
+    <value>Seite löschen</value>
+  </data>
+  <data name="DeletePageConfirm" xml:space="preserve">
+    <value>Möchtest du die Seite {0} wirklich löschen? 
+Die Seite kann nicht wiederhergestellt werden!</value>
+  </data>
+  <data name="DeleteTag" xml:space="preserve">
+    <value>Kategorie löschen</value>
+  </data>
+  <data name="DeleteTagConfirm" xml:space="preserve">
+    <value>Möchtest du die Kategorie {0} wirklich löschen? 
+Der Tag kann nicht wiederhergestellt werden!</value>
+  </data>
+  <data name="DeletingLanguage" xml:space="preserve">
+    <value>{0} wird gelöscht</value>
+  </data>
+  <data name="OcrDeletingLanguages" xml:space="preserve">
+    <value>Installierte Sprachen werden gelöscht</value>
+  </data>
+  <data name="DisplayLanguage" xml:space="preserve">
+    <value>Anzeigesprache</value>
+  </data>
+  <data name="DocFolderOverviewText" xml:space="preserve">
+    <value>Du hast {0} {1} und {2} {3} erstellt</value>
+  </data>
+  <data name="DocFolderOverviewTextLastUpdate" xml:space="preserve">
+    <value>Zuletzt aktualisiert um {0}</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Dokument</value>
+  </data>
+  <data name="DocumentDeleted" xml:space="preserve">
+    <value>Dokument {0} erfolgreich gelöscht</value>
+  </data>
+  <data name="DocumentDetailsDocumentInfo" xml:space="preserve">
+    <value>Über dieses Dokument...</value>
+  </data>
+  <data name="DocumentDetailsOpenWithExt" xml:space="preserve">
+    <value>Mit externer App öffnen</value>
+  </data>
+  <data name="DocumentEditorAddAdditionalInformation" xml:space="preserve">
+    <value>Weitere Informationen</value>
+  </data>
+  <data name="DocumentEditorAddDocuments" xml:space="preserve">
+    <value>Dokumente hinzufügen</value>
+  </data>
+  <data name="DocumentEditorAIDescription" xml:space="preserve">
+    <value>Athena verwendet eine fortschrittliche künstlichen Intelligenz (KI), um Text in Dokumenten zu erkennen, so dass effizient nach beliebigen Wörtern in allen Dokumenten gesucht werden kann (Volltextsuche). 
+Je nach Größe der Dokumente kann dieser Vorgang einen Moment dauern.</value>
+    <comment>Athena uses advanced artifical intelligence (AI) technology to detect text within documents, allowing you to efficiently search for specific text phrases across all documents.
+Depending on the size of the documents, this process may take a moment.</comment>
+  </data>
+  <data name="DocumentEditorAIHeader" xml:space="preserve">
+    <value>KI Texterkennung</value>
+  </data>
+  <data name="DocumentEditorEnableAI" xml:space="preserve">
+    <value>Text in Dokumenten erkennen</value>
+  </data>
+  <data name="DocumentEditorLoadDocument" xml:space="preserve">
+    <value>Scanne ein Dokument mit deiner Kamera, wähle eines aus deiner Gallerie oder verwende ein Dokument von deinem Handy</value>
+    <comment>Scan a document with your camera, choose one from your gallery or pick a document from your device</comment>
+  </data>
+  <data name="DocumentEditorNoTags" xml:space="preserve">
+    <value>Keine Kategorien verfügbar. Benutze den Kategorien Tab, um neue Kategorien anzulegen</value>
+    <comment>No tags available. Use the tags tab to add new tags</comment>
+  </data>
+  <data name="DocumentEditorSelectTags" xml:space="preserve">
+    <value>Kategorien auswählen</value>
+  </data>
+  <data name="DocumentEmpty" xml:space="preserve">
+    <value>Benutze den Plus Button, um ein neues Dokument anzulegen</value>
+  </data>
+  <data name="DocumentMovedSuccessfully" xml:space="preserve">
+    <value>Dokument {0} erfolgreich nach {1} verschoben</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Dokumente</value>
+  </data>
+  <data name="DocumentVMComment" xml:space="preserve">
+    <value>Optionaler Kommentar</value>
+  </data>
+  <data name="DocumentVMCommentExceedsCharLimit" xml:space="preserve">
+    <value>Der Kommentar darf nicht länger als 80 Zeichen sein</value>
+  </data>
+  <data name="DocumentVMName" xml:space="preserve">
+    <value>Name des Dokuments</value>
+  </data>
+  <data name="DocumentVMNameCharsExceedLimit" xml:space="preserve">
+    <value>Der Name darf nicht länger als 80 Zeichen sein</value>
+  </data>
+  <data name="DocumentVMNameRequired" xml:space="preserve">
+    <value>Der Name darf nicht leer sein</value>
+  </data>
+  <data name="OcrDownloadingLanguage" xml:space="preserve">
+    <value>{0} wird heruntergeladen</value>
+  </data>
+  <data name="DownloadingNewLanguages" xml:space="preserve">
+    <value>Neue Sprachen werden heruntergeladen</value>
+  </data>
+  <data name="OcrDownloadLanguagesInfo" xml:space="preserve">
+    <value>{0} Sprache(n) herunterzuladen (ca. {1} MB)</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="EditDocument" xml:space="preserve">
+    <value>Dokument bearbeiten</value>
+  </data>
+  <data name="EditTag" xml:space="preserve">
+    <value>Kategorie bearbeiten</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Ordner</value>
+  </data>
+  <data name="FolderAndDocuments" xml:space="preserve">
+    <value>Ordner und Dokumente</value>
+  </data>
+  <data name="FolderDeleted" xml:space="preserve">
+    <value>Ordner {0} erfolgreich gelöscht!</value>
+  </data>
+  <data name="FolderEmpty" xml:space="preserve">
+    <value>Benutze den Plus Button, um einen neuen Ordner oder ein neues Dokument anzulegen</value>
+    <comment>Use the plus button to add a new folder</comment>
+  </data>
+  <data name="FolderInformation" xml:space="preserve">
+    <value>Über diesen Ordner...</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Ordner</value>
+  </data>
+  <data name="FolderVMComment" xml:space="preserve">
+    <value>Optionaler Kommentar</value>
+  </data>
+  <data name="FolderVMCommentExceedCharLimit" xml:space="preserve">
+    <value>Der Name darf nicht länger als 80 Zeichen sein</value>
+  </data>
+  <data name="FolderVMName" xml:space="preserve">
+    <value>Name des Ordners</value>
+  </data>
+  <data name="FolderVMTitleExceedCharLimit" xml:space="preserve">
+    <value>Der Name darf nicht länger als 45 Zeichen sein</value>
+  </data>
+  <data name="FolderVMTitleRequired" xml:space="preserve">
+    <value>Name darf nicht leer sein</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Gallerie</value>
+  </data>
+  <data name="GoodAfternoon" xml:space="preserve">
+    <value>Guten Tag</value>
+  </data>
+  <data name="GoodEvening" xml:space="preserve">
+    <value>Guten Abend</value>
+  </data>
+  <data name="GoodMorning" xml:space="preserve">
+    <value>Guten Morgen</value>
+  </data>
+  <data name="GoodNight" xml:space="preserve">
+    <value>Hallo</value>
+  </data>
+  <data name="OcrInstalledLanguagesDeletedSuccessfully" xml:space="preserve">
+    <value>Die installierten Sprachen wurden erfolgreich gelöscht</value>
+  </data>
+  <data name="OcrLanguagesPendingChangesText" xml:space="preserve">
+    <value>Du hast deine Änderungen nicht gespeichert. Wenn du diese Seite schließt, werden deine Änderungen verworfen. Willst du die Seite wirklich schließen?</value>
+  </data>
+  <data name="OcrLanguagesPendingChangesTitle" xml:space="preserve">
+    <value>Ungespeicherte Änderungen</value>
+  </data>
+  <data name="Loading pages" xml:space="preserve">
+    <value>Seiten werden geladen...</value>
+  </data>
+  <data name="LoadingDocuments" xml:space="preserve">
+    <value>Dokumente werden geladen...</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>Verschieben</value>
+  </data>
+  <data name="MoveDocument" xml:space="preserve">
+    <value>Dokument verschieben</value>
+  </data>
+  <data name="MoveDocumentConfirm" xml:space="preserve">
+    <value>Möchtest du das Dokument {0} wirklich nach {1} verschieben?</value>
+  </data>
+  <data name="MoveToSelectedPage" xml:space="preserve">
+    <value>Nach ausgewählter Seite verschieben</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>Neuigkeiten</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>Neue Kategorie</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="OcrNoInternetText" xml:space="preserve">
+    <value>Du bist nicht mit dem Internet verbunden, daher können keine Sprachen heruntergeladen werden</value>
+  </data>
+  <data name="NoRecentDocuments" xml:space="preserve">
+    <value>Keine zuletzt genutzten Dokumente</value>
+  </data>
+  <data name="OcrNotInternetTitle" xml:space="preserve">
+    <value>Keine Internetverbindung</value>
+  </data>
+  <data name="OcrNoWlanConnectionText" xml:space="preserve">
+    <value>Du bist mit keinem WLAN Netzwerk verbunden. Möchtest du {0} MB wirklich mit deinen mobilen Daten herunterladen?</value>
+  </data>
+  <data name="OcrNoWlanConnectionTitle" xml:space="preserve">
+    <value>Internetverbindung</value>
+  </data>
+  <data name="OcrDeleteInstalledLanguages" xml:space="preserve">
+    <value>Installierte Sprachen löschen</value>
+  </data>
+  <data name="OcrEstimatedDownloadSize" xml:space="preserve">
+    <value>Geschätzte Downloadgröße: </value>
+  </data>
+  <data name="OcrEstimatedLocalSize" xml:space="preserve">
+    <value>Geschätzter belegter Speicherplatz: </value>
+  </data>
+  <data name="OcrLanguagesDescription" xml:space="preserve">
+    <value>Hier kannst du die Sprachen verwalten, die von der Texterkennung beim Anlegen von Dokumenten unterstützt werden. Bereits installierte Sprachen können gelöscht werden, indem sie aus der Liste entfernt werden. Neue Sprachen können installiert werden, indem sie hinzugefügt werden.</value>
+  </data>
+  <data name="OcrLanguagesSaved" xml:space="preserve">
+    <value>Die Texterkennungssprachen wurden erfolgreich gespeichert!</value>
+  </data>
+  <data name="OcrTypeToSelectLanguages" xml:space="preserve">
+    <value>Tippen beginnen, um Sprachen auszuwählen</value>
+  </data>
+  <data name="OpenInBrowser" xml:space="preserve">
+    <value>Im Browser öffnen</value>
+  </data>
+  <data name="PdfCreationBadImageQuality" xml:space="preserve">
+    <value>Schlechte Bildqualität. Der erkannte Text ist eventuell ungenau</value>
+  </data>
+  <data name="PdfCreationConvertingDocument" xml:space="preserve">
+    <value>Dokument {0} wird konvertiert</value>
+  </data>
+  <data name="PdfCreationDetectedText" xml:space="preserve">
+    <value>Text erkannt</value>
+  </data>
+  <data name="PdfCreationDetectingTextInDocument" xml:space="preserve">
+    <value>Text in Dokument {0} wird erkannt. Dies kann einen Moment dauern</value>
+  </data>
+  <data name="PdfCreationDocumentContainsNoText" xml:space="preserve">
+    <value>Dokument beinhaltet keinen Text</value>
+  </data>
+  <data name="PdfCreationExtractingTextFromPdf" xml:space="preserve">
+    <value>Text wird aus PDF {0} extrahiert</value>
+  </data>
+  <data name="PdfCreationImageCompressed" xml:space="preserve">
+    <value>Inhalt wird komprimiert</value>
+  </data>
+  <data name="PdfCreationLoadingPdf" xml:space="preserve">
+    <value>PDF {0} wird geladen</value>
+  </data>
+  <data name="PdfCreationMergingPdf" xml:space="preserve">
+    <value>PDF {0} wird gemerged</value>
+  </data>
+  <data name="PdfCreationNoLanguagesConfigured" xml:space="preserve">
+    <value>Keine Sprachen zur Texterkennung ausgewählt. Bitte Sprachen in den Einstellungen unter Texterkennung auswählen</value>
+  </data>
+  <data name="PdfCreationPdfLoaded" xml:space="preserve">
+    <value>PDF geladen</value>
+  </data>
+  <data name="PdfCreationSavingDocument" xml:space="preserve">
+    <value>Dokument wird gespeichert</value>
+  </data>
+  <data name="PdfCreationSavingPdf" xml:space="preserve">
+    <value>PDF wird gespeichert</value>
+  </data>
+  <data name="PdfCreationSavingTags" xml:space="preserve">
+    <value>Tags werden gespeichert...</value>
+  </data>
+  <data name="PdfCreationTextDetected" xml:space="preserve">
+    <value>Text extrahiert</value>
+  </data>
+  <data name="PdfCreationTextDetectionDisabled" xml:space="preserve">
+    <value>Texterkennung deaktiviert</value>
+  </data>
+  <data name="PdfCreationTextDetectionFailed" xml:space="preserve">
+    <value>Text konnte nicht erkannt werden: {0}</value>
+  </data>
+  <data name="Pin" xml:space="preserve">
+    <value>Anpinnen</value>
+  </data>
+  <data name="RecentDocuments" xml:space="preserve">
+    <value>Aktuelle Dokumente</value>
+  </data>
+  <data name="OcrRetrievingInstalledLanguages" xml:space="preserve">
+    <value>Installierte Sprachen werden geladen</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="OcrSaveAnd" xml:space="preserve">
+    <value>und</value>
+  </data>
+  <data name="OcrSaveLanguagesPrefix" xml:space="preserve">
+    <value>Du bist dabei, </value>
+  </data>
+  <data name="OcrSaveLanguagesText" xml:space="preserve">
+    <value>{0}. Fortfahren?</value>
+  </data>
+  <data name="OcrSaveLanguagesTitle" xml:space="preserve">
+    <value>Sprachen speichern</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>Scannen</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="SearchFilter" xml:space="preserve">
+    <value>Suchfilter</value>
+  </data>
+  <data name="SearchFullTextSearch" xml:space="preserve">
+    <value>Volltextsuche</value>
+  </data>
+  <data name="SearchFullTextSearchEnabled" xml:space="preserve">
+    <value>Alle Dokumente werden nach dem Suchbegriff dursucht. Es kann einen Moment dauern, bis alle Ergebnisse gefunden wurden.</value>
+    <comment>Full text search is enabled. It may take longer to find all results</comment>
+  </data>
+  <data name="SearchNoResults" xml:space="preserve">
+    <value>Keine Ergebnisse gefunden</value>
+  </data>
+  <data name="SearchOnlyWithSelectedTags" xml:space="preserve">
+    <value>Nur nach Dokumenten mit den ausgewählten Kategorien suchen</value>
+    <comment>Only show documents with selected tags</comment>
+  </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>Nach Dokumentnamen oder Text suchen...</value>
+  </data>
+  <data name="SearchResultDocument" xml:space="preserve">
+    <value>Dokument: </value>
+  </data>
+  <data name="SearchResultFolder" xml:space="preserve">
+    <value>Ordner: </value>
+  </data>
+  <data name="SearchResultPage" xml:space="preserve">
+    <value>Seite: </value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Ergebnisse</value>
+  </data>
+  <data name="SearchRunning" xml:space="preserve">
+    <value>Suche läuft...</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="SettingsCopyrightDesc" xml:space="preserve">
+    <value>Copyright Informationen über Ressourcen Dritter</value>
+  </data>
+  <data name="SettingsCopyrightTitle" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="SettingsFeedbackDesc" xml:space="preserve">
+    <value>Fehler melden, neue Features anfragen oder allgemeines Feedback</value>
+  </data>
+  <data name="SettingsFeedbackTitle" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="SettingsHelpDesc" xml:space="preserve">
+    <value>Informationen, Erklärungen und weitere Hilfe</value>
+  </data>
+  <data name="SettingsHelpTitle" xml:space="preserve">
+    <value>Hilfe</value>
+  </data>
+  <data name="SettingsNewsDesc" xml:space="preserve">
+    <value>Neuigkeiten und Updates über die App</value>
+  </data>
+  <data name="SettingsNewsTitle" xml:space="preserve">
+    <value>Neuigkeiten</value>
+  </data>
+  <data name="SettingsOcrDesc" xml:space="preserve">
+    <value>Verwalte unterstützte  Sprachen</value>
+  </data>
+  <data name="SettingsOcrTitle" xml:space="preserve">
+    <value>Texterkennung</value>
+  </data>
+  <data name="SettingsPrivacyPolicyDesc" xml:space="preserve">
+    <value>Rechtliche Informationen zum Datenschutz</value>
+  </data>
+  <data name="SettingsPrivacyPolicyTitle" xml:space="preserve">
+    <value>Datenschutzrichtlinie</value>
+  </data>
+  <data name="SettingsTermsOfUseDesc" xml:space="preserve">
+    <value>Rechtliche Informationen zu den Nutzungsbedingungen</value>
+  </data>
+  <data name="SettingsTermsOfUseTitle" xml:space="preserve">
+    <value>Nutzungsbedingungen</value>
+  </data>
+  <data name="Share" xml:space="preserve">
+    <value>Teilen</value>
+  </data>
+  <data name="ShowTutorial" xml:space="preserve">
+    <value>Tutorial anzeigen</value>
+  </data>
+  <data name="StartSearch" xml:space="preserve">
+    <value>Suche starten</value>
+  </data>
+  <data name="TagDeleted" xml:space="preserve">
+    <value>Kategorie {0} erfolgreich gelöscht!</value>
+  </data>
+  <data name="TagEmpty" xml:space="preserve">
+    <value>Benutze den Plus button, um eine neue Kategorie anzulegen</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Name der Kategorie</value>
+  </data>
+  <data name="TagNewName" xml:space="preserve">
+    <value>Wähle einen neuen Namen für {0}</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Kategorien</value>
+  </data>
+  <data name="TagsSavedSuccessfully" xml:space="preserve">
+    <value>Kategorien erfolgreich gespeichert</value>
+  </data>
+  <data name="TextColor" xml:space="preserve">
+    <value>Textfarbe</value>
+  </data>
+  <data name="TextDetectionNotAvailable" xml:space="preserve">
+    <value>Die Texterkennung ist derzeit nicht verfügbar, da keine Sprachen ausgewählt wurden.
+Stelle sicher, dass die gewünschten Sprachen in den Einstellungen unter Texterkennung ausgewählt wurden.</value>
+  </data>
+  <data name="ToSChangedCheckConfirm" xml:space="preserve">
+    <value>Ich habe die Datenschutzrichtlinie und die Nutzungsbedingungen gelesen und verstanden. Durch das Fortfahren erkläre ich mich mit den Änderungen einverstanden</value>
+  </data>
+  <data name="ToSChangedDescription" xml:space="preserve">
+    <value>Die Nutzungsbedingungen und die Datenschutzrichtlinie haben sich geändert. Bitte lies beide Dokumente sorgfältig durch.</value>
+  </data>
+  <data name="ToSChangedTitle" xml:space="preserve">
+    <value>Nutzungsbedingungen/Datenschutzrichtlinie</value>
+  </data>
+  <data name="ValidatingInstalledLanguages" xml:space="preserve">
+    <value>Installierte Sprachen werden überprüft</value>
+  </data>
+  <data name="WelcomeEnterName" xml:space="preserve">
+    <value>Bitte gib deinen Namen ein</value>
+  </data>
+  <data name="WelcomeEnterNameDesc" xml:space="preserve">
+    <value>Dein Name wird lediglich für eine persönliche Begrüßung verwendet</value>
+  </data>
+  <data name="WelcomeReady" xml:space="preserve">
+    <value>Einrichtung erfolgreich, du kannst nun Athena benutzen!</value>
+  </data>
+  <data name="WelcomeReadyDesc" xml:space="preserve">
+    <value>Solltest du Fragen oder Feedback haben, kannst du uns jederzeit über das Feedback Formular in den Einstellungen erreichen</value>
+    <comment>If you have any questions, use the help icon to get information or use the feedback form in the settings</comment>
+  </data>
+  <data name="WelcomeSelectLanguage" xml:space="preserve">
+    <value>Bitte wähle deine Sprache</value>
+  </data>
+  <data name="WelcomeTitle" xml:space="preserve">
+    <value>Danke für das Herunterladen der Athena: AI Document Manager App!</value>
+    <comment>Thank you for downloading the Athena: AI Document Manager app</comment>
+  </data>
+  <data name="WelcomeYourNamePlaceholder" xml:space="preserve">
+    <value>Dein Name</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="DocumentEditorTagsInfo" xml:space="preserve">
+    <value>Dokumente können verschiedenen Kategorien zugewiesen werden, um sie leichter und intuitiver zu verwalten.</value>
+  </data>
+  <data name="PasswordDescription" xml:space="preserve">
+    <value>Das Passwort wird benuzt, um deine Daten zu verschlüsseln. Bitte stelle sicher, dass du dein Passwort nicht vergisst. Sobald die Daten verschlüsselt sind, können sie nur noch mit dem Passwort entschlüsselt werden. Wenn du dein Passwort vergisst, sind die Daten verloren und können nicht wiederhergestellt werden.</value>
+    <comment>The PIN is required and used to encrypt your data. Please make sure you do not forget the PIN. Once encrypted, your data can only be accessed with your PIN. If you forget your PIN, your data is lost and cannot be recovered.</comment>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="DocumentScanner" xml:space="preserve">
+    <value>Dokumentenscanner</value>
+  </data>
+  <data name="DocumentScannerDesc" xml:space="preserve">
+    <value>Athena verwendet einen fortschrittlichen Dokumentenscanner mit Funktionen wie automatische Dokumenterkennung, intelligentes Zuschneiden und visuelle Verbesserungen.
+
+Um diese Funktionen zu aktivieren, werden zusätzliche Ressourcen von Google Play Services heruntergeladen, wenn der Scanner zum ersten Mal verwendet wird. Es werden keine Apps auf dem Gerät installiert oder verändert. 
+
+Du kannst dich gegen die Verwendung des fortschrittlichen Scanners entscheiden und stattdessen den Legacy Scanner verwenden, der ohne zusätzliche Ressourcen funktioniert, aber weniger Funktionien bietet.</value>
+  </data>
+  <data name="DocumentScannerUseAdv" xml:space="preserve">
+    <value>Benutze den fortschrittlichen Dokumentenscanner</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="DocumentScannerDownloadInfo" xml:space="preserve">
+    <value>Zusätzliche Ressourcen, die für den Dokumentenscanner erforderlich sind, werden von Google Play Services heruntergeladen. Weitere Informationen können im Abschnitt Dokumentenscanner in den Einstellungen gefunden werden.</value>
+  </data>
+  <data name="DocumentScannerSettingsHint" xml:space="preserve">
+    <value>Diese Option kann jederezeit in den Einstellungen geändert werden.</value>
+  </data>
+  <data name="SettingsDocumentScanner" xml:space="preserve">
+    <value>Verwalte den Dokumentenscanner</value>
+  </data>
+  <data name="BackupDesc" xml:space="preserve">
+    <value>Ein Backup enthält alle deine relevanten Daten, einschließlich Dokumenten und deren Inhalt, Ordner und deren Struktur sowie Tags und deren Verknüpfung mit Dokumenten.
+Backups können jederzeit erstellt werden und später auf demselben oder einem anderen Gerät wiederhergestellt werden.</value>
+  </data>
+  <data name="BackupTitle" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Wiederherstellen</value>
+  </data>
+  <data name="SettingsBackupDesc" xml:space="preserve">
+    <value>Backups erstellen und wiederherstellen</value>
+  </data>
+  <data name="SettingsBackupTitle" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="BiometricsNotAvailable" xml:space="preserve">
+    <value>Die biometrische Authentifizierung ist auf diesem Gerät nicht verfügbar</value>
+  </data>
+  <data name="SettingsSecurityDesc" xml:space="preserve">
+    <value>Verwalte dein Password und die biometrische Authentifizierung</value>
+  </data>
+  <data name="SettingsSecurityTitle" xml:space="preserve">
+    <value>Sicherheit</value>
+  </data>
+</root>

@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddDocument" xml:space="preserve">
+    <value>New document</value>
+  </data>
+  <data name="AddFolder" xml:space="preserve">
+    <value>New folder</value>
+  </data>
+  <data name="AddNewTag" xml:space="preserve">
+    <value>Add new tag</value>
+  </data>
+  <data name="AddNewTagName" xml:space="preserve">
+    <value>Enter the name of the new tag (max. 20 characters)</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Background color</value>
+  </data>
+  <data name="ChangeLanguageConfirm" xml:space="preserve">
+    <value>Do you really want to change the language to {0}?</value>
+  </data>
+  <data name="ChangeName" xml:space="preserve">
+    <value>Change name</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteDocument" xml:space="preserve">
+    <value>Delete document</value>
+  </data>
+  <data name="DeleteDocumentConfirm" xml:space="preserve">
+    <value>Do you really want to delete the document {0}?
+The document cannot be recovered!</value>
+  </data>
+  <data name="DeleteFolder" xml:space="preserve">
+    <value>Delete folder</value>
+  </data>
+  <data name="DeleteFolderConfirm" xml:space="preserve">
+    <value>Do you really want to delete the folder {0}?
+The folder cannot be recovered!</value>
+  </data>
+  <data name="OcrDeleteInstalledLanguagesConfirmText" xml:space="preserve">
+    <value>Do your really want to delete {0} installed language(s)? (ca. {1} MB)</value>
+  </data>
+  <data name="OcrDeleteInstalledLanguagesConfirmTitle" xml:space="preserve">
+    <value>Delete installed languages</value>
+  </data>
+  <data name="OcrDeleteLanguageInfo" xml:space="preserve">
+    <value>delete {0} language(s) (ca. {1} MB)</value>
+  </data>
+  <data name="DeletePage" xml:space="preserve">
+    <value>Delete page</value>
+  </data>
+  <data name="DeletePageConfirm" xml:space="preserve">
+    <value>Do you really want to delete the page {0}?
+The page cannot be recovered!</value>
+  </data>
+  <data name="DeleteTag" xml:space="preserve">
+    <value>Delete tag</value>
+  </data>
+  <data name="DeleteTagConfirm" xml:space="preserve">
+    <value>Do you really want to delete the tag {0}?
+The tag cannot be recovered!</value>
+  </data>
+  <data name="DeletingLanguage" xml:space="preserve">
+    <value>Deleting {0}</value>
+  </data>
+  <data name="OcrDeletingLanguages" xml:space="preserve">
+    <value>Deleting languages</value>
+  </data>
+  <data name="DisplayLanguage" xml:space="preserve">
+    <value>Display language</value>
+  </data>
+  <data name="DocFolderOverviewText" xml:space="preserve">
+    <value>You created {0} {1} and {2} {3}</value>
+  </data>
+  <data name="DocFolderOverviewTextLastUpdate" xml:space="preserve">
+    <value>Last updated at {0}</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  <data name="DocumentDeleted" xml:space="preserve">
+    <value>Successfully deleted document {0}</value>
+  </data>
+  <data name="DocumentDetailsDocumentInfo" xml:space="preserve">
+    <value>About this document...</value>
+  </data>
+  <data name="DocumentDetailsOpenWithExt" xml:space="preserve">
+    <value>Open with external application</value>
+  </data>
+  <data name="DocumentEditorAddAdditionalInformation" xml:space="preserve">
+    <value>Add additional information</value>
+  </data>
+  <data name="DocumentEditorAddDocuments" xml:space="preserve">
+    <value>Add documents</value>
+  </data>
+  <data name="DocumentEditorAIDescription" xml:space="preserve">
+    <value>Athena uses advanced artifical intelligence (AI) technology to detect text within documents, allowing you to efficiently search for any words across all documents.
+Depending on the size of the documents, this process may take a moment.</value>
+  </data>
+  <data name="DocumentEditorAIHeader" xml:space="preserve">
+    <value>AI text detection</value>
+  </data>
+  <data name="DocumentEditorEnableAI" xml:space="preserve">
+    <value>Detect text in documents</value>
+  </data>
+  <data name="DocumentEditorLoadDocument" xml:space="preserve">
+    <value>Scan a document with your camera, choose one from your gallery or pick a document from your device</value>
+  </data>
+  <data name="DocumentEditorNoTags" xml:space="preserve">
+    <value>No tags available. Use the tags tab to add new tags</value>
+  </data>
+  <data name="DocumentEditorSelectTags" xml:space="preserve">
+    <value>Select tags</value>
+  </data>
+  <data name="DocumentEmpty" xml:space="preserve">
+    <value>Use the plus button to add a new document</value>
+  </data>
+  <data name="DocumentMovedSuccessfully" xml:space="preserve">
+    <value>Document {0} successfully moved to {1}</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Documents</value>
+  </data>
+  <data name="DocumentVMComment" xml:space="preserve">
+    <value>Optional comment</value>
+  </data>
+  <data name="DocumentVMCommentExceedsCharLimit" xml:space="preserve">
+    <value>The comment should not exceed 80 characters</value>
+  </data>
+  <data name="DocumentVMName" xml:space="preserve">
+    <value>Document name</value>
+  </data>
+  <data name="DocumentVMNameCharsExceedLimit" xml:space="preserve">
+    <value>The name should not exceed 45 characters</value>
+  </data>
+  <data name="DocumentVMNameRequired" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
+  <data name="OcrDownloadingLanguage" xml:space="preserve">
+    <value>Downloading {0}</value>
+  </data>
+  <data name="DownloadingNewLanguages" xml:space="preserve">
+    <value>Downloading new languages</value>
+  </data>
+  <data name="OcrDownloadLanguagesInfo" xml:space="preserve">
+    <value>download {0} language(s) (ca. {1} MB)</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditDocument" xml:space="preserve">
+    <value>Edit document</value>
+  </data>
+  <data name="EditTag" xml:space="preserve">
+    <value>Edit tag</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="FolderAndDocuments" xml:space="preserve">
+    <value>Folders and documents</value>
+  </data>
+  <data name="FolderDeleted" xml:space="preserve">
+    <value>Successfully deleted folder {0}</value>
+  </data>
+  <data name="FolderEmpty" xml:space="preserve">
+    <value>Use the plus button to add a new folder or a new document</value>
+  </data>
+  <data name="FolderInformation" xml:space="preserve">
+    <value>About this folder...</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Folders</value>
+  </data>
+  <data name="FolderVMComment" xml:space="preserve">
+    <value>Optional comment</value>
+  </data>
+  <data name="FolderVMCommentExceedCharLimit" xml:space="preserve">
+    <value>The comment should not exceed 80 characters</value>
+  </data>
+  <data name="FolderVMName" xml:space="preserve">
+    <value>Folder name</value>
+  </data>
+  <data name="FolderVMTitleExceedCharLimit" xml:space="preserve">
+    <value>The name should not exceed 45 characters</value>
+  </data>
+  <data name="FolderVMTitleRequired" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>Gallery</value>
+  </data>
+  <data name="GoodAfternoon" xml:space="preserve">
+    <value>Good afternoon</value>
+  </data>
+  <data name="GoodEvening" xml:space="preserve">
+    <value>Good evening</value>
+  </data>
+  <data name="GoodMorning" xml:space="preserve">
+    <value>Good morning</value>
+  </data>
+  <data name="GoodNight" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="OcrInstalledLanguagesDeletedSuccessfully" xml:space="preserve">
+    <value>Successfully deleted installed languages</value>
+  </data>
+  <data name="OcrLanguagesPendingChangesText" xml:space="preserve">
+    <value>You have unsaved changes. If you close this page without saving, your changes will be lost. Do you really want to close this page?</value>
+  </data>
+  <data name="OcrLanguagesPendingChangesTitle" xml:space="preserve">
+    <value>Pending changes</value>
+  </data>
+  <data name="LoadingDocuments" xml:space="preserve">
+    <value>Loading documents...</value>
+  </data>
+  <data name="LoadingPages" xml:space="preserve">
+    <value>Loading pages...</value>
+  </data>
+  <data name="Move" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="MoveDocument" xml:space="preserve">
+    <value>Move document</value>
+  </data>
+  <data name="MoveDocumentConfirm" xml:space="preserve">
+    <value>Do you really want to move the document {0} to page {1}?</value>
+  </data>
+  <data name="MoveToSelectedPage" xml:space="preserve">
+    <value>Move to selected page</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>News</value>
+  </data>
+  <data name="NewTag" xml:space="preserve">
+    <value>New tag</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="OcrNoInternetText" xml:space="preserve">
+    <value>You are not connected to the internet, therfore languages cannot be downloaded</value>
+  </data>
+  <data name="NoRecentDocuments" xml:space="preserve">
+    <value>No recent documents</value>
+  </data>
+  <data name="OcrNotInternetTitle" xml:space="preserve">
+    <value>No internet connection</value>
+  </data>
+  <data name="OcrNoWlanConnectionText" xml:space="preserve">
+    <value>You are not connected to a WiFi network. Do you really want to download {0} MB with your mobile data?</value>
+  </data>
+  <data name="OcrNoWlanConnectionTitle" xml:space="preserve">
+    <value>Internet connection</value>
+  </data>
+  <data name="OcrDeleteInstalledLanguages" xml:space="preserve">
+    <value>Delete installed languages</value>
+  </data>
+  <data name="OcrEstimatedDownloadSize" xml:space="preserve">
+    <value>Estimated download size: </value>
+  </data>
+  <data name="OcrEstimatedLocalSize" xml:space="preserve">
+    <value>Estimated local size: </value>
+  </data>
+  <data name="OcrLanguagesDescription" xml:space="preserve">
+    <value>Here you can manage the languages supported by the text detection when creating new documents. Already installed languages can be deleted by removing them from the list. New languages can be installed by adding them. </value>
+  </data>
+  <data name="OcrLanguagesSaved" xml:space="preserve">
+    <value>Successfully saved text detection languages!</value>
+  </data>
+  <data name="OcrTypeToSelectLanguages" xml:space="preserve">
+    <value>Start typing to select languages...</value>
+  </data>
+  <data name="OpenInBrowser" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="PdfCreationBadImageQuality" xml:space="preserve">
+    <value>Bad image quality, detected text might not be accurate</value>
+  </data>
+  <data name="PdfCreationConvertingDocument" xml:space="preserve">
+    <value>Converting document {0}</value>
+  </data>
+  <data name="PdfCreationDetectedText" xml:space="preserve">
+    <value>Detected text</value>
+  </data>
+  <data name="PdfCreationDetectingTextInDocument" xml:space="preserve">
+    <value>Detecting text in document {0}. This may take a while</value>
+  </data>
+  <data name="PdfCreationDocumentContainsNoText" xml:space="preserve">
+    <value>Document contains no text</value>
+  </data>
+  <data name="PdfCreationExtractingTextFromPdf" xml:space="preserve">
+    <value>Extracting text from pdf {0}</value>
+  </data>
+  <data name="PdfCreationImageCompressed" xml:space="preserve">
+    <value>Images compressed</value>
+  </data>
+  <data name="PdfCreationLoadingPdf" xml:space="preserve">
+    <value>Loading pdf {0}</value>
+  </data>
+  <data name="PdfCreationMergingPdf" xml:space="preserve">
+    <value>Merging pdf {0}</value>
+  </data>
+  <data name="PdfCreationNoLanguagesConfigured" xml:space="preserve">
+    <value>No languages configured for text detection. Choose languages in the settings under text detection</value>
+  </data>
+  <data name="PdfCreationPdfLoaded" xml:space="preserve">
+    <value>PDF loaded</value>
+  </data>
+  <data name="PdfCreationSavingDocument" xml:space="preserve">
+    <value>Saving document</value>
+  </data>
+  <data name="PdfCreationSavingPdf" xml:space="preserve">
+    <value>Saving pdf</value>
+  </data>
+  <data name="PdfCreationSavingTags" xml:space="preserve">
+    <value>Saving tags...</value>
+  </data>
+  <data name="PdfCreationTextDetected" xml:space="preserve">
+    <value>Text extracted</value>
+  </data>
+  <data name="PdfCreationTextDetectionDisabled" xml:space="preserve">
+    <value>Text detection disabled</value>
+  </data>
+  <data name="PdfCreationTextDetectionFailed" xml:space="preserve">
+    <value>Unable to detect text: {0}</value>
+  </data>
+  <data name="Pin" xml:space="preserve">
+    <value>Pin</value>
+  </data>
+  <data name="RecentDocuments" xml:space="preserve">
+    <value>Recent documents</value>
+  </data>
+  <data name="OcrRetrievingInstalledLanguages" xml:space="preserve">
+    <value>Retrieving installed languages</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="OcrSaveAnd" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="OcrSaveLanguagesPrefix" xml:space="preserve">
+    <value>You are about to</value>
+  </data>
+  <data name="OcrSaveLanguagesText" xml:space="preserve">
+    <value>{0}. Continue?</value>
+  </data>
+  <data name="OcrSaveLanguagesTitle" xml:space="preserve">
+    <value>Save languages</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchFilter" xml:space="preserve">
+    <value>Search filter</value>
+  </data>
+  <data name="SearchFullTextSearch" xml:space="preserve">
+    <value>Full text search</value>
+  </data>
+  <data name="SearchFullTextSearchEnabled" xml:space="preserve">
+    <value>Full text search is enabled. It may take longer to find all results</value>
+  </data>
+  <data name="SearchNoResults" xml:space="preserve">
+    <value>No results found</value>
+  </data>
+  <data name="SearchOnlyWithSelectedTags" xml:space="preserve">
+    <value>Only show documents with selected tags</value>
+  </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>Search for document name or text...</value>
+  </data>
+  <data name="SearchResultDocument" xml:space="preserve">
+    <value>Document: </value>
+  </data>
+  <data name="SearchResultFolder" xml:space="preserve">
+    <value>Folder: </value>
+  </data>
+  <data name="SearchResultPage" xml:space="preserve">
+    <value>Page: </value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Results</value>
+  </data>
+  <data name="SearchRunning" xml:space="preserve">
+    <value>Searching...</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsCopyrightDesc" xml:space="preserve">
+    <value>Copyright related information about third-party resources</value>
+  </data>
+  <data name="SettingsCopyrightTitle" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="SettingsFeedbackDesc" xml:space="preserve">
+    <value>Report bugs, request features or provide general feedback</value>
+  </data>
+  <data name="SettingsFeedbackTitle" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="SettingsHelpDesc" xml:space="preserve">
+    <value>Information, explanations and further help</value>
+  </data>
+  <data name="SettingsHelpTitle" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="SettingsNewsDesc" xml:space="preserve">
+    <value>News and updates about the app</value>
+  </data>
+  <data name="SettingsNewsTitle" xml:space="preserve">
+    <value>News</value>
+  </data>
+  <data name="SettingsOcrDesc" xml:space="preserve">
+    <value>Manage supported languages</value>
+  </data>
+  <data name="SettingsOcrTitle" xml:space="preserve">
+    <value>Text detection</value>
+  </data>
+  <data name="SettingsPrivacyPolicyDesc" xml:space="preserve">
+    <value>Legal information about Privacy policy</value>
+  </data>
+  <data name="SettingsPrivacyPolicyTitle" xml:space="preserve">
+    <value>Privacy policy</value>
+  </data>
+  <data name="SettingsTermsOfUseDesc" xml:space="preserve">
+    <value>Legal information about Terms and Conditions</value>
+  </data>
+  <data name="SettingsTermsOfUseTitle" xml:space="preserve">
+    <value>Terms of Use</value>
+  </data>
+  <data name="Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="ShowTutorial" xml:space="preserve">
+    <value>Show tutorial</value>
+  </data>
+  <data name="StartSearch" xml:space="preserve">
+    <value>Start searching</value>
+  </data>
+  <data name="TagDeleted" xml:space="preserve">
+    <value>Successfully deleted tag {0}</value>
+  </data>
+  <data name="TagEmpty" xml:space="preserve">
+    <value>Use the plus button to add a new tag</value>
+  </data>
+  <data name="TagName" xml:space="preserve">
+    <value>Tag name</value>
+  </data>
+  <data name="TagNewName" xml:space="preserve">
+    <value>Choose a new name for {0}</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="TagsSavedSuccessfully" xml:space="preserve">
+    <value>Tags saved successfully</value>
+  </data>
+  <data name="TextColor" xml:space="preserve">
+    <value>Text color</value>
+  </data>
+  <data name="TextDetectionNotAvailable" xml:space="preserve">
+    <value>The text detection is currently not available because no languages have been selected.
+Make sure that the desired languages have been selected in the settings under Text detection.</value>
+  </data>
+  <data name="ToSChangedCheckConfirm" xml:space="preserve">
+    <value>I have read and understood the privacy policy and terms of use. By continuing, I agree to the changes</value>
+  </data>
+  <data name="ToSChangedDescription" xml:space="preserve">
+    <value>The terms of use and the privacy policy have changed. Please carefully read both documents.</value>
+  </data>
+  <data name="ToSChangedTitle" xml:space="preserve">
+    <value>Terms of use/privacy policy</value>
+  </data>
+  <data name="ValidatingInstalledLanguages" xml:space="preserve">
+    <value>Validating installed languages</value>
+  </data>
+  <data name="WelcomeEnterName" xml:space="preserve">
+    <value>Please enter your name</value>
+  </data>
+  <data name="WelcomeEnterNameDesc" xml:space="preserve">
+    <value>Your name will only be used for a personal greeting</value>
+  </data>
+  <data name="WelcomeReady" xml:space="preserve">
+    <value>You are now ready to use Athena!</value>
+  </data>
+  <data name="WelcomeReadyDesc" xml:space="preserve">
+    <value>If you have any questions or feedback, you can contact us at any time via the feedback form in the settings</value>
+  </data>
+  <data name="WelcomeSelectLanguage" xml:space="preserve">
+    <value>Please select your language</value>
+  </data>
+  <data name="WelcomeTitle" xml:space="preserve">
+    <value>Thank you for downloading the Athena: AI Document Manager app!</value>
+  </data>
+  <data name="WelcomeYourNamePlaceholder" xml:space="preserve">
+    <value>Your name</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="DocumentEditorTagsInfo" xml:space="preserve">
+    <value>Documents can be assigned to different categories to make them easier and more intuitive to manage.</value>
+  </data>
+  <data name="PasswordDescription" xml:space="preserve">
+    <value>The password is required and used to encrypt your data. Please make sure you do not forget your password. Once encrypted, your data can only be accessed with your password. If you forget your password, your data is lost and cannot be recovered. </value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="DocumentScanner" xml:space="preserve">
+    <value>Document scanner</value>
+  </data>
+  <data name="DocumentScannerDesc" xml:space="preserve">
+    <value>Athena uses an advanced document scanner with features like automatic document detection, smart cropping, and visual enhancements.
+To enable these features, a small component is downloaded from Google Play Services the first time you use the scanner.
+This does not install or modify any apps on your device.
+
+You can opt out of the advanced scanner and use the legacy scanner instead, which works without any downloads but offers fewer features.</value>
+  </data>
+  <data name="DocumentScannerUseAdv" xml:space="preserve">
+    <value>Use the advanced document scanner</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="DocumentScannerDownloadInfo" xml:space="preserve">
+    <value>Additional resources required for the document scanner will be downloaded from Google Play Services. Refer to the Document Scanner section in the settings for more information.</value>
+  </data>
+  <data name="DocumentScannerSettingsHint" xml:space="preserve">
+    <value>This option can be changed at any time in the settings.</value>
+  </data>
+  <data name="SettingsDocumentScannerDesc" xml:space="preserve">
+    <value>Manager document scanner related settings</value>
+  </data>
+  <data name="BackupDesc" xml:space="preserve">
+    <value>A backup contains all of your essential data, including documents and their content, folders and their structure and tags and their associations with documents.
+Backups can be created at any time and later restored on the same or on another device.</value>
+  </data>
+  <data name="BackupTitle" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="SettingsBackupDesc" xml:space="preserve">
+    <value>Create and restore backups</value>
+  </data>
+  <data name="SettingsBackupTitle" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="BiometricsNotAvailable" xml:space="preserve">
+    <value>Biometric authentication is not available on this device</value>
+  </data>
+  <data name="SettingsSecurityDesc" xml:space="preserve">
+    <value>Manage your password and biometric authentication</value>
+  </data>
+  <data name="SettingsSecurityTitle" xml:space="preserve">
+    <value>Security</value>
+  </data>
+</root>

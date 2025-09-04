@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Athena.UI.SettingsView"
+             Style="{StaticResource ContentPageStyle}"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Text="{x:Static loc:Localization.Settings}"
+               Grid.Row="0"
+               Margin="5,20,5,2"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               Grid.ColumnSpan="2"
+               FontSize="32"/>
+
+        <Label Margin="5,0,5,10"
+               Grid.Row="1"
+               HorizontalTextAlignment="Center"
+               FontAttributes="Bold"
+               LineBreakMode="WordWrap"
+               x:Name="versionLabel"
+               Grid.ColumnSpan="2"/>
+
+        <Grid Grid.Row="2"
+              Grid.ColumnSpan="2">
+
+            <sf:SfListView
+                SelectionMode="Single"
+                AutoFitMode="DynamicHeight"
+                SelectionChangedCommand="{Binding ItemClickedCommand}"
+                SelectedItem="{Binding SelectedSetting}"
+                ItemsSource="{Binding SettingsItems}">
+                <sf:SfListView.ItemsLayout>
+                    <sf:GridLayout SpanCount="2" />
+                </sf:SfListView.ItemsLayout>
+
+                <sf:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeShape="RoundRectangle 5" 
+                                BackgroundColor="White" 
+                                Margin="5">
+                            <VerticalStackLayout>
+                                <ffimageloading:CachedImage 
+                                    LoadingPlaceholder="image_placeholder.png"
+                                    FadeAnimationForCachedImages="False"
+                                    HorizontalOptions="Start"
+                                    FadeAnimationEnabled="False"
+                                    HeightRequest="24"
+                                    Margin="10,5,5,5"
+                                    WidthRequest="24"
+                                    Source="{Binding ImageSource}"/>
+
+                                <Label Text="{Binding Title}" 
+                                       FontAttributes="Bold"
+                                       Margin="10,0,10,3"/>
+
+                                <Label Text="{Binding Description}" 
+                                       FontSize="12"
+                                       Margin="10,0,10,5"/>
+
+
+                            </VerticalStackLayout>
+                                    
+                        </Border>
+                    </DataTemplate>
+                </sf:SfListView.ItemTemplate>
+            </sf:SfListView>
+
+        </Grid>
+
+        <Label Text="{x:Static loc:Localization.DisplayLanguage}" 
+               Margin="5" 
+               Grid.Row="3"
+               VerticalTextAlignment="Center"/>
+
+        <editors:SfComboBox 
+                Margin="5,0,5,5" 
+                x:Name="cb"
+                BackgroundColor="Transparent"
+                Grid.Row="3"
+                Grid.Column="1"
+                IsClearButtonVisible="False"
+                ItemsSource="{Binding Languages}" 
+                SelectedItem="{Binding SelectedLanguage}"
+                DisplayMemberPath="Name"
+                SelectedValuePath="Id"
+                TextMemberPath="Name">
+            <editors:SfComboBox.Behaviors>
+                <toolkit:EventToCommandBehavior 
+                        EventName="SelectionChanged"
+                        Command="{Binding Source={x:Reference cb}, Path=BindingContext.SelectionChangedCommand}"/>
+            </editors:SfComboBox.Behaviors>
+        </editors:SfComboBox>
+
+        <p:SfPopup IsOpen="{Binding IsNewsPopupOpen}"
+                   IsFullScreen="True"
+                   HeaderTitle="{x:Static loc:Localization.News}"
+                   ShowCloseButton="True">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <ScrollView>
+                        <Label
+                            Margin="10" Text="{Binding NewsText}" TextType="Html" LineBreakMode="CharacterWrap" />
+                    </ScrollView>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+    </Grid>
+</ContentPage>

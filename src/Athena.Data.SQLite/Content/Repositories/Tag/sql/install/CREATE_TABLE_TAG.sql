@@ -1,0 +1,9 @@
+﻿CREATE TABLE IF NOT EXISTS TAG (
+	TAG_ref				INTEGER PRIMARY KEY,
+	TAG_name			TEXT NOT NULL,
+	TAG_comment			TEXT NOT NULL,
+	TAG_backgroundColor TEXT NOT NULL,
+	TAG_textColor		TEXT NOT NULL,
+	TAG_creationDate	DATE NOT NULL,
+	TAG_modDate			DATE NOT NULL
+);

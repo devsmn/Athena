@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:ui="clr-namespace:Athena.UI"
+                    Style="{StaticResource ContentPageStyle}"
+                    xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+                    x:Name="page"
+                    xmlns:loc="clr-namespace:Athena.Resources.Localization"
+                    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+                    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                    xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+                    x:Class="Athena.UI.OcrLanguageSettings"
+                    Title="OcrLanguageSettings">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <ui:LanguageSizeToMbConverter x:Key="LanguageSizeToMbConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <p:SfPopup x:Name="sfPopup"
+                   HeaderTitle="Loading"
+                   AutoSizeMode="Height"
+                   Grid.RowSpan="4"
+                   StaysOpen="True"
+                   IsOpen="{Binding IsBusy}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate >
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="true" />
+                        <Label Text="{Binding BusyText}"
+                               Margin="10"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+        <HorizontalStackLayout Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
+            <Label Text="{x:Static loc:Localization.SettingsOcrTitle}"
+                   Margin="5,20,5,2"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   FontSize="32"/>
+
+            <sfb:SfButton Margin="3,20,0,2"
+                          Clicked="OnInfoClicked"
+                          HorizontalTextAlignment="Start"
+                          BackgroundImageSource="info.png"
+                          ImageSource="info.png"
+                          Background="Transparent"
+                          HeightRequest="25"
+                          WidthRequest="25"
+                          VerticalTextAlignment="Center"
+                          HorizontalOptions="Center"
+                          ImageAlignment="Default"
+                          StrokeThickness="0"/>
+        </HorizontalStackLayout>
+
+        <editors:SfAutocomplete ItemsSource="{Binding AllSupportedLanguages}"
+                                DisplayMemberPath="DisplayName"
+                                SelectionMode="Multiple"
+                                EnableAutoSize="True"
+                                Margin="10"
+                                Background="Transparent"
+                                Grid.Row="2"
+                                Placeholder="{x:Static loc:Localization.OcrTypeToSelectLanguages}"
+                                IsClearButtonVisible="False"
+                                x:Name="list"
+                                TextSearchMode="Contains"
+                                TextMemberPath="DisplayName"
+                                SelectedItems="{Binding SelectedSupportedLanguages}"
+                                TokensWrapMode="Wrap"
+                                >
+            <editors:SfAutocomplete.Behaviors>
+                <toolkit:EventToCommandBehavior
+                    BindingContext="{Binding Path=BindingContext, Source={x:Reference list}}"
+                    EventName="SelectionChanged"
+                    Command="{Binding Source={x:Reference page}, Path=BindingContext.IsCheckedChangedCommand}" />
+            </editors:SfAutocomplete.Behaviors>
+
+        </editors:SfAutocomplete>
+
+        <Grid Grid.Row="3"
+              Background="White" 
+              VerticalOptions="End">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto "/>
+                <RowDefinition Height="auto "/>
+                <RowDefinition Height="auto "/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Margin="5"
+                   Grid.Row="0"
+                   Grid.ColumnSpan="2">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{x:Static loc:Localization.OcrEstimatedLocalSize}"  />
+                        <Span Text="{Binding EstimatedLocalSize, Converter={x:StaticResource LanguageSizeToMbConverter}}" FontAttributes="Bold"  />
+                        <Span Text=" MB" FontAttributes="Bold"  />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Label Margin="5,0,5,5"
+                   Grid.Row="1"
+                   Grid.ColumnSpan="2">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{x:Static loc:Localization.OcrEstimatedDownloadSize}"  />
+                        <Span Text="{Binding EstimatedDownloadSize, Converter={x:StaticResource LanguageSizeToMbConverter}}" FontAttributes="Bold" />
+                        <Span Text=" MB" FontAttributes="Bold"  />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <sfb:SfButton Grid.Row="2"
+                          Margin="5"
+                          Grid.Column="1"
+                          Style="{StaticResource PrimaryButtonFlat}"
+                          Command="{Binding UpdateLanguagesCommand}"
+                          Text="{x:Static loc:Localization.Save}">
+            </sfb:SfButton>
+
+            <sfb:SfButton Text="{x:Static loc:Localization.OcrDeleteInstalledLanguages}"
+                          Margin="5"
+                          Style="{StaticResource SecondaryButtonFlat}"
+                          Grid.Row="2"
+                          Grid.Column="0"
+                          Command="{Binding DeleteLocalFilesCommand}"/>
+        </Grid>
+    </Grid>
+</ui:DefaultContentPage>

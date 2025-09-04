@@ -1,0 +1,23 @@
+﻿namespace Athena.DataModel.Core
+{
+    public interface IPasswordService
+    {
+        /// <summary>
+        /// Requests the user to enter a new password.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="onNewPasswordEntered"></param>
+        /// <returns></returns>
+        Task New(IContext context, Action<string> onNewPasswordEntered);
+
+        /// <summary>
+        /// Prompts the user to enter a password.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="isRetry"></param>
+        /// <param name="passwordEntered"></param>
+        /// <param name="cancelled"></param>
+        /// <returns></returns>
+        Task Prompt(IContext context, bool isRetry, Action<string> passwordEntered, Action cancelled = null);
+    }
+}

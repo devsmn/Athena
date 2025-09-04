@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!--
+      Enable trim analyzers for Android class libraries.
+      To learn more, see: https://learn.microsoft.com/dotnet/core/deploying/trimming/prepare-libraries-for-trimming
+    -->
+    <IsTrimmable>true</IsTrimmable>
+    <!--
+      NOTE: you can simply add .aar or .jar files in this directory to be included in the project.
+      To learn more, see: https://learn.microsoft.com/dotnet/maui/migration/android-binding-projects
+    -->
+  </PropertyGroup>
+  <!--<ItemGroup>
+    <AndroidLibrary Update="documentscanner-release.aar">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </AndroidLibrary>
+
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <AndroidGradleProject Include="../../native/build.gradle.kts">
+      <ModuleName>documentscanner</ModuleName>
+       <!--Metadata applicable to @(AndroidLibrary) will be used if set, otherwise the following defaults will be used:
+      <Bind>true</Bind>
+      <Pack>true</Pack>-->
+      
+    </AndroidGradleProject>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\native\documentscanner\src\main\java\com\spflaum\documentscanner\DocumentScannerWrapper.java" Link="DocumentScannerWrapper.java" />
+    <None Include="..\..\native\documentscanner\src\main\java\com\spflaum\documentscanner\IAvailabilityCallback.java" Link="IAvailabilityCallback.java" />
+    <None Include="..\..\native\documentscanner\src\main\java\com\spflaum\documentscanner\IScanCallback.java" Link="IScanCallback.java" />
+  </ItemGroup>
+</Project>

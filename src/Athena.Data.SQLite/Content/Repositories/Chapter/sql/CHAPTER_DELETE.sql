@@ -1,0 +1,3 @@
+﻿DELETE
+  FROM CHAPTER
+ WHERE DOC_ref = @DOC_ref;

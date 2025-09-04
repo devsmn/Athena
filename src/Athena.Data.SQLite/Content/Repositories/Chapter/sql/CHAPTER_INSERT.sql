@@ -1,0 +1,1 @@
+﻿INSERT INTO CHAPTER (DOC_ref, DOC_pageNr, FD_ref, CHP_text) VALUES (@DOC_ref, @DOC_pageNr, @FD_ref, @CHP_text);

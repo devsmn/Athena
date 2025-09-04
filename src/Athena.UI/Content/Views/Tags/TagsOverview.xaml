@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<local:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Athena.UI"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:input="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             x:Class="Athena.UI.TagsOverview"
+             x:Name="parent"
+             Title="{x:Static loc:Localization.Tags}"
+             Style="{StaticResource ContentPageStyle}">
+    <ContentPage.Resources>
+        <local:EditTagNameTitleConverter x:Key="EditTagNameTitleConverter" />
+        <local:HexToBrushConverter x:Key="HexToBrushConverter" />
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <local:TagsOverviewViewModel />
+    </ContentPage.BindingContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Text="{x:Static loc:Localization.Tags}"
+               Grid.Row="0"
+               Margin="5,20,5,10"
+               FontAttributes="Bold"
+               HorizontalTextAlignment="Center"
+               Grid.ColumnSpan="2"
+               FontSize="32"/>
+
+        <VerticalStackLayout Spacing="10" Grid.Row="1"  >
+            <chip:SfChipGroup ItemsSource="{Binding Tags}"
+                          Margin="10"
+                          Command="{Binding TagSelectedCommand}"
+                          SelectionChanged="Group_OnSelectionChanged"
+                          ChoiceMode="Single"
+                          ChipStrokeThickness="0"
+                          ChipType="Action">
+                <chip:SfChipGroup.ChipLayout>
+
+                    <FlexLayout
+                    Direction="Row"
+                    Wrap="Wrap" />
+
+                </chip:SfChipGroup.ChipLayout>
+                <chip:SfChipGroup.ItemTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout>
+                            <chip:SfChip HeightRequest="30"  
+                                         Clicked="ButtonBase_OnClicked"
+                                         Command="{Binding Source={x:Reference parent}, Path=BindingContext.TagSelectedCommand}"
+                                         CommandParameter="{Binding .}"
+                                         Text="{Binding Name}"
+                                         StrokeThickness="1"
+                                         Background="{Binding BackgroundColor, Converter={x:StaticResource HexToBrushConverter}}" 
+                                         TextColor="{Binding TextColor}"/>
+
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </chip:SfChipGroup.ItemTemplate>
+
+            </chip:SfChipGroup>
+        </VerticalStackLayout>
+
+        <p:SfPopup IsOpen="{Binding IsEditPopupOpen}"
+                   AutoSizeMode="Height"
+                   ShowFooter="True"
+                   AcceptCommand="{Binding SaveSelectedTagCommand}"
+                   DeclineCommand="{Binding DeleteSelectedTagCommand}"
+                   ShowCloseButton="True"
+                   AppearanceMode="{Binding AppearanceMode}"
+                   AcceptButtonText="{x:Static loc:Localization.Save}"
+                   DeclineButtonText="{x:Static loc:Localization.Delete}"
+                   ShowHeader="True"
+                   HeaderTitle="{Binding SelectedTag, Converter={x:StaticResource EditTagNameTitleConverter}}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text="Name" 
+                               Margin="5"
+                               VerticalTextAlignment="Center"/>
+
+                        <Entry Placeholder="{x:Static loc:Localization.TagName}" 
+                               Text="{Binding SelectedTagName}"
+                               Grid.Column="1"
+                               Margin="5" />
+
+                        <Label Text="{x:Static loc:Localization.BackgroundColor}" 
+                               Grid.Row="1"
+                               Margin="5"
+                               VerticalTextAlignment="Center"/>
+
+                        <input:SfComboBox Grid.Row="1"
+                                          Grid.Column="1"
+                                          IsEditable="False"
+                                          IsClearButtonVisible="False"
+                                          Placeholder="Select a color"
+                                          Background="Transparent"
+                                          Margin="5"
+                                          DisplayMemberPath="Name"
+                                          SelectedItem="{Binding SelectedBackgroundColor}"
+                                          ItemsSource="{Binding PredefinedColors}">
+                            <input:SfComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout>
+                                        <BoxView WidthRequest="25"
+                                                 HeightRequest="25"
+                                                 Color="{Binding Hex}"
+                                                 Margin="3"/>
+
+                                        <Label Text="{Binding Name}" VerticalTextAlignment="Center"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </input:SfComboBox.ItemTemplate>
+
+                        </input:SfComboBox>
+
+                        <Label Text="{x:Static loc:Localization.TextColor}" 
+                               Grid.Row="2"
+                               Margin="5"
+                               VerticalTextAlignment="Center"/>
+
+                        <input:SfComboBox Grid.Row="2"
+                                          Grid.Column="1"
+                                          IsEditable="False"
+                                          IsClearButtonVisible="False"
+                                          Placeholder="Select a color"
+                                          Background="Transparent"
+                                          Margin="5"
+                                          DisplayMemberPath="Name"
+                                          SelectedItem="{Binding SelectedTextColor}"
+                                          ItemsSource="{Binding PredefinedColors}">
+                            <input:SfComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout>
+                                        <BoxView WidthRequest="25"
+                                                 HeightRequest="25"
+                                                 Color="{Binding Hex}"
+                                                 Margin="3"/>
+
+                                        <Label Text="{Binding Name}" VerticalTextAlignment="Center"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </input:SfComboBox.ItemTemplate>
+
+                        </input:SfComboBox>
+
+                    </Grid>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+
+        <Button Grid.Row="2"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Text="+"
+                WidthRequest="60"
+                Margin="10"
+                HeightRequest="60"
+                CornerRadius="30"
+                FontSize="30" 
+                Command="{Binding AddNewTagCommand}">
+            <Button.Shadow>
+                <Shadow Brush="Black"
+                        Offset="0,4"
+                        Radius="8"
+                        Opacity="0.3"/>
+            </Button.Shadow>
+        </Button>
+
+    </Grid>
+</local:DefaultContentPage>

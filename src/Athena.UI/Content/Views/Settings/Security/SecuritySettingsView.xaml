@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Style="{StaticResource ContentPageStyle}"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             x:Class="Athena.UI.SecuritySettingsView"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="PasswordSettingsView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <p:SfPopup x:Name="sfPopup"
+                   HeaderTitle="Loading"
+                   AutoSizeMode="Height"
+                   Grid.RowSpan="5"
+                   Grid.ColumnSpan="2"
+                   StaysOpen="True"
+                   IsOpen="{Binding IsBusy}">
+            <p:SfPopup.ContentTemplate>
+                <DataTemplate >
+                    <VerticalStackLayout HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="true" />
+                        <Label Text="{Binding BusyText}"
+                               Margin="10"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </p:SfPopup.ContentTemplate>
+        </p:SfPopup>
+
+        <Label Text="{x:Static loc:Localization.SettingsSecurityTitle}"
+               Style="{x:StaticResource HeaderLabel}"
+               Grid.ColumnSpan="2"/>
+
+        <Label HorizontalTextAlignment="Center"
+               LineBreakMode="WordWrap"
+               Grid.ColumnSpan="2"
+               Margin="10,10,10,10"
+               Grid.Row="1"
+               Text="{x:Static loc:Localization.SettingsSecurityDesc}"/>
+
+        <sfb:SfButton
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Text="Change password"
+            Style="{x:StaticResource ListButton}"
+            Command="{Binding ChangePasswordCommand}"/>
+
+        <Label
+            Margin="5"
+            Grid.Row="3"
+            IsEnabled="{Binding BiometricsAvailable}"
+            VerticalTextAlignment="Center"
+            Text="Biometric authentication"/>
+
+        <sfb:SfSwitch
+            Margin="5"
+            IsEnabled="{Binding BiometricsAvailable}" 
+            IsOn="{Binding UseBiometrics}"
+            Grid.Row="3"
+            Grid.Column="1">
+            <sfb:SfSwitch.Behaviors>
+                <toolkit:EventToCommandBehavior 
+                    EventName="StateChanged"
+                    Command="{Binding UseBiometricsChangedCommand}" />
+            </sfb:SfSwitch.Behaviors>
+        </sfb:SfSwitch>
+
+
+        <Grid Margin="15, 0, 5, 0"
+              Grid.Column="0"
+              Grid.Row="4"
+              IsVisible="{Binding BiometricsAvailable, Converter={x:StaticResource InverseBooleanConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ffimageloading:CachedImage 
+                FadeAnimationEnabled="False"
+                LoadingPlaceholder="image_placeholder.png"
+                FadeAnimationForCachedImages="False"
+                WidthRequest="25" 
+                HeightRequest="25"
+                Aspect="Fill"
+                Source="warning_color.png"/>
+
+            <Label Grid.Column="1"
+                   Margin="10, 0, 0, 0"
+                   LineBreakMode="WordWrap"
+                   FontSize="12"
+                   IsVisible="{Binding BiometricsAvailable, Converter={x:StaticResource InverseBooleanConverter}}"
+                   Text="{x:Static loc:Localization.BiometricsNotAvailable}"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>

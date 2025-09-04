@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             Style="{StaticResource ContentPageStyle}"
+             Title="Edit folder"
+             x:Name="page"
+             x:Class="Athena.UI.FolderEditorView">
+  
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <sf:SfDataForm DataObject="{Binding Folder}"
+                       LayoutType="TextInputLayout"
+                       ValidationMode="PropertyChanged"
+                       CommitMode="PropertyChanged">
+            <sf:SfDataForm.DefaultLayoutSettings>
+                <sf:DataFormDefaultLayoutSettings LabelPosition="Top" />
+            </sf:SfDataForm.DefaultLayoutSettings>
+            <sf:SfDataForm.TextInputLayoutSettings>
+                <sf:TextInputLayoutSettings ShowHelperText="True" />
+            </sf:SfDataForm.TextInputLayoutSettings>
+        </sf:SfDataForm>
+
+        <Button Text="{x:Static loc:Localization.Save}"
+                Grid.Row="1"
+                WidthRequest="150"
+                Command="{Binding NextStepCommand}"
+                Margin="5,5,5,10">
+        </Button>
+    </Grid>
+
+</ContentPage>

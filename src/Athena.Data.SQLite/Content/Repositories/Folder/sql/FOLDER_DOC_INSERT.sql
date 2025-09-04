@@ -1,0 +1,1 @@
+﻿INSERT INTO FOLDER_DOC (FD_ref, DOC_ref, FDDOC_creationDate, FDDOC_modDate) VALUES (@FD_ref, @DOC_ref, @FDDOC_creationDate, @FDDOC_modDate);

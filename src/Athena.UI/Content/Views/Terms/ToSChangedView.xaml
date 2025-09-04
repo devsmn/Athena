@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ui="clr-namespace:Athena.UI"
+             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             x:Class="Athena.UI.ToSChangedView"
+             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             Title="">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ui:ToSAcceptView />
+
+        <sfb:SfButton Text="{x:Static  loc:Localization.Next}"
+                      Margin="5,0,0,40"
+                      WidthRequest="200"
+                      Grid.Column="0"
+                      Grid.Row="1"
+                      VerticalOptions="End"
+                      Command="{Binding ConfirmClickedCommand}"
+                      Style="{x:StaticResource PrimaryButtonFlat}" />
+
+    </Grid>
+</ui:DefaultContentPage>
