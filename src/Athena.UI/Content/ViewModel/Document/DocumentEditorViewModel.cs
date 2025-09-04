@@ -261,16 +261,19 @@ namespace Athena.UI
 
                     foreach (TagViewModel newTag in newTags)
                     {
+                        // Not ideal, should be done with one operation. But let's keep it as it is for now.
+                        Document.Document.AddTag(context, newTag);
                         Document.AddTag(context, newTag);
-                        //Document.Document.AddTag(context, newTag);
                     }
 
                     foreach (TagViewModel deletedTag in deletedTags)
                     {
+                        Document.Document.DeleteTag(context, deletedTag);
                         Document.DeleteTag(context, deletedTag);
                         //Document.Document.DeleteTag(context, deletedTag);
                     }
 
+                    // Should be changed to also include tags.
                     Document.Document.Save(context);
 
                     Services.GetService<IDataBrokerService>().Publish<Document>(
