@@ -6,8 +6,11 @@ public partial class DefaultContentPage : ContentPage
 {
     private bool _initialized;
 
+    public TaskCompletionSource DoneTcs { get; private set; }
+
     public DefaultContentPage()
     {
+        DoneTcs = new();
         InitializeComponent();
         NavigatedTo += OnNavigatedTo;
     }

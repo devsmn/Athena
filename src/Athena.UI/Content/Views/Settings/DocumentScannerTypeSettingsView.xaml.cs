@@ -1,6 +1,8 @@
-﻿namespace Athena.UI;
+﻿using Athena.Resources.Localization;
 
-public partial class DocumentScannerTypeSettingsView : ContextContentPage
+namespace Athena.UI;
+
+public partial class DocumentScannerTypeSettingsView : DefaultContentPage
 {
     public DocumentScannerTypeSettingsView()
         : this(true)
@@ -12,4 +14,9 @@ public partial class DocumentScannerTypeSettingsView : ContextContentPage
         BindingContext = new DocumentScannerTypeSettingsViewModel(fromSettings, DoneTcs);
 		InitializeComponent();
 	}
+
+    private void OnInfoClicked(object sender, EventArgs e)
+    {
+        ShowInfoPopup(Localization.DocumentScanner, Localization.DocumentScannerDesc);
+    }
 }

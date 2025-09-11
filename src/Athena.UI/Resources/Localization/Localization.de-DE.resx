@@ -660,7 +660,7 @@ Um diese Funktionen zu aktivieren, werden zusätzliche Ressourcen von Google Pla
 Du kannst dich gegen die Verwendung des fortschrittlichen Scanners entscheiden und stattdessen den Legacy Scanner verwenden, der ohne zusätzliche Ressourcen funktioniert, aber weniger Funktionien bietet.</value>
   </data>
   <data name="DocumentScannerUseAdv" xml:space="preserve">
-    <value>Benutze den fortschrittlichen Dokumentenscanner</value>
+    <value>Fortschrittlichen Dokumentenscanner aktivieren</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Abbrechen</value>
@@ -701,5 +701,87 @@ Backups können jederzeit erstellt werden und später auf demselben oder einem a
   </data>
   <data name="SettingsSecurityTitle" xml:space="preserve">
     <value>Sicherheit</value>
+  </data>
+  <data name="BackupCopyKey" xml:space="preserve">
+    <value>Schlüssel kopieren</value>
+  </data>
+  <data name="BackupCreateRestoreOnNewDevice" xml:space="preserve">
+    <value>Möchtest du das Backup auf einem anderen Gerät oder nachdem du Athena neu installierst hast wiederherstellen?</value>
+  </data>
+  <data name="BackupEncryptionKey" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="BackupEncryptionKeyCopied" xml:space="preserve">
+    <value>Schlüssel in die Zwischenablage kopiert</value>
+  </data>
+  <data name="BackupRestoreContentInfo" xml:space="preserve">
+    <value>Das folgende Backup wird wiederhergestellt:
+
+Dokumente: {0}
+Ordner: {1}
+Kategorien: {2}
+
+Das Backup wurde am {3} mit der Athena Version {4} erstellt.</value>
+  </data>
+  <data name="BackupRestored" xml:space="preserve">
+    <value>Backup erfolgreich wiederhergestellt</value>
+  </data>
+  <data name="BackupRestoreFailed" xml:space="preserve">
+    <value>Backup konnte nicht wiederhergestellt werden</value>
+  </data>
+  <data name="BackupRestoreFromDifferentDevice" xml:space="preserve">
+    <value>Hast du das Backup auf einem anderen Gerät erstellt, oder Athena neu installiert?</value>
+  </data>
+  <data name="BackupRestoreTitle" xml:space="preserve">
+    <value>Backup wiederherstellen</value>
+  </data>
+  <data name="BackupSavedFailed" xml:space="preserve">
+    <value>Backup konnte nicht erstellt werden</value>
+  </data>
+  <data name="BackupSavedSuccessfully" xml:space="preserve">
+    <value>Backup erfolgreich erstellt</value>
+  </data>
+  <data name="BackupSelectedFileInvalid" xml:space="preserve">
+    <value>Die ausgewählte Datei ist nicht verfügbar</value>
+  </data>
+  <data name="BackupSelectFile" xml:space="preserve">
+    <value>Backup zum Wiederherstellen auswählen</value>
+  </data>
+  <data name="BackupShowEncryptionKey" xml:space="preserve">
+    <value>Verschlüsselungsschlüssel:
+
+{0}
+
+Stelle bitte sicher, dass der Schlüssel in einer sicheren Umgebung gespeichert wird.</value>
+  </data>
+  <data name="BackupShowEncryptionKeyPreInfo" xml:space="preserve">
+    <value>Damit das Backup auf einem anderen Gerät oder nach einer Neuinstallation wiederhergestellt werden kann, wird der Verschlüsselungsschlüssel benötigt.
+Hinweis: Dieser Schlüssel ist nicht dein Passwort.</value>
+    <comment>To restore a backup on a different device or after reinstalling Athena, you will need the encryption key to access the data.
+Please note that the key is not your password.</comment>
+  </data>
+  <data name="BackupShowKeyOption" xml:space="preserve">
+    <value>Schlüssel anzeigen</value>
+  </data>
+  <data name="BiometricAuth" xml:space="preserve">
+    <value>Biometrische Authentifizierung</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Passwort ändern</value>
+  </data>
+  <data name="LanguageChangedTo" xml:space="preserve">
+    <value>Sprache geändert zu {0}</value>
+  </data>
+  <data name="PasswordConfirm" xml:space="preserve">
+    <value>Passwort bestätigen</value>
+  </data>
+  <data name="PasswordConfirmHint" xml:space="preserve">
+    <value>Neues Password bestätigen</value>
+  </data>
+  <data name="PasswordMismatch" xml:space="preserve">
+    <value>Deine Passwörter sind unterschiedlich</value>
+  </data>
+  <data name="PasswordNewHint" xml:space="preserve">
+    <value>Neues Password eingeben</value>
   </data>
 </root>

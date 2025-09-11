@@ -151,6 +151,7 @@ namespace Athena.UI
             SelectedTag.TextColor = SelectedTextColor.Hex;
 
             SelectedTag.Save(context);
+
             Services.GetService<IDataBrokerService>().Publish<Tag>(
                 context, SelectedTag, isNew ? UpdateType.Add : UpdateType.Edit);
 

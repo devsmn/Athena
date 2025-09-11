@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Athena.DataModel;
+﻿using Athena.DataModel;
 using Athena.DataModel.Core;
 using CommunityToolkit.Mvvm.Messaging;
 

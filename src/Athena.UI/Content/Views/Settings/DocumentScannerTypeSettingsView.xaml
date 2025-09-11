@@ -1,51 +1,71 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ui:ContextContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ui:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    Style="{StaticResource ContentPageStyle}"
                     xmlns:loc="clr-namespace:Athena.Resources.Localization"
                     xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
                     xmlns:ui="clr-namespace:Athena.UI"
+                    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                     x:Class="Athena.UI.DocumentScannerTypeSettingsView"
                     Title="DocumentScannerTypeSettings">
     <Grid>
-        
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label
-            Style="{x:StaticResource HeaderLabel}"
-            Text="{x:Static loc:Localization.DocumentScanner}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <HorizontalStackLayout Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center" Grid.ColumnSpan="2">
+            <Label Text="{x:Static loc:Localization.DocumentScanner}"
+                   Margin="5,20,5,2"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   FontSize="32"/>
+
+            <sfb:SfButton Margin="3,20,0,2"
+                          Clicked="OnInfoClicked"
+                          HorizontalTextAlignment="Start"
+                          BackgroundImageSource="info.png"
+                          ImageSource="info.png"
+                          Background="Transparent"
+                          HeightRequest="25"
+                          WidthRequest="25"
+                          VerticalTextAlignment="Center"
+                          HorizontalOptions="Center"
+                          ImageAlignment="Default"
+                          StrokeThickness="0"/>
+        </HorizontalStackLayout>
 
         <Label
-            Text="{x:Static loc:Localization.DocumentScannerDesc}"
             Grid.Row="1"
-            Margin="10,10,10,10" />
-
-        <Label
-            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            HorizontalTextAlignment="Center"
             Text="{x:Static loc:Localization.DocumentScannerSettingsHint}"
             IsVisible="{Binding ShowSettingsHint}"
             Margin="10,10,10,10" />
 
-        <sfb:SfCheckBox
-            Grid.Row="3"
-            IsChecked="{Binding UseAdvancedScanner}"
+        <Label
+            Grid.Row="2"
             Margin="5"
-            Text="{x:Static loc:Localization.DocumentScannerUseAdv}" />
+            VerticalTextAlignment="Center"
+            Text="{x:Static loc:Localization.DocumentScannerUseAdv}"/>
 
-        <sfb:SfButton
-            Grid.Row="4"
-            Margin="5,5,5,20"
-            Command="{Binding CloseCommand}"
-            VerticalOptions="End"
-            Text="{x:Static loc:Localization.Save}"
-            HorizontalOptions="Center"
-            Style="{x:StaticResource PrimaryButtonFlat}"/>
+        <sfb:SfSwitch
+            Margin="5"
+            IsOn="{Binding UseAdvancedScanner}"
+            Grid.Row="2"
+            Grid.Column="1">
+            <sfb:SfSwitch.Behaviors>
+                <toolkit:EventToCommandBehavior 
+                    EventName="StateChanged"
+                    Command="{Binding UseAdvancedScannerChangedCommand}" />
+            </sfb:SfSwitch.Behaviors>
+        </sfb:SfSwitch>
 
+      
     </Grid>
-</ui:ContextContentPage>
+</ui:DefaultContentPage>

@@ -5,7 +5,6 @@
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:ui="clr-namespace:Athena.UI"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              Style="{StaticResource ContentPageStyle}"
              Title="PinView">
@@ -24,8 +23,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-
-
         <Label
             Style="{x:StaticResource HeaderLabel}"
             Text="{x:Static loc:Localization.Password}" />
@@ -38,14 +35,14 @@
 
         <inputLayout:SfTextInputLayout
                 Grid.Row="2"
-                Hint="Password"
-                HelperText="Enter your new password"
+                Hint="{x:Static loc:Localization.Password}"
+                HelperText="{x:Static loc:Localization.PasswordNewHint}"
                 ContainerType="Outlined"
                 Margin="10"
                 HeightRequest="80"
                 EnablePasswordVisibilityToggle="True"
                 HasError="{Binding PasswordValid, Converter={x:StaticResource InverseBooleanConverter}}"
-                ErrorText="Your passwords do not match">
+                ErrorText="{x:Static loc:Localization.PasswordMismatch}">
 
             <Entry Text="{Binding Password}">
                 <Entry.Behaviors>
@@ -57,15 +54,15 @@
         </inputLayout:SfTextInputLayout>
 
         <inputLayout:SfTextInputLayout
-                Hint="Confirm password"
+                Hint="{x:Static loc:Localization.PasswordConfirm}"
                 Grid.Row="3"
-                HelperText="Confirm your new password"
+                HelperText="{x:Static loc:Localization.PasswordConfirmHint}"
                 ContainerType="Outlined"
                 Margin="10"
                 HeightRequest="80"
                 EnablePasswordVisibilityToggle="True"
                 HasError="{Binding PasswordValid, Converter={x:StaticResource InverseBooleanConverter}}"
-                ErrorText="Your passwords do not match">
+                ErrorText="{x:Static loc:Localization.PasswordMismatch}">
 
             <Entry Text="{Binding ConfirmPassword}">
                 <Entry.Behaviors>

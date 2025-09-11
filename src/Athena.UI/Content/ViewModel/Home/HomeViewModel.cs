@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Android.Runtime;
-using Athena.Content.Views;
+﻿using Athena.Content.Views;
 using Athena.Data.Core;
 using Athena.Data.SQLite.Proxy;
 using Athena.DataModel;

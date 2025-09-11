@@ -188,7 +188,7 @@ namespace Athena.UI
 
             if (service.FirstUsage())
             {
-                ContextContentPage view = new DocumentScannerTypeSettingsView(false);
+                DefaultContentPage view = new DocumentScannerTypeSettingsView(false);
                 await PushModalAsync(view);
                 await view.DoneTcs.Task;
 

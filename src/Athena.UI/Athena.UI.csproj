@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\version.props" />
   <Import Project="..\..\app.secrets.prod.props" Condition="'$(Configuration)'=='Release' AND Exists('..\..\app.secrets.prod.props')" />
   <Import Project="..\..\app.secrets.debug.props" Condition="'$(Configuration)'=='Debug' AND Exists('..\..\app.secrets.debug.props')" />
@@ -373,17 +373,11 @@
     
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Content\Views\Core\" />
+  </ItemGroup>
+
   <Target Name="GenerateSecretConfig" BeforeTargets="BeforeBuild">
-    <WriteLinesToFile
-      File="SecretConfig.g.cs"
-      Overwrite="true"
-      Lines="
-namespace Athena.UI {
-    public static partial class SecretConfig {
-        public const string BannerAdUnitId = &quot;$(AdMobBannerId)&quot; %3B
-        public const string InterstitialAdUnitId = &quot;$(AdMobInterstitialId)&quot; %3B
-        public const string SyncfusionLicenseKey = &quot;$(SyncfusionLicenseKey)&quot; %3B
-    }
-}" />
+    <WriteLinesToFile File="SecretConfig.g.cs" Overwrite="true" Lines="&#xD;&#xA;namespace Athena.UI {&#xD;&#xA;    public static partial class SecretConfig {&#xD;&#xA;        public const string BannerAdUnitId = &quot;$(AdMobBannerId)&quot; %3B&#xD;&#xA;        public const string InterstitialAdUnitId = &quot;$(AdMobInterstitialId)&quot; %3B&#xD;&#xA;        public const string SyncfusionLicenseKey = &quot;$(SyncfusionLicenseKey)&quot; %3B&#xD;&#xA;    }&#xD;&#xA;}" />
   </Target>
 </Project>

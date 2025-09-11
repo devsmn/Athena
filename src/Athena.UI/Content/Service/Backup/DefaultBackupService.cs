@@ -4,6 +4,7 @@ using Athena.Data.Core;
 using Athena.Data.SQLite.Proxy;
 using Athena.DataModel;
 using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Storage;
 
 namespace Athena.UI
@@ -121,15 +122,15 @@ namespace Athena.UI
                     return result;
                 }
 
-                string importInfo =
-                    $"The following backup will be restored: {Environment.NewLine}{Environment.NewLine}" +
-                    $"Documents: {metaData.DocumentCount}{Environment.NewLine}" +
-                    $"Folders: {metaData.FolderCount}{Environment.NewLine}" +
-                    $"Tags: {metaData.TagCount}{Environment.NewLine}{Environment.NewLine}" +
-                    $"The backup was created at {new DateTime(metaData.CreationDate, DateTimeKind.Utc).ToLocalTime()} " +
-                    $"with app version {metaData.AppVersion}";
+                string importInfo = string.Format(
+                        Localization.BackupRestoreContentInfo,
+                        metaData.DocumentCount,
+                        metaData.FolderCount,
+                        metaData.TagCount,
+                        new DateTime(metaData.CreationDate, DateTimeKind.Utc).ToLocalTime(),
+                        metaData.AppVersion);
 
-                bool canContinue = await MainThread.InvokeOnMainThreadAsync(async () => await requireUserConfirmation(importInfo, "Ok", "Cancel"));
+                bool canContinue = await MainThread.InvokeOnMainThreadAsync(async () => await requireUserConfirmation(importInfo, "Ok", Localization.Cancel));
 
                 if (!canContinue)
                 {
@@ -137,10 +138,10 @@ namespace Athena.UI
                     return result;
                 }
 
-                bool externalKeyRequired =  await MainThread.InvokeOnMainThreadAsync(async () => await requireUserConfirmation(
-                    "Did you create the backup on a different device, have you reinstalled Athena or did you change the password after creating the backup?",
-                    "Yes",
-                    "No"));
+                bool externalKeyRequired = await MainThread.InvokeOnMainThreadAsync(async () => await requireUserConfirmation(
+                    Localization.BackupRestoreFromDifferentDevice,
+                    Localization.Yes,
+                    Localization.No));
 
                 context.Log("Decrypting restored database");
                 string cipher = string.Empty;
@@ -258,7 +259,7 @@ namespace Athena.UI
                 IPreferencesService prefService = Services.GetService<IPreferencesService>();
 
                 // Set the version to trigger any patches when restarting the app.
-                prefService.SetLastTermsOfUseVersion(metaData.MinVersion); 
+                prefService.SetLastUsedVersion(metaData.MinVersion); 
 
                 result.Code = BackupRestoreResultCode.Success;
             }

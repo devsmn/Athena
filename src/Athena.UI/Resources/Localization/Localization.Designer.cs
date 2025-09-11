@@ -115,6 +115,24 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy key.
+        /// </summary>
+        public static string BackupCopyKey {
+            get {
+                return ResourceManager.GetString("BackupCopyKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to restore the the backup on a different device or after reinstalling Athena?.
+        /// </summary>
+        public static string BackupCreateRestoreOnNewDevice {
+            get {
+                return ResourceManager.GetString("BackupCreateRestoreOnNewDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A backup contains all of your essential data, including documents and their content, folders and their structure and tags and their associations with documents.
         ///Backups can be created at any time and later restored on the same or on another device..
         /// </summary>
@@ -125,11 +143,157 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Encryption key.
+        /// </summary>
+        public static string BackupEncryptionKey {
+            get {
+                return ResourceManager.GetString("BackupEncryptionKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encryption key copied to clipboard.
+        /// </summary>
+        public static string BackupEncryptionKeyCopied {
+            get {
+                return ResourceManager.GetString("BackupEncryptionKeyCopied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following backup will be restored:
+        ///
+        ///Documents: {0}
+        ///Folders: {1}
+        ///Tags: {2}
+        ///
+        ///The backup was created at {3} with app version {4}..
+        /// </summary>
+        public static string BackupRestoreContentInfo {
+            get {
+                return ResourceManager.GetString("BackupRestoreContentInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully restored backup.
+        /// </summary>
+        public static string BackupRestored {
+            get {
+                return ResourceManager.GetString("BackupRestored", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to restore backup.
+        /// </summary>
+        public static string BackupRestoreFailed {
+            get {
+                return ResourceManager.GetString("BackupRestoreFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Did you create the backup on a different device or have you reinstalled Athena?.
+        /// </summary>
+        public static string BackupRestoreFromDifferentDevice {
+            get {
+                return ResourceManager.GetString("BackupRestoreFromDifferentDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore backup.
+        /// </summary>
+        public static string BackupRestoreTitle {
+            get {
+                return ResourceManager.GetString("BackupRestoreTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to create backup.
+        /// </summary>
+        public static string BackupSavedFailed {
+            get {
+                return ResourceManager.GetString("BackupSavedFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully created backup.
+        /// </summary>
+        public static string BackupSavedSuccessfully {
+            get {
+                return ResourceManager.GetString("BackupSavedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The selected backup is invalid.
+        /// </summary>
+        public static string BackupSelectedFileInvalid {
+            get {
+                return ResourceManager.GetString("BackupSelectedFileInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the backup to restore.
+        /// </summary>
+        public static string BackupSelectFile {
+            get {
+                return ResourceManager.GetString("BackupSelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encryption key:
+        ///
+        ///{0}
+        ///
+        ///Please store the key in a secure location..
+        /// </summary>
+        public static string BackupShowEncryptionKey {
+            get {
+                return ResourceManager.GetString("BackupShowEncryptionKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To restore a backup on a different device or after reinstalling Athena, you will need the encryption key to access the data.
+        ///Please note that the key is not your password..
+        /// </summary>
+        public static string BackupShowEncryptionKeyPreInfo {
+            get {
+                return ResourceManager.GetString("BackupShowEncryptionKeyPreInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show key.
+        /// </summary>
+        public static string BackupShowKeyOption {
+            get {
+                return ResourceManager.GetString("BackupShowKeyOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backup.
         /// </summary>
         public static string BackupTitle {
             get {
                 return ResourceManager.GetString("BackupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Biometric authentication.
+        /// </summary>
+        public static string BiometricAuth {
+            get {
+                return ResourceManager.GetString("BiometricAuth", resourceCulture);
             }
         }
         
@@ -166,6 +330,15 @@ namespace Athena.Resources.Localization {
         public static string ChangeName {
             get {
                 return ResourceManager.GetString("ChangeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change password.
+        /// </summary>
+        public static string ChangePassword {
+            get {
+                return ResourceManager.GetString("ChangePassword", resourceCulture);
             }
         }
         
@@ -728,6 +901,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language changed to {0}.
+        /// </summary>
+        public static string LanguageChangedTo {
+            get {
+                return ResourceManager.GetString("LanguageChangedTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading documents....
         /// </summary>
         public static string LoadingDocuments {
@@ -1061,11 +1243,47 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm password.
+        /// </summary>
+        public static string PasswordConfirm {
+            get {
+                return ResourceManager.GetString("PasswordConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm your new password.
+        /// </summary>
+        public static string PasswordConfirmHint {
+            get {
+                return ResourceManager.GetString("PasswordConfirmHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The password is required and used to encrypt your data. Please make sure you do not forget your password. Once encrypted, your data can only be accessed with your password. If you forget your password, your data is lost and cannot be recovered. .
         /// </summary>
         public static string PasswordDescription {
             get {
                 return ResourceManager.GetString("PasswordDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your passwords do not match.
+        /// </summary>
+        public static string PasswordMismatch {
+            get {
+                return ResourceManager.GetString("PasswordMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your new password.
+        /// </summary>
+        public static string PasswordNewHint {
+            get {
+                return ResourceManager.GetString("PasswordNewHint", resourceCulture);
             }
         }
         

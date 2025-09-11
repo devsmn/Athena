@@ -2,6 +2,7 @@
 using Athena.Data.Core;
 using Athena.Data.SQLite.Proxy;
 using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Storage;
@@ -21,7 +22,7 @@ namespace Athena.UI
             IBackupService backupService = Services.GetService<IBackupService>();
 
             PickOptions options = new();
-            options.PickerTitle = "Select the backup to restore";
+            options.PickerTitle = Localization.BackupSelectFile;
             var result = await FilePicker.PickAsync(options);
 
             if (result != null)
@@ -45,7 +46,7 @@ namespace Athena.UI
                 if (restoreResult.IsSuccess)
                 {
                     Application.Current.Windows[0].Page = new ContainerPage();
-                    await Toast.Make("Successfully restored backup", ToastDuration.Long).Show();
+                    await Toast.Make(Localization.BackupRestored, ToastDuration.Long).Show();
                 }
                 else
                 {
@@ -55,22 +56,22 @@ namespace Athena.UI
                         return;
                     }
 
-                    await DisplayAlert(
-                        "Error while restoring backup",
-                        $"{restoreResult.Code} - {restoreResult.ErrorInfo}",
-                        "ok",
-                        "ok");
+                    IContext context = RetrieveContext();
+                    context.Log(new Exception($"Error while restoring backup: {restoreResult.Code} - {restoreResult.ErrorInfo}"));
+
+                    await Toast.Make(Localization.BackupRestoreFailed, ToastDuration.Long).Show();
+
                 }
             }
             else
             {
-                await Toast.Make("Invalid file selected", ToastDuration.Long).Show();
+                await Toast.Make(Localization.BackupSelectedFileInvalid, ToastDuration.Long).Show();
             }
         }
 
         private async Task<bool> RequireUserConfirmation(string msg, string okButton, string cancelButton)
         {
-            return await DisplayAlert("Restore backup", msg, okButton, cancelButton);
+            return await DisplayAlert(Localization.BackupRestoreTitle, msg, okButton, cancelButton);
         }
 
         [RelayCommand]
@@ -79,61 +80,65 @@ namespace Athena.UI
             IContext context = RetrieveContext();
 
             bool showKey = await DisplayAlert(
-                "Encryption key",
-                $"Do you want to view the encryption key used for this backup?{Environment.NewLine}" +
-                "This is required if you plan to restore the backup on a different device or after reinstalling the app. " +
-                $"It is not needed if you restore the backup on this device without uninstalling.{Environment.NewLine}" +
-                "Please note that the key is not your password, as the key was generated automatically.",
-                "Show key",
-                "Skip");
+                Localization.BackupEncryptionKey,
+                Localization.BackupCreateRestoreOnNewDevice,
+                Localization.Yes,
+                Localization.No);
 
             if (showKey)
             {
-                string cipher = string.Empty;
+                showKey = await DisplayAlert(
+                    Localization.BackupEncryptionKey,
+                    Localization.BackupShowEncryptionKeyPreInfo,
+                    Localization.BackupShowKeyOption,
+                    Localization.Cancel);
 
-                SqliteProxy sqlProxy = new();
-                IDataProviderAuthenticator sqlAuth = sqlProxy.RequestAuthenticator();
-                IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
-                bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, (c) => cipher = c, context.Log, () => {});
-
-                if (!primarySucceeded || !await sqlAuth.AuthenticateAsync(cipher))
+                if (showKey)
                 {
-                    IPasswordService passwordService = Services.GetService<IPasswordService>();
+                    string cipher = string.Empty;
+                    SqliteProxy sqlProxy = new();
+                    IDataProviderAuthenticator sqlAuth = sqlProxy.RequestAuthenticator();
+                    IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
 
-                    bool firstTry = true;
+                    bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context,IDataEncryptionService.DatabaseAlias, (c) => cipher = c, context.Log, () => { });
 
-                    do
+                    if (!primarySucceeded || !await sqlAuth.AuthenticateAsync(cipher))
                     {
-                        context.Log("Requesting fallback access to database");
-                        string pin = string.Empty;
-                        await passwordService.Prompt(context, !firstTry, (str) => pin = str);
+                        IPasswordService passwordService = Services.GetService<IPasswordService>();
 
-                        await encryptionService.ReadFallbackAsync(
-                            context,
-                            IDataEncryptionService.DatabaseAlias,
-                            pin, key => cipher = key,
-                            error => context.Log(error));
+                        bool firstTry = true;
 
-                        firstTry = false;
+                        do
+                        {
+                            context.Log("Requesting fallback access to database");
+                            string pin = string.Empty;
+                            await passwordService.Prompt(context, !firstTry, (str) => pin = str);
 
-                    } while (await sqlAuth.AuthenticateAsync(cipher) == false);
+                            await encryptionService.ReadFallbackAsync(
+                                context,
+                                IDataEncryptionService.DatabaseAlias,
+                                pin, key => cipher = key,
+                                error => context.Log(error));
+
+                            firstTry = false;
+
+                        } while (await sqlAuth.AuthenticateAsync(cipher) == false);
+                    }
+
+                    bool copy = await DisplayAlert(
+                        Localization.BackupEncryptionKey,
+                        string.Format(Localization.BackupShowEncryptionKey, cipher),
+                        Localization.BackupCopyKey,
+                        Localization.Close);
+
+                    if (copy)
+                    {
+                        await Clipboard.SetTextAsync(cipher);
+                        await Toast.Make(Localization.BackupEncryptionKeyCopied, ToastDuration.Long).Show();
+                    }
+
+                    cipher = null;
                 }
-
-                bool copy = await DisplayAlert(
-                    "Show key",
-                    $"Encryption key: {Environment.NewLine}{Environment.NewLine}" +
-                    $"{cipher}{Environment.NewLine}{Environment.NewLine}" +
-                    $"Please store the key in a secure location.",
-                    "Copy key",
-                    "Close");
-
-                if (copy)
-                {
-                    await Clipboard.SetTextAsync(cipher);
-                    await Toast.Make("Successfully copied key to clipboard", ToastDuration.Long).Show();
-                }
-
-                cipher = null;
             }
 
             IBackupService backupService = Services.GetService<IBackupService>();
@@ -141,14 +146,14 @@ namespace Athena.UI
 
             if (result?.IsSuccessful == true)
             {
-                await Toast.Make($"Successfully saved backup", ToastDuration.Long).Show();
+                await Toast.Make(Localization.BackupSavedSuccessfully, ToastDuration.Long).Show();
             }
             else
             {
                 if (result?.Exception != null)
                     context.Log(result.Exception);
 
-                await Toast.Make("Unable to save backup", ToastDuration.Long).Show();
+                await Toast.Make(Localization.BackupSavedFailed, ToastDuration.Long).Show();
             }
         }
     }

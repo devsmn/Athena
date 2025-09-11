@@ -692,4 +692,84 @@ Backups can be created at any time and later restored on the same or on another 
   <data name="SettingsSecurityTitle" xml:space="preserve">
     <value>Security</value>
   </data>
+  <data name="BackupCopyKey" xml:space="preserve">
+    <value>Copy key</value>
+  </data>
+  <data name="BackupCreateRestoreOnNewDevice" xml:space="preserve">
+    <value>Do you want to restore the the backup on a different device or after reinstalling Athena?</value>
+  </data>
+  <data name="BackupEncryptionKey" xml:space="preserve">
+    <value>Encryption key</value>
+  </data>
+  <data name="BackupEncryptionKeyCopied" xml:space="preserve">
+    <value>Encryption key copied to clipboard</value>
+  </data>
+  <data name="BackupRestoreContentInfo" xml:space="preserve">
+    <value>The following backup will be restored:
+
+Documents: {0}
+Folders: {1}
+Tags: {2}
+
+The backup was created at {3} with app version {4}.</value>
+  </data>
+  <data name="BackupRestored" xml:space="preserve">
+    <value>Successfully restored backup</value>
+  </data>
+  <data name="BackupRestoreFailed" xml:space="preserve">
+    <value>Failed to restore backup</value>
+  </data>
+  <data name="BackupRestoreFromDifferentDevice" xml:space="preserve">
+    <value>Did you create the backup on a different device or have you reinstalled Athena?</value>
+  </data>
+  <data name="BackupRestoreTitle" xml:space="preserve">
+    <value>Restore backup</value>
+  </data>
+  <data name="BackupSavedFailed" xml:space="preserve">
+    <value>Failed to create backup</value>
+  </data>
+  <data name="BackupSavedSuccessfully" xml:space="preserve">
+    <value>Successfully created backup</value>
+  </data>
+  <data name="BackupSelectedFileInvalid" xml:space="preserve">
+    <value>The selected backup is invalid</value>
+  </data>
+  <data name="BackupSelectFile" xml:space="preserve">
+    <value>Select the backup to restore</value>
+  </data>
+  <data name="BackupShowEncryptionKey" xml:space="preserve">
+    <value>Encryption key:
+
+{0}
+
+Please store the key in a secure location.</value>
+  </data>
+  <data name="BackupShowEncryptionKeyPreInfo" xml:space="preserve">
+    <value>To restore a backup on a different device or after reinstalling Athena, you will need the encryption key to access the data.
+Please note that the key is not your password.</value>
+  </data>
+  <data name="BackupShowKeyOption" xml:space="preserve">
+    <value>Show key</value>
+  </data>
+  <data name="BiometricAuth" xml:space="preserve">
+    <value>Biometric authentication</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="LanguageChangedTo" xml:space="preserve">
+    <value>Language changed to {0}</value>
+  </data>
+  <data name="PasswordConfirm" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="PasswordConfirmHint" xml:space="preserve">
+    <value>Confirm your new password</value>
+  </data>
+  <data name="PasswordMismatch" xml:space="preserve">
+    <value>Your passwords do not match</value>
+  </data>
+  <data name="PasswordNewHint" xml:space="preserve">
+    <value>Enter your new password</value>
+  </data>
 </root>

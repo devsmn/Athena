@@ -21,7 +21,6 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -53,32 +52,25 @@
                Style="{x:StaticResource HeaderLabel}"
                Grid.ColumnSpan="2"/>
 
-        <Label HorizontalTextAlignment="Center"
-               LineBreakMode="WordWrap"
-               Grid.ColumnSpan="2"
-               Margin="10,10,10,10"
-               Grid.Row="1"
-               Text="{x:Static loc:Localization.SettingsSecurityDesc}"/>
-
         <sfb:SfButton
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.ColumnSpan="2"
-            Text="Change password"
+            Text="{x:Static loc:Localization.ChangePassword}"
             Style="{x:StaticResource ListButton}"
             Command="{Binding ChangePasswordCommand}"/>
 
         <Label
             Margin="5"
-            Grid.Row="3"
+            Grid.Row="2"
             IsEnabled="{Binding BiometricsAvailable}"
             VerticalTextAlignment="Center"
-            Text="Biometric authentication"/>
+            Text="{x:Static loc:Localization.BiometricAuth}"/>
 
         <sfb:SfSwitch
             Margin="5"
             IsEnabled="{Binding BiometricsAvailable}" 
             IsOn="{Binding UseBiometrics}"
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="1">
             <sfb:SfSwitch.Behaviors>
                 <toolkit:EventToCommandBehavior 
@@ -90,7 +82,7 @@
 
         <Grid Margin="15, 0, 5, 0"
               Grid.Column="0"
-              Grid.Row="4"
+              Grid.Row="3"
               IsVisible="{Binding BiometricsAvailable, Converter={x:StaticResource InverseBooleanConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />

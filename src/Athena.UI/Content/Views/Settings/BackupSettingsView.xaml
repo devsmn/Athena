@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Style="{x:StaticResource ContentPageStyle}"
-             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
-             x:Class="Athena.UI.BackupSettingsView"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
-             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
-             Title="BackupSettingsView">
-
+<ui:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+                    x:Class="Athena.UI.BackupSettingsView"
+                    xmlns:loc="clr-namespace:Athena.Resources.Localization"
+                    xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+                    xmlns:ui="clr-namespace:Athena.UI"
+                    Title="BackupSettingsView">
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -21,16 +19,26 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label
-            Style="{x:StaticResource HeaderLabel}"
-            Grid.ColumnSpan="2"
-            Text="{x:Static loc:Localization.BackupTitle}" />
+        <HorizontalStackLayout Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center" Grid.ColumnSpan="2">
+            <Label Text="{x:Static loc:Localization.BackupTitle}"
+                   Margin="5,20,5,2"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center"
+                   FontSize="32"/>
 
-        <Label HorizontalTextAlignment="Center"
-               LineBreakMode="WordWrap"
-               Margin="10,10,10,10"
-               Grid.Row="1"
-               Text="{x:Static loc:Localization.BackupDesc}"/>
+            <sfb:SfButton Margin="3,20,0,2"
+                          Clicked="OnInfoClicked"
+                          HorizontalTextAlignment="Start"
+                          BackgroundImageSource="info.png"
+                          ImageSource="info.png"
+                          Background="Transparent"
+                          HeightRequest="25"
+                          WidthRequest="25"
+                          VerticalTextAlignment="Center"
+                          HorizontalOptions="Center"
+                          ImageAlignment="Default"
+                          StrokeThickness="0"/>
+        </HorizontalStackLayout>
 
         <p:SfPopup x:Name="sfPopup"
                    HeaderTitle="Loading"
@@ -53,7 +61,7 @@
         </p:SfPopup>
 
         <sfb:SfButton
-            Grid.Row="2"
+            Grid.Row="1"
             Margin="5"
             Text="{x:Static loc:Localization.Create}"
             VerticalOptions="End"
@@ -62,9 +70,9 @@
 
         <sfb:SfButton
             Text="{x:Static loc:Localization.Restore}"
-            Grid.Row="3"
+            Grid.Row="2"
             Margin="5"
             Command="{Binding RestoreBackupCommand}"
             Style="{x:StaticResource ListButton}"/>
     </Grid>
-</ContentPage>
+</ui:DefaultContentPage>

@@ -22,17 +22,21 @@ namespace Athena.UI
             _prefService = Services.GetService<IPreferencesService>();
 
             if (_prefService.IsFirstScannerUsage())
+            {
                 UseAdvancedScanner = true;
+                UseAdvancedScannerChanged();
+            }
             else
+            {
                 UseAdvancedScanner = _prefService.GetUseAdvancedScanner();
+            }
         }
 
         [RelayCommand]
-        private async Task Close(object para)
+        private void UseAdvancedScannerChanged()
         {
             _prefService.SetUseAdvancedScanner(UseAdvancedScanner);
             _prefService.SetFirstScannerUsage();
-            await PopModalAsync();
         }
     }
 }
