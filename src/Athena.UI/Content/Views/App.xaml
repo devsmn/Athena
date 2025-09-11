@@ -6,13 +6,18 @@
              androidSpecific:Application.WindowSoftInputModeAdjust="Resize"
              x:Class="Athena.UI.App">
     <Application.Resources>
-        <x:Static x:Key="BannerAdUnitId" Member="local:SecretConfig.BannerAdUnitId" />
-        <x:Static x:Key="InterstitialAdUnitId" Member="local:SecretConfig.InterstitialAdUnitId" />
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="../../Resources/Styles/Styles.xaml" />
+
+                <ResourceDictionary>
+                    <x:Static x:Key="BannerAdUnitId" Member="local:SecretConfig.BannerAdUnitId" />
+                    <x:Static x:Key="InterstitialAdUnitId" Member="local:SecretConfig.InterstitialAdUnitId" />
+                </ResourceDictionary>
+
             </ResourceDictionary.MergedDictionaries>
+
 
             <!--<local:FolderOverviewViewModel x:Key="MainContext"/>-->
         </ResourceDictionary>

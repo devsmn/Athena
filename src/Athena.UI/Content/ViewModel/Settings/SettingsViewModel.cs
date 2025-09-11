@@ -110,6 +110,7 @@ namespace Athena.UI
                 return;
 
             await SelectedSetting.Clicked();
+            SelectedSetting = null;
         }
 
         private async Task OpenSettings<TSettings>(params object[] args)
