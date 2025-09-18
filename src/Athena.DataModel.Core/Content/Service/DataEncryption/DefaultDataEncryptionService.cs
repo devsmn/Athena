@@ -201,20 +201,21 @@ namespace Athena.DataModel.Core
                 aes.Padding = PaddingMode.PKCS7;
                 aes.GenerateIV();
                 byte[] iv = aes.IV;
+                byte[] encryptedKey;
 
                 using (ICryptoTransform encryptor = aes.CreateEncryptor())
                 {
-                    byte[] encryptedKey = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
-
-                    string fallbackAlias = alias + "_FALLBACK";
-
-                    EncryptionContext encryptionContext = new(fallbackAlias);
-                    encryptionContext.Add(EncryptionContext.Salt, salt);
-                    encryptionContext.Add(EncryptionContext.Iv, iv);
-                    encryptionContext.Add(EncryptionContext.Key, encryptedKey);
-
-                    await encryptionContext.StoreAsync(context);
+                    encryptedKey = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
                 }
+
+                string fallbackAlias = alias + "_FALLBACK";
+
+                EncryptionContext encryptionContext = new(fallbackAlias);
+                encryptionContext.Add(EncryptionContext.Salt, salt);
+                encryptionContext.Add(EncryptionContext.Iv, iv);
+                encryptionContext.Add(EncryptionContext.Key, encryptedKey);
+
+                await encryptionContext.StoreAsync(context);
             }
         }
 
@@ -261,11 +262,14 @@ namespace Athena.DataModel.Core
                     aes.Key = derivedKey;
                     aes.IV = iv;
                     aes.Padding = PaddingMode.PKCS7;
+                    byte[] decrypted = null;
+
                     using (ICryptoTransform decryptor = aes.CreateDecryptor())
                     {
-                        byte[] decrypted = decryptor.TransformFinalBlock(encryptedKey, 0, encryptedKey.Length);
-                        return Encoding.UTF8.GetString(decrypted);
+                        decrypted = decryptor.TransformFinalBlock(encryptedKey, 0, encryptedKey.Length);
                     }
+
+                    return Encoding.UTF8.GetString(decrypted);
                 }
             }
             catch (Exception ex)

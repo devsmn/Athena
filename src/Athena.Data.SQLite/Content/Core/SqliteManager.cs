@@ -107,9 +107,10 @@ namespace Athena.Data.SQLite
 
         public async Task<bool> AuthenticateAsync(string cipher, string dbPath)
         {
+            SqliteRepository repo = null;
             try
             {
-                SqliteRepository repo = new SqliteRepository(cipher, dbPath);
+                repo = new SqliteRepository(cipher, dbPath);
                 await repo.ValidateConnection();
 
                 return repo.IsValid;
@@ -118,20 +119,31 @@ namespace Athena.Data.SQLite
             {
                 return false;
             }
+            finally
+            {
+                if (repo != null)
+                    await repo.CloseAsync();
+            }
 
             return false;
         }
 
         public async Task<bool> ValidateAsync(IContext context, string cipher, string db)
         {
+            SqliteRepository repo = null;
             try
             {
-                SqliteRepository repo = new SqliteRepository(cipher, db);
+                repo = new SqliteRepository(cipher, db);
                 return await repo.ValidateIntegrity(context);
             }
             catch (Exception ex)
             {
                 context.Log(ex);
+            }
+            finally
+            {
+                if (repo != null)
+                    await repo.CloseAsync();
             }
 
             return false;

@@ -284,6 +284,7 @@ namespace Athena.UI
 
                 Services.GetService<IDataBrokerService>().PrepareForLoading();
 
+                await DataStore.CloseAllAsync(context);
                 DataStore.Clear();
 
                 IDataProviderPatcher sqlPatcher = sqlProxy.RequestPatcher();

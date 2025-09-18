@@ -29,6 +29,30 @@ namespace Athena.DataModel
         }
 
         /// <summary>
+        /// Closes all data stores.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static async Task CloseAllAsync(IContext context)
+        {
+            if (Stores == null || Stores.Count == 0)
+                return;
+
+            foreach (IAthenaRepository repository in Stores.Values)
+            {
+                try
+                {
+                    await repository.CloseAsync();
+                }
+                catch (Exception ex)
+                {
+                    context.Log("Unable to close repository: ");
+                    context.Log(ex);
+                }
+            }
+        }
+
+        /// <summary>
         /// Clears the data stores.
         /// </summary>
         public static void Clear()

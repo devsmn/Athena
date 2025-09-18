@@ -30,5 +30,10 @@
         /// <param name="compatService"></param>
         /// <returns></returns>
         Task ExecutePatches(IContext context, ICompatibilityService compatService);
+
+        /// <summary>
+        /// Closes the repository.
+        /// </summary>
+        Task CloseAsync();
     }
 }
