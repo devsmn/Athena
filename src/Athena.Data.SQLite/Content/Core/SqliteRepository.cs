@@ -10,7 +10,7 @@ namespace Athena.Data.SQLite
     {
         public bool IsValid { get; private set; }
 
-        private readonly SQLiteAsyncConnection _database;
+        private SQLiteAsyncConnection _database;
 
         protected SQLiteAsyncConnection Database
         {
@@ -225,6 +225,12 @@ namespace Athena.Data.SQLite
 
                 context.Log(ex);
             }
+        }
+
+        public async Task CloseAsync()
+        {
+            await _database.CloseAsync();
+            _database = null;
         }
     }
 }
