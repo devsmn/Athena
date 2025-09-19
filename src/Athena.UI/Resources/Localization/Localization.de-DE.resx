@@ -787,4 +787,7 @@ Please note that the key is not your password.</comment>
   <data name="TagNameCannotBeEmpty" xml:space="preserve">
     <value>Der Name darf nicht leer sein</value>
   </data>
+  <data name="TagsEmpty" xml:space="preserve">
+    <value>Benutze den Plus Button, um eine neue Kategorie anzulegen</value>
+  </data>
 </root>
