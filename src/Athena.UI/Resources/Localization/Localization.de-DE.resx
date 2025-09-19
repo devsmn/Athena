@@ -784,4 +784,7 @@ Please note that the key is not your password.</comment>
   <data name="PasswordNewHint" xml:space="preserve">
     <value>Neues Password eingeben</value>
   </data>
+  <data name="TagNameCannotBeEmpty" xml:space="preserve">
+    <value>Der Name darf nicht leer sein</value>
+  </data>
 </root>

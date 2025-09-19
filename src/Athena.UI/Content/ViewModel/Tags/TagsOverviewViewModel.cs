@@ -137,10 +137,18 @@ namespace Athena.UI
         }
 
         [RelayCommand]
-        public void SaveSelectedTag()
+        public async Task SaveSelectedTag()
         {
             if (SelectedTag == null)
                 return;
+
+            if (string.IsNullOrEmpty(SelectedTagName))
+            {
+                await Toast.Make(Localization.TagNameCannotBeEmpty, ToastDuration.Long).Show();
+                SelectedTag = null;
+                IsEditPopupOpen = false;
+                return;
+            }
 
             bool isNew = SelectedTag.Id == IntegerEntityKey.TemporaryId;
 

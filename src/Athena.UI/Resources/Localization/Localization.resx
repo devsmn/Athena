@@ -772,4 +772,7 @@ Please note that the key is not your password.</value>
   <data name="PasswordNewHint" xml:space="preserve">
     <value>Enter your new password</value>
   </data>
+  <data name="TagNameCannotBeEmpty" xml:space="preserve">
+    <value>The name cannot be empty</value>
+  </data>
 </root>
