@@ -1855,6 +1855,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use the plus button to add a new tag.
+        /// </summary>
+        public static string TagsEmpty {
+            get {
+                return ResourceManager.GetString("TagsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tags saved successfully.
         /// </summary>
         public static string TagsSavedSuccessfully {

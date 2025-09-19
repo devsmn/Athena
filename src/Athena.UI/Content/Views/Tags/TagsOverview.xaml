@@ -6,6 +6,8 @@
              xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:input="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:maui="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
              x:Class="Athena.UI.TagsOverview"
              x:Name="parent"
              Title="{x:Static loc:Localization.Tags}"
@@ -13,6 +15,7 @@
     <ContentPage.Resources>
         <local:EditTagNameTitleConverter x:Key="EditTagNameTitleConverter" />
         <local:HexToBrushConverter x:Key="HexToBrushConverter" />
+        <toolkit:InvertedBoolConverter x:Key="InverseBooleanConverter" />
     </ContentPage.Resources>
     <ContentPage.BindingContext>
         <local:TagsOverviewViewModel />
@@ -36,7 +39,10 @@
                Grid.ColumnSpan="2"
                FontSize="32"/>
 
-        <VerticalStackLayout Spacing="10" Grid.Row="1"  >
+        <VerticalStackLayout
+            Spacing="10"
+            Grid.Row="1"
+            IsVisible="{Binding TagsAvailable}">
             <chip:SfChipGroup ItemsSource="{Binding Tags}"
                           Margin="10"
                           Command="{Binding TagSelectedCommand}"
@@ -68,6 +74,27 @@
                 </chip:SfChipGroup.ItemTemplate>
 
             </chip:SfChipGroup>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout HorizontalOptions="Center"
+                             Grid.Row="1"
+                             IsVisible="{Binding TagsAvailable, Converter={x:StaticResource InverseBooleanConverter}}"
+                             VerticalOptions="Center">
+            <maui:CachedImage 
+                FadeAnimationEnabled="False"
+                LoadingPlaceholder="image_placeholder.png"
+                FadeAnimationForCachedImages="False"
+                WidthRequest="50" 
+                HeightRequest="50"
+                Aspect="Fill"
+                Source="empty.png"/>
+
+            <Label Text="{x:Static loc:Localization.TagsEmpty}"
+                   VerticalTextAlignment="Center"
+                   LineBreakMode="CharacterWrap"
+                   Margin="5"
+                   HorizontalTextAlignment="Center"/>
+
         </VerticalStackLayout>
 
         <p:SfPopup IsOpen="{Binding IsEditPopupOpen}"

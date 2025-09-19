@@ -36,6 +36,9 @@ namespace Athena.UI
         [ObservableProperty]
         private TagViewModel _selectedTag;
 
+        [ObservableProperty]
+        private bool _tagsAvailable;
+
         private static readonly int BlackIndex = 0;
         private static readonly int WhiteIndex = 1;
 
@@ -66,6 +69,8 @@ namespace Athena.UI
                 {
                     Tags = new(allTags.Select(x => new TagViewModel(x)));
                 }
+
+                TagsAvailable = Tags.Count > 0;
             });
         }
 
@@ -94,6 +99,8 @@ namespace Athena.UI
                         Tags.Process(tag);
                     }
                 }
+
+                TagsAvailable = Tags.Count > 0;
             });
         }
 

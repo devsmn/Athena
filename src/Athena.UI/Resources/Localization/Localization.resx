@@ -775,4 +775,7 @@ Please note that the key is not your password.</value>
   <data name="TagNameCannotBeEmpty" xml:space="preserve">
     <value>The name cannot be empty</value>
   </data>
+  <data name="TagsEmpty" xml:space="preserve">
+    <value>Use the plus button to add a new tag</value>
+  </data>
 </root>
