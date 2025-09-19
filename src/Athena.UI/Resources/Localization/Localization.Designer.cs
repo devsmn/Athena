@@ -1828,6 +1828,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The name cannot be empty.
+        /// </summary>
+        public static string TagNameCannotBeEmpty {
+            get {
+                return ResourceManager.GetString("TagNameCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose a new name for {0}.
         /// </summary>
         public static string TagNewName {

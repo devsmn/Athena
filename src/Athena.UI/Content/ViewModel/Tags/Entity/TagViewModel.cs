@@ -32,7 +32,6 @@ namespace Athena.UI
             }
         }
 
-
         public string Name
         {
             get => _tag.Name;
@@ -74,6 +73,5 @@ namespace Athena.UI
         {
             return tagVm._tag;
         }
-
     }
 }
