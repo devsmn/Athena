@@ -37,8 +37,6 @@ namespace Athena.Data.SQLite.Proxy
                 Debug.WriteLine(ex.ToString());
                 throw;
             }
-
-            return null;
         }
 
         public IDataProviderPatcher RequestPatcher()

@@ -1,8 +1,8 @@
-﻿namespace Athena.Data.SQLite
-{
-    using DataModel;
-    using DataModel.Core;
+﻿using Athena.DataModel;
+using Athena.DataModel.Core;
 
+namespace Athena.Data.SQLite
+{
     /// <summary>
     /// Provides the sqlite specific implementation of the <see cref="IChapterRepository"/>.
     /// </summary>

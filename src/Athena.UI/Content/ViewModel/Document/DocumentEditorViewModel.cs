@@ -311,11 +311,10 @@ namespace Athena.UI
 
                     // First, try google mlkit.
                     IDocumentScannerService scanner = Services.GetService<IDocumentScannerService>();
-
                     TaskCompletionSource<bool> waitForScanner = new();
 
                     scanner.ValidateInstallation(
-                        flag => waitForScanner.SetResult(flag),
+                        waitForScanner.SetResult,
                         error =>
                         {
                             context.Log(error);

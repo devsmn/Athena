@@ -24,7 +24,6 @@ namespace Athena.UI
 
         public ReportIssueLevel Level { get; set; }
 
-
         public PdfCreationSummaryStep(string fileName, ReportIssueLevel level)
         {
             Message = fileName;

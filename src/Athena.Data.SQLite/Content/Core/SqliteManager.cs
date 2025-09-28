@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Athena.Data.Core;
+﻿using Athena.Data.Core;
 using Athena.DataModel.Core;
 using SQLite;
 
@@ -21,6 +20,11 @@ namespace Athena.Data.SQLite
             }
         }
 
+        /// <summary>
+        /// Executes the patch that converts the plain db into an encrypted database. 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         private async Task ExecuteEncryptDatabasePatch(IContext context)
         {
             SQLiteAsyncConnection encryptedDb = null;
@@ -124,8 +128,6 @@ namespace Athena.Data.SQLite
                 if (repo != null)
                     await repo.CloseAsync();
             }
-
-            return false;
         }
 
         public async Task<bool> ValidateAsync(IContext context, string cipher, string db)

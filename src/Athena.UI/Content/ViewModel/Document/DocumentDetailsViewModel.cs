@@ -213,42 +213,6 @@ namespace Athena.UI
         }
 
         [RelayCommand]
-        private async Task SaveDocument()
-        {
-            try
-            {
-                string mainDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-
-                if (!Directory.Exists(mainDir))
-                {
-                    Directory.CreateDirectory(mainDir);
-                }
-
-                mainDir = Path.Combine(mainDir, DocumentPrefix + Document.Name + ".pdf");
-
-                await File.WriteAllBytesAsync(mainDir, Document.Pdf);
-
-                bool openFolder = await DisplayAlert(
-                    "File saved",
-                    $"The file has been saved successfully to {mainDir}{Environment.NewLine}" +
-                    $"Do you want to open the file?",
-                    "Yes",
-                    "No");
-
-                if (openFolder)
-                {
-                    await Launcher.Default.OpenAsync(new OpenFileRequest("View PDF", new ReadOnlyFile(mainDir)));
-                }
-            }
-            catch (Exception ex)
-            {
-                IContext context = RetrieveContext();
-                context.Log(ex);
-            }
-
-        }
-
-        [RelayCommand]
         private async Task DeleteDocument()
         {
             ShowMenuPopup = false;

@@ -24,6 +24,10 @@
         /// </summary>
         void UpdateLastUsedVersion(IContext context);
 
+        /// <summary>
+        /// Gets the current app version.
+        /// </summary>
+        /// <returns></returns>
         int GetCurrentVersion();
     }
 }

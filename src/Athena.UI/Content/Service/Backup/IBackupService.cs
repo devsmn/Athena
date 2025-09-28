@@ -11,8 +11,21 @@ namespace Athena.UI
 {
     internal interface IBackupService
     {
+        /// <summary>
+        /// Asynchronously creates a backup.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         Task<FileSaverResult?> Create(IContext context);
 
+        /// <summary>
+        /// Asynchronously restores a backup.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="path"></param>
+        /// <param name="requireUserConfirmation"></param>
+        /// <param name="showProgressIndicator"></param>
+        /// <returns></returns>
         Task<BackupRestoreResult> Restore(
             IContext context,
             string path,

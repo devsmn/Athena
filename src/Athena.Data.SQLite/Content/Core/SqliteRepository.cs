@@ -47,7 +47,7 @@ namespace Athena.Data.SQLite
                 string table = await _database.ExecuteScalarAsync<string>("SELECT name FROM sqlite_master WHERE type='table' and name='META';");
                 IsValid = !string.IsNullOrEmpty(table);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 IsValid = false;
             }
@@ -141,6 +141,7 @@ namespace Athena.Data.SQLite
 
             bool ownTransaction = false;
             SQLiteConnection connection = null;
+            bool success = true;
 
             try
             {
@@ -161,11 +162,12 @@ namespace Athena.Data.SQLite
                     connection.Rollback();
                 }
 
+                success = false;
                 context.Log(ex);
             }
             finally
             {
-                if (ownTransaction)
+                if (success && ownTransaction)
                 {
                     connection.Commit();
                 }
