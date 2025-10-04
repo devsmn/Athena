@@ -38,5 +38,11 @@ namespace Athena.UI
             _prefService.SetUseAdvancedScanner(UseAdvancedScanner);
             _prefService.SetFirstScannerUsage();
         }
+
+        public async Task BackPressed()
+        {
+            await PopModalAsync();
+            DoneTcs.SetResult();
+        }
     }
 }

@@ -191,7 +191,7 @@ namespace Athena.UI
                 DefaultContentPage view = new DocumentScannerTypeSettingsView(false);
                 await PushModalAsync(view);
                 await view.DoneTcs.Task;
-
+                
                 UseAdvancedScanner = _prefService.GetUseAdvancedScanner();
             }
         }

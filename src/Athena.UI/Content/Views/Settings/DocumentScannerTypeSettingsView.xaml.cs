@@ -4,6 +4,8 @@ namespace Athena.UI;
 
 public partial class DocumentScannerTypeSettingsView : DefaultContentPage
 {
+    private readonly DocumentScannerTypeSettingsViewModel vm;
+
     public DocumentScannerTypeSettingsView()
         : this(true)
     {
@@ -12,11 +14,18 @@ public partial class DocumentScannerTypeSettingsView : DefaultContentPage
     public DocumentScannerTypeSettingsView(bool fromSettings = true)
     {
         BindingContext = new DocumentScannerTypeSettingsViewModel(fromSettings, DoneTcs);
-		InitializeComponent();
-	}
+        InitializeComponent();
+        vm = BindingContext as DocumentScannerTypeSettingsViewModel;
+    }
 
     private void OnInfoClicked(object sender, EventArgs e)
     {
         ShowInfoPopup(Localization.DocumentScanner, Localization.DocumentScannerDesc);
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        vm.BackPressed();
+        return true;
     }
 }
