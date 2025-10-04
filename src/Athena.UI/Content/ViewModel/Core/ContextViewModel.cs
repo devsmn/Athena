@@ -99,8 +99,8 @@ namespace Athena.UI
         /// <returns></returns>
         protected async Task PopModalAsync()
         {
-            await Services.GetService<INavigationService>().PopModalAsync();
             DoneTcs?.SetResult(); // TODO (SPF): Only works if no other pages are pushed.
+            await Services.GetService<INavigationService>().PopModalAsync();
         }
 
         /// <summary>

@@ -1,7 +1,9 @@
 ﻿#if ANDROID
 using Android.App;
 using Android.Content;
+using Android.OS;
 using Android.Security.Keystore;
+using Android.Systems;
 using AndroidX.Core.Content;
 using Java.Lang;
 using Java.Security;
@@ -145,14 +147,22 @@ namespace Athena.DataModel.Core.Platforms.Android
                 KeyGenerator keyGenerator = KeyGenerator.GetInstance(KeyProperties.KeyAlgorithmAes, AndroidKeyStore);
 
                 KeyGenParameterSpec.Builder builder = new KeyGenParameterSpec.Builder(
-                        alias,
-                        KeyStorePurpose.Encrypt | KeyStorePurpose.Decrypt)
-                    .SetBlockModes(KeyProperties.BlockModeCbc)
-                    .SetRandomizedEncryptionRequired(true)
-                    .SetEncryptionPaddings(KeyProperties.EncryptionPaddingPkcs7)
-                    .SetUserAuthenticationRequired(true)
-                    .SetUserAuthenticationParameters(300, (int)(KeyPropertiesAuthType.BiometricStrong | KeyPropertiesAuthType.DeviceCredential))
-                    .SetUserAuthenticationValidityDurationSeconds(-1); 
+                       alias,
+                       KeyStorePurpose.Encrypt | KeyStorePurpose.Decrypt)
+                   .SetBlockModes(KeyProperties.BlockModeCbc)
+                   .SetRandomizedEncryptionRequired(true)
+                   .SetEncryptionPaddings(KeyProperties.EncryptionPaddingPkcs7)
+                   .SetUserAuthenticationValidityDurationSeconds(-1);
+
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.R) // API 30+
+                {
+                    builder.SetUserAuthenticationParameters(300, (int)(KeyPropertiesAuthType.BiometricStrong | KeyPropertiesAuthType.DeviceCredential));
+                }
+                else
+                {
+                    builder.SetUserAuthenticationRequired(true);
+                }
+
 
                 keyGenerator.Init(builder.Build());
                 keyGenerator.GenerateKey();
