@@ -24,3 +24,10 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-type: renovate-run
+      - name: Comment confirmation
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            ✅ Renovate run triggered successfully by @${{ github.event.comment.user.login }}.
+            The Renovate workflow will start shortly.
