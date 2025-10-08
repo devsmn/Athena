@@ -3,6 +3,7 @@
     "config:recommended"
   ],
   "autodiscover": true,
+  "updateNotScheduled": false,
   "baseBranchPatterns": [
     "master"
   ],
