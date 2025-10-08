@@ -16,3 +16,4 @@ jobs:
         uses: renovatebot/github-action@v43.0.15
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          configurationFile: renovate.json
