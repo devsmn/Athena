@@ -8,7 +8,7 @@
   ],
   "automerge": false,
   "onboarding": false,
-"requireConfig": "ignored"
+"requireConfig": "ignored",
   "dependencyDashboard": true,
   "packageRules": [
     {
