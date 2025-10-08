@@ -3,6 +3,7 @@
   "baseBranches": ["master"],
   "updateTypes": ["minor", "patch"],
   "automerge": false,
+  "repositories": ["./*"],
   "packageRules": [
     {
       "groupName": "weekly-dependency-updates",
