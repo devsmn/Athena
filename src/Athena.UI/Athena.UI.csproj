@@ -178,7 +178,7 @@
     <PackageReference Include="FFImageLoading.Maui" Version="1.2.5" />
     <PackageReference Include="CommunityToolkit.Maui" Version="9.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
     <PackageReference Include="Plugin.AdMob" Version="2.3.1" />
     <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
@@ -363,7 +363,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
+    <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.110" />
   </ItemGroup>
 
   <ItemGroup>
