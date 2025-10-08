@@ -1,15 +1,17 @@
 {
-  "extends": ["config:base"],
-  "baseBranches": ["master"],
-  "updateTypes": ["minor", "patch"],
+  "extends": ["config:recommended"],
+
+  "baseBranchPatterns": ["master"],
+
   "automerge": false,
-  "repositories": ["./*"],
+  "dependencyDashboard": true,
+
   "packageRules": [
     {
       "groupName": "weekly-dependency-updates",
       "enabled": true,
-      "packagePatterns": [".*"]  
+      "matchPackageNames": ["/.*/"],      
+      "fileMatch": ["\\.csproj$"]          
     }
-  ],
-  "dependencyDashboard": true
+  ]
 }
