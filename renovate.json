@@ -1,6 +1,6 @@
 {
   "extends": ["config:recommended"],
-
+  "autodiscover": true,
   "baseBranches": ["master"],
 
   "automerge": false,
