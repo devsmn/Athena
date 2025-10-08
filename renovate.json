@@ -1,0 +1,14 @@
+{
+  "extends": ["config:base"],
+  "baseBranches": ["master"],
+  "updateTypes": ["minor", "patch"],
+  "automerge": false,
+  "packageRules": [
+    {
+      "groupName": "weekly-dependency-updates",
+      "enabled": true,
+      "packagePatterns": [".*"]  
+    }
+  ],
+  "dependencyDashboard": true
+}
