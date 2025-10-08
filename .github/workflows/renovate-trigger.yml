@@ -1,0 +1,26 @@
+name: Trigger Renovate Run (Manual Comment)
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  trigger-renovate:
+    if: >
+      github.event.issue.title == 'Dependency Dashboard'
+      && contains(github.event.comment.body, '/run-renovate')
+      && (
+        github.event.comment.user.login == 'devsmn'
+      )
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
+      issues: read
+
+    steps:
+      - name: Trigger Renovate workflow
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: renovate-run
