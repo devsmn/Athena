@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "config:recommended"
+  ],
+  "autodiscover": true,
+  "baseBranchPatterns": [
+    "master"
+  ],
+  "automerge": false,
+  "onboarding": false,
+"requireConfig": "ignored",
+  "dependencyDashboard": true,
+  "packageRules": [
+    {
+      "groupName": "weekly-dependency-updates",
+      "matchPackageNames": [
+        "/.*/"
+      ]
+    }
+  ]
+}
