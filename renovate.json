@@ -1,15 +1,19 @@
 {
-  "extends": ["config:recommended"],
+  "extends": [
+    "config:recommended"
+  ],
   "autodiscover": true,
-  "baseBranches": ["master"],
-
+  "baseBranchPatterns": [
+    "master"
+  ],
   "automerge": false,
   "dependencyDashboard": true,
-
   "packageRules": [
     {
       "groupName": "weekly-dependency-updates",
-      "matchPackageNames": ["/.*/"]   
+      "matchPackageNames": [
+        "/.*/"
+      ]
     }
   ]
 }
