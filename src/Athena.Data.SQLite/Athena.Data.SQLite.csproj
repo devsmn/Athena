@@ -37,7 +37,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.4" />
+	  <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
 	  <PackageReference Include="sqlite-net-sqlcipher" Version="1.9.172" />
 	  <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.11" />
 	</ItemGroup>
@@ -221,11 +221,11 @@
   </ItemGroup>-->
   
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.30" />
+	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.110" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.40" />
+	  <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.100" />
 	</ItemGroup>
 
 </Project>
