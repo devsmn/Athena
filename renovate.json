@@ -7,7 +7,7 @@
     "master"
   ],
   "automerge": false,
-  "dependencyDashboard": false,
+  "dependencyDashboard": true,
   "packageRules": [
     {
       "groupName": "weekly-dependency-updates",
