@@ -1,4 +1,4 @@
-{
+j{
   "extends": [
     "config:recommended"
   ],
@@ -7,7 +7,7 @@
     "master"
   ],
   "automerge": false,
-  "dependencyDashboard": true,
+  "dependencyDashboard": false,
   "packageRules": [
     {
       "groupName": "weekly-dependency-updates",
