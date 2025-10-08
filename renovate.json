@@ -1,7 +1,7 @@
 {
   "extends": ["config:recommended"],
 
-  "baseBranchPatterns": ["master"],
+  "baseBranches": ["master"],
 
   "automerge": false,
   "dependencyDashboard": true,
@@ -9,9 +9,7 @@
   "packageRules": [
     {
       "groupName": "weekly-dependency-updates",
-      "enabled": true,
-      "matchPackageNames": ["/.*/"],      
-      "fileMatch": ["\\.csproj$"]          
+      "matchPackageNames": ["/.*/"]   
     }
   ]
 }
