@@ -142,7 +142,7 @@ namespace Athena.DataModel.Core
         {
             EncryptionContext encryptionContext = new(alias);
             await encryptionContext.GetAsync(context);
-            bool success = true;
+            bool success = false;
 
             // Unfortunately, due to the java RT bindings, we cannot make the onSuccess and onError callbacks
             // asynchronous.
@@ -151,19 +151,12 @@ namespace Athena.DataModel.Core
                 context,
                 alias,
                 encryptionContext,
-                error =>
-                {
-                    onError(error);
-                    success = false;
-                },
-                () =>
-                {
-                    success = false;
-                    onCancelled();
-                });
+                onError,
+                onCancelled);
 
             if (decryptedKey != null)
             {
+                success = true;
                 onSuccess(Convert.ToBase64String(decryptedKey));
             }
 

@@ -318,7 +318,21 @@ namespace Athena.UI
 
                 if (method == EncryptionMethod.Biometrics)
                 {
-                    primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, key => parameter.Cipher = key, context.Log, () => {});
+                    bool retryPrimary = true;
+
+                    do
+                    {
+                        primarySucceeded = await encryptionService.ReadPrimaryAsync(
+                            context,
+                            IDataEncryptionService.DatabaseAlias,
+                            key => parameter.Cipher = key,
+                            context.Log,
+                            () => retryPrimary = false);
+
+                        if (primarySucceeded)
+                            retryPrimary = false;
+
+                    } while (retryPrimary);
                 }
 
                 if (!primarySucceeded)
