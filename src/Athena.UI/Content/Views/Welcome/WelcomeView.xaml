@@ -4,6 +4,7 @@
              xmlns:ui="clr-namespace:Athena.UI"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="Athena.UI.WelcomeView"
+             x:DataType="ui:WelcomeViewModel"
              x:Name="page"
              Title="WelcomeView">
     <ContentPage.BindingContext>

@@ -6,6 +6,8 @@
              xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:ui="clr-namespace:Athena.UI"
+             x:DataType="ui:PasswordViewModel"
              Style="{StaticResource ContentPageStyle}"
              Title="PinView">
     <ContentPage.Resources>
