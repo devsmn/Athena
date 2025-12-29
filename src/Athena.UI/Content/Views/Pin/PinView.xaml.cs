@@ -2,7 +2,10 @@
 
 public partial class PinView : ContentPage
 {
-	public PinView(TaskCompletionSource<string> tcs)
+    public const string Route = "password";
+
+
+    public PinView(TaskCompletionSource<string> tcs)
     {
         BindingContext = new PasswordViewModel(tcs);
 		InitializeComponent();

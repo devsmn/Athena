@@ -4,7 +4,10 @@ namespace Athena.UI;
 
 public partial class BackupSettingsView : DefaultContentPage
 {
-	public BackupSettingsView()
+    public const string Route = "settings/backup";
+
+
+    public BackupSettingsView()
     {
         BindingContext = new BackupSettingsViewModel();
 		InitializeComponent();

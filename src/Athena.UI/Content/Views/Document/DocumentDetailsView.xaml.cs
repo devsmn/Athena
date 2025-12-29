@@ -5,6 +5,7 @@ namespace Athena.UI
 {
     public partial class DocumentDetailsView : DefaultContentPage
     {
+        public const string Route = "document/details";
         private readonly DocumentDetailsViewModel _vm;
 
         public DocumentDetailsView(Folder parentFolder, Document document)

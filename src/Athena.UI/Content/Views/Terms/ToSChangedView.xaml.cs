@@ -1,7 +1,11 @@
-﻿namespace Athena.UI;
+﻿using Android.Graphics.Drawables;
+
+namespace Athena.UI;
 
 public partial class ToSChangedView : DefaultContentPage
 {
+    public const string Route = "tos";
+
     public ToSChangedView()
     {
         BindingContext = new ToSChangedViewModel();

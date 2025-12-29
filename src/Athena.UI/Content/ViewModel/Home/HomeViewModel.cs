@@ -191,7 +191,13 @@ namespace Athena.UI
         public async Task OpenFolderOverview()
         {
             FolderViewModel rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
-            await PushAsync(new FolderOverview(rootFolder));
+
+            await Shell.Current.GoToAsync(
+                FolderOverview.Route,
+                new Dictionary<string, object>
+                {
+                    {FolderOverview.FolderParameter, rootFolder}
+                });
         }
 
         public async Task CheckFirstUsage()

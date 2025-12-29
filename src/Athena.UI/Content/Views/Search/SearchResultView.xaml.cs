@@ -6,6 +6,7 @@ namespace Athena.UI;
 
 public partial class SearchResultView : ContentPage
 {
+    public const string Route = "search/results";
     private readonly SearchChapterViewModel _vm;
 
     public SearchResultView(SearchChapterViewModel vm)

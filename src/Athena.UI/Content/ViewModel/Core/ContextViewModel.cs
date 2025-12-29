@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace Athena.UI
 {
-    public partial class ContextViewModel : ObservableObject
+    public partial class ContextViewModel : ObservableObject, IQueryAttributable
     {
         [ObservableProperty]
         private bool _isBusy;
@@ -193,6 +193,10 @@ namespace Athena.UI
         public virtual Task InitializeAsync()
         {
             return Task.CompletedTask;
+        }
+
+        public virtual void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
         }
     }
 }

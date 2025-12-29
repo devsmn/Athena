@@ -5,6 +5,8 @@ namespace Athena.UI
 {
     public partial class DocumentEditorDocumentCropView : ContentPage
     {
+        public const string Route = "document/edit/legacycrop";
+
         private readonly string[] _hideItems = new[] {
             "Text", "Add", "TextColor", "FontFamily", "Arial", "Noteworthy", "Marker Felt", "Bradley Hand",
             "SignPainter",

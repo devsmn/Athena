@@ -1,4 +1,5 @@
-﻿using Athena.DataModel.Core;
+﻿using AndroidX.Activity.Result.Contract;
+using Athena.DataModel.Core;
 using Athena.DataModel.Core.Platforms.Android;
 using CommunityToolkit.Maui;
 using FFImageLoading.Maui;
@@ -6,6 +7,7 @@ using Plugin.AdMob;
 using Plugin.AdMob.Configuration;
 using Serilog;
 using Syncfusion.Maui.Core.Hosting;
+using static Android.Telecom.Call;
 
 namespace Athena.UI;
 
@@ -87,6 +89,19 @@ public static class MauiProgram
 
         MauiApp app = builder.Build();
         Services.Register(app.Services);
+
+        Routing.RegisterRoute(FolderOverview.Route, typeof(FolderOverview));
+        Routing.RegisterRoute(FolderEditorView.Route, typeof(FolderEditorView));
+        Routing.RegisterRoute(DocumentDetailsView.Route, typeof(DocumentDetailsView));
+        Routing.RegisterRoute(DocumentEditorView.Route, typeof(DocumentEditorView));
+        Routing.RegisterRoute(DocumentEditorDocumentCropView.Route, typeof(DocumentEditorDocumentCropView));
+        Routing.RegisterRoute(PinView.Route, typeof(PinView));
+        Routing.RegisterRoute(SearchResultView.Route, typeof(SearchResultView));
+        Routing.RegisterRoute(SecuritySettingsView.Route, typeof(SecuritySettingsView));
+        Routing.RegisterRoute(BackupSettingsView.Route, typeof(BackupSettingsView));
+        Routing.RegisterRoute(DocumentScannerTypeSettingsView.Route, typeof(DocumentScannerTypeSettingsView));
+        Routing.RegisterRoute(OcrLanguageSettings.Route, typeof(OcrLanguageSettings));
+        Routing.RegisterRoute(ToSChangedView.Route, typeof(ToSChangedView));
 
         return app;
     }

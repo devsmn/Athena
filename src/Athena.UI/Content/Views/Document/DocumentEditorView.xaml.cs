@@ -4,6 +4,8 @@
 
     public partial class DocumentEditorView : DefaultContentPage
     {
+        public const string Route = "document/edit";
+
         public DocumentEditorView(Folder folder, Document document)
         {
             BindingContext = new DocumentEditorViewModel(folder, document);

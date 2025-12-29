@@ -1,9 +1,11 @@
 ﻿using Athena.Resources.Localization;
+using Syncfusion.Compression.Zip;
 
 namespace Athena.UI;
 
 public partial class DocumentScannerTypeSettingsView : DefaultContentPage
 {
+    public const string Route = "settings/documentscanner";
     private readonly DocumentScannerTypeSettingsViewModel vm;
 
     public DocumentScannerTypeSettingsView()

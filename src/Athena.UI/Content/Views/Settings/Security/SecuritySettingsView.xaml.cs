@@ -2,7 +2,9 @@
 
 public partial class SecuritySettingsView : ContentPage
 {
-	public SecuritySettingsView()
+    public const string Route = "settings/security";
+
+    public SecuritySettingsView()
 	{
         BindingContext = new SecuritySettingsViewModel();
 		InitializeComponent();

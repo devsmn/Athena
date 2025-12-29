@@ -71,14 +71,21 @@ namespace Athena.UI
         [ObservableProperty]
         private string _busyText;
 
-        public FolderOverviewViewModel(FolderViewModel parentFolder)
+        public FolderOverviewViewModel()
         {
             MoveToFolders = new();
-            _parentFolder = parentFolder;
             RootSource = new();
         }
 
-        internal void LoadData()
+        public override void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            if (query.TryGetValue(FolderOverview.FolderParameter, out object folderObj) && folderObj is FolderViewModel folder)
+                _parentFolder = folder;
+
+            LoadData();
+        }
+
+        private void LoadData()
         {
             IsBusy = true;
 
@@ -327,7 +334,12 @@ namespace Athena.UI
         {
             if (SelectedItem.IsFolder)
             {
-                await PushAsync(new FolderOverview(SelectedItem.Folder));
+                await Shell.Current.GoToAsync(
+                    FolderOverview.Route,
+                    new Dictionary<string, object>
+                    {
+                        {FolderOverview.FolderParameter, SelectedItem.Folder}
+                    });
             }
             else
             {

@@ -4,6 +4,8 @@ namespace Athena.UI;
 
 public partial class OcrLanguageSettings : DefaultContentPage
 {
+    public const string Route = "settings/ocr";
+
     public OcrLanguageSettings()
     {
         BindingContext = new OcrLanguageSettingsViewModel();

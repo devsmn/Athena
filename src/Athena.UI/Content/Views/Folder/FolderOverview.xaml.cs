@@ -5,20 +5,17 @@ namespace Athena.UI;
 
 public partial class FolderOverview : ContentPage
 {
+    public const string Route = "rootitem";
+    public const string FolderParameter = "Folder";
+
     private readonly FolderOverviewViewModel _viewModel;
 
     public FolderOverview()
     {
-        InitializeComponent();
-    }
-
-    public FolderOverview(FolderViewModel parentFolder)
-    {
-        BindingContext =  new FolderOverviewViewModel(parentFolder);
+        BindingContext = new FolderOverviewViewModel();
         InitializeComponent();
 
         _viewModel = BindingContext as FolderOverviewViewModel;
-        _viewModel.LoadData();
     }
 
     private void ListView_OnItemLongPress(object sender, ItemLongPressEventArgs e)

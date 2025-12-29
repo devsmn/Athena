@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:loc="clr-namespace:Athena.Resources.Localization"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Athena.UI"
-    x:Class="Athena.UI.AppShell"
-    Shell.FlyoutBehavior="Disabled">
+    x:Class="Athena.UI.AppShell">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:ContainerPage}"
-        Route="ContainerPage" />
+    <TabBar>
+        <ShellContent Title="Home"
+                  ContentTemplate="{DataTemplate local:HomeView}"
+                  Icon="home.png" />
 
+        <ShellContent Title="{x:Static loc:Localization.Search}"
+                  ContentTemplate="{DataTemplate local:SearchOverviewView}"
+                  Icon="search.png"/>
+
+        <ShellContent Title="{x:Static loc:Localization.Tags}"
+                  ContentTemplate="{DataTemplate local:TagsOverview}"
+                  Icon="tag.png"/>
+
+        <ShellContent Title="{x:Static loc:Localization.Settings}"
+                  ContentTemplate="{DataTemplate local:SettingsView}"
+                  Icon="settings.png"/>
+    </TabBar>
 </Shell>
