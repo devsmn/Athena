@@ -10,7 +10,6 @@
              xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
              x:Class="Athena.UI.HomeView"
-             x:DataType="ui:HomeViewModel"
              Style="{StaticResource ContentPageStyle}"
              Title="HomeView">
 

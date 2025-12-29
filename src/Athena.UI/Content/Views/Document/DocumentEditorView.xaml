@@ -6,8 +6,6 @@
              xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
              x:Name="page"
-             xmlns:ui="clr-namespace:Athena.UI"
-             x:DataType="ui:DocumentEditorViewModel"
              x:Class="Athena.UI.DocumentEditorView"
              Title="New document">
 

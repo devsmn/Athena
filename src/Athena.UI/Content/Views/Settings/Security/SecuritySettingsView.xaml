@@ -4,10 +4,8 @@
              Style="{StaticResource ContentPageStyle}"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="Athena.UI.SecuritySettingsView"
-             xmlns:ui="clr-namespace:Athena.UI"
-             x:DataType="ui:SecuritySettingsViewModel"
-             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="PasswordSettingsView">

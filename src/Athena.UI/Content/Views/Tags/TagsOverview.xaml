@@ -9,7 +9,6 @@
              xmlns:maui="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
              x:Class="Athena.UI.TagsOverview"
-             x:DataType="local:TagsOverviewViewModel"
              x:Name="parent"
              Title="{x:Static loc:Localization.Tags}"
              Style="{StaticResource ContentPageStyle}">

@@ -124,7 +124,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you want to restore the the backup on a different device or after reinstalling Athena?.
+        ///   Looks up a localized string similar to Do you want to restore the backup on a different device or after reinstalling Athena?.
         /// </summary>
         public static string BackupCreateRestoreOnNewDevice {
             get {
@@ -133,7 +133,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A backup contains all of your essential data, including documents and their content, folders and their structure and tags and their associations with documents.
+        ///   Looks up a localized string similar to A backup contains all your data.
         ///Backups can be created at any time and later restored on the same or on another device..
         /// </summary>
         public static string BackupDesc {
@@ -1261,7 +1261,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The password is required and used to encrypt your data. Please make sure you do not forget your password. Once encrypted, your data can only be accessed with your password. If you forget your password, your data is lost and cannot be recovered. .
+        ///   Looks up a localized string similar to The password is required and used to encrypt your data. Please make sure you do not forget your password. Once encrypted, your data can only be accessed with your password or biometrics. If you forget your password, your data is lost and cannot be recovered. .
         /// </summary>
         public static string PasswordDescription {
             get {

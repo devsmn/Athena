@@ -60,8 +60,8 @@ namespace Athena.UI
                     () => OpenSettings<WebViewPage>("https://athena.devsmn.de/copyright/")),
 
                 new(
-                    Localization.SettingsNewsDesc,
                     Localization.SettingsNewsTitle,
+                    Localization.SettingsNewsDesc,
                     "news.png",
                     () => OpenSettings<WebViewPage>("https://athena.devsmn.de/app_changelog/")),
 

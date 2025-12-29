@@ -86,7 +86,7 @@ namespace Athena.DataModel
         }
 
         /// <summary>
-        /// Moves this <see cref="Document"/> to the given <see cref="newFolder"/>.
+        /// Moves this <see cref="Document"/> to the given <paramref name="newFolder"/>.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="oldFolder"></param>

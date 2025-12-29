@@ -494,7 +494,7 @@ Depending on the size of the documents, this process may take a moment.</comment
     <value>Volltextsuche</value>
   </data>
   <data name="SearchFullTextSearchEnabled" xml:space="preserve">
-    <value>Alle Dokumente werden nach dem Suchbegriff dursucht. Es kann einen Moment dauern, bis alle Ergebnisse gefunden wurden.</value>
+    <value>Alle Dokumente werden nach dem Suchbegriff durchsucht. Es kann einen Moment dauern, bis alle Dokumente gefunden wurden.</value>
     <comment>Full text search is enabled. It may take longer to find all results</comment>
   </data>
   <data name="SearchNoResults" xml:space="preserve">
@@ -643,7 +643,7 @@ Stelle sicher, dass die gewünschten Sprachen in den Einstellungen unter Texterk
     <value>Dokumente können verschiedenen Kategorien zugewiesen werden, um sie leichter und intuitiver zu verwalten.</value>
   </data>
   <data name="PasswordDescription" xml:space="preserve">
-    <value>Das Passwort wird benuzt, um deine Daten zu verschlüsseln. Bitte stelle sicher, dass du dein Passwort nicht vergisst. Sobald die Daten verschlüsselt sind, können sie nur noch mit dem Passwort entschlüsselt werden. Wenn du dein Passwort vergisst, sind die Daten verloren und können nicht wiederhergestellt werden.</value>
+    <value>Das Passwort wird benuzt, um deine Daten zu verschlüsseln. Bitte stelle sicher, dass du dein Passwort nicht vergisst. Sobald die Daten verschlüsselt sind, können sie nur noch mit dem Passwort oder durch Biometrie entschlüsselt werden. Wenn du dein Passwort vergisst, sind die Daten verloren und können nicht wiederhergestellt werden.</value>
     <comment>The PIN is required and used to encrypt your data. Please make sure you do not forget the PIN. Once encrypted, your data can only be accessed with your PIN. If you forget your PIN, your data is lost and cannot be recovered.</comment>
   </data>
   <data name="Password" xml:space="preserve">
@@ -675,7 +675,7 @@ Du kannst dich gegen die Verwendung des fortschrittlichen Scanners entscheiden u
     <value>Verwalte den Dokumentenscanner</value>
   </data>
   <data name="BackupDesc" xml:space="preserve">
-    <value>Ein Backup enthält alle deine relevanten Daten, einschließlich Dokumenten und deren Inhalt, Ordner und deren Struktur sowie Tags und deren Verknüpfung mit Dokumenten.
+    <value>Ein Backup enthält alle deine Daten.
 Backups können jederzeit erstellt werden und später auf demselben oder einem anderen Gerät wiederhergestellt werden.</value>
   </data>
   <data name="BackupTitle" xml:space="preserve">
@@ -748,20 +748,20 @@ Das Backup wurde am {3} mit der Athena Version {4} erstellt.</value>
     <value>Backup zum Wiederherstellen auswählen</value>
   </data>
   <data name="BackupShowEncryptionKey" xml:space="preserve">
-    <value>Verschlüsselungsschlüssel:
+    <value>Verschlüsselungscode
 
 {0}
 
-Stelle bitte sicher, dass der Schlüssel in einer sicheren Umgebung gespeichert wird.</value>
+Stelle bitte sicher, dass der Code in einer sicheren Umgebung gespeichert wird.</value>
   </data>
   <data name="BackupShowEncryptionKeyPreInfo" xml:space="preserve">
-    <value>Damit das Backup auf einem anderen Gerät oder nach einer Neuinstallation wiederhergestellt werden kann, wird der Verschlüsselungsschlüssel benötigt.
-Hinweis: Dieser Schlüssel ist nicht dein Passwort.</value>
+    <value>Damit das Backup auf einem anderen Gerät oder nach einer Neuinstallation wiederhergestellt werden kann, wird der Verschlüsselungscode benötigt.
+Hinweis: Dieser Code ist nicht dein Passwort.</value>
     <comment>To restore a backup on a different device or after reinstalling Athena, you will need the encryption key to access the data.
 Please note that the key is not your password.</comment>
   </data>
   <data name="BackupShowKeyOption" xml:space="preserve">
-    <value>Schlüssel anzeigen</value>
+    <value>Code anzeigen</value>
   </data>
   <data name="BiometricAuth" xml:space="preserve">
     <value>Biometrische Authentifizierung</value>

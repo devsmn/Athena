@@ -268,7 +268,6 @@ namespace Athena.DataModel.Core
             catch (Exception ex)
             {
                 context.Log(ex);
-                return null;
             }
 
             return null;

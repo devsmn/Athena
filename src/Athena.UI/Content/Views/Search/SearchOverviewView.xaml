@@ -8,7 +8,6 @@
                     xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
                     xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
                     xmlns:ui="clr-namespace:Athena.UI"
-                    x:DataType="ui:SearchChapterViewModel"
                     Title="{x:Static loc:Localization.Search}">
     <Grid HorizontalOptions="Center" Margin="10">
         <Grid.RowDefinitions>

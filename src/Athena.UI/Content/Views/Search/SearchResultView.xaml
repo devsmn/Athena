@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Style="{StaticResource ContentPageStyle}"
              x:Class="Athena.UI.SearchResultView"
-             xmlns:ui="clr-namespace:Athena.UI"
-             x:DataType="ui:SearchChapterViewModel"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              Title="{x:Static loc:Localization.SearchResults}">

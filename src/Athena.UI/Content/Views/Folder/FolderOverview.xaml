@@ -14,7 +14,6 @@
              xmlns:shimmer="clr-namespace:Syncfusion.Maui.Shimmer;assembly=Syncfusion.Maui.Core"
              xmlns:data="clr-namespace:Syncfusion.Maui.DataSource;assembly=Syncfusion.Maui.DataSource"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
-             x:DataType="local:FolderOverviewViewModel"
              Title="{Binding ParentFolder.Name}"
              x:Class="Athena.UI.FolderOverview">
 
