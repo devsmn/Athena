@@ -4,7 +4,19 @@ namespace Athena.DataModel.Core
 {
     public interface IDataEncryptionService
     {
-        public const string DatabaseAlias = "DATA_ENCRYPTION_BIOMETRICS";
+        /// <summary>
+        /// Gets the alias of the currently active encryption key.
+        /// </summary>
+        /// <returns></returns>
+        Task<string> GetActiveAliasAsync();
+        string GenerateNewAlias();
+
+        /// <summary>
+        /// Saves the new alias of the currently active encryption key.
+        /// </summary>
+        /// <param name="newAlias"></param>
+        /// <returns></returns>
+        Task SaveNewAliasAsync(string newAlias);
 
         /// <summary>
         /// Initializes the context needed for encrypting the given <paramref name="alias"/>.
@@ -28,16 +40,16 @@ namespace Athena.DataModel.Core
         /// </para>
         /// 
         /// <para>Fallback:
-        /// </para>
         /// The key is secured using an AES key derived from the given <paramref name="fallbackPin"/>.
         /// The AES key is used to encrypt the given <paramref name="value"/>. Before storing the encrypted key, the HMAC is generated.
         /// The HMAC is based on a hardware-backed AES key from the Android Key Store. In this case, no used authentication is required to access the HMAC key.
         /// The encrypted value is then stored along with the related HMAC in the secure storage.
+        /// </para>
         /// </summary>
         /// <param name="value"></param>
         /// <param name="fallbackPin"></param>
         /// <returns></returns>
-        Task SaveAsync(IContext context, string alias, string value, string fallbackPin);
+        Task<bool> SaveAsync(IContext context, string alias, string value, string fallbackPin);
 
         /// <summary>
         /// Deletes the given alias from the primary and fallback source.

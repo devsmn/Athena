@@ -37,9 +37,11 @@ namespace Athena.Data.SQLite
                 ISecureStorageService secureService = Services.GetService<ISecureStorageService>();
                 IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
 
+                string alias = encryptionService.GenerateNewAlias();
+
                 // Prepare the android key store to store the sql cipher key.
                 context?.Log("Preparing database encryption");
-                encryptionService.Initialize(context, IDataEncryptionService.DatabaseAlias);
+                encryptionService.Initialize(context, alias);
 
                 // Get the sql cipher key.
                 context?.Log("Generating encryption key");
@@ -54,7 +56,14 @@ namespace Athena.Data.SQLite
                 await passwordService.New(context, newPassword => { fallbackPassword = newPassword; });
 
                 // Save the key secured via the fallback password and the biometrics, if available.
-                await encryptionService.SaveAsync(context, IDataEncryptionService.DatabaseAlias, sqlCipherKey, fallbackPassword);
+                bool valid;
+                do
+                {
+                    // Either biometrics or fallback HAS to succeed. This only fails if the user provided invalid data (e.g. wrong biometrics or incorrect key).
+                    valid = await encryptionService.SaveAsync(context, alias, sqlCipherKey, fallbackPassword);
+                } while (!valid);
+
+                await encryptionService.SaveNewAliasAsync(alias);
 
                 // Create the encrypted database.
                 context?.Log("Connecting to encrypted database");

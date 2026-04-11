@@ -59,8 +59,11 @@ namespace Athena.UI
             IsSearchResult = true;
         }
 
-        public override async Task InitializeAsync()
+        public override async Task<bool> InitializeAsync()
         {
+            if (!DataStore.IsReady)
+                return false;
+
             await ExecuteAsyncBackgroundAction(async context =>
             {
                 byte[] pdf = Document.Pdf;
@@ -81,6 +84,8 @@ namespace Athena.UI
                     Pdf = pdf;
                 });
             });
+
+            return true;
         }
 
         protected override void OnDataPublished(DataPublishedArgs data)

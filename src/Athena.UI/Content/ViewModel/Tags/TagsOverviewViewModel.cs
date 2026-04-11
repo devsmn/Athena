@@ -55,8 +55,11 @@ namespace Athena.UI
             };
         }
 
-        public override async Task InitializeAsync()
+        public override async Task<bool> InitializeAsync()
         {
+            if (!DataStore.IsReady)
+                return false;
+
             await ExecuteBackgroundAction(context =>
             {
                 var allTags = Tag.ReadAll(context).ToList();
@@ -72,6 +75,8 @@ namespace Athena.UI
 
                 TagsAvailable = Tags.Count > 0;
             });
+
+            return true;
         }
 
         protected override void OnDataPublished(DataPublishedArgs data)

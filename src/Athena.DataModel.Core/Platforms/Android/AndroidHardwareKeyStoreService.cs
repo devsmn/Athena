@@ -275,16 +275,16 @@ namespace Athena.DataModel.Core.Platforms.Android
             return null;
         }
 
-        public async Task SaveAsync(IContext context, string alias, string value)
+        public async Task<bool> SaveAsync(IContext context, string alias, string value)
         {
             if (!BiometricsAvailable())
-                return;
+                return true;
 
             context?.Log("Storing key");
-            await SaveKeyValue(context, alias, value);
+            return await SaveKeyValue(context, alias, value);
         }
 
-        private async Task SaveKeyValue(IContext context, string alias, string value)
+        private static async Task<bool> SaveKeyValue(IContext context, string alias, string value)
         {
             context?.Log("Saving key against biometric data");
             KeyStore keyStore = KeyStore.GetInstance(AndroidKeyStore);
@@ -292,7 +292,7 @@ namespace Athena.DataModel.Core.Platforms.Android
 
             if (!keyStore.ContainsAlias(alias))
             {
-                return;
+                return false;
             }
 
             IKey secretKey = keyStore.GetKey(alias, null);
@@ -315,13 +315,13 @@ namespace Athena.DataModel.Core.Platforms.Android
             if (res.Exception != null)
             {
                 context?.Log(res.Exception);
-                return;
+                return false;
             }
 
             if (res.Cancelled)
             {
                 context?.Log("Cancelled by user");
-                return;
+                return false;
             }
 
             byte[] iv = cipher.GetIV();
@@ -331,6 +331,7 @@ namespace Athena.DataModel.Core.Platforms.Android
             encryptionContext.Add(EncryptionContext.Iv, iv);
             encryptionContext.Add(EncryptionContext.Key, encryptedKey);
             await encryptionContext.StoreAsync(context);
+            return true;
         }
 
         private static async Task<RequestCipherExecutionResult> RequestCipherExecution(
@@ -348,28 +349,28 @@ namespace Athena.DataModel.Core.Platforms.Android
                     {
                         Cipher authCipher = result.CryptoObject.Cipher;
                         cipherRes.Data = authCipher.DoFinal(value);
-                        tcs.SetResult(cipherRes);
+                        tcs.TrySetResult(cipherRes);
                     }
                     catch (Exception ex)
                     {
                         cipherRes.Exception = ex;
-                        tcs.SetResult(cipherRes);
+                        tcs.TrySetResult(cipherRes);
                     }
                 },
                 onCancelled: (() =>
                 {
                     cipherRes.Cancelled = true;
-                    tcs.SetResult(cipherRes);
+                    tcs.TrySetResult(cipherRes);
                 }),
                 onError: error =>
                 {
                     cipherRes.Exception = new Exception(error);
-                    tcs.SetResult(cipherRes);
+                    tcs.TrySetResult(cipherRes);
                 },
                 onFailed: (() =>
                 {
-                    cipherRes.Exception = new Exception("Failed");
-                    tcs.SetResult(cipherRes);
+                    cipherRes.Exception = new Exception("Invalid biometric data was used to authenticate");
+                    tcs.TrySetResult(cipherRes);
                 }));
 
             Context context = Platform.CurrentActivity;

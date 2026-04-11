@@ -49,7 +49,7 @@ namespace Athena.DataModel.Core
         /// saves it to the secure storage <see cref="ISecureStorageService"/>.
         /// </summary>
         /// <param name="value"></param>
-        Task SaveAsync(IContext context, string alias, string value);
+        Task<bool> SaveAsync(IContext context, string alias, string value);
 
         /// <summary>
         /// Retrieves the database encryption key from <see cref="ISecureStorageService"/> and decodes it with the stored AES key.

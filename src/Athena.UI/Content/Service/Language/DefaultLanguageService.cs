@@ -6,7 +6,7 @@ namespace Athena.UI
 {
     internal class DefaultLanguageService : ILanguageService
     {
-        public void SetLanguage(IContext context, string code, bool reload)
+        public async Task SetLanguage(IContext context, string code, bool reload)
         {
             try
             {
@@ -19,7 +19,12 @@ namespace Athena.UI
                 if (!reload)
                     return;
 
-                Application.Current.Windows[0].Page = new ContainerPage();
+                INavigationService navService = Services.GetService<INavigationService>();
+                if (await navService.DisplayAlert("Restart required", "A restart is required to complete the changes. Close Athena now?", "Yes", "No"))
+                {
+                    Application.Current.Quit();
+                }
+                //Application.Current.Windows[0].Page = new ContainerPage();
             }
             catch (Exception ex)
             {

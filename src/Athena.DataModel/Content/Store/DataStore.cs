@@ -10,6 +10,8 @@ namespace Athena.DataModel
     {
         private static readonly Dictionary<Type, IAthenaRepository> Stores = new();
 
+        public static bool IsReady => Stores.Count > 0;
+
         /// <summary>
         /// Registers the given <paramref name="repository"/>.
         /// </summary>

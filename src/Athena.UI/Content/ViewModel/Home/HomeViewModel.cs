@@ -202,7 +202,12 @@ namespace Athena.UI
 
             if (isFirstUsage)
             {
-                await PushModalAsync(new WelcomeView());
+                // TODO: Temporary change: Localization is no longer updated by recreating app shell.
+                // -> Continue with onboarding.
+                DefaultContentPage view = new WelcomeView();
+                await PushModalAsync(view);
+                await view.DoneTcs.Task;
+                await PopModalAsync();
             }
             else
             {
@@ -263,16 +268,16 @@ namespace Athena.UI
             context.Log(Environment.NewLine);
         }
 
-        public new async Task InitializeAsync()
+        public new async Task<bool> InitializeAsync()
         {
             ICompatibilityService compatService = Services.GetService<ICompatibilityService>();
 
             IContext context = RetrieveReportContext();
             LogMetaHeaderInfo(context);
 
-            // Data will be initialized via the welcome view because it creates the home view again.
-            if (Services.GetService<IPreferencesService>().IsFirstUsage())
-                return;
+            //// Data will be initialized via the welcome view because it creates the home view again.
+            //if (Services.GetService<IPreferencesService>().IsFirstUsage())
+            //    return true;
 
             IsBusy = true;
             await Task.Run(async () =>
@@ -315,6 +320,7 @@ namespace Athena.UI
                 }
 
                 bool primarySucceeded = false;
+                string alias = await encryptionService.GetActiveAliasAsync();
 
                 if (method == EncryptionMethod.Biometrics)
                 {
@@ -324,7 +330,7 @@ namespace Athena.UI
                     {
                         primarySucceeded = await encryptionService.ReadPrimaryAsync(
                             context,
-                            IDataEncryptionService.DatabaseAlias,
+                            alias,
                             key => parameter.Cipher = key,
                             context.Log,
                             () => retryPrimary = false);
@@ -348,13 +354,13 @@ namespace Athena.UI
 
                         await encryptionService.ReadFallbackAsync(
                             context,
-                            IDataEncryptionService.DatabaseAlias,
+                            alias,
                             pin, key => parameter.Cipher = key,
                             error => context.Log(error));
 
                         firstTry = false;
 
-                    } while (await sqlAuth.AuthenticateAsync(parameter.Cipher) == false);
+                    } while (!await sqlAuth.AuthenticateAsync(parameter.Cipher));
                 }
 
                 // Register the repositories.
@@ -382,6 +388,8 @@ namespace Athena.UI
                 compatService.UpdateLastUsedVersion(context);
                 MainThread.BeginInvokeOnMainThread(() => IsBusy = false);
             });
+
+            return true;
         }
 
         private static Folder GetRootFolder(IContext context)

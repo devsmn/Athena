@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace Athena.DataModel.Core
@@ -100,10 +99,33 @@ namespace Athena.DataModel.Core
         private readonly IHardwareKeyStoreService _hardwareKeyStoreService;
         private readonly ISecureStorageService _secureStorageService;
 
+        private const string AliasPtrKey = "D_ENCR_PTR";
+
         public DefaultDataEncryptionService()
         {
             _hardwareKeyStoreService = Services.GetService<IHardwareKeyStoreService>();
             _secureStorageService = Services.GetService<ISecureStorageService>();
+        }
+
+        public async Task<string> GetActiveAliasAsync()
+        {
+            string ptr = await _secureStorageService.GetAsync(AliasPtrKey);
+            if (string.IsNullOrEmpty(ptr))
+            {
+                ptr = GenerateNewAlias();
+            }
+
+            return ptr;
+        }
+
+        public async Task SaveNewAliasAsync(string newAlias)
+        {
+            await _secureStorageService.SaveAsync(AliasPtrKey, newAlias);
+        }
+
+        public string GenerateNewAlias()
+        {
+            return "D_ENCR_AL_" + Guid.NewGuid();
         }
 
         public void Initialize(IContext context, string alias)
@@ -111,10 +133,15 @@ namespace Athena.DataModel.Core
             _hardwareKeyStoreService.Initialize(context, alias);
         }
 
-        public async Task SaveAsync(IContext context, string alias, string value, string fallbackPin)
+        public async Task<bool> SaveAsync(IContext context, string alias, string value, string fallbackPin)
         {
-            await _hardwareKeyStoreService.SaveAsync(context, alias, value);
-            await StoreFallbackKeyAsync(context, alias, value, fallbackPin);
+            if (!await _hardwareKeyStoreService.SaveAsync(context, alias, value))
+            {
+                context?.Log("Failed to store key against biometrics");
+                return false;
+            }
+
+            return await StoreFallbackKeyAsync(context, alias, value, fallbackPin);
         }
 
         public async Task DeleteAsync(IContext context, string alias)
@@ -140,27 +167,36 @@ namespace Athena.DataModel.Core
             Action<string> onError,
             Action onCancelled)
         {
-            EncryptionContext encryptionContext = new(alias);
-            await encryptionContext.GetAsync(context);
-            bool success = false;
-
-            // Unfortunately, due to the java RT bindings, we cannot make the onSuccess and onError callbacks
-            // asynchronous.
-            // Therefore, the fallback has to be called explicitly if false is returned.
-            byte[] decryptedKey = await _hardwareKeyStoreService.GetAsync(
-                context,
-                alias,
-                encryptionContext,
-                onError,
-                onCancelled);
-
-            if (decryptedKey != null)
+            try
             {
-                success = true;
-                onSuccess(Convert.ToBase64String(decryptedKey));
-            }
+                EncryptionContext encryptionContext = new(alias);
+                await encryptionContext.GetAsync(context);
+                bool success = false;
 
-            return success;
+                // Unfortunately, due to the java RT bindings, we cannot make the onSuccess and onError callbacks
+                // asynchronous.
+                // Therefore, the fallback has to be called explicitly if false is returned.
+                byte[] decryptedKey = await _hardwareKeyStoreService.GetAsync(
+                    context,
+                    alias,
+                    encryptionContext,
+                    onError,
+                    onCancelled);
+
+                if (decryptedKey != null)
+                {
+                    success = true;
+                    onSuccess(Convert.ToBase64String(decryptedKey));
+                }
+
+                return success;
+            }
+            catch (Exception ex)
+            {
+                context.Log($"Unable to read via primary auth: {ex}");
+                onError(ex.Message);
+                return false;
+            }
         }
 
         public async Task ReadFallbackAsync(
@@ -170,46 +206,64 @@ namespace Athena.DataModel.Core
             Action<string> onSuccess,
             Action<string> onError)
         {
-            string fallbackAlias = alias + "_FALLBACK";
-            string encodedKey = await RetrieveKeyWithPinAsync(context, fallbackAlias, pin);
-
-            if (string.IsNullOrEmpty(encodedKey))
+            try
             {
-                onError("Invalid pin");
-                return;
-            }
+                string fallbackAlias = alias + "_FALLBACK";
+                string encodedKey = await RetrieveKeyWithPinAsync(context, fallbackAlias, pin);
 
-            onSuccess(encodedKey);
-        }
-
-        private async Task StoreFallbackKeyAsync(IContext context, string alias, string plainKey, string pin)
-        {
-            context?.Log("Generating fallback authentication");
-            byte[] salt = RandomNumberGenerator.GetBytes(16);
-            byte[] derivedKey = DeriveKeyFromPin(pin, salt);
-
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = derivedKey;
-                aes.Padding = PaddingMode.PKCS7;
-                aes.GenerateIV();
-                byte[] iv = aes.IV;
-                byte[] encryptedKey;
-
-                using (ICryptoTransform encryptor = aes.CreateEncryptor())
+                if (string.IsNullOrEmpty(encodedKey))
                 {
-                    encryptedKey = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
+                    onError("Invalid pin");
+                    return;
                 }
 
-                string fallbackAlias = alias + "_FALLBACK";
-
-                EncryptionContext encryptionContext = new(fallbackAlias);
-                encryptionContext.Add(EncryptionContext.Salt, salt);
-                encryptionContext.Add(EncryptionContext.Iv, iv);
-                encryptionContext.Add(EncryptionContext.Key, encryptedKey);
-
-                await encryptionContext.StoreAsync(context);
+                onSuccess(encodedKey);
             }
+            catch (Exception ex)
+            {
+                context.Log($"Unable to read with fallback auth: {ex}");
+                onError(ex.Message);
+            }
+        }
+
+        private async Task<bool> StoreFallbackKeyAsync(IContext context, string alias, string plainKey, string pin)
+        {
+            try
+            {
+                context?.Log("Generating fallback authentication");
+                byte[] salt = RandomNumberGenerator.GetBytes(16);
+                byte[] derivedKey = DeriveKeyFromPin(pin, salt);
+
+                using (Aes aes = Aes.Create())
+                {
+                    aes.Key = derivedKey;
+                    aes.Padding = PaddingMode.PKCS7;
+                    aes.GenerateIV();
+                    byte[] iv = aes.IV;
+                    byte[] encryptedKey;
+
+                    using (ICryptoTransform encryptor = aes.CreateEncryptor())
+                    {
+                        encryptedKey = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(plainKey), 0, plainKey.Length);
+                    }
+
+                    string fallbackAlias = alias + "_FALLBACK";
+
+                    EncryptionContext encryptionContext = new(fallbackAlias);
+                    encryptionContext.Add(EncryptionContext.Salt, salt);
+                    encryptionContext.Add(EncryptionContext.Iv, iv);
+                    encryptionContext.Add(EncryptionContext.Key, encryptedKey);
+
+                    await encryptionContext.StoreAsync(context);
+                }
+            }
+            catch (Exception ex)
+            {
+                context?.Log($"Failed to store fallback key: {ex}");
+                return false;
+            }
+
+            return true;
         }
 
         public async Task StoreEncryption(IContext context, EncryptionContext encryptionContext)

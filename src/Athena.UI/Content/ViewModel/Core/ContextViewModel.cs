@@ -190,9 +190,9 @@ namespace Athena.UI
             await MainThread.InvokeOnMainThreadAsync(() => IsBusy = false);
         }
 
-        public virtual Task InitializeAsync()
+        public async virtual Task<bool> InitializeAsync()
         {
-            return Task.CompletedTask;
+            return true;
         }
     }
 }

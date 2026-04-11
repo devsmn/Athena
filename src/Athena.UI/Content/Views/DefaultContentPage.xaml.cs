@@ -18,9 +18,7 @@ public partial class DefaultContentPage : ContentPage
     private async void OnNavigatedTo(object sender, NavigatedToEventArgs e)
     {
         if (!_initialized && BindingContext is ContextViewModel vm)
-            await vm.InitializeAsync();
-
-        _initialized = true;
+            _initialized = await vm.InitializeAsync();
     }
 
     public void ShowInfoPopup(string caption, string text)
