@@ -182,7 +182,7 @@ namespace Athena.UI
             IsPopupOpen = false;
         }
 
-        public override async Task InitializeAsync()
+        public override async Task<bool> InitializeAsync()
         {
             IDocumentScannerService service = Services.GetService<IDocumentScannerService>();
 
@@ -194,6 +194,8 @@ namespace Athena.UI
                 
                 UseAdvancedScanner = _prefService.GetUseAdvancedScanner();
             }
+
+            return true;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)

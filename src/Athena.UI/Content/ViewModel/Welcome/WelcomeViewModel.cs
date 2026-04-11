@@ -58,14 +58,14 @@ namespace Athena.UI
         public ICompatibilityService CompatService { get; private set; }
         public ViewStepHandler<WelcomeViewModel> StepHandler => _stepHandler;
 
-        public WelcomeViewModel()
+        public WelcomeViewModel(TaskCompletionSource doneTcs)
         {
             _stepHandler = new(this);
             _stepHandler.RegisterIncrease(0);
             _stepHandler.RegisterIncrease(1);
             _stepHandler.RegisterIncrease(2);
             _stepHandler.RegisterIncrease(3);
-            _stepHandler.Register(4, new WelcomeViewLastStep());
+            _stepHandler.Register(4, new WelcomeViewLastStep(doneTcs));
 
             GreetingService = Services.GetService<IGreetingService>();
             LanguageService = Services.GetService<ILanguageService>();
@@ -103,7 +103,7 @@ namespace Athena.UI
         public void SelectionChanged()
         {
             LanguageService.SetLanguage(RetrieveContext(), SelectedLanguage.Id, false);
-
+            
             EnterNameText = Localization.WelcomeEnterName;
             EnterNameTextDesc = Localization.WelcomeEnterNameDesc;
             NamePlaceholder = Localization.WelcomeYourNamePlaceholder;

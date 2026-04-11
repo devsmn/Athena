@@ -38,7 +38,7 @@ namespace Athena.UI
         private async Task Next()
         {
             await PopModalAsync();
-            _tcs.SetResult(Password);
+            _tcs.TrySetResult(Password);
         }
     }
 }

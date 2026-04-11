@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ui="clr-namespace:Athena.UI"
-             xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
-             x:Class="Athena.UI.WelcomeView"
-             x:Name="page"
-             Title="WelcomeView">
-    <ContentPage.BindingContext>
-        <ui:WelcomeViewModel />
-    </ContentPage.BindingContext>
+<ui:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:ui="clr-namespace:Athena.UI"
+                    xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+                    x:Class="Athena.UI.WelcomeView"
+                    x:Name="page"
+                    Title="WelcomeView">
 
-    <ContentPage.Resources>
+    <ui:DefaultContentPage.Resources>
         <ControlTemplate x:Key="LanguageStep">
             <ui:WelcomeViewLanguageStep  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
         </ControlTemplate>
@@ -26,7 +23,7 @@
         <ControlTemplate x:Key="ToSAcceptViewStep">
             <ui:ToSAcceptView  BindingContext="{Binding Source={x:Reference page}, Path=BindingContext}"/>
         </ControlTemplate>
-    </ContentPage.Resources>
+    </ui:DefaultContentPage.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -85,4 +82,4 @@
 
     </Grid>
 
-</ContentPage>
+</ui:DefaultContentPage>

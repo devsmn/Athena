@@ -17,7 +17,8 @@ namespace Athena.UI
         InvalidVersion,
         AbortedByUser,
         IntegrityNotValid,
-        Success
+        AuthenticationFailed,
+        Success,
     }
 
     public class BackupRestoreResult
@@ -150,6 +151,7 @@ namespace Athena.UI
                 IDataIntegrityValidator dataIntegrityValidator = sqlProxy.RequestIntegrityValidator();
                 IPasswordService passwordService = Services.GetService<IPasswordService>();
                 IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
+                string alias = string.Empty;
 
                 if (externalKeyRequired)
                 {
@@ -171,8 +173,15 @@ namespace Athena.UI
                 }
                 else
                 {
+                    alias = await encryptionService.GetActiveAliasAsync();
+
                     // Try to open the database with the stored encryption key
-                    bool primarySucceeded = await encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, (c) => cipher = c, context.Log, () => {});
+                    bool primarySucceeded = await encryptionService.ReadPrimaryAsync(
+                        context,
+                        alias,
+                        (c) => cipher = c,
+                        context.Log,
+                        () => { });
 
                     if (!primarySucceeded || !await sqlAuth.AuthenticateAsync(cipher, dbPath))
                     {
@@ -197,7 +206,7 @@ namespace Athena.UI
 
                             await encryptionService.ReadFallbackAsync(
                                 context,
-                                IDataEncryptionService.DatabaseAlias,
+                                alias,
                                 pin, key => cipher = key,
                                 context.Log);
 
@@ -246,20 +255,26 @@ namespace Athena.UI
                 {
                     context.Log("Storing external encryption");
                     // The user provided an external, correct cipher. Store it.
-                    await encryptionService.DeleteAsync(context, IDataEncryptionService.DatabaseAlias);
 
                     string pw = string.Empty;
                     await passwordService.New(context, userPw => pw = userPw);
 
-                    encryptionService.Initialize(context, IDataEncryptionService.DatabaseAlias);
-                    await encryptionService.SaveAsync(context, IDataEncryptionService.DatabaseAlias, cipher, pw);
+                    string newAlias = encryptionService.GenerateNewAlias();
+                    encryptionService.Initialize(context, newAlias);
+                    if (!await encryptionService.SaveAsync(context, newAlias, cipher, pw))
+                    {
+                        result.Code = BackupRestoreResultCode.AuthenticationFailed;
+                        return result;
+                    }
+                    await encryptionService.SaveNewAliasAsync(newAlias);
+                    await encryptionService.DeleteAsync(context, alias);
                 }
 
                 Directory.Delete(tmpDir, true);
                 IPreferencesService prefService = Services.GetService<IPreferencesService>();
 
                 // Set the version to trigger any patches when restarting the app.
-                prefService.SetLastUsedVersion(metaData.MinVersion); 
+                prefService.SetLastUsedVersion(metaData.MinVersion);
 
                 result.Code = BackupRestoreResultCode.Success;
             }

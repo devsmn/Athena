@@ -47,9 +47,11 @@ namespace Athena.UI
 
             context.Log("Reading cipher");
 
+            string oldAlias = await _encryptionService.GetActiveAliasAsync();
+
             // First, read the cipher via the encryption sources.
             string cipher = string.Empty;
-            bool primarySucceeded = await _encryptionService.ReadPrimaryAsync(context, IDataEncryptionService.DatabaseAlias, (c) => cipher = c, context.Log, () => {});
+            bool primarySucceeded = await _encryptionService.ReadPrimaryAsync(context, oldAlias, (c) => cipher = c, context.Log, () => { });
 
             if (!primarySucceeded || !await sqlAuth.AuthenticateAsync(cipher))
             {
@@ -74,30 +76,40 @@ namespace Athena.UI
 
                     await _encryptionService.ReadFallbackAsync(
                         context,
-                        IDataEncryptionService.DatabaseAlias,
+                        oldAlias,
                         pin, key => cipher = key,
                         context.Log);
 
                     firstTry = false;
 
-                } while (await sqlAuth.AuthenticateAsync(cipher) == false);
+                } while (!await sqlAuth.AuthenticateAsync(cipher));
             }
 
             IsBusy = true;
 
             // Cipher is valid, password and biometrics can be replaced.
             context.Log("Storing new encryption");
-            await _encryptionService.DeleteAsync(context, IDataEncryptionService.DatabaseAlias);
 
             string pw = string.Empty;
             await _passwordService.New(context, userPw => pw = userPw);
+            string newAlias = _encryptionService.GenerateNewAlias();
 
-            _encryptionService.Initialize(context, IDataEncryptionService.DatabaseAlias);
-            await _encryptionService.SaveAsync(context, IDataEncryptionService.DatabaseAlias, cipher, pw);
-
-            IsBusy = false;
-
-            await Toast.Make("Password changed", ToastDuration.Long).Show();
+            try
+            {
+                _encryptionService.Initialize(context, newAlias);
+                if (!await _encryptionService.SaveAsync(context, newAlias, cipher, pw))
+                {
+                    await Toast.Make("Failed to change password", ToastDuration.Long).Show();
+                    return;
+                }
+                await _encryptionService.SaveNewAliasAsync(newAlias);
+                await _encryptionService.DeleteAsync(context, oldAlias);
+                await Toast.Make("Password changed", ToastDuration.Long).Show();
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }
