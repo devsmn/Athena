@@ -39,6 +39,15 @@
         Task<bool> DisplayAlert(string title, string message, string accept, string cancel);
 
         /// <summary>
+        /// Displays an alert.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="accept"></param>
+        /// <returns></returns>
+        Task DisplayAlert(string title, string message, string accept);
+
+        /// <summary>
         /// Displays a prompt.
         /// </summary>
         /// <param name="title"></param>

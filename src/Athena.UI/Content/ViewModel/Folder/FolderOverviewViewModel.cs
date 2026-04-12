@@ -1,4 +1,5 @@
-﻿using Athena.DataModel;
+﻿using System.Collections.ObjectModel;
+using Athena.DataModel;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Alerts;
@@ -15,7 +16,7 @@ namespace Athena.UI
         private FolderViewModel _selectedMoveDestination;
 
         [ObservableProperty]
-        private VisualCollection<FolderViewModel, Folder> _moveToFolders;
+        private ObservableCollection<FolderViewModel> _moveToFolders;
 
         [ObservableProperty]
         private bool _isMoveDocumentPopupOpen;
@@ -383,7 +384,15 @@ namespace Athena.UI
                 return;
 
             if (SelectedMoveDestination.Folder.Id == ParentFolder.Id)
+            {
+                await DisplayAlert(
+                    Localization.MoveDocument,
+                    $"The document {SelectedItem.Document.Name} already exists in folder {SelectedMoveDestination.Name}",
+                    "Ok");
+
+                SelectedMoveDestination = null;
                 return;
+            }
 
             bool move = await DisplayAlert(
                 Localization.MoveDocument,

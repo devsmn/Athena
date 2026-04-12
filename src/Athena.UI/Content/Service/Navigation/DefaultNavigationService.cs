@@ -10,6 +10,11 @@
             return await _root.DisplayAlert(title, message, accept, cancel);
         }
 
+        public async Task DisplayAlert(string title, string message, string accept)
+        {
+            await _root.DisplayAlert(title, message, accept);
+        }
+
         public async Task<string> DisplayPrompt(string title, string message, string ok, string cancel)
         {
             return await _root.DisplayPromptAsync(title, message, ok, cancel);

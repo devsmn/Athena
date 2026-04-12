@@ -4,6 +4,7 @@
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              Style="{StaticResource ContentPageStyle}"
+             x:Name="Page"
              xmlns:loc="clr-namespace:Athena.Resources.Localization"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:Athena.UI"
@@ -331,6 +332,7 @@
                              SelectionMode="Single"
                              Margin="5"
                              MaximumHeightRequest="500"
+                             NotificationSubscriptionMode="CollectionChange"
                              SelectedItem="{Binding SelectedMoveDestination}"
                              LoadOnDemandCommand="{Binding LoadMoveToFoldersCommand}"
                              ItemsSource="{Binding MoveToFolders}"
@@ -347,14 +349,32 @@
                                         <RowDefinition Height="auto" />
                                     </Grid.RowDefinitions>
 
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <ffimageloading:CachedImage 
+                                        FadeAnimationEnabled="False"
+                                        Margin="5"
+                                        LoadingPlaceholder="image_placeholder.png"
+                                        FadeAnimationForCachedImages="False"
+                                        WidthRequest="25"
+                                        Grid.RowSpan="2"
+                                        HeightRequest="25"
+                                        Aspect="Fill"
+                                        Source="folder_color.png"/>
+
                                     <Label
                                         Text="{Binding Name}"
+                                        Grid.Column="1"
                                         VerticalTextAlignment="Center"
                                         Grid.Row="0"
                                         FontAttributes="Bold"/>
 
                                     <Label
                                         Text="{Binding Comment}"
+                                        Grid.Column="1"
                                         FontSize="12" 
                                         Grid.Row="1"
                                         IsVisible="{Binding Comment, Converter={x:StaticResource StringLengthToVisibilityConverter}}" />
