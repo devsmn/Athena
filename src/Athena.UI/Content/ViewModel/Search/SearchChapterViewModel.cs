@@ -61,18 +61,16 @@ namespace Athena.UI
             SelectedTags = new();
         }
 
-        public override async Task<bool> InitializeAsync()
+        public override async Task InitializeAsync()
         {
-            if (!DataStore.IsReady)
-                return false;
+            IEnumerable<TagViewModel> tags = null;
 
             await ExecuteBackgroundAction(context =>
             {
-                IEnumerable<TagViewModel> tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
-                Tags = new(tags);
+                tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
             });
 
-            return true;
+            Tags = new(tags);
         }
 
         [RelayCommand]

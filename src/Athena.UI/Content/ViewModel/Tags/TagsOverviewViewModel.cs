@@ -55,28 +55,25 @@ namespace Athena.UI
             };
         }
 
-        public override async Task<bool> InitializeAsync()
+        public override async Task InitializeAsync()
         {
-            if (!DataStore.IsReady)
-                return false;
+            List<Tag> allTags = null;
 
             await ExecuteBackgroundAction(context =>
             {
-                var allTags = Tag.ReadAll(context).ToList();
-
-                if (allTags.Count == 0)
-                {
-                    Tags = new();
-                }
-                else
-                {
-                    Tags = new(allTags.Select(x => new TagViewModel(x)));
-                }
-
-                TagsAvailable = Tags.Count > 0;
+                allTags = Tag.ReadAll(context).ToList();
             });
 
-            return true;
+            if (allTags.Count == 0)
+            {
+                Tags = new();
+            }
+            else
+            {
+                Tags = new(allTags.Select(x => new TagViewModel(x)));
+            }
+
+            TagsAvailable = Tags.Count > 0;
         }
 
         protected override void OnDataPublished(DataPublishedArgs data)

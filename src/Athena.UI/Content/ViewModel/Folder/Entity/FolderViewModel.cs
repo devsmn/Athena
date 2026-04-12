@@ -133,15 +133,5 @@ namespace Athena.UI
 
             Folder.Documents.Remove(delete);
         }
-
-        public static implicit operator Folder(FolderViewModel viewModel)
-        {
-            return viewModel.Folder;
-        }
-
-        public static implicit operator FolderViewModel(Folder folder)
-        {
-            return new FolderViewModel(folder);
-        }
     }
 }

@@ -168,14 +168,14 @@ namespace Athena.UI
 
         public void Edit(RootItem entity)
         {
-            if (IsFolder)
-            {
-                _rootItem.Folder.Edit(entity.Folder);
-            }
-            else
-            {
-                _rootItem.Document.Edit(entity.Document);
-            }
+            //if (IsFolder)
+            //{
+            //    _rootItem.Folder.Edit(entity.Folder);
+            //}
+            //else
+            //{
+            //    _rootItem.Document.Edit(entity.Document);
+            //}
         }
     }
 }

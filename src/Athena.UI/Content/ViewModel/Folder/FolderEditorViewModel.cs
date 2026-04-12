@@ -8,8 +8,6 @@ namespace Athena.UI
 {
     internal partial class FolderEditorViewModel : ContextViewModel
     {
-        private readonly Folder _parentFolder;
-
         [ObservableProperty]
         private bool _isNew;
 
@@ -19,15 +17,17 @@ namespace Athena.UI
         [ObservableProperty]
         private int _newFolderStep;
 
-        public FolderEditorViewModel(Folder folderToEdit, Folder parentFolder)
+        private readonly TaskCompletionSource _doneTcs;
+
+        public FolderEditorViewModel(FolderViewModel folderToEdit, TaskCompletionSource doneTcs)
         {
+            _doneTcs = doneTcs;
             if (folderToEdit == null)
             {
-                folderToEdit = new Folder();
+                folderToEdit = new FolderViewModel(new Folder());
                 IsNew = true;
             }
 
-            _parentFolder = parentFolder;
             Folder = folderToEdit;
             Folder.PropertyChanged += FolderOnPropertyChanged;
             NextStepCommand.NotifyCanExecuteChanged();
@@ -53,20 +53,16 @@ namespace Athena.UI
         {
             IContext context = RetrieveContext();
 
-            if (IsNew)
-            {
-                _parentFolder.AddFolder(Folder);
-                _parentFolder.Save(context);
-            }
-            else
+            if (!IsNew)
             {
                 Folder.Folder.Save(context, FolderSaveOptions.Folder);
             }
 
-            Services.GetService<IDataBrokerService>().Publish(context, Folder.Folder, IsNew ? UpdateType.Add : UpdateType.Edit, _parentFolder?.Key);
+            //Services.GetService<IDataBrokerService>().Publish(context, Folder.Folder, IsNew ? UpdateType.Add : UpdateType.Edit, _parentFolder?.Key);
             await PopAsync();
             Folder.PropertyChanged -= FolderOnPropertyChanged;
             NewFolderStep = 0;
+            _doneTcs.SetResult();
         }
     }
 }

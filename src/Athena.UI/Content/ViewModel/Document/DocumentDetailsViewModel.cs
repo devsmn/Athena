@@ -42,9 +42,9 @@ namespace Athena.UI
         [ObservableProperty]
         private byte[] _pdf;
 
-        private readonly Folder _parentFolder;
+        private readonly FolderViewModel _parentFolder;
 
-        public DocumentDetailsViewModel(Folder parentFolder, Document document)
+        public DocumentDetailsViewModel(FolderViewModel parentFolder, Document document)
         {
             Document = document;
             _parentFolder = parentFolder;
@@ -59,17 +59,17 @@ namespace Athena.UI
             IsSearchResult = true;
         }
 
-        public override async Task<bool> InitializeAsync()
+        public override async Task InitializeAsync()
         {
-            if (!DataStore.IsReady)
-                return false;
+            List<TagViewModel> allTags = new();
+            List<TagViewModel> selectedTags = new();
+            byte[] pdf = null;
 
             await ExecuteAsyncBackgroundAction(async context =>
             {
-                byte[] pdf = Document.Pdf;
-
-                List<TagViewModel> allTags = new List<TagViewModel>(Tag.ReadAll(context).Select(x => new TagViewModel(x)));
-                List<TagViewModel> selectedTags = new List<TagViewModel>();
+                pdf = Document.Pdf;
+                allTags = new List<TagViewModel>(Tag.ReadAll(context).Select(x => new TagViewModel(x)));
+                selectedTags = new List<TagViewModel>();
 
                 foreach (TagViewModel tag in allTags)
                 {
@@ -79,13 +79,12 @@ namespace Athena.UI
 
                 await MainThread.InvokeOnMainThreadAsync(() =>
                 {
-                    AllTags = new(allTags);
-                    SelectedTags = new(selectedTags);
-                    Pdf = pdf;
                 });
             });
 
-            return true;
+            AllTags = new(allTags);
+            SelectedTags = new(selectedTags);
+            Pdf = pdf;
         }
 
         protected override void OnDataPublished(DataPublishedArgs data)

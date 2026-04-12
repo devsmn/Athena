@@ -37,7 +37,7 @@ namespace Athena.UI
         {
         }
 
-        public override async Task<bool> InitializeAsync()
+        public override async Task InitializeAsync()
         {
             EstimatedDownloadSize = 0d;
             EstimatedLocalSize = 0d;
@@ -198,7 +198,6 @@ namespace Athena.UI
                 DeleteLocalFilesCommand.NotifyCanExecuteChanged();
             });
 
-            return true;
         }
 
         [RelayCommand]

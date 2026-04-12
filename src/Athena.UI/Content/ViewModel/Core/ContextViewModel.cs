@@ -188,26 +188,36 @@ namespace Athena.UI
         }
 
         /// <summary>
-        /// Executes an longer-running background action while displaying a wait indicator.
+        /// Executes a longer-running background action while displaying a wait indicator.
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
         protected async Task ExecuteBackgroundAction(Action<IContext> action)
         {
-            await MainThread.InvokeOnMainThreadAsync(() => IsBusy = true);
+            IContext context = RetrieveReportContext();
 
-            await Task.Run(async () =>
+            try
             {
-                await Task.Delay(100);
-                action(RetrieveReportContext());
-            });
+                IsBusy = true;
 
-            await MainThread.InvokeOnMainThreadAsync(() => IsBusy = false);
+                await Task.Run(async () =>
+                {
+                    await Task.Delay(200);
+                    action(context);
+                });
+            }
+            catch (Exception ex)
+            {
+                context.Log(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
-        public async virtual Task<bool> InitializeAsync()
+        public async virtual Task InitializeAsync()
         {
-            return true;
         }
     }
 }

@@ -88,9 +88,9 @@ namespace Athena.UI
         [ObservableProperty]
         private ObservableCollection<TagViewModel> _selectedTags;
 
-        public Folder ParentFolder => _parentFolder;
+        public FolderViewModel ParentFolder => _parentFolder;
 
-        private readonly Folder _parentFolder;
+        private readonly FolderViewModel _parentFolder;
 
         public DocumentViewModel Document
         {
@@ -105,7 +105,7 @@ namespace Athena.UI
 
         public ViewStepHandler<DocumentEditorViewModel> StepHandler => _stepHandler;
 
-        public DocumentEditorViewModel(Folder parentFolder, Document document)
+        public DocumentEditorViewModel(FolderViewModel parentFolder, Document document)
         {
             _stepHandler = new(this);
             _stepHandler.RegisterIncrease(1);
@@ -182,7 +182,7 @@ namespace Athena.UI
             IsPopupOpen = false;
         }
 
-        public override async Task<bool> InitializeAsync()
+        public override async Task InitializeAsync()
         {
             IDocumentScannerService service = Services.GetService<IDocumentScannerService>();
 
@@ -194,8 +194,6 @@ namespace Athena.UI
                 
                 UseAdvancedScanner = _prefService.GetUseAdvancedScanner();
             }
-
-            return true;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)

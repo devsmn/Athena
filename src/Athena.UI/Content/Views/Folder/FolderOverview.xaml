@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<local:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
-             Style="{StaticResource ContentPageStyle}"
              x:Name="Page"
              xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -18,7 +17,7 @@
              Title="{Binding ParentFolder.Name}"
              x:Class="Athena.UI.FolderOverview">
 
-    <ContentPage.Resources>
+    <local:DefaultContentPage.Resources>
         <DataTemplate x:Key="FolderTemplate">
             <Grid>
                 <Grid.RowDefinitions>
@@ -240,7 +239,7 @@
             <local:StringLengthToVisibilityConverter x:Key="StringLengthToVisibilityConverter" />
             <local:HexToBrushConverter x:Key="HexToBrushConverter" />
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </local:DefaultContentPage.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -317,11 +316,11 @@
         </p:SfPopup>
 
         <p:SfPopup IsOpen="{Binding IsMoveDocumentPopupOpen}" 
-                   AcceptButtonText="{loc:Translate MoveToSelectedPage}}"
-                   DeclineButtonText="{loc:Translate Close}}"
+                   AcceptButtonText="{loc:Translate MoveToSelectedPage}"
+                   DeclineButtonText="{loc:Translate Close}"
                    AutoSizeMode="Height"
                    Closed="MoveDocumentPopupClosed"
-                   HeaderTitle="{loc:Translate MoveDocument}}"
+                   HeaderTitle="{loc:Translate MoveDocument}"
                    ShowCloseButton="True">
             <p:SfPopup.PopupStyle>
                 <p:PopupStyle CornerRadius="5" />
@@ -535,4 +534,4 @@
         </p:SfPopup>
     </Grid>
 
-</ContentPage>
+</local:DefaultContentPage>

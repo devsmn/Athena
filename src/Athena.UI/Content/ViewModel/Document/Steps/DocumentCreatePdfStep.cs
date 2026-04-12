@@ -77,8 +77,8 @@ namespace Athena.UI
                 _vm.Document.AddTag(context, tag);
             }
 
-            _vm.ParentFolder.AddDocument(_vm.Document);
-            _vm.ParentFolder.Save(context, FolderSaveOptions.Documents);
+            _vm.ParentFolder.Folder.AddDocument(_vm.Document);
+            _vm.ParentFolder.Folder.Save(context, FolderSaveOptions.Documents);
 
             if (_vm.DetectText)
             {

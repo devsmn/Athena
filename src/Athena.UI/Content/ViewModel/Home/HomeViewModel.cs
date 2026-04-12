@@ -101,90 +101,90 @@ namespace Athena.UI
 
         protected override void OnDataPublished(DataPublishedArgs data)
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                if (data.Documents.Count > 0)
-                {
-                    foreach (RequestUpdate<Document> update in data.Documents)
-                    {
-                        if (update.Type == UpdateType.Add)
-                        {
-                            if (RecentDocuments.Count >= MAX_RECENT_DOCUMENTS)
-                            {
-                                RecentDocuments.RemoveAt(0);
-                                RecentDocuments.Insert(0, new DocumentViewModel(update.Entity));
-                            }
-                            else
-                            {
-                                RecentDocuments.Process(update);
-                            }
-                        }
-                        else if (update.Type == UpdateType.Edit)
-                        {
-                            RecentDocuments.Process(update);
-                        }
-                        else if (update.Type == UpdateType.Delete)
-                        {
-                            FolderViewModel rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
-                            Stack<Folder> folders = new Stack<Folder>();
+            //MainThread.BeginInvokeOnMainThread(() =>
+            //{
+            //    if (data.Documents.Count > 0)
+            //    {
+            //        foreach (RequestUpdate<Document> update in data.Documents)
+            //        {
+            //            if (update.Type == UpdateType.Add)
+            //            {
+            //                if (RecentDocuments.Count >= MAX_RECENT_DOCUMENTS)
+            //                {
+            //                    RecentDocuments.RemoveAt(0);
+            //                    RecentDocuments.Insert(0, new DocumentViewModel(update.Entity));
+            //                }
+            //                else
+            //                {
+            //                    RecentDocuments.Process(update);
+            //                }
+            //            }
+            //            else if (update.Type == UpdateType.Edit)
+            //            {
+            //                RecentDocuments.Process(update);
+            //            }
+            //            else if (update.Type == UpdateType.Delete)
+            //            {
+            //                FolderViewModel rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
+            //                Stack<Folder> folders = new Stack<Folder>();
 
-                            bool stop = false;
+            //                bool stop = false;
 
-                            foreach (Folder folder in rootFolder.LoadedFolders)
-                            {
-                                folders.Push(folder);
-                            }
+            //                foreach (Folder folder in rootFolder.LoadedFolders)
+            //                {
+            //                    folders.Push(folder);
+            //                }
 
-                            folders.Push(rootFolder);
+            //                folders.Push(rootFolder);
 
-                            while (folders.Count > 0)
-                            {
-                                Folder currentFolder = folders.Pop();
+            //                while (folders.Count > 0)
+            //                {
+            //                    Folder currentFolder = folders.Pop();
 
-                                foreach (Document folderDoc in currentFolder.LoadedDocuments)
-                                {
-                                    if (folderDoc.Key.Id == update.Entity.Id)
-                                    {
-                                        currentFolder.ResetDocumentsLoaded();
-                                        stop = true;
-                                        break;
-                                    }
-                                }
+            //                    foreach (Document folderDoc in currentFolder.LoadedDocuments)
+            //                    {
+            //                        if (folderDoc.Key.Id == update.Entity.Id)
+            //                        {
+            //                            currentFolder.ResetDocumentsLoaded();
+            //                            stop = true;
+            //                            break;
+            //                        }
+            //                    }
 
-                                if (stop)
-                                    break;
+            //                    if (stop)
+            //                        break;
 
-                                foreach (Folder folder in currentFolder.LoadedFolders)
-                                {
-                                    folders.Push(folder);
-                                }
-                            }
+            //                    foreach (Folder folder in currentFolder.LoadedFolders)
+            //                    {
+            //                        folders.Push(folder);
+            //                    }
+            //                }
 
-                            RecentDocuments.Process(update);
-                        }
-                    }
-                }
+            //                RecentDocuments.Process(update);
+            //            }
+            //        }
+            //    }
 
-                if (data.Tags.Count > 0)
-                {
-                    HashSet<int> deletedTagIds = data.Tags
-                        .Where(x => x.Type == UpdateType.Delete)
-                        .Select(x => x.Entity.Id)
-                        .ToHashSet();
+            //    if (data.Tags.Count > 0)
+            //    {
+            //        HashSet<int> deletedTagIds = data.Tags
+            //            .Where(x => x.Type == UpdateType.Delete)
+            //            .Select(x => x.Entity.Id)
+            //            .ToHashSet();
 
-                    foreach (DocumentViewModel document in RecentDocuments)
-                    {
-                        List<Tag> validTags = document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
+            //        foreach (DocumentViewModel document in RecentDocuments)
+            //        {
+            //            List<Tag> validTags = document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
 
-                        document.Tags.Clear();
+            //            document.Tags.Clear();
 
-                        foreach (Tag tag in validTags)
-                        {
-                            document.Tags.Add(tag);
-                        }
-                    }
-                }
-            });
+            //            foreach (Tag tag in validTags)
+            //            {
+            //                document.Tags.Add(tag);
+            //            }
+            //        }
+            //    }
+            //});
         }
 
         [RelayCommand]

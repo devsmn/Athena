@@ -62,7 +62,7 @@ namespace Athena.UI
 
             IContext context = RetrieveContext();
             Folder.Folder.Delete(context);
-            Services.GetService<IDataBrokerService>().Publish<Folder>(context, Folder, UpdateType.Delete);
+            //Services.GetService<IDataBrokerService>().Publish<Folder>(context, Folder, UpdateType.Delete);
             await Toast.Make(string.Format(Localization.FolderDeleted, Folder.Name), ToastDuration.Long).Show();
             await PopAsync();
         }

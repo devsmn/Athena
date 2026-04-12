@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:sf="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
-             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
-             Style="{StaticResource ContentPageStyle}"
-             Title="Edit folder"
-             x:Name="page"
-             x:Class="Athena.UI.FolderEditorView">
+<local:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="clr-namespace:Athena.UI"
+                    xmlns:sf="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
+                    xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
+                    Title="Edit folder"
+                    x:Name="page"
+                    x:Class="Athena.UI.FolderEditorView">
   
     <Grid>
         <Grid.RowDefinitions>
@@ -34,4 +34,4 @@
         </Button>
     </Grid>
 
-</ContentPage>
+</local:DefaultContentPage>
