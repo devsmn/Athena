@@ -121,6 +121,21 @@ namespace Athena.UI
         }
 
         /// <summary>
+        /// Displays an alert.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="accept"></param>
+        /// <returns></returns>
+        protected async Task DisplayAlert(string title, string message, string accept)
+        {
+            await Services.GetService<INavigationService>().DisplayAlert(
+                title,
+                message,
+                accept);
+        }
+
+        /// <summary>
         /// Displays a prompt.
         /// </summary>
         /// <param name="title"></param>
