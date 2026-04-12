@@ -6,6 +6,7 @@ using Athena.DataModel;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Storage;
+using LocalizationResourceManager.Maui;
 
 namespace Athena.UI
 {

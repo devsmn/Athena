@@ -5,7 +5,7 @@
              xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
              Style="{StaticResource ContentPageStyle}"
              x:Name="Page"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:Athena.UI"
              xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
@@ -263,7 +263,7 @@
             <p:SfPopup.ContentTemplate>
                 <DataTemplate >
                     <VerticalStackLayout >
-                        <sfb:SfButton Text="{x:Static loc:Localization.Pin}"
+                        <sfb:SfButton Text="{loc:Translate Pin}"
                                       Margin="3"
                                       Command="{Binding PinFolderCommand}"
                                       CommandParameter="{Binding SelectedItem}"
@@ -275,7 +275,7 @@
                                       ShowIcon="True"
                                       StrokeThickness="0"/>
 
-                        <sfb:SfButton Text="{x:Static loc:Localization.Edit}"
+                        <sfb:SfButton Text="{loc:Translate Edit}"
                                       Margin="3"
                                       Command="{Binding EditItemCommand}"
                                       CommandParameter="{Binding SelectedItem}"
@@ -287,7 +287,7 @@
                                       ShowIcon="True"
                                       StrokeThickness="0"/>
 
-                        <sfb:SfButton Text="{x:Static loc:Localization.Delete}"
+                        <sfb:SfButton Text="{loc:Translate Delete}"
                                       Margin="3"
                                       Command="{Binding DeleteItemCommand}"
                                       CommandParameter="{Binding SelectedItem}"
@@ -299,7 +299,7 @@
                                       ShowIcon="True"
                                       StrokeThickness="0"/>
 
-                        <sfb:SfButton Text="{x:Static loc:Localization.Move}"
+                        <sfb:SfButton Text="{loc:Translate Move}"
                                       Margin="3"
                                       Command="{Binding MoveDocumentCommand}"
                                       IsVisible="{Binding SelectedItem.IsFolder, Converter={x:StaticResource InverseBooleanConverter}}"
@@ -317,11 +317,11 @@
         </p:SfPopup>
 
         <p:SfPopup IsOpen="{Binding IsMoveDocumentPopupOpen}" 
-                   AcceptButtonText="{Binding Source={x:Static loc:Localization.MoveToSelectedPage}}"
-                   DeclineButtonText="{Binding Source={x:Static loc:Localization.Close}}"
+                   AcceptButtonText="{Binding Source={loc:Translate MoveToSelectedPage}}"
+                   DeclineButtonText="{Binding Source={loc:Translate Close}}"
                    AutoSizeMode="Height"
                    Closed="MoveDocumentPopupClosed"
-                   HeaderTitle="{Binding Source={x:Static loc:Localization.MoveDocument}}"
+                   HeaderTitle="{Binding Source={loc:Translate MoveDocument}}"
                    ShowCloseButton="True">
             <p:SfPopup.PopupStyle>
                 <p:PopupStyle CornerRadius="5" />
@@ -431,7 +431,7 @@
                             Aspect="Fill"
                             Source="empty.png"/>
 
-                        <Label Text="{x:Static loc:Localization.FolderEmpty}"
+                        <Label Text="{loc:Translate FolderEmpty}"
                                VerticalTextAlignment="Center"
                                LineBreakMode="CharacterWrap"
                                Margin="5"
@@ -503,7 +503,7 @@
                                       ShowIcon="True"
                                       Margin="3,3,10,5"
                                       Style="{x:StaticResource SecondaryButton}"
-                                      Text="{x:Static loc:Localization.AddDocument}"
+                                      Text="{loc:Translate AddDocument}"
                                       HorizontalTextAlignment="Start"
                                       HorizontalOptions="End"
                                       VerticalOptions="End"
@@ -524,7 +524,7 @@
                                       HorizontalOptions="End"
                                       VerticalOptions="End"
                                       Command="{Binding AddFolderCommand}"
-                                      Text="{x:Static loc:Localization.AddFolder}"
+                                      Text="{loc:Translate AddFolder}"
                                       ImageSource="add_folder.png">
                         </sfb:SfButton>
 

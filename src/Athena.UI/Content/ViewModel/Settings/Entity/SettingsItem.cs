@@ -1,5 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Athena.DataModel.Core;
+using Athena.Resources.Localization;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LocalizationResourceManager.Maui;
 using ImageSource = Microsoft.Maui.Controls.ImageSource;
 
 namespace Athena.UI
@@ -7,20 +10,20 @@ namespace Athena.UI
     public partial class SettingsItem : ObservableObject
     {
         [ObservableProperty]
-        private string _title;
-
-        [ObservableProperty]
-        private string _description;
-
-        [ObservableProperty]
         private ImageSource _imageSource;
 
         private readonly Func<Task> _createPage;
 
-        public SettingsItem(string title, string desc, string icon, Func<Task> createPage)
+        [ObservableProperty]
+        private LocalizedString _title;
+
+        [ObservableProperty]
+        private LocalizedString _description;
+
+        public SettingsItem(string titleKey, string descKey, string icon, Func<Task> createPage)
         {
-            Title = title;
-            Description = desc;
+            Title = new(() => Localization.ResourceManager.GetString(titleKey));
+            Description = new(() => Localization.ResourceManager.GetString(descKey));
             ImageSource = ImageSource.FromFile(icon);
             _createPage = createPage;
         }

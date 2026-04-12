@@ -2,7 +2,7 @@
 <ui:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Athena.UI.DocumentDetailsView"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.PdfViewer;assembly=Syncfusion.Maui.PdfViewer"
              xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
@@ -47,7 +47,7 @@
             <p:SfPopup.ContentTemplate>
                 <DataTemplate>
                     <VerticalStackLayout >
-                        <sfb:SfButton Text="{x:Static loc:Localization.DocumentDetailsDocumentInfo}"
+                        <sfb:SfButton Text="{loc:Translate DocumentDetailsDocumentInfo}"
                                           Margin="3"
                                           Command="{Binding InfoClickedCommand}"
                                           HorizontalTextAlignment="Start"
@@ -58,7 +58,7 @@
                                           ShowIcon="True"
                                           StrokeThickness="0"/>
 
-                        <sfb:SfButton Text="{x:Static loc:Localization.EditDocument}"
+                        <sfb:SfButton Text="{loc:Translate EditDocument}"
                                           Margin="3"
                                           Command="{Binding EditDocumentCommand}"
                                           HorizontalTextAlignment="Start"
@@ -69,7 +69,7 @@
                                           ShowIcon="True"
                                           StrokeThickness="0"/>
 
-                        <sfb:SfButton Text="{x:Static loc:Localization.DeleteDocument}"
+                        <sfb:SfButton Text="{loc:Translate DeleteDocument}"
                                           Margin="3"
                                           Command="{Binding DeleteClickedCommand}"
                                           HorizontalTextAlignment="Start"
@@ -80,7 +80,7 @@
                                           ShowIcon="True"
                                           StrokeThickness="0"/>
 
-                        <sfb:SfButton Text="{x:Static loc:Localization.DocumentDetailsOpenWithExt}"
+                        <sfb:SfButton Text="{loc:Translate DocumentDetailsOpenWithExt}"
                                           Margin="3"
                                           Command="{Binding OpenDocumentCommand}"
                                           HorizontalTextAlignment="Start"
@@ -91,7 +91,7 @@
                                           ShowIcon="True"
                                           StrokeThickness="0"/>
 
-                        <sfb:SfButton Text="{x:Static loc:Localization.Share}"
+                        <sfb:SfButton Text="{loc:Translate Share}"
                                           Margin="3"
                                           Command="{Binding ShareDocumentCommand}"
                                           HorizontalTextAlignment="Start"
@@ -110,7 +110,7 @@
         <p:SfPopup IsOpen="{Binding ShowInfoPopup}"
                    x:Name="infoPopup"
                    ShowCloseButton="True"
-                   HeaderTitle="{x:Static loc:Localization.DocumentDetailsDocumentInfo}">
+                   HeaderTitle="{loc:Translate DocumentDetailsDocumentInfo}">
 
             <p:SfPopup.ContentTemplate>
                 <DataTemplate>
@@ -156,14 +156,14 @@
         </p:SfPopup>
 
         <p:SfPopup IsOpen="{Binding ShowTagPopup}" 
-                       HeaderTitle="{x:Static loc:Localization.Tags}"
+                       HeaderTitle="{loc:Translate Tags}"
                        ShowCloseButton="True"
                        AutoSizeMode="Height"
-                       AcceptButtonText="{x:Static loc:Localization.Save}"
+                       AcceptButtonText="{loc:Translate Save}"
                        AcceptCommand="{Binding SaveTagsCommand}"
                        ShowFooter="True"
                        AppearanceMode="TwoButton"
-                       DeclineButtonText="{x:Static loc:Localization.Close}"
+                       DeclineButtonText="{loc:Translate Close}"
                        IsFullScreen="False">
 
             <p:SfPopup.ContentTemplate>

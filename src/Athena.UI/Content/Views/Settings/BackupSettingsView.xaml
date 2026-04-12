@@ -3,7 +3,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
                     x:Class="Athena.UI.BackupSettingsView"
-                    xmlns:loc="clr-namespace:Athena.Resources.Localization"
+                    xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
                     xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
                     xmlns:ui="clr-namespace:Athena.UI"
                     Title="BackupSettingsView">
@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
 
         <HorizontalStackLayout Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center" Grid.ColumnSpan="2">
-            <Label Text="{x:Static loc:Localization.BackupTitle}"
+            <Label Text="{loc:Translate BackupTitle}"
                    Margin="5,20,5,2"
                    FontAttributes="Bold"
                    HorizontalTextAlignment="Center"
@@ -63,13 +63,13 @@
         <sfb:SfButton
             Grid.Row="1"
             Margin="5"
-            Text="{x:Static loc:Localization.Create}"
+            Text="{loc:Translate Create}"
             VerticalOptions="End"
             Command="{Binding CreateBackupCommand}"
             Style="{x:StaticResource ListButton}"/>
 
         <sfb:SfButton
-            Text="{x:Static loc:Localization.Restore}"
+            Text="{loc:Translate Restore}"
             Grid.Row="2"
             Margin="5"
             Command="{Binding RestoreBackupCommand}"

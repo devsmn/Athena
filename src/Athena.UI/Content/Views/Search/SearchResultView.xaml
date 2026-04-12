@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Style="{StaticResource ContentPageStyle}"
              x:Class="Athena.UI.SearchResultView"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:sf="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
-             Title="{x:Static loc:Localization.SearchResults}">
+             Title="{loc:Translate SearchResults}">
     <Grid>
         <sf:SfListView 
                SelectionMode="Single"
-               EmptyView="{x:Static loc:Localization.SearchNoResults}"
+               EmptyView="{loc:Translate SearchNoResults}"
                ItemSize="80"
                x:Name="searchResultView"
                SelectionChanged="SearchResultView_OnSelectionChanged"
@@ -27,7 +27,7 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span  FontSize="12" TextColor="Gray" Text="{x:Static loc:Localization.SearchResultFolder}" />
+                                        <Span  FontSize="12" TextColor="Gray" Text="{loc:Translate SearchResultFolder}" />
                                         <Span  FontSize="12" TextColor="Gray" FontAttributes="Bold" Text="{Binding Folder.Name}" />
                                         <!--TODO IF ROOT?-->
                                     </FormattedString>
@@ -37,7 +37,7 @@
                             <Label>
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span  FontSize="12" TextColor="Gray" Text="{x:Static loc:Localization.SearchResultDocument}" />
+                                        <Span  FontSize="12" TextColor="Gray" Text="{loc:Translate SearchResultDocument}" />
                                         <Span  FontSize="12" TextColor="Gray" FontAttributes="Bold" Text="{Binding Document.Name}" />
                                     </FormattedString>
                                 </Label.FormattedText>

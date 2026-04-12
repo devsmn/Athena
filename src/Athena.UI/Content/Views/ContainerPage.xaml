@@ -3,7 +3,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="Athena.UI.ContainerPage"
             xmlns:local="clr-namespace:Athena.UI"
-            xmlns:loc="clr-namespace:Athena.Resources.Localization"
+            xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
             android:TabbedPage.IsSwipePagingEnabled="False"
             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
             android:TabbedPage.ToolbarPlacement="Bottom" >
@@ -14,13 +14,13 @@
         </x:Arguments>
     </NavigationPage>
 
-    <NavigationPage Title="{x:Static loc:Localization.Search}" IconImageSource="search.png" >
+    <NavigationPage Title="{loc:Translate Search}" IconImageSource="search.png" >
         <x:Arguments>
             <local:SearchOverviewView NavigationPage.HasNavigationBar="False"   />
         </x:Arguments>
     </NavigationPage>
 
-    <local:TagsOverview Title="{x:Static loc:Localization.Tags}" IconImageSource="tag.png"   />
-    <local:SettingsView Title="{x:Static loc:Localization.Settings}" IconImageSource="settings.png" />
+    <local:TagsOverview Title="{loc:Translate Tags}" IconImageSource="tag.png"   />
+    <local:SettingsView Title="{loc:Translate Settings}" IconImageSource="settings.png" />
 
 </TabbedPage>
