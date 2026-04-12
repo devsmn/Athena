@@ -284,8 +284,7 @@ namespace Athena.UI
                     await DisplayAlert(
                         Localization.OcrNotInternetTitle,
                         Localization.OcrNoInternetText,
-                        "Ok",
-                        string.Empty);
+                        "Ok");
 
                     filesToDownload.Clear();
                 }
