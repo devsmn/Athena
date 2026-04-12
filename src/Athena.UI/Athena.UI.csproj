@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\version.props" />
   <Import Project="..\..\app.secrets.prod.props" Condition="'$(Configuration)'=='Release' AND Exists('..\..\app.secrets.prod.props')" />
   <Import Project="..\..\app.secrets.debug.props" Condition="'$(Configuration)'=='Debug' AND Exists('..\..\app.secrets.debug.props')" />
   <Import Project="..\..\app.secrets.dev.props" Condition="Exists('..\..\app.secrets.dev.props')" />
@@ -23,8 +22,8 @@
     <ApplicationIdGuid>7f91bd27-2b90-424d-abff-94309ddb125d</ApplicationIdGuid>
 
     <!-- Versions -->
-    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>$(AppDisplayVersion)</ApplicationDisplayVersion>
+    <ApplicationVersion>$(AppVersion)</ApplicationVersion>
 
 
     <!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
