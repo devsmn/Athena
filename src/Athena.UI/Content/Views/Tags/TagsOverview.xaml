@@ -4,13 +4,13 @@
              xmlns:local="clr-namespace:Athena.UI"
              xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
              xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:input="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:maui="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
              x:Class="Athena.UI.TagsOverview"
              x:Name="parent"
-             Title="{x:Static loc:Localization.Tags}"
+             Title="{loc:Translate Tags}"
              Style="{StaticResource ContentPageStyle}">
     <ContentPage.Resources>
         <local:EditTagNameTitleConverter x:Key="EditTagNameTitleConverter" />
@@ -31,7 +31,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label Text="{x:Static loc:Localization.Tags}"
+        <Label Text="{loc:Translate Tags}"
                Grid.Row="0"
                Margin="5,20,5,10"
                FontAttributes="Bold"
@@ -89,7 +89,7 @@
                 Aspect="Fill"
                 Source="empty.png"/>
 
-            <Label Text="{x:Static loc:Localization.TagsEmpty}"
+            <Label Text="{loc:Translate TagsEmpty}"
                    VerticalTextAlignment="Center"
                    LineBreakMode="CharacterWrap"
                    Margin="5"
@@ -104,8 +104,8 @@
                    DeclineCommand="{Binding DeleteSelectedTagCommand}"
                    ShowCloseButton="True"
                    AppearanceMode="{Binding AppearanceMode}"
-                   AcceptButtonText="{x:Static loc:Localization.Save}"
-                   DeclineButtonText="{x:Static loc:Localization.Delete}"
+                   AcceptButtonText="{loc:Translate Save}"
+                   DeclineButtonText="{loc:Translate Delete}"
                    ShowHeader="True"
                    HeaderTitle="{Binding SelectedTag, Converter={x:StaticResource EditTagNameTitleConverter}}">
             <p:SfPopup.ContentTemplate>
@@ -126,12 +126,12 @@
                                Margin="5"
                                VerticalTextAlignment="Center"/>
 
-                        <Entry Placeholder="{x:Static loc:Localization.TagName}" 
+                        <Entry Placeholder="{loc:Translate TagName}" 
                                Text="{Binding SelectedTagName}"
                                Grid.Column="1"
                                Margin="5" />
 
-                        <Label Text="{x:Static loc:Localization.BackgroundColor}" 
+                        <Label Text="{loc:Translate BackgroundColor}" 
                                Grid.Row="1"
                                Margin="5"
                                VerticalTextAlignment="Center"/>
@@ -161,7 +161,7 @@
 
                         </input:SfComboBox>
 
-                        <Label Text="{x:Static loc:Localization.TextColor}" 
+                        <Label Text="{loc:Translate TextColor}" 
                                Grid.Row="2"
                                Margin="5"
                                VerticalTextAlignment="Center"/>

@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sf="clr-namespace:Syncfusion.Maui.DataForm;assembly=Syncfusion.Maui.DataForm"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              Style="{StaticResource ContentPageStyle}"
              Title="Edit folder"
              x:Name="page"
@@ -26,7 +26,7 @@
             </sf:SfDataForm.TextInputLayoutSettings>
         </sf:SfDataForm>
 
-        <Button Text="{x:Static loc:Localization.Save}"
+        <Button Text="{loc:Translate Save}"
                 Grid.Row="1"
                 WidthRequest="150"
                 Command="{Binding NextStepCommand}"

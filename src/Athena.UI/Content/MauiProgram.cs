@@ -2,6 +2,7 @@
 using Athena.DataModel.Core.Platforms.Android;
 using CommunityToolkit.Maui;
 using FFImageLoading.Maui;
+using LocalizationResourceManager.Maui;
 using Plugin.AdMob;
 using Plugin.AdMob.Configuration;
 using Serilog;
@@ -25,6 +26,11 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            })
+            .UseLocalizationResourceManager(s =>
+            {
+                s.AddResource(Resources.Localization.Localization.ResourceManager);
+                s.RestoreLatestCulture(true);
             });
 
 #if DEBUG

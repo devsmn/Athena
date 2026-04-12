@@ -2,13 +2,13 @@
 <ui:DefaultContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     x:Class="Athena.UI.SearchOverviewView"
-                    xmlns:loc="clr-namespace:Athena.Resources.Localization"
+                    xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
                     xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
                     xmlns:chip="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
                     xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Expander;assembly=Syncfusion.Maui.Expander"
                     xmlns:ffimage="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
                     xmlns:ui="clr-namespace:Athena.UI"
-                    Title="{x:Static loc:Localization.Search}">
+                    Title="{loc:Translate Search}">
     <Grid HorizontalOptions="Center" Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -23,7 +23,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label Text="{x:Static loc:Localization.Search}"
+        <Label Text="{loc:Translate Search}"
                 Grid.Row="0"
                 Margin="5,20,5,10"
                 FontAttributes="Bold"
@@ -36,10 +36,10 @@
                Grid.Row="1"
                Grid.Column="1"
                ReturnType="Search"
-               Placeholder="{x:Static loc:Localization.SearchPlaceholder}"
+               Placeholder="{loc:Translate SearchPlaceholder}"
                ReturnCommand="{Binding StartSearchCommand}"/>
 
-        <Label Text="{x:Static loc:Localization.SearchFullTextSearchEnabled}" 
+        <Label Text="{loc:Translate SearchFullTextSearchEnabled}" 
                TextColor="Gray"
                IsVisible="{Binding IsFullTextSearch}"
                HorizontalTextAlignment="Center"
@@ -74,7 +74,7 @@
                                   Margin="3"
                                   Source="filter.png"/>
 
-                        <Label Text="{x:Static loc:Localization.SearchFilter}" 
+                        <Label Text="{loc:Translate SearchFilter}" 
                                 Grid.Row="1"
                                 VerticalTextAlignment="Center"
                                 Grid.Column="1"/>
@@ -103,13 +103,13 @@
                                    Margin="3" 
                                    SelectionChanged="SfChipGroup_OnSelectionChanged">
                             <chip:SfChipGroup.Items>
-                                <chip:SfChip Text="{x:Static loc:Localization.SearchFullTextSearch}"
+                                <chip:SfChip Text="{loc:Translate SearchFullTextSearch}"
                                       HeightRequest="30"
                                       Margin="3"/>
                             </chip:SfChipGroup.Items>
                         </chip:SfChipGroup>
 
-                        <Label Text="{x:Static loc:Localization.Tags}" 
+                        <Label Text="{loc:Translate Tags}" 
                         FontAttributes="Bold"
                         Grid.Row="2"
                         Margin="3"/>
@@ -135,7 +135,7 @@
         <Button Margin="5,5,5,20"
               Grid.Row="5"
               Grid.ColumnSpan="2"
-              Text="{x:Static loc:Localization.StartSearch}" 
+              Text="{loc:Translate StartSearch}" 
               WidthRequest="150"
               VerticalOptions="End"
               TextColor="White"

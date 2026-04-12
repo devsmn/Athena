@@ -42,62 +42,62 @@ namespace Athena.UI
             SettingsItems = new List<SettingsItem>
             {
                 new(
-                    Localization.SettingsPrivacyPolicyTitle,
-                    Localization.SettingsPrivacyPolicyDesc,
+                    nameof(Localization.SettingsPrivacyPolicyTitle),
+                    nameof(Localization.SettingsPrivacyPolicyDesc),
                     "privacy.png",
                     () => OpenSettings<WebViewPage>("https://athena.devsmn.de/tos/")),
 
                 new(
-                    Localization.SettingsTermsOfUseTitle,
-                    Localization.SettingsTermsOfUseDesc,
+                    nameof(Localization.SettingsTermsOfUseTitle),
+                    nameof(Localization.SettingsTermsOfUseDesc),
                     "terms_and_conditions.png",
                     () => OpenSettings<WebViewPage>("https://athena.devsmn.de/privacy/")),
 
                 new(
-                    Localization.SettingsCopyrightTitle,
-                    Localization.SettingsCopyrightDesc,
+                    nameof(Localization.SettingsCopyrightTitle),
+                    nameof(Localization.SettingsCopyrightDesc),
                     "copyright.png",
                     () => OpenSettings<WebViewPage>("https://athena.devsmn.de/copyright/")),
 
                 new(
-                    Localization.SettingsNewsTitle,
-                    Localization.SettingsNewsDesc,
+                    nameof(Localization.SettingsNewsTitle),
+                    nameof(Localization.SettingsNewsDesc),
                     "news.png",
                     () => OpenSettings<WebViewPage>("https://athena.devsmn.de/app_changelog/")),
 
                 new(
-                    Localization.SettingsHelpTitle,
-                    Localization.SettingsHelpDesc,
+                    nameof(Localization.SettingsHelpTitle),
+                    nameof(Localization.SettingsHelpDesc),
                     "help.png",
                     () => OpenSettings<WebViewPage>("https://athena.devsmn.de/app_help/")),
 
                 new(
-                    Localization.SettingsFeedbackTitle,
-                    Localization.SettingsFeedbackDesc,
+                    nameof(Localization.SettingsFeedbackTitle),
+                    nameof(Localization.SettingsFeedbackDesc),
                     "feedback.png",
                     () => OpenSettings<WebViewPage>("https://forms.gle/SDAERdx1JGny77EZ7")),
 
                 new(
-                    Localization.SettingsOcrTitle,
-                    Localization.SettingsOcrDesc,
+                    nameof(Localization.SettingsOcrTitle),
+                    nameof(Localization.SettingsOcrDesc),
                     "ocr.png",
                     () => OpenSettings<OcrLanguageSettings>()),
 
                 new(
-                    Localization.DocumentScanner,
-                    Localization.SettingsDocumentScannerDesc,
+                    nameof(Localization.DocumentScanner),
+                    nameof(Localization.SettingsDocumentScannerDesc),
                     "scan.png",
                     () => OpenSettings<DocumentScannerTypeSettingsView>()),
 
                 new(
-                    Localization.SettingsBackupTitle,
-                    Localization.SettingsBackupDesc,
+                    nameof(Localization.SettingsBackupTitle),
+                    nameof(Localization.SettingsBackupDesc),
                     "backup.png",
                     () => OpenSettings<BackupSettingsView>()),
 
                 new(
-                    Localization.SettingsSecurityTitle,
-                    Localization.SettingsSecurityDesc,
+                    nameof(Localization.SettingsSecurityTitle),
+                    nameof(Localization.SettingsSecurityDesc),
                     "security.png",
                     () => OpenSettings<SecuritySettingsView>()),
             };

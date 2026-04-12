@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Athena.UI.PinView"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
@@ -25,24 +25,24 @@
 
         <Label
             Style="{x:StaticResource HeaderLabel}"
-            Text="{x:Static loc:Localization.Password}" />
+            Text="{loc:Translate Password}" />
 
         <Label HorizontalTextAlignment="Center"
                LineBreakMode="WordWrap"
                Margin="10,10,10,10"
                Grid.Row="1"
-               Text="{x:Static loc:Localization.PasswordDescription}"/>
+               Text="{loc:Translate PasswordDescription}"/>
 
         <inputLayout:SfTextInputLayout
                 Grid.Row="2"
-                Hint="{x:Static loc:Localization.Password}"
-                HelperText="{x:Static loc:Localization.PasswordNewHint}"
+                Hint="{loc:Translate Password}"
+                HelperText="{loc:Translate PasswordNewHint}"
                 ContainerType="Outlined"
                 Margin="10"
                 HeightRequest="80"
                 EnablePasswordVisibilityToggle="True"
                 HasError="{Binding PasswordValid, Converter={x:StaticResource InverseBooleanConverter}}"
-                ErrorText="{x:Static loc:Localization.PasswordMismatch}">
+                ErrorText="{loc:Translate PasswordMismatch}">
 
             <Entry Text="{Binding Password}">
                 <Entry.Behaviors>
@@ -54,15 +54,15 @@
         </inputLayout:SfTextInputLayout>
 
         <inputLayout:SfTextInputLayout
-                Hint="{x:Static loc:Localization.PasswordConfirm}"
+                Hint="{loc:Translate PasswordConfirm}"
                 Grid.Row="3"
-                HelperText="{x:Static loc:Localization.PasswordConfirmHint}"
+                HelperText="{loc:Translate PasswordConfirmHint}"
                 ContainerType="Outlined"
                 Margin="10"
                 HeightRequest="80"
                 EnablePasswordVisibilityToggle="True"
                 HasError="{Binding PasswordValid, Converter={x:StaticResource InverseBooleanConverter}}"
-                ErrorText="{x:Static loc:Localization.PasswordMismatch}">
+                ErrorText="{loc:Translate PasswordMismatch}">
 
             <Entry Text="{Binding ConfirmPassword}">
                 <Entry.Behaviors>
@@ -73,7 +73,7 @@
             </Entry>
         </inputLayout:SfTextInputLayout>
 
-        <sfb:SfButton Text="{x:Static  loc:Localization.Next}"
+        <sfb:SfButton Text="{loc:Translate Next}"
                       Margin="5,5,5,20"
                       Grid.Row="4"
                       WidthRequest="200"

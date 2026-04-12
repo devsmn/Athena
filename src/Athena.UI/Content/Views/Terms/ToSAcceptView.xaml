@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="Athena.UI.ToSAcceptView">
     <Grid>
@@ -17,7 +17,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label Text="{x:Static loc:Localization.ToSChangedTitle}"
+        <Label Text="{loc:Translate ToSChangedTitle}"
            Margin="5,20,5,2"
            FontAttributes="Bold"
            LineBreakMode="WordWrap"
@@ -26,7 +26,7 @@
            HorizontalTextAlignment="Center"
            FontSize="32"/>
 
-        <Label Text="{x:Static loc:Localization.ToSChangedDescription}"
+        <Label Text="{loc:Translate ToSChangedDescription}"
            Grid.Row="1"
            LineBreakMode="WordWrap"
            VerticalTextAlignment="Center"
@@ -38,13 +38,13 @@
                   Margin="10, 10, 5, 10"
                   Grid.Row="2"
                   Clicked="OnPrivacyPolicyClicked"
-                  Text="{x:Static  loc:Localization.SettingsPrivacyPolicyTitle}"/>
+                  Text="{loc:Translate SettingsPrivacyPolicyTitle}"/>
 
         <sfb:SfButton Style="{x:StaticResource ListButton}"
                   Margin="10, 10, 5, 10"
                   Grid.Row="3"
                   Clicked="OnTermsOfUseClicked"
-                  Text="{x:Static  loc:Localization.SettingsTermsOfUseTitle}"/>
+                  Text="{loc:Translate SettingsTermsOfUseTitle}"/>
 
         <Grid Grid.Row="4"
               Grid.Column="0">
@@ -61,7 +61,7 @@
 
             <Label Grid.Column="1"
                    Margin="0, 20, 10, 20"
-                   Text="{x:Static loc:Localization.ToSChangedCheckConfirm}"
+                   Text="{loc:Translate ToSChangedCheckConfirm}"
                    LineBreakMode="WordWrap"/>
 
         </Grid>

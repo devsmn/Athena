@@ -2,7 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ui="clr-namespace:Athena.UI"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              xmlns:sfc="clr-namespace:Syncfusion.Maui.Carousel;assembly=Syncfusion.Maui.Carousel"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -20,7 +20,7 @@
                 <Image Source="empty.png" HeightRequest="50" />
 
                 <Label HorizontalTextAlignment="Center"
-                       Text="{x:Static loc:Localization.DocumentEditorLoadDocument}"
+                       Text="{loc:Translate DocumentEditorLoadDocument}"
                        TextColor="Gray"
                    />
             </VerticalStackLayout>
@@ -88,7 +88,7 @@
                                                   CommandParameter="{Binding .}"
                                                   Grid.Row="2"
                                                   HorizontalTextAlignment="Start"
-                                                  Text="{x:Static loc:Localization.DeleteDocument}"
+                                                  Text="{loc:Translate DeleteDocument}"
                                                   Background="Transparent"
                                                   TextColor="Black"
                                                   ImageSource="delete.png"
@@ -110,12 +110,12 @@
     <VerticalStackLayout 
         HorizontalOptions="Center">
 
-        <Label Text="{x:Static loc:Localization.DocumentEditorAddDocuments}" 
+        <Label Text="{loc:Translate DocumentEditorAddDocuments}" 
                Margin="5"
                FontSize="26"
                FontAttributes="Bold"/>
 
-        <Label Text="{x:Static loc:Localization.Documents}" 
+        <Label Text="{loc:Translate Documents}" 
                Margin="5"
                FontSize="16"
                FontAttributes="Bold"/>
@@ -145,7 +145,7 @@
 
             <Border StrokeShape="RoundRectangle 5" BackgroundColor="White"  Margin="3">
 
-                <sfb:SfButton Text="{x:Static loc:Localization.Scan}" 
+                <sfb:SfButton Text="{loc:Translate Scan}" 
                               Command="{Binding ScanCommand}"
                               Background="White"
                               ImageAlignment="Top"
@@ -161,7 +161,7 @@
                     IsVisible="{Binding UseAdvancedScanner, Converter={x:StaticResource InverseBooleanConverter}}"
                     StrokeShape="RoundRectangle 5">
 
-                <sfb:SfButton Text="{x:Static loc:Localization.Gallery}" 
+                <sfb:SfButton Text="{loc:Translate Gallery}" 
                               Command="{Binding PickImageCommand}"
                               Background="White"
                               WidthRequest="100"
@@ -190,7 +190,7 @@
 
         <HorizontalStackLayout>
 
-            <Label Text="{x:Static loc:Localization.DocumentEditorAIHeader}"
+            <Label Text="{loc:Translate DocumentEditorAIHeader}"
                    Margin="5, 10, 5, 5"
                    FontSize="16"
                    VerticalTextAlignment="Center"
@@ -216,7 +216,7 @@
             Margin="5,0,5,0"
             IsChecked="{Binding DetectText}"
             IsEnabled="{Binding DetectTextPossible}"
-            Text="{x:Static loc:Localization.DocumentEditorEnableAI}">
+            Text="{loc:Translate DocumentEditorEnableAI}">
             <sfb:SfCheckBox.Style>
                 <Style TargetType="sfb:SfCheckBox">
                     <Style.Triggers>

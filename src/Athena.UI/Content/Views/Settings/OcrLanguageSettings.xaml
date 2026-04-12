@@ -5,7 +5,7 @@
                     Style="{StaticResource ContentPageStyle}"
                     xmlns:p="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
                     x:Name="page"
-                    xmlns:loc="clr-namespace:Athena.Resources.Localization"
+                    xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
                     xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
                     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                     xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
@@ -48,7 +48,7 @@
         </p:SfPopup>
 
         <HorizontalStackLayout Grid.Row="0" VerticalOptions="Center" HorizontalOptions="Center">
-            <Label Text="{x:Static loc:Localization.SettingsOcrTitle}"
+            <Label Text="{loc:Translate SettingsOcrTitle}"
                    Margin="5,20,5,2"
                    FontAttributes="Bold"
                    HorizontalTextAlignment="Center"
@@ -75,7 +75,7 @@
                                 Margin="10"
                                 Background="Transparent"
                                 Grid.Row="2"
-                                Placeholder="{x:Static loc:Localization.OcrTypeToSelectLanguages}"
+                                Placeholder="{loc:Translate OcrTypeToSelectLanguages}"
                                 IsClearButtonVisible="False"
                                 x:Name="list"
                                 TextSearchMode="Contains"
@@ -112,7 +112,7 @@
                    Grid.ColumnSpan="2">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="{x:Static loc:Localization.OcrEstimatedLocalSize}"  />
+                        <Span Text="{loc:Translate OcrEstimatedLocalSize}"  />
                         <Span Text="{Binding EstimatedLocalSize, Converter={x:StaticResource LanguageSizeToMbConverter}}" FontAttributes="Bold"  />
                         <Span Text=" MB" FontAttributes="Bold"  />
                     </FormattedString>
@@ -124,7 +124,7 @@
                    Grid.ColumnSpan="2">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="{x:Static loc:Localization.OcrEstimatedDownloadSize}"  />
+                        <Span Text="{loc:Translate OcrEstimatedDownloadSize}"  />
                         <Span Text="{Binding EstimatedDownloadSize, Converter={x:StaticResource LanguageSizeToMbConverter}}" FontAttributes="Bold" />
                         <Span Text=" MB" FontAttributes="Bold"  />
                     </FormattedString>
@@ -136,10 +136,10 @@
                           Grid.Column="1"
                           Style="{StaticResource PrimaryButtonFlat}"
                           Command="{Binding UpdateLanguagesCommand}"
-                          Text="{x:Static loc:Localization.Save}">
+                          Text="{loc:Translate Save}">
             </sfb:SfButton>
 
-            <sfb:SfButton Text="{x:Static loc:Localization.OcrDeleteInstalledLanguages}"
+            <sfb:SfButton Text="{loc:Translate OcrDeleteInstalledLanguages}"
                           Margin="5"
                           Style="{StaticResource SecondaryButtonFlat}"
                           Grid.Row="2"

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:sfb="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="Athena.Content.Views.WebViewPage"
-             xmlns:loc="clr-namespace:Athena.Resources.Localization"
+             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              Title="WebViewPage">
     <Grid>
         <Grid.RowDefinitions>
@@ -27,7 +27,7 @@
                 Background="{x:StaticResource Secondary}"
                 WidthRequest="150"
                 Stroke="Gray"
-                Text="{x:Static loc:Localization.OpenInBrowser}"
+                Text="{loc:Translate OpenInBrowser}"
                 StrokeThickness="1" />
 
             <sfb:SfButton 
@@ -37,7 +37,7 @@
                 Clicked="CloseClicked"
                 TextColor="White"
                 WidthRequest="150"
-                Text="{x:Static loc:Localization.Close}"
+                Text="{loc:Translate Close}"
                 StrokeThickness="0" />
 
         </HorizontalStackLayout>
