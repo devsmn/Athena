@@ -317,11 +317,11 @@
         </p:SfPopup>
 
         <p:SfPopup IsOpen="{Binding IsMoveDocumentPopupOpen}" 
-                   AcceptButtonText="{Binding Source={loc:Translate MoveToSelectedPage}}"
-                   DeclineButtonText="{Binding Source={loc:Translate Close}}"
+                   AcceptButtonText="{loc:Translate MoveToSelectedPage}}"
+                   DeclineButtonText="{loc:Translate Close}}"
                    AutoSizeMode="Height"
                    Closed="MoveDocumentPopupClosed"
-                   HeaderTitle="{Binding Source={loc:Translate MoveDocument}}"
+                   HeaderTitle="{loc:Translate MoveDocument}}"
                    ShowCloseButton="True">
             <p:SfPopup.PopupStyle>
                 <p:PopupStyle CornerRadius="5" />
