@@ -33,7 +33,7 @@ namespace Athena.UI
                 {
                     await Task.Delay(200);
 
-                    restoreResult = await backupService.Restore(
+                    restoreResult = await backupService.RestoreAsync(
                         context,
                         result.FullPath,
                         RequireUserConfirmation,
@@ -143,7 +143,7 @@ namespace Athena.UI
             }
 
             IBackupService backupService = Services.GetService<IBackupService>();
-            FileSaverResult? result = await backupService.Create(context);
+            FileSaverResult? result = await backupService.CreateAsync(context);
 
             if (result?.IsSuccessful == true)
             {

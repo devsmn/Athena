@@ -7,7 +7,7 @@ namespace Athena.UI
 {
     internal class DefaultLanguageService : ILanguageService
     {
-        public async Task SetLanguage(IContext context, string code, bool reload)
+        public void SetLanguage(IContext context, string code)
         {
             try
             {

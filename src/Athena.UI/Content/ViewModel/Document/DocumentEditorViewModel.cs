@@ -105,8 +105,11 @@ namespace Athena.UI
 
         public ViewStepHandler<DocumentEditorViewModel> StepHandler => _stepHandler;
 
-        public DocumentEditorViewModel(FolderViewModel parentFolder, Document document)
+        private readonly TaskCompletionSource<object> _doneWithResult;
+
+        public DocumentEditorViewModel(FolderViewModel parentFolder, Document document, TaskCompletionSource<object> doneWithResult)
         {
+            _doneWithResult = doneWithResult;
             _stepHandler = new(this);
             _stepHandler.RegisterIncrease(1);
             _stepHandler.Register(2, new DocumentCreatePdfStep());
@@ -235,6 +238,7 @@ namespace Athena.UI
                 }
             }
 
+            _doneWithResult.TrySetResult(Document);
             await PopModalAsync();
             _stepHandler.StepIndex = 0;
         }
@@ -270,18 +274,10 @@ namespace Athena.UI
                     {
                         Document.Document.DeleteTag(context, deletedTag);
                         Document.DeleteTag(context, deletedTag);
-                        //Document.Document.DeleteTag(context, deletedTag);
                     }
 
                     // Should be changed to also include tags.
                     Document.Document.Save(context);
-
-                    Services.GetService<IDataBrokerService>().Publish<Document>(
-                        context,
-                        Document,
-                        UpdateType.Edit,
-                        _parentFolder?.Key);
-
                     await Toast.Make("Successfully updated document " + Document.Name).Show();
 
                     await CloseAsync();

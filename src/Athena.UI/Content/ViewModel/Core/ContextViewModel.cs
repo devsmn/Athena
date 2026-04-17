@@ -15,38 +15,6 @@ namespace Athena.UI
 
         public TaskCompletionSource DoneTcs { get; protected set; }
 
-        public ContextViewModel()
-        {
-            WeakReferenceMessenger.Default.Register<DataPublishedArgs>(this, (_, data) => OnDataPublished(data));
-            WeakReferenceMessenger.Default.Register<DataPublishStartedMessage>(this, (_, _) => OnPublishDataStarted());
-            WeakReferenceMessenger.Default.Register<AppInitializedMessage>(this, (_, _) => OnAppInitialized());
-        }
-
-        /// <summary>
-        /// Invoked when the app is initialized.
-        /// </summary>
-        protected virtual void OnAppInitialized()
-        {
-            // Nothing to do.
-        }
-
-        /// <summary>
-        /// Invoked when the system starts to publish data.
-        /// </summary>
-        protected virtual void OnPublishDataStarted()
-        {
-            // Nothing to do.
-        }
-
-        /// <summary>
-        /// Invoked when data is published.
-        /// </summary>
-        /// <param name="data"></param>
-        protected virtual void OnDataPublished(DataPublishedArgs data)
-        {
-            //  Nothing to do.
-        }
-
         [DebuggerStepThrough]
         protected IContext RetrieveContext()
         {

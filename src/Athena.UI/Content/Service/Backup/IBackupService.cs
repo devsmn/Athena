@@ -16,7 +16,7 @@ namespace Athena.UI
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        Task<FileSaverResult?> Create(IContext context);
+        Task<FileSaverResult?> CreateAsync(IContext context);
 
         /// <summary>
         /// Asynchronously restores a backup.
@@ -26,9 +26,10 @@ namespace Athena.UI
         /// <param name="requireUserConfirmation"></param>
         /// <param name="showProgressIndicator"></param>
         /// <returns></returns>
-        Task<BackupRestoreResult> Restore(
+        Task<BackupRestoreResult> RestoreAsync(
             IContext context,
             string path,
-            Func<string, string, string, Task<bool>> requireUserConfirmation, Action<bool> showProgressIndicator);
+            Func<string, string, string, Task<bool>> requireUserConfirmation,
+            Action<bool> showProgressIndicator);
     }
 }

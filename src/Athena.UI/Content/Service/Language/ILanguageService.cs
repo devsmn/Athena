@@ -9,8 +9,7 @@ namespace Athena.UI
         /// </summary>
         /// <param name="context"></param>
         /// <param name="code"></param>
-        /// <param name="reload"></param>
-        Task SetLanguage(IContext context, string code, bool reload);
+        void SetLanguage(IContext context, string code);
 
         /// <summary>
         /// Gets all supported languages.

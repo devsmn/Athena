@@ -9,27 +9,18 @@ namespace Athena.UI
     internal partial class FolderEditorViewModel : ContextViewModel
     {
         [ObservableProperty]
-        private bool _isNew;
-
-        [ObservableProperty]
-        private FolderViewModel _folder;
+        private RootItemViewModel _rootItem;
 
         [ObservableProperty]
         private int _newFolderStep;
 
         private readonly TaskCompletionSource _doneTcs;
 
-        public FolderEditorViewModel(FolderViewModel folderToEdit, TaskCompletionSource doneTcs)
+        public FolderEditorViewModel(RootItemViewModel toEdit, TaskCompletionSource doneTcs)
         {
             _doneTcs = doneTcs;
-            if (folderToEdit == null)
-            {
-                folderToEdit = new FolderViewModel(new Folder());
-                IsNew = true;
-            }
-
-            Folder = folderToEdit;
-            Folder.PropertyChanged += FolderOnPropertyChanged;
+            RootItem = toEdit;
+            RootItem.PropertyChanged += FolderOnPropertyChanged;
             NextStepCommand.NotifyCanExecuteChanged();
         }
 
@@ -37,7 +28,7 @@ namespace Athena.UI
         {
             base.OnPropertyChanged(e);
 
-            if (e.PropertyName == nameof(Folder.Name))
+            if (e.PropertyName == nameof(RootItem.Name))
             {
                 NextStepCommand.NotifyCanExecuteChanged();
             }
@@ -45,24 +36,19 @@ namespace Athena.UI
 
         private bool CanExecuteNextStep()
         {
-            return !string.IsNullOrWhiteSpace(Folder.Name);
+            return !string.IsNullOrWhiteSpace(RootItem.Name);
         }
 
         [RelayCommand(CanExecute = nameof(CanExecuteNextStep))]
         private async Task NextStep()
         {
             IContext context = RetrieveContext();
+            RootItem.Folder.Folder.Save(context, FolderSaveOptions.Folder);
 
-            if (!IsNew)
-            {
-                Folder.Folder.Save(context, FolderSaveOptions.Folder);
-            }
-
-            //Services.GetService<IDataBrokerService>().Publish(context, Folder.Folder, IsNew ? UpdateType.Add : UpdateType.Edit, _parentFolder?.Key);
-            await PopAsync();
-            Folder.PropertyChanged -= FolderOnPropertyChanged;
-            NewFolderStep = 0;
             _doneTcs.SetResult();
+            await PopAsync();
+            RootItem.PropertyChanged -= FolderOnPropertyChanged;
+            NewFolderStep = 0;
         }
     }
 }

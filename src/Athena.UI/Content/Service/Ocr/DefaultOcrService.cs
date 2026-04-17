@@ -26,7 +26,6 @@ namespace Athena.UI
             private set => _error = value;
         }
 
-
         private void ValidateData(IContext context = null)
         {
             context?.Log(Localization.ValidatingInstalledLanguages);
@@ -50,9 +49,9 @@ namespace Athena.UI
                 return;
             }
 
-            for (int i = 0; i < files.Length; i++)
+            foreach (var file in files)
             {
-                string lan = Path.GetFileNameWithoutExtension(files[i]);
+                string lan = Path.GetFileNameWithoutExtension(file);
                 languages.Append($"{lan}+");
             }
 
@@ -144,9 +143,7 @@ namespace Athena.UI
         public async Task DownloadLanguagesAsync(IContext context, IEnumerable<string> languages)
         {
             EnsureDataValidated();
-
             IDownloadService downloadService = Services.GetService<IDownloadService>();
-
             string url = @"https://github.com/tesseract-ocr/tessdata_fast/raw/main/{0}.traineddata";
 
             foreach (string lan in languages)
@@ -183,7 +180,6 @@ namespace Athena.UI
         {
             string? text;
             float confidence;
-
 
             try
             {

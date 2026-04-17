@@ -4,7 +4,7 @@
 
     public partial class FolderEditorView : DefaultContentPage
     {
-        public FolderEditorView(FolderViewModel folderToEdit)
+        public FolderEditorView(RootItemViewModel folderToEdit)
         {
             BindingContext = new FolderEditorViewModel(folderToEdit, DoneTcs);
             InitializeComponent();

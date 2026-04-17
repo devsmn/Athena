@@ -21,6 +21,13 @@ public partial class FolderOverview : DefaultContentPage
         InitializeComponent();
     }
 
+    protected override void OnNavigatedTo(object sender, NavigatedToEventArgs e)
+    {
+        // Always reload everything.
+        Initialized = false;
+        base.OnNavigatedTo(sender, e);
+    }
+
     private void ListView_OnItemLongPress(object sender, ItemLongPressEventArgs e)
     {
         _viewModel.SelectedItem = e.DataItem as RootItemViewModel;

@@ -36,13 +36,6 @@ namespace Athena.UI
             await PostProcessPdf(_context, summary, pdfText);
             summary.Finish();
 
-            Report("Publishing changes...");
-
-            IDataBrokerService dataService = Services.GetService<IDataBrokerService>();
-
-            dataService.Publish(_context, _vm.Document.Document, UpdateType.Add, _vm.ParentFolder.Key);
-            dataService.Publish(_context, _vm.Document.Document, UpdateType.Edit, _vm.ParentFolder.Key);
-
             _vm.IsBusy = false;
             Report("Finished!");
 
@@ -59,7 +52,7 @@ namespace Athena.UI
             IPdfCreatorService pdfCreator = Services.GetService<IPdfCreatorService>();
             pdfCreator.Report = Report;
 
-            return await Task.Run(async () => await pdfCreator.CreateAsync(
+            return await Task.Run(async () => await pdfCreator.FromImages(
                 context,
                 summary,
                 _vm.Document.Name,

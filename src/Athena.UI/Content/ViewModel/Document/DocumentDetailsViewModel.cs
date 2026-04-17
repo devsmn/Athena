@@ -65,7 +65,7 @@ namespace Athena.UI
             List<TagViewModel> selectedTags = new();
             byte[] pdf = null;
 
-            await ExecuteAsyncBackgroundAction(async context =>
+            await ExecuteBackgroundAction(context =>
             {
                 pdf = Document.Pdf;
                 allTags = new List<TagViewModel>(Tag.ReadAll(context).Select(x => new TagViewModel(x)));
@@ -76,39 +76,11 @@ namespace Athena.UI
                     if (Document.Tags.Any(x => x.Id == tag.Id))
                         selectedTags.Add(tag);
                 }
-
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                {
-                });
             });
 
             AllTags = new(allTags);
             SelectedTags = new(selectedTags);
             Pdf = pdf;
-        }
-
-        protected override void OnDataPublished(DataPublishedArgs data)
-        {
-            if (data.Documents.Any())
-            {
-                RequestUpdate<Document> updateDoc = data.Documents.FirstOrDefault(x => x.Entity.Id == Document.Document.Id);
-
-                if (updateDoc != null)
-                {
-                    if (updateDoc.Type == UpdateType.Edit)
-                    {
-                        Document.Name = updateDoc.Entity.Name;
-                    }
-                }
-            }
-
-            if (data.Tags.Any())
-            {
-                foreach (RequestUpdate<Tag> update in data.Tags)
-                {
-                    AllTags.Process(update);
-                }
-            }
         }
 
         [RelayCommand]
@@ -150,12 +122,8 @@ namespace Athena.UI
                 return;
 
             IContext context = RetrieveContext();
-
             Document.Document.Delete(context);
-
             await Toast.Make(string.Format(Localization.DocumentDeleted, Document.Name), ToastDuration.Long).Show();
-            Services.GetService<IDataBrokerService>().Publish<Document>(context, Document, UpdateType.Delete, _parentFolder?.Key);
-
             await PopAsync();
         }
 
@@ -191,8 +159,7 @@ namespace Athena.UI
         [RelayCommand]
         private async Task OpenSearchResult()
         {
-            await PushAsync(
-                new DocumentDetailsPdfView(Document.Pdf, Convert.ToInt32(_chapter.DocumentPageNumber)));
+            await PushAsync(new DocumentDetailsPdfView(Document.Pdf, Convert.ToInt32(_chapter.DocumentPageNumber)));
         }
 
         [RelayCommand]
@@ -233,15 +200,7 @@ namespace Athena.UI
             {
                 IContext context = RetrieveContext();
                 Document.Document.Delete(context);
-
                 await Toast.Make(string.Format(Localization.DocumentDeleted, name), ToastDuration.Long).Show();
-
-                Services.GetService<IDataBrokerService>().Publish(
-                    context,
-                    Document.Document,
-                    UpdateType.Delete,
-                    _parentFolder?.Key);
-
                 await PopAsync();
             }
         }

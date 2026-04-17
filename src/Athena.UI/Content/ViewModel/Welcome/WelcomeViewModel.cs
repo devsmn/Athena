@@ -102,7 +102,7 @@ namespace Athena.UI
         [RelayCommand]
         public void SelectionChanged()
         {
-            LanguageService.SetLanguage(RetrieveContext(), SelectedLanguage.Id, false);
+            LanguageService.SetLanguage(RetrieveContext(), SelectedLanguage.Id);
             
             EnterNameText = Localization.WelcomeEnterName;
             EnterNameTextDesc = Localization.WelcomeEnterNameDesc;

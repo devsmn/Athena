@@ -6,7 +6,7 @@
     {
         public DocumentEditorView(FolderViewModel folder, Document document)
         {
-            BindingContext = new DocumentEditorViewModel(folder, document);
+            BindingContext = new DocumentEditorViewModel(folder, document, DoneWithResult);
             InitializeComponent();
             Loaded += OnLoaded;
         }

@@ -57,18 +57,6 @@ namespace Athena.UI
             }
         }
 
-        protected override void OnAppInitialized()
-        {
-            IContext context = RetrieveContext();
-
-            UpdateCounterStats();
-
-            RecentDocuments = new VisualCollection<DocumentViewModel, Document>(
-                Document.ReadRecent(context, MAX_RECENT_DOCUMENTS).Select(x => new DocumentViewModel(x)));
-
-            Application.Current.Dispatcher.StartTimer(TimeSpan.FromMinutes(5), UpdateCounterStats);
-        }
-
         [RelayCommand]
         public async Task ItemClicked()
         {
@@ -99,98 +87,10 @@ namespace Athena.UI
             return true;
         }
 
-        protected override void OnDataPublished(DataPublishedArgs data)
-        {
-            //MainThread.BeginInvokeOnMainThread(() =>
-            //{
-            //    if (data.Documents.Count > 0)
-            //    {
-            //        foreach (RequestUpdate<Document> update in data.Documents)
-            //        {
-            //            if (update.Type == UpdateType.Add)
-            //            {
-            //                if (RecentDocuments.Count >= MAX_RECENT_DOCUMENTS)
-            //                {
-            //                    RecentDocuments.RemoveAt(0);
-            //                    RecentDocuments.Insert(0, new DocumentViewModel(update.Entity));
-            //                }
-            //                else
-            //                {
-            //                    RecentDocuments.Process(update);
-            //                }
-            //            }
-            //            else if (update.Type == UpdateType.Edit)
-            //            {
-            //                RecentDocuments.Process(update);
-            //            }
-            //            else if (update.Type == UpdateType.Delete)
-            //            {
-            //                FolderViewModel rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
-            //                Stack<Folder> folders = new Stack<Folder>();
-
-            //                bool stop = false;
-
-            //                foreach (Folder folder in rootFolder.LoadedFolders)
-            //                {
-            //                    folders.Push(folder);
-            //                }
-
-            //                folders.Push(rootFolder);
-
-            //                while (folders.Count > 0)
-            //                {
-            //                    Folder currentFolder = folders.Pop();
-
-            //                    foreach (Document folderDoc in currentFolder.LoadedDocuments)
-            //                    {
-            //                        if (folderDoc.Key.Id == update.Entity.Id)
-            //                        {
-            //                            currentFolder.ResetDocumentsLoaded();
-            //                            stop = true;
-            //                            break;
-            //                        }
-            //                    }
-
-            //                    if (stop)
-            //                        break;
-
-            //                    foreach (Folder folder in currentFolder.LoadedFolders)
-            //                    {
-            //                        folders.Push(folder);
-            //                    }
-            //                }
-
-            //                RecentDocuments.Process(update);
-            //            }
-            //        }
-            //    }
-
-            //    if (data.Tags.Count > 0)
-            //    {
-            //        HashSet<int> deletedTagIds = data.Tags
-            //            .Where(x => x.Type == UpdateType.Delete)
-            //            .Select(x => x.Entity.Id)
-            //            .ToHashSet();
-
-            //        foreach (DocumentViewModel document in RecentDocuments)
-            //        {
-            //            List<Tag> validTags = document.Tags.Where(x => !deletedTagIds.Contains(x.Id)).ToList();
-
-            //            document.Tags.Clear();
-
-            //            foreach (Tag tag in validTags)
-            //            {
-            //                document.Tags.Add(tag);
-            //            }
-            //        }
-            //    }
-            //});
-        }
-
         [RelayCommand]
         public async Task OpenFolderOverview()
         {
-            FolderViewModel rootFolder = Services.GetService<IDataBrokerService>().GetRootFolder();
+            FolderViewModel rootFolder = Services.GetService<IRootFolderService>().GetRootFolder();
             await PushAsync(new FolderOverview(rootFolder));
         }
 
@@ -202,8 +102,6 @@ namespace Athena.UI
 
             if (isFirstUsage)
             {
-                // TODO: Temporary change: Localization is no longer updated by recreating app shell.
-                // -> Continue with onboarding.
                 DefaultContentPage view = new WelcomeView();
                 await PushModalAsync(view);
                 await view.DoneTcs.Task;
@@ -275,10 +173,6 @@ namespace Athena.UI
             IContext context = RetrieveReportContext();
             LogMetaHeaderInfo(context);
 
-            //// Data will be initialized via the welcome view because it creates the home view again.
-            //if (Services.GetService<IPreferencesService>().IsFirstUsage())
-            //    return true;
-
             IsBusy = true;
             await Task.Run(async () =>
             {
@@ -286,8 +180,6 @@ namespace Athena.UI
 
                 SqliteProxy sqlProxy = new();
                 SqLiteProxyParameter parameter = new SqLiteProxyParameter { MinimumVersion = new Version(0, 1) };
-
-                Services.GetService<IDataBrokerService>().PrepareForLoading();
 
                 await DataStore.CloseAllAsync(context);
                 DataStore.Clear();
@@ -372,7 +264,7 @@ namespace Athena.UI
                 context.Log("Initializing repositories");
                 await DataStore.InitializeAsync(context, () => context.Log("Invalid cipher"));
 
-                IDataBrokerService service = Services.GetService<IDataBrokerService>();
+                IRootFolderService service = Services.GetService<IRootFolderService>();
                 Folder rootFolder = GetRootFolder(context);
 
                 if (prefService.GetLastUsedVersion() != compatService.GetCurrentVersion())
@@ -381,9 +273,12 @@ namespace Athena.UI
                 }
 
                 service.SetRootFolder(rootFolder);
-                service.Publish(context, rootFolder.Folders, UpdateType.Initialize);
-                service.Publish(context, rootFolder.Documents, UpdateType.Initialize);
-                service.RaiseAppInitialized();
+                UpdateCounterStats();
+
+                RecentDocuments = new VisualCollection<DocumentViewModel, Document>(
+                    Document.ReadRecent(context, MAX_RECENT_DOCUMENTS).Select(x => new DocumentViewModel(x)));
+
+                Application.Current.Dispatcher.StartTimer(TimeSpan.FromMinutes(5), UpdateCounterStats);
 
                 compatService.UpdateLastUsedVersion(context);
                 MainThread.BeginInvokeOnMainThread(() => IsBusy = false);

@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Athena.UI
 {
-    public class TagViewModel : ObservableObject, IVisualModel<Tag>
+    public class TagViewModel : ObservableObject, IVisualModel
     {
         private readonly Tag _tag;
 

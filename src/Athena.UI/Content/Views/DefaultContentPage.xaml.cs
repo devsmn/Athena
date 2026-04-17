@@ -4,23 +4,25 @@ namespace Athena.UI;
 
 public partial class DefaultContentPage : ContentPage
 {
-    private bool _initialized;
+    protected bool Initialized;
 
     public TaskCompletionSource DoneTcs { get; private set; }
+    public TaskCompletionSource<object> DoneWithResult { get; private set; }
 
     public DefaultContentPage()
     {
         DoneTcs = new();
+        DoneWithResult = new();
         InitializeComponent();
         NavigatedTo += OnNavigatedTo;
     }
 
-    private async void OnNavigatedTo(object sender, NavigatedToEventArgs e)
+    protected virtual async void OnNavigatedTo(object sender, NavigatedToEventArgs e)
     {
-        if (!_initialized && BindingContext is ContextViewModel vm)
+        if (!Initialized && BindingContext is ContextViewModel vm)
         {
             _ = vm.InitializeAsync();
-            _initialized = true;
+            Initialized = true;
         }
     }
 

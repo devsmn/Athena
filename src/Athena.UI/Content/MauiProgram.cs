@@ -73,7 +73,7 @@ public static class MauiProgram
 #endif
                 .CreateLogger());
 
-        builder.Services.AddSingleton<IDataBrokerService, DefaultDataBrokerService>();
+        builder.Services.AddSingleton<IRootFolderService, DefaultRootFolderService>();
         builder.Services.AddSingleton<INavigationService, DefaultNavigationService>();
         builder.Services.AddSingleton<IPreferencesService, DefaultPreferencesService>();
         builder.Services.AddSingleton<IGreetingService, DefaultGreetingService>();

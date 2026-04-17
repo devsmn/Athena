@@ -14,7 +14,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
-        <sf:SfDataForm DataObject="{Binding Folder}"
+        <sf:SfDataForm DataObject="{Binding RootItem}"
                        LayoutType="TextInputLayout"
                        ValidationMode="PropertyChanged"
                        CommitMode="PropertyChanged">
