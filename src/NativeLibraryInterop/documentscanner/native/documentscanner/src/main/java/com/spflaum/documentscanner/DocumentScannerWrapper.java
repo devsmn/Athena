@@ -92,8 +92,7 @@ public class DocumentScannerWrapper {
     private GmsDocumentScannerOptions retrieveOptions(){
         if (scanOptions == null) {
             scanOptions = new GmsDocumentScannerOptions.Builder()
-                .setGalleryImportAllowed(true) 
-                .setPageLimit(10)
+                .setGalleryImportAllowed(true)
                 .setResultFormats(GmsDocumentScannerOptions.RESULT_FORMAT_JPEG)
                 .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_FULL)
                 .build();
