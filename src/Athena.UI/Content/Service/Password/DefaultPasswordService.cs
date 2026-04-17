@@ -20,7 +20,7 @@ namespace Athena.UI
             }
         }
 
-        public async Task Prompt(IContext context, bool isRetry, Action<string> passwordEntered, Action cancelled = null)
+        public async Task Prompt(IContext context, string text, bool isRetry, Action<string> passwordEntered, Action cancelled = null)
         {
             INavigationService navService = Services.GetService<INavigationService>();
 
@@ -28,12 +28,12 @@ namespace Athena.UI
 
             await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                string preText = isRetry ? $"Wrong password!{Environment.NewLine}{Environment.NewLine}" : string.Empty;
+                string preText = isRetry ? $"{Localization.PasswordIncorrect}{Environment.NewLine}{Environment.NewLine}" : string.Empty;
 
                 pw = await navService.DisplayPrompt(
-                    "Enter password",
-                    $"{preText}Enter your password to unlock your data",
-                    "Unlock",
+                    Localization.PasswordPrompt,
+                    $"{preText}{text}",
+                    "Ok",
                     Localization.Close,
                     Keyboard.Password);
             });

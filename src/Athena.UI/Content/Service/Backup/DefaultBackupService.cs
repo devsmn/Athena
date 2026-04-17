@@ -132,11 +132,6 @@ namespace Athena.UI
                     return result;
                 }
 
-                bool externalKeyRequired = await MainThread.InvokeOnMainThreadAsync(async () => await requireUserConfirmation(
-                    Localization.BackupRestoreFromDifferentDevice,
-                    Localization.Yes,
-                    Localization.No));
-
                 context.Log("Decrypting restored database");
                 string cipher = string.Empty;
                 SqliteProxy sqlProxy = new();
@@ -146,68 +141,21 @@ namespace Athena.UI
                 IDataEncryptionService encryptionService = Services.GetService<IDataEncryptionService>();
                 string alias = string.Empty;
 
-                if (externalKeyRequired)
+                bool firstTry = true;
+                bool exit = false;
+
+                do
                 {
-                    bool firstTry = true;
-                    bool exit = false;
+                    await passwordService.Prompt(context, Localization.BackupRestoreEncryptionKeyPrompt, !firstTry, (str) => cipher = str, () => exit = true);
+                    firstTry = false;
 
-                    do
+                    if (exit)
                     {
-                        await passwordService.Prompt(context, !firstTry, (str) => cipher = str, () => exit = true);
-                        firstTry = false;
-
-                        if (exit)
-                        {
-                            result.Code = BackupRestoreResultCode.AbortedByUser;
-                            return result;
-                        }
-
-                    } while (await sqlAuth.AuthenticateAsync(cipher, dbPath) == false);
-                }
-                else
-                {
-                    alias = await encryptionService.GetActiveAliasAsync();
-
-                    // Try to open the database with the stored encryption key
-                    bool primarySucceeded = await encryptionService.ReadPrimaryAsync(
-                        context,
-                        alias,
-                        (c) => cipher = c,
-                        context.Log,
-                        () => { });
-
-                    if (!primarySucceeded || !await sqlAuth.AuthenticateAsync(cipher, dbPath))
-                    {
-                        bool firstTry = true;
-
-                        do
-                        {
-                            string pin = string.Empty;
-                            bool cancelled = false;
-
-                            await passwordService.Prompt(
-                                context,
-                                !firstTry,
-                                (str) => pin = str,
-                                () => cancelled = true);
-
-                            if (cancelled)
-                            {
-                                result.Code = BackupRestoreResultCode.AbortedByUser;
-                                return result;
-                            }
-
-                            await encryptionService.ReadFallbackAsync(
-                                context,
-                                alias,
-                                pin, key => cipher = key,
-                                context.Log);
-
-                            firstTry = false;
-
-                        } while (await sqlAuth.AuthenticateAsync(cipher, dbPath) == false);
+                        result.Code = BackupRestoreResultCode.AbortedByUser;
+                        return result;
                     }
-                }
+
+                } while (!await sqlAuth.AuthenticateAsync(cipher, dbPath));
 
                 showProgressIndicator(true);
                 await Task.Delay(200);
@@ -244,24 +192,22 @@ namespace Athena.UI
                     return result;
                 }
 
-                if (externalKeyRequired)
+                context.Log("Storing external encryption");
+
+                // The user provided an external, correct cipher. Store it.
+                string pw = string.Empty;
+                await passwordService.New(context, userPw => pw = userPw);
+
+                string newAlias = encryptionService.GenerateNewAlias();
+                encryptionService.Initialize(context, newAlias);
+                if (!await encryptionService.SaveAsync(context, newAlias, cipher, pw))
                 {
-                    context.Log("Storing external encryption");
-                    // The user provided an external, correct cipher. Store it.
-
-                    string pw = string.Empty;
-                    await passwordService.New(context, userPw => pw = userPw);
-
-                    string newAlias = encryptionService.GenerateNewAlias();
-                    encryptionService.Initialize(context, newAlias);
-                    if (!await encryptionService.SaveAsync(context, newAlias, cipher, pw))
-                    {
-                        result.Code = BackupRestoreResultCode.AuthenticationFailed;
-                        return result;
-                    }
-                    await encryptionService.SaveNewAliasAsync(newAlias);
-                    await encryptionService.DeleteAsync(context, alias);
+                    result.Code = BackupRestoreResultCode.AuthenticationFailed;
+                    return result;
                 }
+                await encryptionService.SaveNewAliasAsync(newAlias);
+                await encryptionService.DeleteAsync(context, alias);
+                
 
                 Directory.Delete(tmpDir, true);
                 IPreferencesService prefService = Services.GetService<IPreferencesService>();

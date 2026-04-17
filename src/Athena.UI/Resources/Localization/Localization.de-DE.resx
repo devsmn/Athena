@@ -164,7 +164,7 @@ Der Ordner kann nicht wiederhergestellt werden!</value>
   <data name="OcrDeleteInstalledLanguagesConfirmText" xml:space="preserve">
     <value>Möchtest du wirklich {0} installierte Sprache(n) löschen? (ca.  {1} MB)</value>
   </data>
-  <data name="DeleteInstalledLanguagesConfirmTitle" xml:space="preserve">
+  <data name="OcrDeleteInstalledLanguagesConfirmTitle" xml:space="preserve">
     <value>Installierte Sprachen löschen</value>
   </data>
   <data name="OcrDeleteLanguageInfo" xml:space="preserve">
@@ -340,11 +340,11 @@ Depending on the size of the documents, this process may take a moment.</comment
   <data name="OcrLanguagesPendingChangesTitle" xml:space="preserve">
     <value>Ungespeicherte Änderungen</value>
   </data>
-  <data name="Loading pages" xml:space="preserve">
-    <value>Seiten werden geladen...</value>
-  </data>
   <data name="LoadingDocuments" xml:space="preserve">
     <value>Dokumente werden geladen...</value>
+  </data>
+  <data name="LoadingPages" xml:space="preserve">
+    <value>Seiten werden geladen...</value>
   </data>
   <data name="Move" xml:space="preserve">
     <value>Verschieben</value>
@@ -671,7 +671,7 @@ Du kannst dich gegen die Verwendung des fortschrittlichen Scanners entscheiden u
   <data name="DocumentScannerSettingsHint" xml:space="preserve">
     <value>Diese Option kann jederezeit in den Einstellungen geändert werden.</value>
   </data>
-  <data name="SettingsDocumentScanner" xml:space="preserve">
+  <data name="SettingsDocumentScannerDesc" xml:space="preserve">
     <value>Verwalte den Dokumentenscanner</value>
   </data>
   <data name="BackupDesc" xml:space="preserve">
@@ -755,7 +755,7 @@ Das Backup wurde am {3} mit der Athena Version {4} erstellt.</value>
 Stelle bitte sicher, dass der Code in einer sicheren Umgebung gespeichert wird.</value>
   </data>
   <data name="BackupShowEncryptionKeyPreInfo" xml:space="preserve">
-    <value>Damit das Backup auf einem anderen Gerät oder nach einer Neuinstallation wiederhergestellt werden kann, wird der Verschlüsselungscode benötigt.
+    <value>Damit das Backup wiederhergestellt werden kann, wird der Verschlüsselungscode benötigt.
 Hinweis: Dieser Code ist nicht dein Passwort.</value>
     <comment>To restore a backup on a different device or after reinstalling Athena, you will need the encryption key to access the data.
 Please note that the key is not your password.</comment>
@@ -789,5 +789,23 @@ Please note that the key is not your password.</comment>
   </data>
   <data name="TagsEmpty" xml:space="preserve">
     <value>Benutze den Plus Button, um eine neue Kategorie anzulegen</value>
+  </data>
+  <data name="DeleteInstalledLanguagesConfirmTitle" xml:space="preserve">
+    <value>Installierte Sprachen löschen</value>
+  </data>
+  <data name="SettingsDocumentScanner" xml:space="preserve">
+    <value>Dokumentenscanner</value>
+  </data>
+  <data name="PasswordPrompt" xml:space="preserve">
+    <value>Passwort eingeben</value>
+  </data>
+  <data name="PasswordUnlockData" xml:space="preserve">
+    <value>Passwort eingeben, um deine Daten zu entschlüsseln</value>
+  </data>
+  <data name="PasswordIncorrect" xml:space="preserve">
+    <value>Falsches Passwort!</value>
+  </data>
+  <data name="BackupRestoreEncryptionKeyPrompt" xml:space="preserve">
+    <value>Gib den Verschlüsselungscode ein, um das Backup wiederherzustellen</value>
   </data>
 </root>

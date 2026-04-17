@@ -745,7 +745,7 @@ The backup was created at {3} with app version {4}.</value>
 Please store the key in a secure location.</value>
   </data>
   <data name="BackupShowEncryptionKeyPreInfo" xml:space="preserve">
-    <value>To restore a backup on a different device or after reinstalling Athena, you will need the encryption key to access the data.
+    <value>To restore a backup, you will need the encryption key to access the data.
 Please note that the key is not your password.</value>
   </data>
   <data name="BackupShowKeyOption" xml:space="preserve">
@@ -777,5 +777,23 @@ Please note that the key is not your password.</value>
   </data>
   <data name="TagsEmpty" xml:space="preserve">
     <value>Use the plus button to add a new tag</value>
+  </data>
+  <data name="DeleteInstalledLanguagesConfirmTitle" xml:space="preserve">
+    <value>Delete installed languages</value>
+  </data>
+  <data name="SettingsDocumentScanner" xml:space="preserve">
+    <value>Document scanner</value>
+  </data>
+  <data name="PasswordPrompt" xml:space="preserve">
+    <value>Enter your password</value>
+  </data>
+  <data name="PasswordUnlockData" xml:space="preserve">
+    <value>Enter password to unlock your data</value>
+  </data>
+  <data name="PasswordIncorrect" xml:space="preserve">
+    <value>Incorrect password!</value>
+  </data>
+  <data name="BackupRestoreEncryptionKeyPrompt" xml:space="preserve">
+    <value>Enter the encryption key to unlock the backup</value>
   </data>
 </root>

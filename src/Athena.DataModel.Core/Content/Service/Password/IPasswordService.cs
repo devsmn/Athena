@@ -14,10 +14,11 @@
         /// Prompts the user to enter a password.
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="text"></param>
         /// <param name="isRetry"></param>
         /// <param name="passwordEntered"></param>
         /// <param name="cancelled"></param>
         /// <returns></returns>
-        Task Prompt(IContext context, bool isRetry, Action<string> passwordEntered, Action cancelled = null);
+        Task Prompt(IContext context, string text, bool isRetry, Action<string> passwordEntered, Action cancelled = null);
     }
 }
