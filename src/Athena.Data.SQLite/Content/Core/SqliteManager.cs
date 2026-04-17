@@ -25,7 +25,7 @@ namespace Athena.Data.SQLite
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        private async Task ExecuteEncryptDatabasePatch(IContext context)
+        private static async Task ExecuteEncryptDatabasePatch(IContext context)
         {
             SQLiteAsyncConnection encryptedDb = null;
             SQLiteConnection plainTextDb = null;

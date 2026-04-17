@@ -4,9 +4,9 @@
 
     public partial class DocumentEditorView : DefaultContentPage
     {
-        public DocumentEditorView(Folder folder, Document document)
+        public DocumentEditorView(FolderViewModel folder, Document document)
         {
-            BindingContext = new DocumentEditorViewModel(folder, document);
+            BindingContext = new DocumentEditorViewModel(folder, document, DoneWithResult);
             InitializeComponent();
             Loaded += OnLoaded;
         }

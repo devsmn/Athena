@@ -84,11 +84,12 @@ namespace Athena.DataModel
         {
             get
             {
-                if (!_foldersLoaded)
-                {
-                    _folders = new List<Folder>(ReadAllFolders(new AthenaDataContext()));
-                    _foldersLoaded = true;
-                }
+                // Folders should be loaded in the related init.
+                //if (!_foldersLoaded)
+                //{
+                //    _folders = new List<Folder>(ReadAllFolders(new AthenaDataContext()));
+                //    _foldersLoaded = true;
+                //}
 
                 return _folders;
             }
@@ -105,11 +106,12 @@ namespace Athena.DataModel
         {
             get
             {
-                if (!_documentsLoaded)
-                {
-                    _documents = new List<Document>(ReadAllDocuments(new AthenaDataContext()));
-                    _documentsLoaded = true;
-                }
+                // Documents should be loaded in the related init
+                //if (!_documentsLoaded)
+                //{
+                //    _documents = new List<Document>(ReadAllDocuments(new AthenaDataContext()));
+                //    _documentsLoaded = true;
+                //}
 
                 return _documents;
             }

@@ -42,9 +42,9 @@ namespace Athena.UI
         [ObservableProperty]
         private byte[] _pdf;
 
-        private readonly Folder _parentFolder;
+        private readonly FolderViewModel _parentFolder;
 
-        public DocumentDetailsViewModel(Folder parentFolder, Document document)
+        public DocumentDetailsViewModel(FolderViewModel parentFolder, Document document)
         {
             Document = document;
             _parentFolder = parentFolder;
@@ -59,57 +59,28 @@ namespace Athena.UI
             IsSearchResult = true;
         }
 
-        public override async Task<bool> InitializeAsync()
+        public override async Task InitializeAsync()
         {
-            if (!DataStore.IsReady)
-                return false;
+            List<TagViewModel> allTags = new();
+            List<TagViewModel> selectedTags = new();
+            byte[] pdf = null;
 
-            await ExecuteAsyncBackgroundAction(async context =>
+            await ExecuteBackgroundAction(context =>
             {
-                byte[] pdf = Document.Pdf;
-
-                List<TagViewModel> allTags = new List<TagViewModel>(Tag.ReadAll(context).Select(x => new TagViewModel(x)));
-                List<TagViewModel> selectedTags = new List<TagViewModel>();
+                pdf = Document.Pdf;
+                allTags = new List<TagViewModel>(Tag.ReadAll(context).Select(x => new TagViewModel(x)));
+                selectedTags = new List<TagViewModel>();
 
                 foreach (TagViewModel tag in allTags)
                 {
                     if (Document.Tags.Any(x => x.Id == tag.Id))
                         selectedTags.Add(tag);
                 }
-
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                {
-                    AllTags = new(allTags);
-                    SelectedTags = new(selectedTags);
-                    Pdf = pdf;
-                });
             });
 
-            return true;
-        }
-
-        protected override void OnDataPublished(DataPublishedArgs data)
-        {
-            if (data.Documents.Any())
-            {
-                RequestUpdate<Document> updateDoc = data.Documents.FirstOrDefault(x => x.Entity.Id == Document.Document.Id);
-
-                if (updateDoc != null)
-                {
-                    if (updateDoc.Type == UpdateType.Edit)
-                    {
-                        Document.Name = updateDoc.Entity.Name;
-                    }
-                }
-            }
-
-            if (data.Tags.Any())
-            {
-                foreach (RequestUpdate<Tag> update in data.Tags)
-                {
-                    AllTags.Process(update);
-                }
-            }
+            AllTags = new(allTags);
+            SelectedTags = new(selectedTags);
+            Pdf = pdf;
         }
 
         [RelayCommand]
@@ -151,12 +122,8 @@ namespace Athena.UI
                 return;
 
             IContext context = RetrieveContext();
-
             Document.Document.Delete(context);
-
             await Toast.Make(string.Format(Localization.DocumentDeleted, Document.Name), ToastDuration.Long).Show();
-            Services.GetService<IDataBrokerService>().Publish<Document>(context, Document, UpdateType.Delete, _parentFolder?.Key);
-
             await PopAsync();
         }
 
@@ -192,8 +159,7 @@ namespace Athena.UI
         [RelayCommand]
         private async Task OpenSearchResult()
         {
-            await PushAsync(
-                new DocumentDetailsPdfView(Document.Pdf, Convert.ToInt32(_chapter.DocumentPageNumber)));
+            await PushAsync(new DocumentDetailsPdfView(Document.Pdf, Convert.ToInt32(_chapter.DocumentPageNumber)));
         }
 
         [RelayCommand]
@@ -234,15 +200,7 @@ namespace Athena.UI
             {
                 IContext context = RetrieveContext();
                 Document.Document.Delete(context);
-
                 await Toast.Make(string.Format(Localization.DocumentDeleted, name), ToastDuration.Long).Show();
-
-                Services.GetService<IDataBrokerService>().Publish(
-                    context,
-                    Document.Document,
-                    UpdateType.Delete,
-                    _parentFolder?.Key);
-
                 await PopAsync();
             }
         }

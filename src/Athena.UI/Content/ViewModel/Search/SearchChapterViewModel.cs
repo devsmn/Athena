@@ -39,40 +39,23 @@ namespace Athena.UI
 
         public ContentPage View { get; set; }
 
-        protected override void OnDataPublished(DataPublishedArgs data)
-        {
-            if (!data.Tags.Any() || _tags == null)
-                return;
-
-            Application.Current.Dispatcher.Dispatch(() =>
-            {
-                foreach (RequestUpdate<Tag> tagUpdate in data.Tags)
-                {
-                    Tags.Process(tagUpdate);
-
-                    if (tagUpdate.Type == UpdateType.Delete || tagUpdate.Type == UpdateType.Edit)
-                        SelectedTags.Process(tagUpdate);
-                }
-            });
-        }
-
         public SearchChapterViewModel()
         {
             SelectedTags = new();
+            Tags = new();
         }
 
-        public override async Task<bool> InitializeAsync()
+        public override async Task InitializeAsync()
         {
-            if (!DataStore.IsReady)
-                return false;
+            IEnumerable<TagViewModel> tags = null;
+            Tags.Clear();
 
             await ExecuteBackgroundAction(context =>
             {
-                IEnumerable<TagViewModel> tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
-                Tags = new(tags);
+                tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
             });
 
-            return true;
+            Tags = new(tags);
         }
 
         [RelayCommand]
@@ -93,16 +76,14 @@ namespace Athena.UI
                 return;
 
             BusyText = Localization.SearchRunning;
+            IEnumerable<SearchResult> results = Array.Empty<SearchResult>();
 
             await ExecuteBackgroundAction(context =>
             {
-                IEnumerable<SearchResult> results = Document.Search(context, text, SelectedTags.Select(x => x.Tag), IsFullTextSearch);
-                MainThread.InvokeOnMainThreadAsync(() =>
-                {
-                    SearchResult = new ObservableCollection<SearchResult>(results);
-                });
+                results = Document.Search(context, text, SelectedTags.Select(x => x.Tag), IsFullTextSearch);
             });
 
+            SearchResult = new(results);
             await View.Navigation.PushAsync(new SearchResultView(this));
             Interlocked.Exchange(ref _isSearchActive, 0);
         }

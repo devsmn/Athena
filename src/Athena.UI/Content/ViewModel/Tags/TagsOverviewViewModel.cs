@@ -55,58 +55,25 @@ namespace Athena.UI
             };
         }
 
-        public override async Task<bool> InitializeAsync()
+        public override async Task InitializeAsync()
         {
-            if (!DataStore.IsReady)
-                return false;
+            List<Tag> allTags = null;
 
             await ExecuteBackgroundAction(context =>
             {
-                var allTags = Tag.ReadAll(context).ToList();
-
-                if (allTags.Count == 0)
-                {
-                    Tags = new();
-                }
-                else
-                {
-                    Tags = new(allTags.Select(x => new TagViewModel(x)));
-                }
-
-                TagsAvailable = Tags.Count > 0;
+                allTags = Tag.ReadAll(context).ToList();
             });
 
-            return true;
-        }
-
-        protected override void OnDataPublished(DataPublishedArgs data)
-        {
-            if (!data.Tags.Any() || _tags == null)
-                return;
-
-            Application.Current.Dispatcher.Dispatch(() =>
+            if (allTags.Count == 0)
             {
-                foreach (RequestUpdate<Tag> tag in data.Tags)
-                {
-                    if (tag.Type == UpdateType.Edit)
-                    {
-                        Tag toEdit = Tags.FirstOrDefault(x => x.Id == tag.Entity.Id);
+                Tags = new();
+            }
+            else
+            {
+                Tags = new(allTags.Select(x => new TagViewModel(x)));
+            }
 
-                        if (toEdit == null)
-                            continue;
-
-                        Tags.Delete(toEdit);
-                        Tags.Add(new TagViewModel(tag));
-                    }
-                    else
-                    {
-
-                        Tags.Process(tag);
-                    }
-                }
-
-                TagsAvailable = Tags.Count > 0;
-            });
+            TagsAvailable = Tags.Count > 0;
         }
 
         [RelayCommand]
@@ -172,8 +139,11 @@ namespace Athena.UI
 
             SelectedTag.Save(context);
 
-            Services.GetService<IDataBrokerService>().Publish<Tag>(
-                context, SelectedTag, isNew ? UpdateType.Add : UpdateType.Edit);
+            if (isNew)
+            {
+                Tags.Add(SelectedTag);
+                TagsAvailable = true;
+            }
 
             SelectedTag = null;
             IsEditPopupOpen = false;
@@ -199,8 +169,8 @@ namespace Athena.UI
             if (delete)
             {
                 SelectedTag.Delete(context);
-
-                Services.GetService<IDataBrokerService>().Publish<Tag>(context, SelectedTag, UpdateType.Delete);
+                Tags.Remove(SelectedTag);
+                TagsAvailable = Tags.Count > 0;
                 await Toast.Make(string.Format(Localization.TagDeleted, SelectedTag.Name), ToastDuration.Long).Show();
             }
 

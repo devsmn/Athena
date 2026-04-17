@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Athena.DataModel;
 using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Athena.UI
@@ -27,7 +28,6 @@ namespace Athena.UI
                 }
             }
         }
-
 
         public string Name
         {
@@ -86,7 +86,7 @@ namespace Athena.UI
         }
     }
 
-    public class RootItemViewModel : ObservableObject, IVisualModel<RootItem>
+    public class RootItemViewModel : ObservableObject, IVisualModel
     {
         private readonly RootItem _rootItem;
 
@@ -119,6 +119,10 @@ namespace Athena.UI
             }
         }
 
+        [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.FolderVMTitleRequired))]
+        [StringLength(45, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.FolderVMTitleExceedCharLimit))]
+        [Display(ResourceType = typeof(Localization), Name = nameof(Localization.FolderVMName))]
+        [DataType(DataType.Text)]
         public string Name
         {
             get { return _rootItem.Name; }
@@ -129,6 +133,9 @@ namespace Athena.UI
             }
         }
 
+        [Display(ResourceType = typeof(Localization), Name = nameof(Localization.FolderVMComment))]
+        [StringLength(80, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.FolderVMCommentExceedCharLimit))]
+        [DataType(DataType.MultilineText)]
         public string Comment
         {
             get { return _rootItem.Comment; }
@@ -166,15 +173,15 @@ namespace Athena.UI
         {
         }
 
-        public void Edit(RootItem entity)
+        public void Delete(IContext context)
         {
             if (IsFolder)
             {
-                _rootItem.Folder.Edit(entity.Folder);
+                Folder.Folder.Delete(context);
             }
             else
             {
-                _rootItem.Document.Edit(entity.Document);
+                Document.Document.Delete(context);
             }
         }
     }

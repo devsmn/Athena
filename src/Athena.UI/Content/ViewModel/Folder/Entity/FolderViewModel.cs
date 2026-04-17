@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Athena.DataModel;
 using Athena.DataModel.Core;
-using Athena.Resources.Localization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Athena.UI
 {
-    public partial class FolderViewModel : ObservableObject, IVisualModel<Folder>
+    public partial class FolderViewModel : ObservableObject, IVisualModel
     {
         private readonly Folder _folder;
 
@@ -82,10 +81,6 @@ namespace Athena.UI
             }
         }
 
-        [Required(AllowEmptyStrings = false, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.FolderVMTitleRequired))]
-        [StringLength(45, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.FolderVMTitleExceedCharLimit))]
-        [Display(ResourceType = typeof(Localization), Name = nameof(Localization.FolderVMName))]
-        [DataType(DataType.Text)]
         public string Name
         {
             get { return _folder.Name; }
@@ -96,9 +91,6 @@ namespace Athena.UI
             }
         }
 
-        [Display(ResourceType = typeof(Localization), Name = nameof(Localization.FolderVMComment))]
-        [StringLength(80, ErrorMessageResourceType = typeof(Localization), ErrorMessageResourceName = nameof(Localization.FolderVMCommentExceedCharLimit))]
-        [DataType(DataType.MultilineText)]
         public string Comment
         {
             get { return _folder.Comment; }
@@ -112,36 +104,6 @@ namespace Athena.UI
         public FolderViewModel(Folder folder)
         {
             _folder = folder;
-        }
-
-        public void DeleteFolder(Folder toDelete)
-        {
-            Folder delete = Folder.Folders.FirstOrDefault(x => x.Key.Id == toDelete.Id);
-
-            if (delete == null)
-                return;
-
-            Folder.Folders.Remove(delete);
-        }
-
-        public void DeleteDocument(Document toDelete)
-        {
-            Document delete = Folder.Documents.FirstOrDefault(x => x.Key.Id == toDelete.Id);
-
-            if (delete == null)
-                return;
-
-            Folder.Documents.Remove(delete);
-        }
-
-        public static implicit operator Folder(FolderViewModel viewModel)
-        {
-            return viewModel.Folder;
-        }
-
-        public static implicit operator FolderViewModel(Folder folder)
-        {
-            return new FolderViewModel(folder);
         }
     }
 }

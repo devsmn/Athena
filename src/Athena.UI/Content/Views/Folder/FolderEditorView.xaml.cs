@@ -2,11 +2,11 @@
 {
     using DataModel;
 
-    public partial class FolderEditorView : ContentPage
+    public partial class FolderEditorView : DefaultContentPage
     {
-        public FolderEditorView(Folder folderToEdit, Folder parentFolder)
+        public FolderEditorView(RootItemViewModel folderToEdit)
         {
-            BindingContext = new FolderEditorViewModel(folderToEdit, parentFolder);
+            BindingContext = new FolderEditorViewModel(folderToEdit, DoneTcs);
             InitializeComponent();
         }
     }

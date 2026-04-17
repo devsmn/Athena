@@ -106,10 +106,6 @@ namespace Athena.Data.SQLite
                 {
                     subFolder.Save(context);
                 }
-                else
-                {
-                    return; // TODO
-                }
 
                 SQLiteConnectionWithLock connection = Database.GetConnection();
 
@@ -120,7 +116,6 @@ namespace Athena.Data.SQLite
                 command.Bind("@FDFD_creationDate", DateTime.UtcNow);
                 command.Bind("@FDFD_modDate", DateTime.UtcNow);
                 command.ExecuteNonQuery();
-
             }
             catch (Exception ex)
             {

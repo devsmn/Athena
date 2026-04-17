@@ -8,9 +8,10 @@ namespace Athena.DataModel
         /// Adds the given <paramref name="folder"/> to this <see cref="Folder"/>.
         /// </summary>
         /// <param name="folder"></param>
-        public void AddFolder(Folder folder)
+        public void AddFolder(IContext context, Folder folder)
         {
             Folders.Add(folder);
+            DataStore.Resolve<IFolderRepository>().AddFolder(context, this, folder);
         }
 
         /// <summary>

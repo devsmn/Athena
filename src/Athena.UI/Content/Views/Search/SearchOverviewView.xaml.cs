@@ -15,6 +15,12 @@ public partial class SearchOverviewView : DefaultContentPage
         _vm.View = this;
     }
 
+    protected override void OnNavigatedTo(object sender, NavigatedToEventArgs e)
+    {
+        Initialized = false;
+        base.OnNavigatedTo(sender, e);
+    }
+
     private void SfChipGroup_OnSelectionChanged(object sender, Syncfusion.Maui.Core.Chips.SelectionChangedEventArgs e)
     {
         if (sender is not SfChipGroup chips)

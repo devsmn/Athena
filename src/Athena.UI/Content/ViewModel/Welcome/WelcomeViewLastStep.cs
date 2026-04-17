@@ -16,7 +16,7 @@ namespace Athena.UI
             vm.PrefService.SetFirstUsage();
             vm.PrefService.SetName(vm.Name);
             vm.PrefService.SetLastTermsOfUseVersion(IPreferencesService.ToSVersion);
-            await vm.LanguageService.SetLanguage(context, vm.SelectedLanguage.Id, false);
+            vm.LanguageService.SetLanguage(context, vm.SelectedLanguage.Id);
             _doneTcs.SetResult();
         }
     }

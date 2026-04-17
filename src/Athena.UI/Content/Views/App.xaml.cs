@@ -28,7 +28,7 @@ namespace Athena.UI
             }
 
             ILanguageService languageService = Services.GetService<ILanguageService>();
-            languageService.SetLanguage(new AthenaAppContext(), lan, false);
+            languageService.SetLanguage(new AthenaAppContext(), lan);
 
             InitializeComponent();
         }

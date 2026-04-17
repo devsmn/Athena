@@ -12,7 +12,7 @@ namespace Athena.UI
     /// <summary>
     /// Provides the viewmodel for a <see cref="Athena.DataModel.Document"/>.
     /// </summary>
-    public class DocumentViewModel : ObservableObject, IVisualModel<Document>
+    public class DocumentViewModel : ObservableObject, IVisualModel
     {
         private readonly Document _document;
         private string _imageLocation;

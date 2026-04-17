@@ -6,7 +6,6 @@ using Athena.DataModel;
 using Athena.DataModel.Core;
 using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Storage;
-using LocalizationResourceManager.Maui;
 
 namespace Athena.UI
 {
@@ -31,14 +30,7 @@ namespace Athena.UI
 
     public class DefaultBackupService : IBackupService
     {
-        private readonly ICompressionService _compressionService;
-
-        public DefaultBackupService()
-        {
-            _compressionService = Services.GetService<ICompressionService>();
-        }
-
-        public async Task<FileSaverResult> Create(IContext context)
+        public async Task<FileSaverResult> CreateAsync(IContext context)
         {
             try
             {
@@ -84,7 +76,7 @@ namespace Athena.UI
             return null;
         }
 
-        public async Task<BackupRestoreResult> Restore(
+        public async Task<BackupRestoreResult> RestoreAsync(
             IContext context,
             string path,
             Func<string, string, string, Task<bool>> requireUserConfirmation,

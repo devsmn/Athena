@@ -141,7 +141,7 @@ namespace Athena.UI
                 return;
             }
 
-            await _languageService.SetLanguage(RetrieveContext(), SelectedLanguage.Id, true);
+            _languageService.SetLanguage(RetrieveContext(), SelectedLanguage.Id);
             await Toast.Make(string.Format(Localization.LanguageChangedTo, SelectedLanguage.Name)).Show();
         }
     }

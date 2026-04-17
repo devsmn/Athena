@@ -13,7 +13,9 @@ namespace Athena.UI
     {
         public static string AppPrefix = "Athena: AI Document Manager";
 
-        public async Task<byte[]> CreateAsync(
+        public Action<string> Report { get; set; }
+
+        public async Task<byte[]> FromImages(
             IContext context,
             PdfCreationSummary summary,
             string name,
@@ -120,7 +122,5 @@ namespace Athena.UI
 
             return pdf;
         }
-
-        public Action<string> Report { get; set; }
     }
 }

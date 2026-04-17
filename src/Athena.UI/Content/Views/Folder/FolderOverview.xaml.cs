@@ -1,9 +1,11 @@
-﻿using Syncfusion.Maui.Popup;
+﻿using AndroidX.Lifecycle;
+using Syncfusion.Maui.Core.Carousel;
+using Syncfusion.Maui.Popup;
 using ItemLongPressEventArgs = Syncfusion.Maui.ListView.ItemLongPressEventArgs;
 
 namespace Athena.UI;
 
-public partial class FolderOverview : ContentPage
+public partial class FolderOverview : DefaultContentPage
 {
     private readonly FolderOverviewViewModel _viewModel;
 
@@ -14,11 +16,16 @@ public partial class FolderOverview : ContentPage
 
     public FolderOverview(FolderViewModel parentFolder)
     {
-        BindingContext = new FolderOverviewViewModel(parentFolder);
+        _viewModel = new FolderOverviewViewModel(parentFolder);
+        BindingContext = _viewModel;
         InitializeComponent();
+    }
 
-        _viewModel = BindingContext as FolderOverviewViewModel;
-        _viewModel.LoadData();
+    protected override void OnNavigatedTo(object sender, NavigatedToEventArgs e)
+    {
+        // Always reload everything.
+        Initialized = false;
+        base.OnNavigatedTo(sender, e);
     }
 
     private void ListView_OnItemLongPress(object sender, ItemLongPressEventArgs e)

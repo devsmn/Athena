@@ -15,38 +15,6 @@ namespace Athena.UI
 
         public TaskCompletionSource DoneTcs { get; protected set; }
 
-        public ContextViewModel()
-        {
-            WeakReferenceMessenger.Default.Register<DataPublishedArgs>(this, (_, data) => OnDataPublished(data));
-            WeakReferenceMessenger.Default.Register<DataPublishStartedMessage>(this, (_, _) => OnPublishDataStarted());
-            WeakReferenceMessenger.Default.Register<AppInitializedMessage>(this, (_, _) => OnAppInitialized());
-        }
-
-        /// <summary>
-        /// Invoked when the app is initialized.
-        /// </summary>
-        protected virtual void OnAppInitialized()
-        {
-            // Nothing to do.
-        }
-
-        /// <summary>
-        /// Invoked when the system starts to publish data.
-        /// </summary>
-        protected virtual void OnPublishDataStarted()
-        {
-            // Nothing to do.
-        }
-
-        /// <summary>
-        /// Invoked when data is published.
-        /// </summary>
-        /// <param name="data"></param>
-        protected virtual void OnDataPublished(DataPublishedArgs data)
-        {
-            //  Nothing to do.
-        }
-
         [DebuggerStepThrough]
         protected IContext RetrieveContext()
         {
@@ -188,26 +156,36 @@ namespace Athena.UI
         }
 
         /// <summary>
-        /// Executes an longer-running background action while displaying a wait indicator.
+        /// Executes a longer-running background action while displaying a wait indicator.
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
         protected async Task ExecuteBackgroundAction(Action<IContext> action)
         {
-            await MainThread.InvokeOnMainThreadAsync(() => IsBusy = true);
+            IContext context = RetrieveReportContext();
 
-            await Task.Run(async () =>
+            try
             {
-                await Task.Delay(100);
-                action(RetrieveReportContext());
-            });
+                IsBusy = true;
 
-            await MainThread.InvokeOnMainThreadAsync(() => IsBusy = false);
+                await Task.Run(async () =>
+                {
+                    await Task.Delay(200);
+                    action(context);
+                });
+            }
+            catch (Exception ex)
+            {
+                context.Log(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
-        public async virtual Task<bool> InitializeAsync()
+        public async virtual Task InitializeAsync()
         {
-            return true;
         }
     }
 }

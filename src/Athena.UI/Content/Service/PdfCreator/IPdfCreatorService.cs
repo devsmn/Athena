@@ -15,7 +15,7 @@ namespace Athena.UI
         /// <param name="detectText"></param>
         /// <param name="pdfText"></param>
         /// <returns></returns>
-        Task<byte[]> CreateAsync(
+        Task<byte[]> FromImages(
             IContext context,
             PdfCreationSummary summary,
             string name,

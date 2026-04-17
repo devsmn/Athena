@@ -7,7 +7,7 @@ namespace Athena.UI
     {
         private readonly DocumentDetailsViewModel _vm;
 
-        public DocumentDetailsView(Folder parentFolder, Document document)
+        public DocumentDetailsView(FolderViewModel parentFolder, Document document)
         {
             _vm = new DocumentDetailsViewModel(parentFolder, document);
             BindingContext = _vm;
