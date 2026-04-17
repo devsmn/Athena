@@ -19,7 +19,7 @@ namespace Athena.Resources.Localization {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Localization {
@@ -185,6 +185,15 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter the encryption key to unlock the backup.
+        /// </summary>
+        public static string BackupRestoreEncryptionKeyPrompt {
+            get {
+                return ResourceManager.GetString("BackupRestoreEncryptionKeyPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to restore backup.
         /// </summary>
         public static string BackupRestoreFailed {
@@ -261,7 +270,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To restore a backup on a different device or after reinstalling Athena, you will need the encryption key to access the data.
+        ///   Looks up a localized string similar to To restore a backup, you will need the encryption key to access the data.
         ///Please note that the key is not your password..
         /// </summary>
         public static string BackupShowEncryptionKeyPreInfo {
@@ -404,6 +413,15 @@ namespace Athena.Resources.Localization {
         public static string DeleteFolderConfirm {
             get {
                 return ResourceManager.GetString("DeleteFolderConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete installed languages.
+        /// </summary>
+        public static string DeleteInstalledLanguagesConfirmTitle {
+            get {
+                return ResourceManager.GetString("DeleteInstalledLanguagesConfirmTitle", resourceCulture);
             }
         }
         
@@ -1261,11 +1279,20 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The password is required and used to encrypt your data. Please make sure you do not forget your password. Once encrypted, your data can only be accessed with your password or biometrics. If you forget your password, your data is lost and cannot be recovered. .
+        ///   Looks up a localized string similar to The password is required and used to encrypt your data. Please make sure you do not forget your password. Once encrypted, your data can only be accessed with your password or biometrics. If you forget your password, your data is lost and cannot be recovered..
         /// </summary>
         public static string PasswordDescription {
             get {
                 return ResourceManager.GetString("PasswordDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incorrect password!.
+        /// </summary>
+        public static string PasswordIncorrect {
+            get {
+                return ResourceManager.GetString("PasswordIncorrect", resourceCulture);
             }
         }
         
@@ -1284,6 +1311,24 @@ namespace Athena.Resources.Localization {
         public static string PasswordNewHint {
             get {
                 return ResourceManager.GetString("PasswordNewHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your password.
+        /// </summary>
+        public static string PasswordPrompt {
+            get {
+                return ResourceManager.GetString("PasswordPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter password to unlock your data.
+        /// </summary>
+        public static string PasswordUnlockData {
+            get {
+                return ResourceManager.GetString("PasswordUnlockData", resourceCulture);
             }
         }
         
@@ -1635,6 +1680,15 @@ namespace Athena.Resources.Localization {
         public static string SettingsCopyrightTitle {
             get {
                 return ResourceManager.GetString("SettingsCopyrightTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Document scanner.
+        /// </summary>
+        public static string SettingsDocumentScanner {
+            get {
+                return ResourceManager.GetString("SettingsDocumentScanner", resourceCulture);
             }
         }
         

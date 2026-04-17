@@ -242,7 +242,7 @@ namespace Athena.UI
                     {
                         context.Log("Requesting fallback access to database");
                         string pin = string.Empty;
-                        await passwordService.Prompt(context, !firstTry, (str) => pin = str);
+                        await passwordService.Prompt(context, Localization.PasswordUnlockData, !firstTry, (str) => pin = str);
 
                         await encryptionService.ReadFallbackAsync(
                             context,

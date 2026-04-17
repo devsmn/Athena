@@ -1,6 +1,7 @@
 ﻿using Athena.Data.Core;
 using Athena.Data.SQLite.Proxy;
 using Athena.DataModel.Core;
+using Athena.Resources.Localization;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -64,6 +65,7 @@ namespace Athena.UI
 
                     await _passwordService.Prompt(
                         context,
+                        Localization.PasswordUnlockData,
                         !firstTry,
                         (str) => pin = str,
                         () => cancelled = true);
