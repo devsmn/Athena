@@ -630,7 +630,7 @@ Stelle sicher, dass die gewünschten Sprachen in den Einstellungen unter Texterk
     <value>Bitte wähle deine Sprache</value>
   </data>
   <data name="WelcomeTitle" xml:space="preserve">
-    <value>Danke für das Herunterladen der Athena: AI Document Manager App!</value>
+    <value>Danke für das Herunterladen der Athena: Simple Document Manager App!</value>
     <comment>Thank you for downloading the Athena: AI Document Manager app</comment>
   </data>
   <data name="WelcomeYourNamePlaceholder" xml:space="preserve">
