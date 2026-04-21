@@ -2027,7 +2027,7 @@ namespace Athena.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thank you for downloading the Athena: AI Document Manager app!.
+        ///   Looks up a localized string similar to Thank you for downloading the Athena: Simple Document Manager app!.
         /// </summary>
         public static string WelcomeTitle {
             get {

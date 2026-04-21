@@ -11,7 +11,7 @@ namespace Athena.UI
 {
     internal class DefaultPdfCreatorService : IPdfCreatorService
     {
-        public static string AppPrefix = "Athena: AI Document Manager";
+        public static string AppPrefix = "Athena: Simple Document Manager";
 
         public Action<string> Report { get; set; }
 
