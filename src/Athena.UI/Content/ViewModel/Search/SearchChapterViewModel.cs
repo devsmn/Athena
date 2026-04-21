@@ -47,14 +47,21 @@ namespace Athena.UI
 
         public override async Task InitializeAsync()
         {
-            IEnumerable<TagViewModel> tags = null;
-            Tags.Clear();
+            List<TagViewModel> tags = null;
 
             await ExecuteBackgroundAction(context =>
             {
-                tags = Tag.ReadAll(context).Select(x => new TagViewModel(x));
+                tags = Tag.ReadAll(context).Select(x => new TagViewModel(x)).ToList();
             });
 
+            if (tags.Count == Tags.Count)
+            {
+                // Assume nothing has changed. Tags usually don't change anyway.
+                return;
+            }
+
+            Tags.Clear();
+            SelectedTags.Clear();
             Tags = new(tags);
         }
 
