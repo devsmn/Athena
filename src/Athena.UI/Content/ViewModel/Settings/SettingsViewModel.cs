@@ -45,13 +45,13 @@ namespace Athena.UI
                     nameof(Localization.SettingsPrivacyPolicyTitle),
                     nameof(Localization.SettingsPrivacyPolicyDesc),
                     "privacy.png",
-                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/tos/")),
+                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/privacy/")),
 
                 new(
                     nameof(Localization.SettingsTermsOfUseTitle),
                     nameof(Localization.SettingsTermsOfUseDesc),
                     "terms_and_conditions.png",
-                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/privacy/")),
+                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/tos/")),
 
                 new(
                     nameof(Localization.SettingsCopyrightTitle),
@@ -63,13 +63,13 @@ namespace Athena.UI
                     nameof(Localization.SettingsNewsTitle),
                     nameof(Localization.SettingsNewsDesc),
                     "news.png",
-                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/app_changelog/")),
+                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/changelog/")),
 
                 new(
                     nameof(Localization.SettingsHelpTitle),
                     nameof(Localization.SettingsHelpDesc),
                     "help.png",
-                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/app_help/")),
+                    () => OpenSettings<WebViewPage>("https://athena.devsmn.de/walkthrough/")),
 
                 new(
                     nameof(Localization.SettingsFeedbackTitle),
