@@ -1,0 +1,79 @@
+name: Release checklist
+description: Checklist for releasing a new version
+body:
+  - type: input
+    id: i_version
+    attributes:
+      label: Version String
+      description: Readable version, e.g. 2.1.0
+      placeholder: 2.1.0
+    validations:
+      required: true
+  - type: input
+    id: i_versionCode
+    attributes:
+      label: Version Code
+      description: Continious numeric value, e.g. 241
+      placeholder: '241'
+    validations:
+      required: true
+  - type: dropdown
+    id: cbx_releaseType
+    attributes:
+      label: Type
+      description: Release type according to semver
+      options:
+        - Bugfix
+        - Minor
+        - Major
+    validations:
+      required: true
+  - type: checkboxes
+    id: chk_prsClosed
+    attributes:
+      label: Code prerequisites
+      description: >-
+        Code-related things that need to be done before a new version can be
+        released
+      options:
+        - label: All pull requests are closed
+          required: true
+        - label: All issues with version label are closed
+          required: true
+        - label: Version is correct
+          required: true
+        - label: Version was tested with supported android versions
+          required: true
+  - type: checkboxes
+    id: chk_legal
+    attributes:
+      label: Documentation prerequisites
+      description: The following documentations should be up to date
+      options:
+        - label: Walkthrough
+          required: false
+        - label: Help/FAQ
+          required: false
+        - label: ToS
+          required: false
+        - label: Privacy policy
+          required: false
+        - label: Copyright
+          required: false
+  - type: checkboxes
+    id: chk_aftercare
+    attributes:
+      label: Aftercare
+      description: Things to do after a new version was released
+      options:
+        - label: Create latest release post
+          required: true
+        - label: Update release notes
+          required: true
+        - label: Notify users if feedback was implemented
+          required: false
+  - type: markdown
+    attributes:
+      value: >-
+        This template was generated with [Issue Forms
+        Creator](https://issue-forms-creator.netlify.app)
