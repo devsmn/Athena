@@ -1,5 +1,9 @@
 name: Release checklist
 description: Checklist for releasing a new version
+assignees:
+  - devsmn
+labels:
+  - release
 body:
   - type: input
     id: i_version
@@ -72,8 +76,3 @@ body:
           required: false
         - label: Notify users if feedback was implemented
           required: false
-  - type: markdown
-    attributes:
-      value: >-
-        This template was generated with [Issue Forms
-        Creator](https://issue-forms-creator.netlify.app)
