@@ -37,13 +37,13 @@ body:
         released
       options:
         - label: All pull requests are closed
-          required: true
+          required: false
         - label: All issues with version label are closed
-          required: true
+          required: false
         - label: Version is correct
-          required: true
+          required: false
         - label: Version was tested with supported android versions
-          required: true
+          required: false
   - type: checkboxes
     id: chk_legal
     attributes:
@@ -67,9 +67,9 @@ body:
       description: Things to do after a new version was released
       options:
         - label: Create latest release post
-          required: true
+          required: false
         - label: Update release notes
-          required: true
+          required: false
         - label: Notify users if feedback was implemented
           required: false
   - type: markdown
