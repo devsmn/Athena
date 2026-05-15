@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
-    <AppVersion>203</AppVersion>
+    <AppVersion>204</AppVersion>
     <AppDisplayVersion>2.1.0</AppDisplayVersion>
   </PropertyGroup>
 </Project>
