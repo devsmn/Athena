@@ -269,7 +269,7 @@ namespace Athena.UI
 
                 if (prefService.GetLastUsedVersion() != compatService.GetCurrentVersion())
                 {
-                    await PushModalAsync(new WebViewPage("https://athena.devsmn.de/app_latest_release/"));
+                    await PushModalAsync(new WebViewPage("https://athena.devsmn.de/latest_release/"));
                 }
 
                 service.SetRootFolder(rootFolder);
@@ -279,7 +279,6 @@ namespace Athena.UI
                     Document.ReadRecent(context, MAX_RECENT_DOCUMENTS).Select(x => new DocumentViewModel(x)));
 
                 Application.Current.Dispatcher.StartTimer(TimeSpan.FromMinutes(5), UpdateCounterStats);
-
                 compatService.UpdateLastUsedVersion(context);
                 MainThread.BeginInvokeOnMainThread(() => IsBusy = false);
             });
