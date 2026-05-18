@@ -1,0 +1,73 @@
+name: Android Release (Internal Test)
+
+on:
+  workflow_dispatch:
+    inputs: 
+        display_version:
+        description: "App display version (e.g. 2.1.0)"
+        required: true
+        default: "2.1.0"
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    env:
+      PROJECT_PATH: Athena.UI.csproj
+      PACKAGE_NAME: com.spflaum.athena
+      VERSION_OFFSET: 204
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Install MAUI workload
+        run: dotnet workload install maui
+
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > signing.keystore
+
+      - name: Set version code
+        run: |
+          VERSION_CODE=$((VERSION_OFFSET + GITHUB_RUN_NUMBER))
+          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+          echo "VersionCode: $VERSION_CODE"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build Android AAB
+        run: |
+          dotnet publish $PROJECT_PATH \
+            -f net9.0-android \
+            -c Release \
+            /p:AndroidPackageFormat=aab \
+            /p:ApplicationVersion=$VERSION_CODE \
+            /p:ApplicationDisplayVersion=$DISPLAY_VERSION \
+            /p:AndroidKeyStore=true \
+            /p:AndroidSigningKeyStore=signing.keystore \
+            /p:AndroidSigningStorePass="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
+            /p:AndroidSigningKeyAlias="${{ secrets.ANDROID_KEY_ALIAS }}" \
+            /p:AndroidSigningKeyPass="${{ secrets.ANDROID_KEY_PASSWORD }}"
+
+      - name: Find AAB
+        id: find_aab
+        run: |
+          AAB_PATH=$(find . -type f -name "*.aab" | head -n 1)
+          echo "AAB_PATH=$AAB_PATH"
+          echo "AAB_PATH=$AAB_PATH" >> $GITHUB_ENV
+
+      - name: Upload to Google Play Internal
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_JSON }}
+          packageName: ${{ env.PACKAGE_NAME }}
+          releaseFiles: ${{ env.AAB_PATH }}
+          track: internal
+          status: completed
