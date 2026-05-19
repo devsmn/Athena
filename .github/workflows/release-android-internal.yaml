@@ -63,6 +63,10 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore $PROJECT_PATH
 
+      - name: Fix all gradlew permissions
+        run: |
+          find . -name "gradlew" -exec chmod +x {} \;
+
       - name: Build Android AAB
         run: |
           dotnet publish $PROJECT_PATH \
