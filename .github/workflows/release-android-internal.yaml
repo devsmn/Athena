@@ -27,7 +27,7 @@ jobs:
           dotnet-version: 9.0.x
 
       - name: Install MAUI workload
-        run: dotnet workload install maui
+        run: dotnet workload install android
 
       - name: Decode keystore
         run: |
