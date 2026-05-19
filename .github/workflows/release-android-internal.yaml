@@ -15,7 +15,7 @@ jobs:
     env:
       PROJECT_PATH: Athena.UI.csproj
       PACKAGE_NAME: com.spflaum.athena
-      VERSION_OFFSET: 204
+      VERSION_OFFSET: 300
 
     steps:
       - name: Checkout
