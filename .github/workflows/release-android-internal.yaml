@@ -39,8 +39,29 @@ jobs:
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
           echo "VersionCode: $VERSION_CODE"
 
+      - name: Create Syncfusion license file
+        run: |
+          cat <<EOF > app.secrets.dev.props
+          <Project>
+            <PropertyGroup>
+              <SyncfusionLicenseKey>${{ secrets.SYNCFUSION_KEY }}</SyncfusionLicenseKey>
+            </PropertyGroup>
+          </Project>
+          EOF
+
+      - name: Create app-id file
+        run: |
+          cat <<EOF > app.secrets.prod.props
+          <Project>
+            <PropertyGroup>
+              <AdMobBannerId>${{ secrets.AD_MOB_BANNER_ID }}</AdMobBannerId>
+              <AdMobInterstitialId>${{ secrets.AD_MOB_INTERSTITIAL_ID }}</AdMobInterstitialId>
+            </PropertyGroup>
+          </Project>
+          EOF
+
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore $PROJECT_PATH
 
       - name: Build Android AAB
         run: |
