@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PROJECT_PATH: Athena.UI.csproj
+      PROJECT_PATH: src/Athena.UI/Athena.UI.csproj
       PACKAGE_NAME: com.spflaum.athena
-      VERSION_OFFSET: 204
+      VERSION_OFFSET: 300
 
     steps:
       - name: Checkout
@@ -26,41 +26,89 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      - name: Install MAUI workload
-        run: dotnet workload install maui
+      - name: Install workloads
+        run: dotnet workload install maui-android
 
       - name: Decode keystore
+        shell: bash
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > signing.keystore
+            printf '%s' '${{ secrets.ANDROID_KEYSTORE_BASE64 }}' | base64 -d > "$GITHUB_WORKSPACE/signing.keystore"
 
+      - name: Check keystore size
+        run: |
+            ls -lh "$GITHUB_WORKSPACE/signing.keystore"
+          
       - name: Set version code
         run: |
           VERSION_CODE=$((VERSION_OFFSET + GITHUB_RUN_NUMBER))
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
           echo "VersionCode: $VERSION_CODE"
 
+      - name: Create Syncfusion license file
+        run: |
+          cat <<EOF > app.secrets.dev.props
+          <Project>
+            <PropertyGroup>
+              <SyncfusionLicenseKey>${{ secrets.SYNCFUSION_KEY }}</SyncfusionLicenseKey>
+            </PropertyGroup>
+          </Project>
+          EOF
+
+      - name: Create app-id file
+        run: |
+          cat <<EOF > app.secrets.prod.props
+          <Project>
+            <PropertyGroup>
+              <AdMobBannerId>${{ secrets.AD_MOB_BANNER_ID }}</AdMobBannerId>
+              <AdMobInterstitialId>${{ secrets.AD_MOB_INTERSTITIAL_ID }}</AdMobInterstitialId>
+            </PropertyGroup>
+          </Project>
+          EOF
+
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore $PROJECT_PATH
+
+      - name: Fix all gradlew permissions
+        run: |
+          find . -name "gradlew" -exec chmod +x {} \;
+
+      - name: Configure Java for PKCS12
+        run: |
+          echo "JAVA_TOOL_OPTIONS=-Dkeystore.type=pkcs12" >> $GITHUB_ENV
+
+      - name: Verify keystore and alias
+        run: |
+             keytool -list \
+              -v \
+              -storetype PKCS12 \
+              -keystore "$GITHUB_WORKSPACE/signing.keystore" \
+              -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
 
       - name: Build Android AAB
+        shell: bash
         run: |
-          dotnet publish $PROJECT_PATH \
+          dotnet publish "$PROJECT_PATH" \
             -f net9.0-android \
             -c Release \
-            /p:AndroidPackageFormat=aab \
-            /p:ApplicationVersion=$VERSION_CODE \
-            /p:ApplicationDisplayVersion=$DISPLAY_VERSION \
-            /p:AndroidKeyStore=true \
-            /p:AndroidSigningKeyStore=signing.keystore \
-            /p:AndroidSigningStorePass="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
-            /p:AndroidSigningKeyAlias="${{ secrets.ANDROID_KEY_ALIAS }}" \
-            /p:AndroidSigningKeyPass="${{ secrets.ANDROID_KEY_PASSWORD }}"
+            -p:AndroidPackageFormat=aab \
+            -p:ApplicationVersion="$VERSION_CODE" \
+            -p:ApplicationDisplayVersion="${{ github.event.inputs.display_version }}" \
+            -p:AndroidKeyStore=true \
+            -p:AndroidSigningKeyStore="$GITHUB_WORKSPACE/signing.keystore" \
+            -p:AndroidSigningStorePass="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
+            -p:AndroidSigningKeyAlias="${{ secrets.ANDROID_KEY_ALIAS }}" \
+            -p:AndroidSigningKeyPass="${{ secrets.ANDROID_KEY_PASSWORD }}" \
+            --no-restore
 
-      - name: Find AAB
-        id: find_aab
+      - name: Find signed AAB
         run: |
-          AAB_PATH=$(find . -type f -name "*.aab" | head -n 1)
-          echo "AAB_PATH=$AAB_PATH"
+          AAB_PATH=$(find . -type f -name "*Signed*.aab" | head -n 1)
+
+          if [ -z "$AAB_PATH" ]; then
+            AAB_PATH=$(find . -type f -name "*.aab" | head -n 1)
+          fi
+
+          echo "Using AAB: $AAB_PATH"
           echo "AAB_PATH=$AAB_PATH" >> $GITHUB_ENV
 
       - name: Upload to Google Play Internal
