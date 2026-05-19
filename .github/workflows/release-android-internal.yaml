@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PROJECT_PATH: Athena.UI.csproj
+      PROJECT_PATH: src/Athena.UI/Athena.UI.csproj
       PACKAGE_NAME: com.spflaum.athena
       VERSION_OFFSET: 300
 
