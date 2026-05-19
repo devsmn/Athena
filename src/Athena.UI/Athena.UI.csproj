@@ -377,6 +377,11 @@
     <Folder Include="Content\Views\Core\" />
   </ItemGroup>
 
+<Target Name="DebugProps" BeforeTargets="GenerateSecretConfig">
+  <Message Importance="high" Text="AdMobBannerId=$(AdMobBannerId)" />
+  <Message Importance="high" Text="AdMobInterstitialId=$(AdMobInterstitialId)" />
+</Target>
+
   <Target Name="GenerateSecretConfig"
         BeforeTargets="CoreCompile"
         DependsOnTargets="ResolveProjectReferences">
