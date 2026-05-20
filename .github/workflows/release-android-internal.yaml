@@ -31,7 +31,7 @@ jobs:
 
       - name: Decode keystore
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > signing.keystore
+           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > src/Athena.UI/signing.keystore
 
       - name: Set version code
         run: |
