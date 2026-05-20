@@ -382,7 +382,7 @@
   <Message Importance="high" Text="AdMobInterstitialId=$(AdMobInterstitialId)" />
 </Target>
 
- <Target Name="GenerateSecretConfig"
+<Target Name="GenerateSecretConfig"
         BeforeTargets="CoreCompile">
 
   <PropertyGroup>
@@ -391,9 +391,9 @@ namespace Athena.UI
 {
     public static partial class SecretConfig
     {
-        public const string BannerAdUnitId = "$(AdMobBannerId)";
-        public const string InterstitialAdUnitId = "$(AdMobInterstitialId)";
-        public const string SyncfusionLicenseKey = "$(SyncfusionLicenseKey)";
+        public const string BannerAdUnitId = "$(AdMobBannerId)"&#59;
+        public const string InterstitialAdUnitId = "$(AdMobInterstitialId)"&#59;
+        public const string SyncfusionLicenseKey = "$(SyncfusionLicenseKey)"&#59;
     }
 }
     </GeneratedSecretConfig>
