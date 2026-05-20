@@ -391,9 +391,9 @@ namespace Athena.UI
 {
     public static partial class SecretConfig
     {
-        public const string BannerAdUnitId = "$(AdMobBannerId)"&#59;
-        public const string InterstitialAdUnitId = "$(AdMobInterstitialId)"&#59;
-        public const string SyncfusionLicenseKey = "$(SyncfusionLicenseKey)"&#59;
+        public const string BannerAdUnitId = &quot;$(AdMobBannerId)&quot; %3B&#xD;&#xA;
+        public const string InterstitialAdUnitId = &quot;$$(AdMobInterstitialId)&quot; %3B&#xD;&#xA;
+        public const string SyncfusionLicenseKey = &quot;$$(SyncfusionLicenseKey)&quot; %3B&#xD;&#xA;
     }
 }
     </GeneratedSecretConfig>
