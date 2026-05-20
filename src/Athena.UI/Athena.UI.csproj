@@ -383,10 +383,30 @@
 </Target>
 
  <Target Name="GenerateSecretConfig"
-        BeforeTargets="CoreCompile"
-        Inputs="$(AdMobBannerId);$(AdMobInterstitialId);$(SyncfusionLicenseKey)"
-        Outputs="$(IntermediateOutputPath)SecretConfig.g.cs">
-    <WriteLinesToFile File="$(IntermediateOutputPath)SecretConfig.g.cs"
-    Overwrite="true" Lines="&#xD;&#xA;namespace Athena.UI {&#xD;&#xA;    public static partial class SecretConfig {&#xD;&#xA;        public const string BannerAdUnitId = &quot;$(AdMobBannerId)&quot; %3B&#xD;&#xA;        public const string InterstitialAdUnitId = &quot;$(AdMobInterstitialId)&quot; %3B&#xD;&#xA;        public const string SyncfusionLicenseKey = &quot;$(SyncfusionLicenseKey)&quot; %3B&#xD;&#xA;    }&#xD;&#xA;}" />
-  </Target>
+        BeforeTargets="CoreCompile">
+
+  <PropertyGroup>
+    <GeneratedSecretConfig>
+namespace Athena.UI
+{
+    public static partial class SecretConfig
+    {
+        public const string BannerAdUnitId = "$(AdMobBannerId)";
+        public const string InterstitialAdUnitId = "$(AdMobInterstitialId)";
+        public const string SyncfusionLicenseKey = "$(SyncfusionLicenseKey)";
+    }
+}
+    </GeneratedSecretConfig>
+  </PropertyGroup>
+
+  <WriteLinesToFile
+      File="$(IntermediateOutputPath)SecretConfig.g.cs"
+      Lines="$(GeneratedSecretConfig)"
+      Overwrite="true" />
+
+  <ItemGroup>
+    <Compile Include="$(IntermediateOutputPath)SecretConfig.g.cs" />
+  </ItemGroup>
+
+</Target>
 </Project>
