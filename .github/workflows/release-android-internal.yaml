@@ -31,8 +31,9 @@ jobs:
 
       - name: Decode keystore
         run: |
-           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > src/Athena.UI/signing.keystore
-
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$GITHUB_WORKSPACE/signing.keystore"
+          ls -la "$GITHUB_WORKSPACE/signing.keystore"
+          
       - name: Set version code
         run: |
           VERSION_CODE=$((VERSION_OFFSET + GITHUB_RUN_NUMBER))
@@ -70,7 +71,7 @@ jobs:
       - name: Verify keystore
         run: |
           keytool -list \
-            -keystore $GITHUB_WORKSPACE/signing.keystore \
+            -keystore "$GITHUB_WORKSPACE/signing.keystore" \
             -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
 
       - name: Build Android AAB
@@ -82,7 +83,7 @@ jobs:
             /p:ApplicationVersion=$VERSION_CODE \
             /p:ApplicationDisplayVersion=$DISPLAY_VERSION \
             /p:AndroidKeyStore=true \
-            /p:AndroidSigningKeyStore=signing.keystore \
+            /p:AndroidSigningKeyStore=$GITHUB_WORKSPACE/signing.keystore
             /p:AndroidSigningStorePass="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
             /p:AndroidSigningKeyAlias="${{ secrets.ANDROID_KEY_ALIAS }}" \
             /p:AndroidSigningKeyPass="${{ secrets.ANDROID_KEY_PASSWORD }}"
