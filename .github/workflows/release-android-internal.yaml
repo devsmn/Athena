@@ -67,6 +67,12 @@ jobs:
         run: |
           find . -name "gradlew" -exec chmod +x {} \;
 
+      - name: Verify keystore
+        run: |
+          keytool -list \
+            -keystore $GITHUB_WORKSPACE/signing.keystore \
+            -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
+
       - name: Build Android AAB
         run: |
           dotnet publish $PROJECT_PATH \
