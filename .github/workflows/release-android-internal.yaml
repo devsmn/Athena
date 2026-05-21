@@ -68,6 +68,10 @@ jobs:
         run: |
           find . -name "gradlew" -exec chmod +x {} \;
 
+      - name: Set PKCS12 keystore type
+        run: |
+          echo "JAVA_TOOL_OPTIONS=-Dkeystore.type=pkcs12" >> $GITHUB_ENV
+
       - name: Build Android AAB
         run: |
           dotnet publish $PROJECT_PATH \
@@ -77,7 +81,6 @@ jobs:
             /p:ApplicationVersion=$VERSION_CODE \
             /p:ApplicationDisplayVersion=$DISPLAY_VERSION \
             /p:AndroidKeyStore=true \
-            /p:AndroidSigningStoreType=pkcs12
             /p:AndroidSigningKeyStore=$GITHUB_WORKSPACE/signing.keystore
             /p:AndroidSigningStorePass="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
             /p:AndroidSigningKeyAlias="${{ secrets.ANDROID_KEY_ALIAS }}" \
