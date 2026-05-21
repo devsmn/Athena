@@ -83,6 +83,7 @@ jobs:
             /p:ApplicationVersion=$VERSION_CODE \
             /p:ApplicationDisplayVersion=$DISPLAY_VERSION \
             /p:AndroidKeyStore=true \
+            /p:AndroidSigningStoreType=pkcs12
             /p:AndroidSigningKeyStore=$GITHUB_WORKSPACE/signing.keystore
             /p:AndroidSigningStorePass="${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" \
             /p:AndroidSigningKeyAlias="${{ secrets.ANDROID_KEY_ALIAS }}" \
