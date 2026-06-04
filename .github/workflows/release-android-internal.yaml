@@ -73,7 +73,7 @@ jobs:
           echo "JAVA_TOOL_OPTIONS=-Dkeystore.type=pkcs12" >> $GITHUB_ENV
 
       - name: Verify keystore and alias
-          run: |
+        run: |
              keytool -list \
               -v \
               -storetype PKCS12 \
