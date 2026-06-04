@@ -30,9 +30,9 @@ jobs:
         run: dotnet workload install maui-android
 
       - name: Decode keystore
+        shell: bash
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$GITHUB_WORKSPACE/signing.keystore"
-          ls -la "$GITHUB_WORKSPACE/signing.keystore"
+            printf '%s' '${{ secrets.ANDROID_KEYSTORE_BASE64 }}' | base64 -d > "$GITHUB_WORKSPACE/signing.keystore"
           
       - name: Set version code
         run: |
