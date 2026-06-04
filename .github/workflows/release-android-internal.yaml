@@ -33,6 +33,10 @@ jobs:
         shell: bash
         run: |
             printf '%s' '${{ secrets.ANDROID_KEYSTORE_BASE64 }}' | base64 -d > "$GITHUB_WORKSPACE/signing.keystore"
+
+      - name: Check keystore size
+        run: |
+            ls -lh "$GITHUB_WORKSPACE/signing.keystore"
           
       - name: Set version code
         run: |
