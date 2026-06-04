@@ -72,6 +72,14 @@ jobs:
         run: |
           echo "JAVA_TOOL_OPTIONS=-Dkeystore.type=pkcs12" >> $GITHUB_ENV
 
+      - name: Verify keystore and alias
+          run: |
+            keytool -list \
+              -v \
+              -storetype PKCS12 \
+              -keystore "$GITHUB_WORKSPACE/signing.keystore" \
+              -storepass "${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
+
       - name: Build Android AAB
         shell: bash
         run: |
