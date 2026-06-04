@@ -74,7 +74,7 @@ jobs:
 
       - name: Verify keystore and alias
           run: |
-            keytool -list \
+             keytool -list \
               -v \
               -storetype PKCS12 \
               -keystore "$GITHUB_WORKSPACE/signing.keystore" \
