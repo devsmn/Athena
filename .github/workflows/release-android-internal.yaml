@@ -100,11 +100,15 @@ jobs:
             -p:AndroidSigningKeyPass="${{ secrets.ANDROID_KEY_PASSWORD }}" \
             --no-restore
 
-      - name: Find AAB
-        id: find_aab
+      - name: Find signed AAB
         run: |
-          AAB_PATH=$(find . -type f -name "*.aab" | head -n 1)
-          echo "AAB_PATH=$AAB_PATH"
+          AAB_PATH=$(find . -type f -name "*Signed*.aab" | head -n 1)
+
+          if [ -z "$AAB_PATH" ]; then
+            AAB_PATH=$(find . -type f -name "*.aab" | head -n 1)
+          fi
+
+          echo "Using AAB: $AAB_PATH"
           echo "AAB_PATH=$AAB_PATH" >> $GITHUB_ENV
 
       - name: Upload to Google Play Internal
