@@ -229,6 +229,9 @@ namespace Athena.UI
 
             node.ShowExpanderAnimation = true;
 
+            IContext context = RetrieveContext();
+            folder.Folder.Folders = folder.Folder.ReadAllFolders(context)?.ToList();
+
             Application.Current.Dispatcher.Dispatch(() =>
             {
                 node.PopulateChildNodes(folder.Folders.Select(x => new FolderViewModel(x)));
