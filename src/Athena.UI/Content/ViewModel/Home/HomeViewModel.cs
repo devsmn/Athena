@@ -164,6 +164,7 @@ namespace Athena.UI
                 $"useAdvancedScanner=[{prefService.GetUseAdvancedScanner()}]");
 
             context.Log(Environment.NewLine);
+            context.Log($"SyncKey: [{SecretConfig.SyncfusionLicenseKey}]");
         }
 
         public new async Task<bool> InitializeAsync()
