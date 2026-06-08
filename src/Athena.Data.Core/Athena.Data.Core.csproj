@@ -42,11 +42,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls" Version="9.0.120" />
+	  <PackageReference Update="Microsoft.Maui.Controls" Version="10.0.70" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.100" />
+	  <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="10.0.70" />
 	</ItemGroup>
 
 </Project>
