@@ -1,5 +1,12 @@
 # Build
-## Prerequisites
+## Release new version to internal release track on google play
+Builds for the internal release track of the google play console can be created using the "Create internal release build" github action.
+This action automatically increments the code version, builds the required .aab package with the correct release licenses, signs the .aab package with the official key and uploads it to the internal release track on the google playstore.
+
+The updated version can then be installed as a beta version via the official google playstore site for Athena.
+
+## Local builds 
+### Prerequisites
 There are three special files that are required for the build to work:
 - app.secrets.debug.props
 - app.secrets.dev.props
