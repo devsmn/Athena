@@ -1,3 +1,6 @@
+# Intention
+This project is mainly intended as an experiment and proof-of-concept for app development with .NET MAUI and java RT Interop, as well as generally getting familiar with the mobile eco-system. Head over to https://github.com/devsmn/Kulina for my latest, full-featured project.
+
 # Build
 ## Release new version to internal release track on google play
 Builds for the internal release track of the google play console can be created using the "Create internal release build" github action.
